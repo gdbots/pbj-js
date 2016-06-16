@@ -50,10 +50,12 @@ export default class MessageResolver
    * @throws NoMessageForSchemaId
    */
   static resolveId(id) {
-    curieMajor = id.getCurieMajor();
+    let curieMajor = id.getCurieMajor();
     if (-1 !== Object.keys(this.resolved).indexOf(curieMajor)) {
       return this.resolved[curieMajor];
     }
+
+    let className = null;
 
     if (-1 !== Object.keys(this.messages).indexOf(curieMajor)) {
       className = this.messages[curieMajor];
@@ -61,7 +63,7 @@ export default class MessageResolver
       return className;
     }
 
-    curie = id.getCurie().toString();
+    let curie = id.getCurie().toString();
     if (-1 !== Object.keys(this.messages).indexOf(curie)) {
       className = this.messages[curie];
       this.resolved[curieMajor] = className;
@@ -82,13 +84,13 @@ export default class MessageResolver
    * @throws NoMessageForCurie
    */
   static resolveCurie(curie) {
-    key = curie.toString();
+    let key = curie.toString();
     if (-1 !== Object.keys(this.resolved).indexOf(key)) {
       return this.resolved[key];
     }
 
     if (-1 !== Object.keys(this.messages).indexOf(key)) {
-      className = this.messages[key];
+      let className = this.messages[key];
       this.resolved[key] = className;
       return className;
     }

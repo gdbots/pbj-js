@@ -244,7 +244,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
     ArrayUtils.each(this.constructor.schema().getFields(), function(field) {
       if (field.getType().isMessage()) {
         /** @var self value */
-        value = this.get(field.getName());
+        let value = this.get(field.getName());
         if (!value || value.length === 0) {
           return;
         }
@@ -557,7 +557,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
         return;
       }
 
-      key = value.trim().toLowerCase();
+      let key = value.trim().toLowerCase();
 
       this.data[fieldName][key] = value;
     }.bind(this));
@@ -784,7 +784,7 @@ function unFreeze() {
   ArrayUtils.each(this.constructor.schema().getFields(), function(field) {
     if (field.getType().isMessage()) {
       /** @var self value */
-      value = this.get(field.getName());
+      let value = this.get(field.getName());
       if (!value || value.length === 0) {
         return;
       }
