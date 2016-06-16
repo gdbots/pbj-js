@@ -9,7 +9,7 @@ import SchemaNotDefined from 'gdbots/pbj/exception/schema-not-defined';
 import RequiredFieldNotSet from 'gdbots/pbj/exception/required-field-not-set';
 import FrozenMessageIsImmutable from 'gdbots/pbj/exception/frozen-message-is-immutable';
 import LogicException from 'gdbots/pbj/exception/logic-exception';
-import JsonSerializer from 'gdbots/pbj/serializer/json-serializer';
+import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
 import Schema from 'gdbots/pbj/schema';
 
 /**
@@ -20,7 +20,7 @@ import Schema from 'gdbots/pbj/schema';
  */
 let schemas = {};
 
-/** @var JsonSerializer */
+/** @var ArraySerializer */
 let serializer = null;
 
 export default class Message extends SystemUtils.mixin(FromArray, ToArray)
@@ -103,8 +103,8 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
   }
 
   /**
-   * Returns a new message from the provided array using the PhpArray Serializer.
-   * @see Gdbots\Pbj\Serializer\JsonArraySerializer::deserialize
+   * Returns a new message from the provided array using the Array Serializer.
+   * @see Gdbots\Pbj\Serializer\ArraySerializer::deserialize
    *
    * @param array data
    *
@@ -112,7 +112,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
    */
   static fromArray(data = {}) {
     if (null === serializer) {
-      serializer = new JsonSerializer();
+      serializer = new ArraySerializer();
     }
 
     if (undefined === data[Schema.PBJ_FIELD_NAME]) {
@@ -123,14 +123,14 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
   }
 
   /**
-   * Returns the message as an associative array using the PhpArray Serializer.
-   * @see Gdbots\Pbj\Serializer\JsonArraySerializer::serialize
+   * Returns the message as an associative array using the Array Serializer.
+   * @see Gdbots\Pbj\Serializer\ArraySerializer::serialize
    *
    * @return array
    */
   toArray() {
     if (null === serializer) {
-      serializer = new JsonSerializer();
+      serializer = new ArraySerializer();
     }
 
     return serializer.serialize(this);
@@ -166,7 +166,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
    */
   generateEtag(ignoredFields = []) {
     if (null === serializer) {
-      serializer = new JsonSerializer();
+      serializer = new ArraySerializer();
     }
 
     let array = serializer.serialize(this, { 'includeAllFields': true });
