@@ -4,12 +4,12 @@
 process.env.BABEL_DISABLE_CACHE = 1;
 
 require('babel-register')({
-  ignore: /node_modules(?![\/]gdbots-common)/,
+  ignore: /node_modules(?![\/]@gdbots\/common)/,
 
   plugins: [
     ['module-alias', [
       { src: './src', expose: 'gdbots/pbj' },
-      { src: 'npm:gdbots-common/src', expose: 'gdbots' }
+      { src: 'npm:@gdbots/common/src', expose: 'gdbots' }
     ]]
   ]
 });
