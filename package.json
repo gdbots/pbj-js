@@ -1,5 +1,5 @@
 {
-  "name": "gdbots-pbj",
+  "name": "@gdbots/pbj",
   "version": "0.1.0",
   "description": "Pbj library for es6",
   "license": "Apache-2.0",
