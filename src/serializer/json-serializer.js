@@ -20,7 +20,7 @@ export default class JsonSerializer extends PhpArraySerializer
       try {
         data = JSON.parse(data);
       } catch (e) {
-        if (!(err instanceof SyntaxError)) {
+        if (!(e instanceof SyntaxError)) {
           throw new Error('Unexpected error type in JSON.parse()')
         }
 
