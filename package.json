@@ -1,7 +1,7 @@
 {
   "name": "gdbots-pbj",
-  "description": "Pbj library for es6",
   "version": "0.1.0",
+  "description": "Pbj library for es6",
   "license": "Apache-2.0",
   "dependencies": {
     "gdbots-common": "git://github.com/gdbots/common-js.git#master"
