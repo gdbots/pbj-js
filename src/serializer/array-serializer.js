@@ -10,7 +10,7 @@ import TypeName from 'gdbots/pbj/enum/type-name';
 import FieldRule from 'gdbots/pbj/enum/field-rule';
 import Message from 'gdbots/pbj/message';
 import MessageRef from 'gdbots/pbj/message-ref';
-import Schema from 'gdbots/pbj/schema';
+import {PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
 
 export default class ArraySerializer extends Serializer
 {
@@ -25,8 +25,8 @@ export default class ArraySerializer extends Serializer
    * {@inheritdoc}
    */
   deserialize(data, options = {}) {
-    if (!(Schema.PBJ_FIELD_NAME in Object.keys(data))) {
-      throw new Error('[' + this.constructor.name + '::deserialize] Array provided must contain the [' + Schema.PBJ_FIELD_NAME +'] key.');
+    if (!(PBJ_FIELD_NAME in Object.keys(data))) {
+      throw new Error('[' + this.constructor.name + '::deserialize] Array provided must contain the [' + PBJ_FIELD_NAME +'] key.');
     }
 
     return doDeserialize.bind(this)(data, options);
@@ -102,7 +102,7 @@ function doSerialize(message, options = {}) {
  * @throws GdbotsPbjException
  */
 function doDeserialize(data, options = {}) {
-  let message = this.createMessage(data[Schema.PBJ_FIELD_NAME]);
+  let message = this.createMessage(data[PBJ_FIELD_NAME]);
   let schema = message.constructor.schema();
 
   ArrayUtils.each(data, function(value, fieldName) {
@@ -158,7 +158,7 @@ function doDeserialize(data, options = {}) {
     }
   }.bind(this));
 
-  return message.set(Schema.PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
+  return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
 }
 
 /**

@@ -12,7 +12,7 @@ import Fb from 'gdbots/pbj/field-builder';
 
 describe('type-test', function() {
   it('should validate geo-point type', function(done) {
-      var point = GeoPoint.fromArray({
+      let point = GeoPoint.fromArray({
         type: 'Point',
         coordinates: [102.0, 0.5]
       });

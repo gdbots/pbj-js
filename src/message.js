@@ -10,7 +10,7 @@ import RequiredFieldNotSet from 'gdbots/pbj/exception/required-field-not-set';
 import FrozenMessageIsImmutable from 'gdbots/pbj/exception/frozen-message-is-immutable';
 import LogicException from 'gdbots/pbj/exception/logic-exception';
 import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
-import Schema from 'gdbots/pbj/schema';
+import {default as Schema, PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
 
 /**
  * An array of schemas per message type.
@@ -115,8 +115,8 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
       serializer = new ArraySerializer();
     }
 
-    if (undefined === data[Schema.PBJ_FIELD_NAME]) {
-      data[Schema.PBJ_FIELD_NAME] = this.schema().getId().toString();
+    if (undefined === data[PBJ_FIELD_NAME]) {
+      data[PBJ_FIELD_NAME] = this.schema().getId().toString();
     }
 
     return serializer.deserialize(data);
