@@ -2,7 +2,7 @@
   "name": "gdbots-pbj",
   "version": "0.1.0",
   "description": "Pbj library for es6",
-  "main": "dist/pbj.min.js"
+  "main": "dist/pbj.min.js",
   "license": "Apache-2.0",
   "dependencies": {
     "gdbots-common": "*"
