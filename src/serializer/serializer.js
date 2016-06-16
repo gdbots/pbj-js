@@ -3,7 +3,7 @@
 import InvalidResolvedSchema from 'gdbots/pbj/exception/invalid-resolved-schema';
 import Message from 'gdbots/pbj/message';
 import MessageResolver from 'gdbots/pbj/message-resolver';
-import Schema from 'gdbots/pbj/schema';
+import SchemaId from 'gdbots/pbj/schema-id';
 
 export default class Serializer
 {
@@ -39,10 +39,10 @@ export default class Serializer
    */
   createMessage(schemaId) {
     schemaId = SchemaId.fromString(schemaId);
-    className = MessageResolver.resolveId(schemaId);
+    let className = MessageResolver.resolveId(schemaId);
 
     /** @var Message message */
-    message = new className();
+    let message = new className();
     if (!message instanceof Message) {
       throw new Error('Invalid message.');
     }
