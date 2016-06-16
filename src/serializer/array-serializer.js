@@ -25,7 +25,7 @@ export default class ArraySerializer extends Serializer
    * {@inheritdoc}
    */
   deserialize(data, options = {}) {
-    if (!(PBJ_FIELD_NAME in Object.keys(data))) {
+    if (-1 === Object.keys(data).indexOf(PBJ_FIELD_NAME)) {
       throw new Error('[' + this.constructor.name + '::deserialize] Array provided must contain the [' + PBJ_FIELD_NAME +'] key.');
     }
 

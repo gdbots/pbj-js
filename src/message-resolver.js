@@ -51,18 +51,18 @@ export default class MessageResolver
    */
   static resolveId(id) {
     curieMajor = id.getCurieMajor();
-    if (curieMajor in this.resolved) {
+    if (-1 !== Object.keys(this.resolved).indexOf(curieMajor)) {
       return this.resolved[curieMajor];
     }
 
-    if (curieMajor in this.messages) {
+    if (-1 !== Object.keys(this.messages).indexOf(curieMajor)) {
       className = this.messages[curieMajor];
       this.resolved[curieMajor] = className;
       return className;
     }
 
     curie = id.getCurie().toString();
-    if (curie in this.messages) {
+    if (-1 !== Object.keys(this.messages).indexOf(curie)) {
       className = this.messages[curie];
       this.resolved[curieMajor] = className;
       this.resolved[curie] = className;
@@ -83,11 +83,11 @@ export default class MessageResolver
    */
   static resolveCurie(curie) {
     key = curie.toString();
-    if (key in this.resolved) {
+    if (-1 !== Object.keys(this.resolved).indexOf(key)) {
       return this.resolved[key];
     }
 
-    if (key in this.messages) {
+    if (-1 !== Object.keys(this.messages).indexOf(key)) {
       className = this.messages[key];
       this.resolved[key] = className;
       return className;
@@ -178,7 +178,7 @@ export default class MessageResolver
     /** @var Message[] */
     let promises = [];
 
-    if (!(key in this.resolvedMixins)) {
+    if (-1 === Object.keys(this.resolvedMixins).indexOf(key)) {
       let filtered = (inPackage && inPackage.length) || (inCategory && inCategory.length);
 
       ArrayUtils.each(this.messages, function(messageClass, id) {

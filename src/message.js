@@ -584,7 +584,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
         return false;
       }
 
-      return value in this.data[fieldName];
+      return -1 !== this.data[fieldName].indexOf(value);
   }
 
   /**
