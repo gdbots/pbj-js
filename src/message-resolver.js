@@ -6,14 +6,27 @@ import NoMessageForCurie from 'gdbots/pbj/exception/no-message-for-curie';
 import NoMessageForSchemaId from 'gdbots/pbj/exception/no-message-for-schema-id';
 import NoMessageForMixin from 'gdbots/pbj/exception/no-message-for-mixin';
 import MoreThanOneMessageForMixin from 'gdbots/pbj/exception/more-than-one-message-for-mixin';
+import Message from 'gdbots/pbj/message';
 import SchemaId from 'gdbots/pbj/schema-id';
 
+let _registerPromise = null;
 let _messages = {};
 let _resolved = {};
 let _resolvedMixins = {};
 
 export default class MessageResolver
 {
+  /**
+   * Used when dynamically loading messages.
+   *
+   * @see self::registerMap
+   *
+   * @var Promise
+   */
+  static registerPromise() {
+    return _registerPromise || Promise.resolve(true);
+  }
+
   /**
    * An array of all the available messages keyed by the schema resolver key
    * and curies for resolution that is not version specific.
@@ -140,11 +153,15 @@ export default class MessageResolver
 
     ArrayUtils.each(map, function(value, key) {
       if (map.hasOwnProperty(key)) {
-        promises.push(SystemUtils.import(value));
+        if (value instanceof Message) {
+          _messages[message.schema().getId().getCurieMajor()] = message;
+        } else {
+          promises.push(SystemUtils.import(value));
+        }
       }
     });
 
-    Promise.all(promises).then(function(messages) {
+    _registerPromise = Promise.all(promises).then(function(messages) {
       ArrayUtils.each(messages, function(message) {
 
         // @todo: check removing the `default` property
@@ -152,6 +169,8 @@ export default class MessageResolver
 
         _messages[message.schema().getId().getCurieMajor()] = message;
       }.bind(this));
+
+      _registerPromise = null;
     }.bind(this));
   }
 
