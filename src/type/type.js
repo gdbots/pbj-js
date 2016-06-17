@@ -3,7 +3,7 @@
 import StringUtils from 'gdbots/common/util/string-utils';
 import TypeName from 'gdbots/pbj/enum/type-name';
 
-let instances = {};
+let _instances = {};
 
 export default class Type
 {
@@ -23,11 +23,11 @@ export default class Type
    */
   static create() {
     let type = this.name;
-    if (undefined === instances[type]) {
-      instances[type] = new this(TypeName[StringUtils.toSnakeCase(type.replace('Type', '')).toUpperCase()]);
+    if (undefined === _instances[type]) {
+      _instances[type] = new this(TypeName[StringUtils.toSnakeCase(type.replace('Type', '')).toUpperCase()]);
     }
 
-    return instances[type];
+    return _instances[type];
   }
 
   /**

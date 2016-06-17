@@ -18,7 +18,7 @@ import {default as Schema, PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
  *
  * @var array
  */
-let schemas = {};
+let _schemas = {};
 
 /** @var ArraySerializer */
 let serializer = null;
@@ -65,8 +65,8 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
    */
   static schema() {
     let type = this.name;
-    if (undefined !== schemas[type]) {
-      return schemas[type];
+    if (undefined !== _schemas[type]) {
+      return _schemas[type];
     }
 
     let schema = this.defineSchema();
@@ -78,8 +78,8 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
       throw new SchemaNotDefined('Schema [' + schema.getId().toString() + '] returned from defineSchema must be for class [' + type + '], not [' + schema.getClassName() + ']');
     }
 
-    schemas[type] = schema;
-    return schemas[type];
+    _schemas[type] = schema;
+    return _schemas[type];
   }
 
   /**

@@ -2,7 +2,7 @@
 
 import InvalidSchemaCurie from 'gdbots/pbj/exception/invalid-schema-curie';
 
-let instances = {};
+let _instances = {};
 
 /**
  * Regular expression pattern for matching a valid SchemaCurie string.
@@ -55,12 +55,12 @@ export default class SchemaCurie
   static fromId(id) {
     let curie = id.toString().replace(':' + id.getVersion().toString(), '').substr(4);
 
-    if (undefined !== instances[curie]) {
-      return instances[curie];
+    if (undefined !== _instances[curie]) {
+      return _instances[curie];
     }
 
-    instances[curie] = new this(id.getVendor(), id.getPackage(), id.getCategory(), id.getMessage());
-    return instances[curie];
+    _instances[curie] = new this(id.getVendor(), id.getPackage(), id.getCategory(), id.getMessage());
+    return _instances[curie];
   }
 
   /**
@@ -71,8 +71,8 @@ export default class SchemaCurie
    * @throws InvalidSchemaCurie
    */
   static fromString(curie) {
-    if (undefined !== instances[curie]) {
-      return instances[curie];
+    if (undefined !== _instances[curie]) {
+      return _instances[curie];
     }
 
     if (curie.length > 145) {
@@ -84,8 +84,8 @@ export default class SchemaCurie
       throw new InvalidSchemaCurie('Schema curie [' + curie + '] is invalid. It must match the pattern [' + VALID_PATTERN + '].');
     }
 
-    instances[curie] = new this(matches[1], matches[2], matches[3], matches[4]);
-    return instances[curie];
+    _instances[curie] = new this(matches[1], matches[2], matches[3], matches[4]);
+    return _instances[curie];
   }
 
   /**

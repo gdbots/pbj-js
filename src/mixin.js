@@ -2,7 +2,7 @@
 
 import ToArray from 'gdbots/common/to-array';
 
-let instances = {};
+let _instances = {};
 
 export default class Mixin extends ToArray
 {
@@ -11,11 +11,11 @@ export default class Mixin extends ToArray
    */
   static create() {
     let type = this.name;
-    if (undefined === instances[type]) {
-      instances[type] = new this();
+    if (undefined === _instances[type]) {
+      _instances[type] = new this();
     }
 
-    return instances[type];
+    return _instances[type];
   }
 
   /**

@@ -4,7 +4,7 @@ import InvalidSchemaId from 'gdbots/pbj/exception/invalid-schema-id';
 import SchemaCurie from 'gdbots/pbj/schema-curie';
 import SchemaVersion from 'gdbots/pbj/schema-version';
 
-let instances = {};
+let _instances = {};
 
 /**
  * Regular expression pattern for matching a valid SchemaId string.
@@ -105,8 +105,8 @@ export default class SchemaId
    * @throws InvalidSchemaId
    */
   static fromString(schemaId) {
-    if (undefined !== instances[schemaId]) {
-      return instances[schemaId];
+    if (undefined !== _instances[schemaId]) {
+      return _instances[schemaId];
     }
 
     if (schemaId.length > 145) {
@@ -118,8 +118,8 @@ export default class SchemaId
       throw new InvalidSchemaId('Schema id [' + schemaId + '] is invalid. It must match the pattern [' + VALID_PATTERN + '].');
     }
 
-    instances[schemaId] = new this(matches[1], matches[2], matches[3], matches[4], matches[5]);
-    return instances[schemaId];
+    _instances[schemaId] = new this(matches[1], matches[2], matches[3], matches[4], matches[5]);
+    return _instances[schemaId];
   }
 
   /**

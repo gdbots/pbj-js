@@ -8,9 +8,9 @@ import NoMessageForMixin from 'gdbots/pbj/exception/no-message-for-mixin';
 import MoreThanOneMessageForMixin from 'gdbots/pbj/exception/more-than-one-message-for-mixin';
 import SchemaId from 'gdbots/pbj/schema-id';
 
-let messages = {};
-let resolved = {};
-let resolvedMixins = {};
+let _messages = {};
+let _resolved = {};
+let _resolvedMixins = {};
 
 export default class MessageResolver
 {
@@ -21,7 +21,7 @@ export default class MessageResolver
    * @var array
    */
   static messages() {
-    return messages;
+    return _messages;
   }
 
   /**
@@ -30,7 +30,7 @@ export default class MessageResolver
    * @var array
    */
   static resolved() {
-    return resolved;
+    return _resolved;
   }
 
   /**
@@ -42,7 +42,7 @@ export default class MessageResolver
    * @var Message[]
    */
   static resolvedMixins() {
-    return resolvedMixins;
+    return _resolvedMixins;
   }
 
   /**
@@ -56,23 +56,23 @@ export default class MessageResolver
    */
   static resolveId(id) {
     let curieMajor = id.getCurieMajor();
-    if (-1 !== Object.keys(this.resolved).indexOf(curieMajor)) {
-      return this.resolved[curieMajor];
+    if (-1 !== Object.keys(_resolved).indexOf(curieMajor)) {
+      return _resolved[curieMajor];
     }
 
     let message = null;
 
-    if (-1 !== Object.keys(this.messages).indexOf(curieMajor)) {
-      message = this.messages[curieMajor];
-      this.resolved[curieMajor] = message;
+    if (-1 !== Object.keys(_messages).indexOf(curieMajor)) {
+      message = _messages[curieMajor];
+      _resolved[curieMajor] = message;
       return message;
     }
 
     let curie = id.getCurie().toString();
-    if (-1 !== Object.keys(this.messages).indexOf(curie)) {
-      message = this.messages[curie];
-      this.resolved[curieMajor] = message;
-      this.resolved[curie] = message;
+    if (-1 !== Object.keys(_messages).indexOf(curie)) {
+      message = _messages[curie];
+      _resolved[curieMajor] = message;
+      _resolved[curie] = message;
       return message;
     }
 
@@ -90,13 +90,13 @@ export default class MessageResolver
    */
   static resolveCurie(curie) {
     let key = curie.toString();
-    if (-1 !== Object.keys(this.resolved).indexOf(key)) {
-      return this.resolved[key];
+    if (-1 !== Object.keys(_resolved).indexOf(key)) {
+      return _resolved[key];
     }
 
-    if (-1 !== Object.keys(this.messages).indexOf(key)) {
-      let message = this.messages[key];
-      this.resolved[key] = message;
+    if (-1 !== Object.keys(_messages).indexOf(key)) {
+      let message = _messages[key];
+      _resolved[key] = message;
       return message;
     }
 
@@ -111,7 +111,7 @@ export default class MessageResolver
    * @param Schema  schema
    */
   static registerSchema(message, schema) {
-    this.messages[schema.getId().getCurieMajor()] = message;
+    _messages[schema.getId().getCurieMajor()] = message;
   }
 
   /**
@@ -127,7 +127,7 @@ export default class MessageResolver
       id = id.getCurieMajor();
     }
 
-    this.messages[id] = message;
+    _messages[id] = message;
   }
 
   /**
@@ -150,7 +150,7 @@ export default class MessageResolver
         // @todo: check removing the `default` property
         message = message.default;
 
-        this.messages[message.schema().getId().getCurieMajor()] = message;
+        _messages[message.schema().getId().getCurieMajor()] = message;
       }.bind(this));
     }.bind(this));
   }
@@ -194,10 +194,10 @@ export default class MessageResolver
     /** @var Message[] */
     let messages = [];
 
-    if (-1 === Object.keys(this.resolvedMixins).indexOf(key)) {
+    if (-1 === Object.keys(_resolvedMixins).indexOf(key)) {
       let filtered = (inPackage && inPackage.length) || (inCategory && inCategory.length);
 
-      ArrayUtils.each(this.messages, function(message, id) {
+      ArrayUtils.each(_messages, function(message, id) {
         if (filtered) {
           let curie = id.split(':');
 
@@ -212,13 +212,13 @@ export default class MessageResolver
 
         let schema = message.schema();
         if (schema.hasMixin(mixinId)) {
-          messages.push(message);
+          m.push(message);
         }
       });
 
-      this.resolvedMixins[key] = messages;
+      _resolvedMixins[key] = messages;
     } else {
-      messages = this.resolvedMixins[key];
+      messages = _resolvedMixins[key];
     }
 
     if (!messages || messages.length === 0) {
