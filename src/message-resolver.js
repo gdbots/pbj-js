@@ -231,7 +231,7 @@ export default class MessageResolver
 
         let schema = message.schema();
         if (schema.hasMixin(mixinId)) {
-          m.push(message);
+          messages.push(message);
         }
       });
 
