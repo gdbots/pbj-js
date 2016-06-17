@@ -2,6 +2,10 @@
 
 import ArrayUtils from 'gdbots/common/util/array-utils';
 import SystemUtils from 'gdbots/common/util/system-utils';
+import NoMessageForCurie from 'gdbots/pbj/exception/no-message-for-curie';
+import NoMessageForSchemaId from 'gdbots/pbj/exception/no-message-for-schema-id';
+import NoMessageForMixin from 'gdbots/pbj/exception/no-message-for-mixin';
+import MoreThanOneMessageForMixin from 'gdbots/pbj/exception/more-than-one-message-for-mixin';
 import SchemaId from 'gdbots/pbj/schema-id';
 
 let messages = {};
@@ -142,6 +146,10 @@ export default class MessageResolver
 
     Promise.all(promises).then(function(messages) {
       ArrayUtils.each(messages, function(message) {
+
+        // @todo: check removing the `default` property
+        message = message.default;
+
         this.messages[message.schema().getId().getCurieMajor()] = message;
       }.bind(this));
     }.bind(this));
