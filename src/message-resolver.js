@@ -154,7 +154,7 @@ export default class MessageResolver
    * @param string inPackage
    * @param string inCategory
    *
-   * @return Promise -> Message
+   * @return Message
    *
    * @throws MoreThanOneMessageForMixin
    * @throws NoMessageForMixin
@@ -175,7 +175,7 @@ export default class MessageResolver
    * @param string inPackage
    * @param string inCategory
    *
-   * @return Promise -> Message[]
+   * @return Message[]
    *
    * @throws NoMessageForMixin
    */
