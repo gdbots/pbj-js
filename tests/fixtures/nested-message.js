@@ -25,7 +25,7 @@ export default class NestedMessage extends Message
       ]
     );
 
-    MessageResolver.registerSchema(schema);
+    MessageResolver.registerSchema(this, schema);
 
     return schema;
   }

@@ -119,7 +119,7 @@ function doDeserialize(data, options = {}) {
 
     switch (field.getRule()) {
       case FieldRule.A_SINGLE_VALUE:
-        message.set(fieldName, this.decodeValue(value, field, options));
+        message.set(fieldName, decodeValue.bind(this)(value, field, options));
         break;
 
       case FieldRule.A_SET:
@@ -131,7 +131,7 @@ function doDeserialize(data, options = {}) {
         let values = [];
 
         ArrayUtils.each(value, function(v) {
-          values.push(this.decodeValue(v, field, options));
+          values.push(decodeValue.bind(this)(v, field, options));
         }.bind(this));
 
         if (field.isASet()) {
@@ -148,7 +148,7 @@ function doDeserialize(data, options = {}) {
         }
 
         ArrayUtils.each(value, function(v, k) {
-          message.addToMap(fieldName, k, this.decodeValue(v, field, options));
+          message.addToMap(fieldName, k, decodeValue.bind(this)(v, field, options));
         }.bind(this));
 
         break;

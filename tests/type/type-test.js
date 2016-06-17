@@ -2,6 +2,7 @@
 
 import NestedMessage from '../fixtures/nested-message';
 import GeoPoint from 'gdbots/common/geo-point';
+import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
 import BinaryType from 'gdbots/pbj/type/binary-type';
 import BlobType from 'gdbots/pbj/type/blob-type';
 import MediumBlobType from 'gdbots/pbj/type/medium-blob-type';
@@ -23,6 +24,11 @@ describe('type-test', function() {
       message.get('location').getLatitude().should.eql(0.5);
       message.get('location').getLongitude().should.eql(102.0);
       message.toArray().location.should.eql(point.toArray());
+
+      let json = new ArraySerializer().serialize(message);
+      let newMessage = message.constructor.fromArray(json);
+
+      newMessage.toArray().should.eql(message.toArray());
 
       done();
   });

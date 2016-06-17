@@ -8,7 +8,7 @@ export default class NoMessageForSchemaId extends GdbotsPbjException
    * @param SchemaId schemaId
    */
   constructor(schemaId) {
-    super('MessageResolver is unable to resolve schema id [' + schemaId.toString() + '] using curie [' + schemaId.getCurieMajor() + '] to a class name.');
+    super('MessageResolver is unable to resolve schema id [' + schemaId.toString() + '] using curie [' + schemaId.getCurieMajor() + '] to a message.');
 
     /** @var SchemaId */
     this.schemaId = schemaId;

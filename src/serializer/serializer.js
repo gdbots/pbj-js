@@ -39,13 +39,14 @@ export default class Serializer
    */
   createMessage(schemaId) {
     schemaId = SchemaId.fromString(schemaId);
-    let className = MessageResolver.resolveId(schemaId);
 
     /** @var Message message */
-    let message = new className();
+    let message = MessageResolver.resolveId(schemaId);
     if (!message instanceof Message) {
       throw new Error('Invalid message.');
     }
+
+    message = message.create();
 
     if (message.constructor.schema().getCurieMajor() !== schemaId.getCurieMajor()) {
       throw new InvalidResolvedSchema(message.constructor.schema(), schemaId, className);
