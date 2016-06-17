@@ -19,11 +19,13 @@ describe('type-test', function() {
       });
 
       let message = NestedMessage.create();
+/*
       message.set('location', point);
 
       message.get('location').getLatitude().should.eql(0.5);
       message.get('location').getLongitude().should.eql(102.0);
       message.toArray().location.should.eql(point.toArray());
+*/
 
       let json = new ArraySerializer().serialize(message);
       let newMessage = message.constructor.fromArray(json);
