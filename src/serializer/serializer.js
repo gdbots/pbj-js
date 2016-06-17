@@ -41,7 +41,7 @@ export default class Serializer
     schemaId = SchemaId.fromString(schemaId);
 
     /** @var Message message */
-    let message = MessageResolver.constructor.resolveId(schemaId);
+    let message = MessageResolver.resolveId(schemaId);
     if (!message instanceof Message) {
       throw new Error('Invalid message.');
     }
