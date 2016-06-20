@@ -44,10 +44,15 @@ module.exports = function(grunt) {
         dest: 'dist/pbj.min.js'
       }
     },
+    shell: {
+      'cleanup': {
+        command: 'rm -rf ./dist/es6/'
+      }
+    },
     watch: {
       scripts: {
         files: ['Gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
-        tasks: ['babel', 'concat', 'mochaTest']
+        tasks: ['babel', 'concat', 'shell:cleanup', 'mochaTest']
       }
     },
     mochaTest: {
@@ -64,9 +69,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-mocha-test');
 
-  grunt.registerTask('deploy', ['babel', 'concat', 'uglify']);
-  grunt.registerTask('default', ['babel', 'concat', 'watch']);
+  grunt.registerTask('deploy', ['babel', 'concat', 'uglify', 'shell:cleanup']);
+  grunt.registerTask('default', ['watch']);
   grunt.registerTask('test', ['mochaTest']);
 };
