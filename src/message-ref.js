@@ -10,7 +10,7 @@ import SchemaCurie from 'gdbots/pbj/schema-curie';
  * together via a correlator or "links". Format for a reference:
  * vendor:package:category:message:id#tag (tag is optional)
  */
-export default class MessageRef extends SystemUtils.mixin(FromArray, ToArray)
+export default class MessageRef extends SystemUtils.mixinClass(FromArray, ToArray)
 {
   /**
    * @param SchemaCurie curie

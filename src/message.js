@@ -23,7 +23,7 @@ let _schemas = {};
 /** @var ArraySerializer */
 let serializer = null;
 
-export default class Message extends SystemUtils.mixin(FromArray, ToArray)
+export default class Message extends SystemUtils.mixinClass(FromArray, ToArray)
 {
   /**
    * Nothing fancy on new messages... we let the serializers or application code get fancy.
