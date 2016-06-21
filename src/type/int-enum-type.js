@@ -1,29 +1,29 @@
 'use strict';
 
-import Enum from 'gdbots/common/enum';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 
-export default class IntEnumType extends Type
+export default class IntEnumType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof Enum)) {
+    if (!value.hasTrait('Enum')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Enum" but is not.');
     }
 
-    if (field.hasClassName() && !(value instanceof field.hasClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.hasClassName() + '" but is not.');
+    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
     }
 
     if (value === +value && isFinite(value) && !(value % 1)) {
-      throw new Exception('Value "' + value + '" is not a integer.')
+      throw new Error('Value "' + value + '" is not a integer.')
     }
 
     if (value.getValue() < this.getMin() || value.getValue() > this.getMax()) {
-      throw new Exception('Number "' + value.getValue() + '" was expected to be at least "' + value.getMin() + '" and at most "' + value.getMax() + '".')
+      throw new Error('Number "' + value.getValue() + '" was expected to be at least "' + value.getMin() + '" and at most "' + value.getMax() + '".')
     }
   }
 
@@ -31,7 +31,7 @@ export default class IntEnumType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof Enum) {
+    if (value.hasTrait('Enum')) {
       return parseInt(value.getValue());
     }
 

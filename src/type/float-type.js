@@ -1,15 +1,16 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 
-export default class FloatType extends Type
+export default class FloatType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
     if (+value === value && (!isFinite(value) || !!(value % 1))) {
-      throw new Exception('Value "' + value + '" is not a float.')
+      throw new Error('Value "' + value + '" is not a float.')
     }
   }
 

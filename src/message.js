@@ -10,7 +10,7 @@ import RequiredFieldNotSet from 'gdbots/pbj/exception/required-field-not-set';
 import FrozenMessageIsImmutable from 'gdbots/pbj/exception/frozen-message-is-immutable';
 import LogicException from 'gdbots/pbj/exception/logic-exception';
 import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
-import {default as Schema, PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
+import {PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
 
 /**
  * An array of schemas per message type.
@@ -70,7 +70,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
     }
 
     let schema = this.defineSchema();
-    if (!(schema instanceof Schema)) {
+    if (!(schema.hasTrait('Schema'))) {
       throw new SchemaNotDefined('Message [' + type + '] must return a Schema from the defineSchema method.');
     }
 
@@ -249,7 +249,7 @@ export default class Message extends SystemUtils.mixin(FromArray, ToArray)
           return;
         }
 
-        if (value instanceof Message) {
+        if (value.hasTrait('Message')) {
           value.freeze();
           return;
         }
@@ -789,7 +789,7 @@ function unFreeze() {
         return;
       }
 
-      if (value instanceof Message) {
+      if (value.hasTrait('Message')) {
         unFreeze.bind(value)();
         return;
       }

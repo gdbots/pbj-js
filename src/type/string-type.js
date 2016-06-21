@@ -2,10 +2,11 @@
 
 import {default as DateUtils, ISO8601_ZULU, ISO8601} from 'gdbots/common/util/date-utils';
 import HashtagUtils from 'gdbots/common/util/hashtag-utils';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import AbstractStringType from 'gdbots/pbj/type/abstract-string-type';
 import Format from 'gdbots/pbj/enum/format';
 
-export default class StringType extends AbstractStringType
+export default class StringType extends SystemUtils.mixinClass(AbstractStringType)
 {
   /**
    * {@inheritdoc}

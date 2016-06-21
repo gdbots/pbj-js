@@ -1,6 +1,7 @@
 'use strict';
 
 import Enum from 'gdbots/common/enum';
+import SystemUtils from 'gdbots/common/util/system-utils';
 
 /**
  * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#format
@@ -18,7 +19,7 @@ import Enum from 'gdbots/common/enum';
  * @method static Format URL()
  * @method static Format UUID()
  */
-export default class Format extends Enum {}
+export default class Format extends SystemUtils.mixinClass(Enum) {}
 
 Format.initEnum({
   UNKNOWN: 'unknown',

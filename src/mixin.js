@@ -1,10 +1,11 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import ToArray from 'gdbots/common/to-array';
 
 let _instances = {};
 
-export default class Mixin extends ToArray
+export default class Mixin extends SystemUtils.mixinClass(ToArray)
 {
   /**
    * @return Mixin

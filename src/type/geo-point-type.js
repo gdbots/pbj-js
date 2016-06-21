@@ -1,17 +1,17 @@
 'use strict';
 
-import GeoPoint from 'gdbots/common/geo-point';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import EncodeValueFailed from 'gdbots/pbj/exception/encode-value-failed';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 
-export default class GeoPointType extends Type
+export default class GeoPointType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof GeoPoint)) {
+    if (!value.hasTrait('GeoPoint')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "GeoPoint" but is not.');
     }
   }

@@ -1,20 +1,21 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import UuidIdentifier from 'gdbots/identifiers/uuid-identifier';
 import Type from 'gdbots/pbj/type/type';
 
-export default class UuidType extends Type
+export default class UuidType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof UuidIdentifier)) {
+    if (!value.hasTrait('UuidIdentifier')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "UuidIdentifier" but is not.');
     }
 
-    if (field.hasClassName() && !(value instanceof field.hasClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.hasClassName() + '" but is not.');
+    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
     }
   }
 
@@ -22,7 +23,7 @@ export default class UuidType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof UuidIdentifier) {
+    if (value.hasTrait('UuidIdentifier')) {
       return value.toString();
     }
 
@@ -39,7 +40,7 @@ export default class UuidType extends Type
 
     /** @var UuidIdentifier className */
     let className = field.getClassName() || 'UuidIdentifier';
-    if (value instanceof className) {
+    if (value.hasTrait(className)) {
       return value;
     }
 

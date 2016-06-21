@@ -1,15 +1,16 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Microtime from 'gdbots/common/microtime';
 import Type from 'gdbots/pbj/type/type';
 
-export default class MicrotimeType extends Type
+export default class MicrotimeType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof Microtime)) {
+    if (!value.hasTrait('Microtime')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Microtime" but is not.');
     }
   }
@@ -18,7 +19,7 @@ export default class MicrotimeType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof Microtime) {
+    if (value.hasTrait('Microtime')) {
       return value.toString();
     }
 
@@ -33,7 +34,7 @@ export default class MicrotimeType extends Type
       return null;
     }
 
-    if (value instanceof Microtime) {
+    if (value.hasTrait('Microtime')) {
       return value;
     }
 

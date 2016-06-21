@@ -1,7 +1,6 @@
 'use strict';
 
 import InvalidResolvedSchema from 'gdbots/pbj/exception/invalid-resolved-schema';
-import Message from 'gdbots/pbj/message';
 import MessageResolver from 'gdbots/pbj/message-resolver';
 import SchemaId from 'gdbots/pbj/schema-id';
 
@@ -42,7 +41,7 @@ export default class Serializer
 
     /** @var Message message */
     let message = MessageResolver.resolveId(schemaId);
-    if (!message instanceof Message) {
+    if (!message.hasTrait('Message')) {
       throw new Error('Invalid message.');
     }
 

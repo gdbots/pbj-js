@@ -1,8 +1,9 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import AbstractIntType from 'gdbots/pbj/type/abstract-int-type';
 
-export default class TinyIntType extends AbstractIntType
+export default class TinyIntType extends SystemUtils.mixinClass(AbstractIntType)
 {
   /**
    * {@inheritdoc}

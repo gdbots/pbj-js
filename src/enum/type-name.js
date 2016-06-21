@@ -1,6 +1,7 @@
 'use strict';
 
 import Enum from 'gdbots/common/enum';
+import SystemUtils from 'gdbots/common/util/system-utils';
 
 /**
  * @method static TypeName BIG_INT()
@@ -35,7 +36,7 @@ import Enum from 'gdbots/common/enum';
  * @method static TypeName TINY_INT()
  * @method static TypeName UUID()
  */
-export default class TypeName extends Enum {}
+export default class TypeName extends SystemUtils.mixinClass(Enum) {}
 
 TypeName.initEnum({
   BIG_INT: 'big-int',

@@ -3,12 +3,10 @@
 import ToArray from 'gdbots/common/to-array';
 import ArrayUtils from 'gdbots/common/util/array-utils';
 import NumberUtils from 'gdbots/common/util/number-utils';
-import Enum from 'gdbots/common/enum';
-import Identifier from 'gdbots/identifiers/identifier';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import TypeName from 'gdbots/pbj/enum/type-name';
 import FieldRule from 'gdbots/pbj/enum/field-rule';
 import Format from 'gdbots/pbj/enum/format';
-import Type from 'gdbots/pbj/type/type';
 
 /**
  * Regular expression pattern for matching a valid field name. The pattern allows
@@ -18,7 +16,7 @@ import Type from 'gdbots/pbj/type/type';
  */
 export const VALID_NAME_PATTERN = /^[a-zA-Z_]{1}[a-zA-Z0-9_]*/;
 
-export default class Field extends ToArray
+export default class Field extends SystemUtils.mixinClass(ToArray)
 {
   /**
    * @param string      name
@@ -67,7 +65,7 @@ export default class Field extends ToArray
     if (!VALID_NAME_PATTERN.test(name)) {
       throw new Error('Field [' + name + '] must match pattern [' + VALID_NAME_PATTERN + '].');
     }
-    if (!type || !(type instanceof Type)) {
+    if (!type || !type.hasTrait('Type')) {
       throw new Error('Class "' + type + '" was expected to be instanceof of "Type" but is not.');
     }
     if ('boolean' !== typeof required) {
@@ -545,7 +543,7 @@ function applyDefault(defaultValue = null) {
           throw new Error('Field [' + this.className + '] requires a className.');
         }
 
-        if (decodeDefault && !(this.defaultValue instanceof Identifier)) {
+        if (decodeDefault && !this.defaultValue.hasTrait('Identifier')) {
           this.defaultValue = this.type.decode(this.defaultValue, this);
         }
         break;
@@ -556,7 +554,7 @@ function applyDefault(defaultValue = null) {
           throw new Error('Field [' + this.className + '] requires a className.');
         }
 
-        if (decodeDefault && !(this.defaultValue instanceof Enum)) {
+        if (decodeDefault && !this.defaultValuehasTrait('Enum')) {
           this.defaultValue = this.type.decode(this.defaultValue, this);
         }
         break;

@@ -1,9 +1,10 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import DeserializeMessageFailed from 'gdbots/pbj/exception/deserialize-message-failed';
-import PhpArraySerializer from 'gdbots/pbj/serializer/array-serializer';
+import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
 
-export default class JsonSerializer extends PhpArraySerializer
+export default class JsonSerializer extends SystemUtils.mixinClass(ArraySerializer)
 {
   /**
    * {@inheritdoc}

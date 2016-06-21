@@ -1,21 +1,21 @@
 'use strict';
 
-import Identifier from 'gdbots/identifiers/identifier';
-import Type from 'gdbots/pbj/type/type';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
+import Type from 'gdbots/pbj/type/type';
 
-export default class IdentifierType extends Type
+export default class IdentifierType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof Identifier)) {
+    if (!value.hasTrait('Identifier')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Identifier" but is not.');
     }
 
-    if (field.hasClassName() && !(value instanceof field.hasClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.hasClassName() + '" but is not.');
+    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
     }
 
     // intentionally using strlen to get byte length, not mb_strlen
@@ -32,7 +32,7 @@ export default class IdentifierType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof Identifier) {
+    if (value.hasTrait('Identifier')) {
       return value.toString();
     }
 

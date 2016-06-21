@@ -1,18 +1,17 @@
 'use strict';
 
-import ToArray from 'gdbots/common/to-array';
 import GeoPoint from 'gdbots/common/geo-point';
 import ArrayUtils from 'gdbots/common/util/array-utils';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import DeserializeMessageFailed from 'gdbots/pbj/exception/deserialize-message-failed';
 import EncodeValueFailed from 'gdbots/pbj/exception/encode-value-failed';
 import Serializer from 'gdbots/pbj/serializer/serializer';
 import TypeName from 'gdbots/pbj/enum/type-name';
 import FieldRule from 'gdbots/pbj/enum/field-rule';
-import Message from 'gdbots/pbj/message';
 import MessageRef from 'gdbots/pbj/message-ref';
 import {PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
 
-export default class ArraySerializer extends Serializer
+export default class ArraySerializer extends SystemUtils.mixinClass(Serializer)
 {
   /**
    * {@inheritdoc}
@@ -177,11 +176,11 @@ function encodeValue(value, field, options) {
     return type.encode(value, field);
   }
 
-  if (value instanceof Message) {
+  if (value.hasTrait('Message')) {
     return doSerialize.bind(this)(value, options);
   }
 
-  if (value instanceof ToArray) {
+  if (value.hasTrait('ToArray')) {
     return value.toArray();
   }
 

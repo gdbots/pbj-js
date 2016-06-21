@@ -1,5 +1,6 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
-export default class InvalidSchemaCurie extends GdbotsPbjException {}
+export default class InvalidSchemaCurie extends SystemUtils.mixinClass(GdbotsPbjException) {}

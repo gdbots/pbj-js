@@ -1,15 +1,16 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import BigNumber from 'gdbots/common/big-number';
 import Type from 'gdbots/pbj/type/type';
 
-export default class BigIntType extends Type
+export default class BigIntType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof BigNumber)) {
+    if (!value.hasTrait('BigNumber')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "BigNumber" but is not.');
     }
 
@@ -26,7 +27,7 @@ export default class BigIntType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof BigNumber) {
+    if (value.hasTrait('BigNumber')) {
       return value.getValue();
     }
 
@@ -37,7 +38,7 @@ export default class BigIntType extends Type
    * {@inheritdoc}
    */
   decode(value, field) {
-    if (null === value || value instanceof BigNumber) {
+    if (null === value || value.hasTrait('BigNumber')) {
       return value;
     }
 

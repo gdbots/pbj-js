@@ -1,17 +1,17 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import EncodeValueFailed from 'gdbots/pbj/exception/encode-value-failed';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 import Type from 'gdbots/pbj/type/type';
-import MessageRef from 'gdbots/pbj/message-ref';
 
-export default class MessageRefType extends Type
+export default class MessageRefType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof MessageRef)) {
+    if (!value.hasTrait('MessageRef')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "MessageRef" but is not.');
     }
   }

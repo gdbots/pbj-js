@@ -1,5 +1,6 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import GeoPointType from 'gdbots/pbj/type/geo-point-type';
 import IntType from 'gdbots/pbj/type/int-type';
 import MessageRefType from 'gdbots/pbj/type/message-ref-type';
@@ -10,7 +11,7 @@ import MessageResolver from 'gdbots/pbj/message-resolver';
 import Message from 'gdbots/pbj/message';
 import Schema from 'gdbots/pbj/schema';
 
-export default class NestedMessage extends Message
+export default class NestedMessage extends SystemUtils.mixinClass(Message)
 {
   /**
    * @return Schema

@@ -6,8 +6,6 @@ import NoMessageForCurie from 'gdbots/pbj/exception/no-message-for-curie';
 import NoMessageForSchemaId from 'gdbots/pbj/exception/no-message-for-schema-id';
 import NoMessageForMixin from 'gdbots/pbj/exception/no-message-for-mixin';
 import MoreThanOneMessageForMixin from 'gdbots/pbj/exception/more-than-one-message-for-mixin';
-import Message from 'gdbots/pbj/message';
-import SchemaId from 'gdbots/pbj/schema-id';
 
 let _registerPromise = null;
 let _messages = {};
@@ -136,7 +134,7 @@ export default class MessageResolver
    * @param Message         message
    */
   static register(id, message) {
-    if (id instanceof SchemaId) {
+    if (id.hasTrait('SchemaId')) {
       id = id.getCurieMajor();
     }
 
@@ -153,7 +151,7 @@ export default class MessageResolver
 
     ArrayUtils.each(map, function(value, key) {
       if (map.hasOwnProperty(key)) {
-        if (value instanceof Message) {
+        if (value.hasTrait('Message')) {
           _messages[message.schema().getId().getCurieMajor()] = message;
         } else {
           promises.push(SystemUtils.import(value));

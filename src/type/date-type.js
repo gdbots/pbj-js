@@ -1,8 +1,9 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 
-export default class DateType extends Type
+export default class DateType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}

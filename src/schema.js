@@ -2,6 +2,7 @@
 
 import ToArray from 'gdbots/common/to-array';
 import ArrayUtils from 'gdbots/common/util/array-utils';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import FieldAlreadyDefined from 'gdbots/pbj/exception/field-already-defined';
 import FieldNotDefined from 'gdbots/pbj/exception/field-not-defined';
 import FieldOverrideNotCompatible from 'gdbots/pbj/exception/field-override-not-compatible';
@@ -13,7 +14,7 @@ import StringType from 'gdbots/pbj/type/string-type';
 
 export const PBJ_FIELD_NAME = '_schema';
 
-export default class Schema extends ToArray
+export default class Schema extends SystemUtils.mixinClass(ToArray)
 {
   /**
    * @param SchemaId|string id
@@ -25,7 +26,7 @@ export default class Schema extends ToArray
     super(); // require before using `this`
 
     /** @var string */
-    this.id = id instanceof SchemaId ? id : SchemaId.fromString(id);
+    this.id = id.hasTrait('SchemaId') ? id : SchemaId.fromString(id);
 
     /** @var string */
     this.className = className;

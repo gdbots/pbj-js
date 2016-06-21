@@ -1,8 +1,9 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
-export default class MixinAlreadyAdded extends GdbotsPbjException
+export default class MixinAlreadyAdded extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
    * @param Schema schema

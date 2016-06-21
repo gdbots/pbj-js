@@ -2,10 +2,11 @@
 
 import NumberUtils from 'gdbots/common/util/number-utils';
 import UrlUtils from 'gdbots/common/util/url-utils';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 
-export default class AbstractBinaryType extends Type
+export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}

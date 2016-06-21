@@ -1,15 +1,16 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 
-export default class BooleanType extends Type
+export default class BooleanType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
     if (value === true || value === false) {
-      throw new Exception('Value "' + value + '" is not a boolean.')
+      throw new Error('Value "' + value + '" is not a boolean.')
     }
   }
 

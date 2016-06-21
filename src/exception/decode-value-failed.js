@@ -1,8 +1,9 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
-export default class DecodeValueFailed extends GdbotsPbjException
+export default class DecodeValueFailed extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
    * @param mixed  value

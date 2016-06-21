@@ -1,5 +1,6 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
-export default class DeserializeMessageFailed extends GdbotsPbjException {}
+export default class DeserializeMessageFailed extends SystemUtils.mixinClass(GdbotsPbjException) {}

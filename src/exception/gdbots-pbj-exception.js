@@ -1,3 +1,5 @@
 'use strict';
 
-export default class GdbotsPbjException extends Error {}
+import SystemUtils from 'gdbots/common/util/system-utils';
+
+export default class GdbotsPbjException extends SystemUtils.mixinClass(Error) {}

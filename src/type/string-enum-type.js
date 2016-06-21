@@ -1,25 +1,25 @@
 'use strict';
 
-import Enum from 'gdbots/common/enum';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 
-export default class StringEnumType extends Type
+export default class StringEnumType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof Enum)) {
+    if (!value.hasTrait('Enum')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Enum" but is not.');
     }
 
-    if (field.hasClassName() && !(value instanceof field.hasClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.hasClassName() + '" but is not.');
+    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
     }
 
     if ('string' !== typeof value.getValue()) {
-      throw new Exception('Value "' + value.getValue() + '" expected to be string.')
+      throw new Error('Value "' + value.getValue() + '" expected to be string.')
     }
 
     // intentionally using strlen to get byte length, not mb_strlen
@@ -36,7 +36,7 @@ export default class StringEnumType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof Enum) {
+    if (value.hasTrait('Enum')) {
       return parseInt(value.getValue());
     }
 

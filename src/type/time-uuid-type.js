@@ -1,20 +1,21 @@
 'use strict';
 
+import SystemUtils from 'gdbots/common/util/system-utils';
 import TimeUuidIdentifier from 'gdbots/identifiers/time-uuid-identifier';
 import Type from 'gdbots/pbj/type/type';
 
-export default class TimeUuidType extends Type
+export default class TimeUuidType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!(value instanceof TimeUuidIdentifier)) {
+    if (!value.hasTrait('TimeUuidIdentifier')) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "TimeUuidIdentifier" but is not.');
     }
 
-    if (field.hasClassName() && !(value instanceof field.hasClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.hasClassName() + '" but is not.');
+    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
     }
   }
 
@@ -22,7 +23,7 @@ export default class TimeUuidType extends Type
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value instanceof TimeUuidIdentifier) {
+    if (value.hasTrait('TimeUuidIdentifier')) {
       return value.toString();
     }
 
@@ -39,7 +40,7 @@ export default class TimeUuidType extends Type
 
     /** @var TimeUuidIdentifier className */
     let className = field.getClassName() || 'TimeUuidIdentifier';
-    if (value instanceof className) {
+    if (value.hasTrait(className)) {
       return value;
     }
 

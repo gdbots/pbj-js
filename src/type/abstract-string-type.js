@@ -1,9 +1,10 @@
 'use strict';
 
 import NumberUtils from 'gdbots/common/util/number-utils';
+import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 
-export default class AbstractStringType extends Type
+export default class AbstractStringType extends SystemUtils.mixinClass(Type)
 {
   /**
    * {@inheritdoc}

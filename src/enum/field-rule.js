@@ -1,6 +1,7 @@
 'use strict';
 
 import Enum from 'gdbots/common/enum';
+import SystemUtils from 'gdbots/common/util/system-utils';
 
 /**
  * @method static FieldRule A_SINGLE_VALUE()
@@ -8,7 +9,7 @@ import Enum from 'gdbots/common/enum';
  * @method static FieldRule A_LIST()
  * @method static FieldRule A_MAP()
  */
-export default class FieldRule extends Enum {}
+export default class FieldRule extends SystemUtils.mixinClass(Enum) {}
 
 FieldRule.initEnum({
   A_SINGLE_VALUE: 1,
