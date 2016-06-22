@@ -5,7 +5,7 @@ import ToArray from 'gdbots/common/to-array';
 
 let _instances = {};
 
-export default class Mixin extends SystemUtils.mixinClass(ToArray)
+export default class Mixin extends SystemUtils.mixinClass(null, ToArray)
 {
   /**
    * @return Mixin

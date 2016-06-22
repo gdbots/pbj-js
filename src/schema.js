@@ -14,7 +14,7 @@ import StringType from 'gdbots/pbj/type/string-type';
 
 export const PBJ_FIELD_NAME = '_schema';
 
-export default class Schema extends SystemUtils.mixinClass(ToArray)
+export default class Schema extends SystemUtils.mixinClass(null, ToArray)
 {
   /**
    * @param SchemaId|string id
@@ -26,7 +26,7 @@ export default class Schema extends SystemUtils.mixinClass(ToArray)
     super(); // require before using `this`
 
     /** @var string */
-    this.id = id.hasTrait('SchemaId') ? id : SchemaId.fromString(id);
+    this.id = 'SchemaId' === SystemUtils.getClass(id) ? id : SchemaId.fromString(id);
 
     /** @var string */
     this.className = className;

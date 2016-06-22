@@ -16,7 +16,7 @@ import Format from 'gdbots/pbj/enum/format';
  */
 export const VALID_NAME_PATTERN = /^[a-zA-Z_]{1}[a-zA-Z0-9_]*/;
 
-export default class Field extends SystemUtils.mixinClass(ToArray)
+export default class Field extends SystemUtils.mixinClass(null, ToArray)
 {
   /**
    * @param string      name
@@ -554,7 +554,7 @@ function applyDefault(defaultValue = null) {
           throw new Error('Field [' + this.className + '] requires a className.');
         }
 
-        if (decodeDefault && !this.defaultValuehasTrait('Enum')) {
+        if (decodeDefault && !this.defaultValue.hasTrait('Enum')) {
           this.defaultValue = this.type.decode(this.defaultValue, this);
         }
         break;

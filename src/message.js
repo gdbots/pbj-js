@@ -23,7 +23,7 @@ let _schemas = {};
 /** @var ArraySerializer */
 let serializer = null;
 
-export default class Message extends SystemUtils.mixinClass(FromArray, ToArray)
+export default class Message extends SystemUtils.mixinClass(null, FromArray, ToArray)
 {
   /**
    * Nothing fancy on new messages... we let the serializers or application code get fancy.
@@ -70,7 +70,7 @@ export default class Message extends SystemUtils.mixinClass(FromArray, ToArray)
     }
 
     let schema = this.defineSchema();
-    if (!(schema.hasTrait('Schema'))) {
+    if ('Schema' !== SystemUtils.getClass(schema)) {
       throw new SchemaNotDefined('Message [' + type + '] must return a Schema from the defineSchema method.');
     }
 

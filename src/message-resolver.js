@@ -134,7 +134,7 @@ export default class MessageResolver
    * @param Message         message
    */
   static register(id, message) {
-    if (id.hasTrait('SchemaId')) {
+    if ('SchemaId' === SystemUtils.getClass(id)) {
       id = id.getCurieMajor();
     }
 
