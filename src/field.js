@@ -359,13 +359,6 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
   }
 
   /**
-   * @return array
-   */
-  jsonSerialize() {
-    return this.toArray();
-  }
-
-  /**
    * Returns true if this field is likely compatible with the
    * provided field during a mergeFrom operation.
    *
