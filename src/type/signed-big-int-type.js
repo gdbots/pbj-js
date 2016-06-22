@@ -14,11 +14,11 @@ export default class SignedBigIntType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "BigNumber" but is not.');
     }
 
-    if (!value.isGreaterThanOrEqualTo('-9223372036854775808')) {
+    if (!value.greaterThanOrEqualTo('-9223372036854775808')) {
       throw new Error('Field [' + field.getName() + '] cannot be less than [-9223372036854775808].');
     }
 
-    if (!value.isLessThanOrEqualTo('9223372036854775807')) {
+    if (!value.lessThanOrEqualTo('9223372036854775807')) {
       throw new Error('Field [' + field.getName() + '] cannot be greater than [9223372036854775807].');
     }
   }
@@ -28,7 +28,7 @@ export default class SignedBigIntType extends SystemUtils.mixinClass(Type)
    */
   encode(value, field) {
     if ('BigNumber' === SystemUtils.getClass(value)) {
-      return value.getValue();
+      return value.toString();
     }
 
     return '0';

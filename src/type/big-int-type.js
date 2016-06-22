@@ -18,7 +18,7 @@ export default class BigIntType extends SystemUtils.mixinClass(Type)
       throw new Error('Field [' + field.getName() + '] cannot be negative.');
     }
 
-    if (!value.isLessThanOrEqualTo('18446744073709551615')) {
+    if (!value.lessThanOrEqualTo('18446744073709551615')) {
       throw new Error('Field [' + field.getName() + '] cannot be greater than [18446744073709551615].');
     }
   }
@@ -28,7 +28,7 @@ export default class BigIntType extends SystemUtils.mixinClass(Type)
    */
   encode(value, field) {
     if ('BigNumber' === SystemUtils.getClass(value)) {
-      return value.getValue();
+      return value.toString();
     }
 
     return '0';
