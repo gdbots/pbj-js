@@ -10,7 +10,7 @@ export default class MicrotimeType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('Microtime')) {
+    if ('Microtime' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Microtime" but is not.');
     }
   }
@@ -19,7 +19,7 @@ export default class MicrotimeType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value.hasTrait('Microtime')) {
+    if ('Microtime' === SystemUtils.getClass(value)) {
       return value.toString();
     }
 
@@ -34,7 +34,7 @@ export default class MicrotimeType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    if (value.hasTrait('Microtime')) {
+    if ('Microtime' === SystemUtils.getClass(value)) {
       return value;
     }
 

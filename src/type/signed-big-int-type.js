@@ -10,7 +10,7 @@ export default class SignedBigIntType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('BigNumber')) {
+    if ('BigNumber' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "BigNumber" but is not.');
     }
 
@@ -27,7 +27,7 @@ export default class SignedBigIntType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value.hasTrait('BigNumber')) {
+    if ('BigNumber' === SystemUtils.getClass(value)) {
       return value.getValue();
     }
 
@@ -38,7 +38,7 @@ export default class SignedBigIntType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   decode(value, field) {
-    if (null === value || value.hasTrait('BigNumber')) {
+    if (null === value || 'BigNumber' === SystemUtils.getClass(value)) {
       return value;
     }
 

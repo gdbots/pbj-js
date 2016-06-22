@@ -11,7 +11,7 @@ export default class MessageRefType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('MessageRef')) {
+    if ('MessageRef' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "MessageRef" but is not.');
     }
   }

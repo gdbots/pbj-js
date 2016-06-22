@@ -11,7 +11,7 @@ export default class GeoPointType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('GeoPoint')) {
+    if ('GeoPoint' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "GeoPoint" but is not.');
     }
   }
