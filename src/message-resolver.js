@@ -151,7 +151,7 @@ export default class MessageResolver
 
     ArrayUtils.each(map, function(value, key) {
       if (map.hasOwnProperty(key)) {
-        if (value.hasTrait('Message')) {
+        if ('object' === typeof value && value.hasTrait('Message')) {
           _messages[message.schema().getId().getCurieMajor()] = message;
         } else {
           promises.push(SystemUtils.import(value));
