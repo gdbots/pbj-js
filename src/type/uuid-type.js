@@ -10,7 +10,7 @@ export default class UuidType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('UuidIdentifier')) {
+    if (!value.hasTrait('UuidIdentifier') && 'UuidIdentifier' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "UuidIdentifier" but is not.');
     }
 
@@ -23,7 +23,7 @@ export default class UuidType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value.hasTrait('UuidIdentifier')) {
+    if (value.hasTrait('UuidIdentifier') || 'UuidIdentifier' === SystemUtils.getClass(value)) {
       return value.toString();
     }
 
@@ -40,7 +40,7 @@ export default class UuidType extends SystemUtils.mixinClass(Type)
 
     /** @var UuidIdentifier className */
     let className = field.getClassName() || 'UuidIdentifier';
-    if (value.hasTrait(className)) {
+    if (value.hasTrait(className) || className === SystemUtils.getClass(value)) {
       return value;
     }
 

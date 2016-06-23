@@ -10,7 +10,7 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (!value.hasTrait('TimeUuidIdentifier')) {
+    if (!value.hasTrait('TimeUuidIdentifier') && 'TimeUuidIdentifier' !== SystemUtils.getClass(value)) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "TimeUuidIdentifier" but is not.');
     }
 
@@ -23,7 +23,7 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   encode(value, field) {
-    if (value.hasTrait('TimeUuidIdentifier')) {
+    if (value.hasTrait('TimeUuidIdentifier') || 'TimeUuidIdentifier' === SystemUtils.getClass(value)) {
       return value.toString();
     }
 
@@ -40,7 +40,7 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
 
     /** @var TimeUuidIdentifier className */
     let className = field.getClassName() || 'TimeUuidIdentifier';
-    if (value.hasTrait(className)) {
+    if (value.hasTrait(className) || className === SystemUtils.getClass(value)) {
       return value;
     }
 
