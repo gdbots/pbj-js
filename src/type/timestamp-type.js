@@ -37,7 +37,7 @@ export default class TimestampType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   getDefault() {
-    return new Date().timeStamp();
+    return new Date().getTime();
   }
 
   /**
