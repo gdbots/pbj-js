@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class MoreThanOneMessageForMixin extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -17,24 +24,26 @@ export default class MoreThanOneMessageForMixin extends SystemUtils.mixinClass(G
 
     super('MessageResolver returned multiple messages using [' + mixin.getId().getCurieMajor() + '] when one was expected. Messages found: ' + "\n" + ids.join("\n"));
 
-    /** @var Mixin */
-    this.mixin = mixin;
+    privateProps.set(this, {
+      /** @var Mixin */
+      mixin: mixin,
 
-    /** @var Message[] */
-    this.messages = messages;
+      /** @var Message[] */
+      messages: messages
+    });
   }
 
   /**
    * @return Mixin
    */
   getMixin() {
-    return this.mixin;
+    return privateProps.get(this).mixin;
   }
 
   /**
    * @return Message[]
    */
   getMessage() {
-    return this.messages;
+    return privateProps.get(this).messages;
   }
 }

@@ -6,6 +6,13 @@ import ToArray from 'gdbots/common/to-array';
 import SchemaCurie from 'gdbots/pbj/schema-curie';
 
 /**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
+/**
  * Represents a reference to a message. Typically used to link messages
  * together via a correlator or "links". Format for a reference:
  * vendor:package:category:message:id#tag (tag is optional)
@@ -22,30 +29,35 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
   constructor(curie, id, tag = null) {
     super(); // require before using `this`
 
-    /** @var SchemaCurie */
-    this.curie = curie;
+    privateProps.set(this, {
+      /** @var SchemaCurie */
+      curie: curie,
 
-    /**
-     * Any string matching pattern /^[\w\/\.:-]+/
-     *
-     * @var string
-     */
-    this.id = id || 'null';
-    if (false === /^[\w\/\.:-]+/.test(this.id)) {
+      /**
+       * Any string matching pattern /^[\w\/\.:-]+/
+       *
+       * @var string
+       */
+      id: id || 'null',
+
+      /** @var string */
+      tag: null
+    });
+
+    if (false === /^[\w\/\.:-]+/.test(privateProps.get(this).id)) {
       throw new Error('MessageRef.id');
     }
 
-    /** @var string */
     if (null !== tag) {
-      this.tag = tag.toString().toLowerCase()
-                    .replace(/\s+/g, '-')     // Replace spaces with -
-                    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-                    .replace(/\-\-+/g, '-')   // Replace multiple - with single -
-                    .replace(/^-+/, '')       // Trim - from start of text
-                    .replace(/-+$/, '');      // Trim - from end of text
+      privateProps.get(this).tag = tag.toString().toLowerCase()
+                                      .replace(/\s+/g, '-')     // Replace spaces with -
+                                      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+                                      .replace(/\-\-+/g, '-')   // Replace multiple - with single -
+                                      .replace(/^-+/, '')       // Trim - from start of text
+                                      .replace(/-+$/, '');      // Trim - from end of text
     }
 
-    if (this.curie.isMixin()) {
+    if (privateProps.get(this).curie.isMixin()) {
       throw new Error('Mixins cannot be used in a MessageRef.');
     }
   }
@@ -68,17 +80,17 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
    * {@inheritdoc}
    */
   toArray() {
-    if (null !== this.tag) {
+    if (null !== privateProps.get(this).tag) {
       return {
-        'curie': this.curie.toString(),
-        'id': this.id,
-        'tag': this.tag
+        'curie': privateProps.get(this).curie.toString(),
+        'id': privateProps.get(this).id,
+        'tag': privateProps.get(this).tag
       };
     }
 
     return {
-      'curie': this.curie.toString(),
-      'id': this.id
+      'curie': privateProps.get(this).curie.toString(),
+      'id': privateProps.get(this).id
     };
   }
 
@@ -103,46 +115,46 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
    * @return string
    */
   toString() {
-    if (null !== this.tag) {
-      return this.curie.toString() + ':' + this.id + '#' + this.tag;
+    if (null !== privateProps.get(this).tag) {
+      return privateProps.get(this).curie.toString() + ':' + privateProps.get(this).id + '#' + privateProps.get(this).tag;
     }
 
-    return this.curie.toString() + ':' + this.id;
+    return privateProps.get(this).curie.toString() + ':' + privateProps.get(this).id;
   }
 
   /**
    * @return SchemaCurie
    */
   getCurie() {
-    return this.curie;
+    return privateProps.get(this).curie;
   }
 
   /**
    * @return bool
    */
   hasId() {
-    return 'null' != this.id;
+    return 'null' != privateProps.get(this).id;
   }
 
   /**
    * @return string
    */
   getId() {
-    return this.id;
+    return privateProps.get(this).id;
   }
 
   /**
    * @return bool
    */
   hasTag() {
-    return null !== this.tag;
+    return null !== privateProps.get(this).tag;
   }
 
   /**
    * @return string
    */
   getTag() {
-    return this.tag;
+    return privateProps.get(this).tag;
   }
 
   /**

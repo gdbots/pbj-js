@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class EncodeValueFailed extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -18,31 +25,33 @@ export default class EncodeValueFailed extends SystemUtils.mixinClass(GdbotsPbjE
 
     super('Failed to encode [' + str + '] for field [' + field.getName() + '] to a [' + field.getType().getTypeValue() + ']. Detail: ' + message + '.');
 
-    /** @var mixed */
-    this.value = value;
+    privateProps.set(this, {
+      /** @var mixed */
+      value: value,
 
-    /** @var Field */
-    this.field = field;
+      /** @var Field */
+      field: field
+    });
   }
 
   /**
    * @return mixed
    */
   getValue() {
-    return this.value;
+    return privateProps.get(this).value;
   }
 
   /**
    * @return Field
    */
   getField() {
-    return this.field;
+    return privateProps.get(this).field;
   }
 
   /**
    * @return string
    */
   getFieldName() {
-    return this.field.getName();
+    return privateProps.get(this).field.getName();
   }
 }

@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class FrozenMessageIsImmutable extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -11,14 +18,16 @@ export default class FrozenMessageIsImmutable extends SystemUtils.mixinClass(Gdb
   constructor(type) {
     super('Message is frozen and cannot be modified.');
 
-    /** @var Message */
-    this.type = type;
+    privateProps.set(this, {
+      /** @var Message */
+      type: type
+    });
   }
 
   /**
    * @return Message
    */
   getType() {
-    return this.type;
+    return privateProps.get(this).type;
   }
 }

@@ -6,6 +6,13 @@ import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
 {
   /**
@@ -14,25 +21,27 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
   constructor(typeName) {
     super(typeName);
 
-    /** @var bool */
-    this.decodeFromBase64 = true;
+    privateProps.set(this, {
+      /** @var bool */
+      decodeFromBase64: true,
 
-    /** @var bool */
-    this.encodeToBase64 = true;
+      /** @var bool */
+      encodeToBase64: true
+    });
   }
 
   /**
    * @param bool useBase64
    */
   decodeFromBase64(useBase64) {
-    this.decodeFromBase64 = Boolean(useBase64);
+    privateProps.get(this).decodeFromBase64 = Boolean(useBase64);
   }
 
   /**
    * @param bool useBase64
    */
   encodeToBase64(useBase64) {
-    this.encodeToBase64 = Boolean(useBase64);
+    privateProps.get(this).encodeToBase64 = Boolean(useBase64);
   }
 
   /**
@@ -44,7 +53,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
     }
 
     // intentionally using strlen to get byte length, not mb_strlen
-    let length = this.encodeToBase64 ? this.encode(value, field).length : value.length;
+    let length = privateProps.get(this).encodeToBase64 ? this.encode(value, field).length : value.length;
     let minLength = field.getMinLength();
     let maxLength = NumberUtils.bound(field.getMaxLength(), minLength, this.getMaxBytes());
     let okay = length >= minLength && length <= maxLength;
@@ -64,7 +73,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    return this.encodeToBase64 ? UrlUtils.base64Encode(value) : value;
+    return privateProps.get(this).encodeToBase64 ? UrlUtils.base64Encode(value) : value;
   }
 
   /**
@@ -77,7 +86,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    if (!this.decodeFromBase64) {
+    if (!privateProps.get(this).decodeFromBase64) {
       return $value;
     }
 

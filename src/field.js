@@ -16,6 +16,13 @@ import Format from 'gdbots/pbj/enum/format';
  */
 export const VALID_NAME_PATTERN = /^[a-zA-Z_]{1}[a-zA-Z0-9_]*/;
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class Field extends SystemUtils.mixinClass(null, ToArray)
 {
   /**
@@ -89,29 +96,70 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
       anyOfClassNames = null;
     }
 
-    /** @var string */
-    this.name = name;
+    privateProps.set(this, {
+      /** @var string */
+      name: name,
 
-    /** @var Type */
-    this.type = type;
+      /** @var Type */
+      type: type,
 
-    /** @var bool */
-    this.required = required || false;
+      /** @var FieldRule */
+      rule: null,
 
-    /** @var bool */
-    this.useTypeDefault = useTypeDefault;
+      /** @var bool */
+      required: required || false,
 
-    /** @var string */
-    this.className = className;
+      /** @var int */
+      minLength: null,
 
-    /** @var array */
-    this.anyOfClassNames = anyOfClassNames;
+      /** @var int */
+      maxLength: null,
 
-    /** @var \Closure */
-    this.assertion = assertion;
+      /**
+       * A regular expression to match against for string types.
+       * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#pattern
+       *
+       * @var string
+       */
+      pattern: null,
 
-    /** @var bool */
-    this.overridable = overridable || false;
+      /**
+       * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#format
+       *
+       * @var Format
+       */
+      format: null,
+
+      /** @var int */
+      min: null,
+
+      /** @var int */
+      max: null,
+
+      /** @var int */
+      precision: 10,
+
+      /** @var int */
+      scale: 2,
+
+      /** @var mixed */
+      defaultValue: null,
+
+      /** @var bool */
+      useTypeDefault: useTypeDefault,
+
+      /** @var string */
+      className: className,
+
+      /** @var array */
+      anyOfClassNames: anyOfClassNames,
+
+      /** @var \Closure */
+      assertion: assertion,
+
+      /** @var bool */
+      overridable: overridable || false
+    });
 
     applyFieldRule.bind(this)(rule);
     applyStringOptions.bind(this)(minLength, maxLength, pattern, format);
@@ -123,124 +171,124 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @return string
    */
   getName() {
-    return this.name;
+    return privateProps.get(this).name;
   }
 
   /**
    * @return Type
    */
   getType() {
-    return this.type;
+    return privateProps.get(this).type;
   }
 
   /**
    * @return FieldRule
    */
   getRule() {
-    return this.rule;
+    return privateProps.get(this).rule;
   }
 
   /**
    * @return bool
    */
   isASingleValue() {
-    return FieldRule.A_SINGLE_VALUE === this.rule;
+    return FieldRule.A_SINGLE_VALUE === privateProps.get(this).rule;
   }
 
   /**
    * @return bool
    */
   isASet() {
-    return FieldRule.A_SET === this.rule;
+    return FieldRule.A_SET === privateProps.get(this).rule;
   }
 
   /**
    * @return bool
    */
   isAList() {
-    return FieldRule.A_LIST === this.rule;
+    return FieldRule.A_LIST === privateProps.get(this).rule;
   }
 
   /**
    * @return bool
    */
   isAMap() {
-    return FieldRule.A_MAP === this.rule;
+    return FieldRule.A_MAP === privateProps.get(this).rule;
   }
 
   /**
    * @return bool
    */
   isRequired() {
-    return this.required;
+    return privateProps.get(this).required;
   }
 
   /**
    * @return int
    */
   getMinLength() {
-    return this.minLength || 0;
+    return privateProps.get(this).minLength || 0;
   }
 
   /**
    * @return int
    */
   getMaxLength() {
-    if (!this.maxLength) {
-      return this.type.getMaxBytes();
+    if (!privateProps.get(this).maxLength) {
+      return privateProps.get(this).type.getMaxBytes();
     }
 
-    return this.maxLength;
+    return privateProps.get(this).maxLength;
   }
 
   /**
    * @return string
    */
   getPattern() {
-    return this.pattern;
+    return privateProps.get(this).pattern;
   }
 
   /**
    * @return Format
    */
   getFormat() {
-    return this.format;
+    return privateProps.get(this).format;
   }
 
   /**
    * @return int
    */
   getMin() {
-    if (!this.min) {
-      return this.type.getMin();
+    if (!privateProps.get(this).min) {
+      return privateProps.get(this).type.getMin();
     }
 
-    return this.min;
+    return privateProps.get(this).min;
   }
 
   /**
    * @return int
    */
   getMax() {
-    if (!this.max) {
-      return this.type.getMax();
+    if (!privateProps.get(this).max) {
+      return privateProps.get(this).type.getMax();
     }
 
-    return this.max;
+    return privateProps.get(this).max;
   }
 
   /**
    * @return int
    */
   getPrecision() {
-    return this.precision;
+    return privateProps.get(this).precision;
   }
 
   /**
    * @return int
    */
   getScale() {
-    return this.scale;
+    return privateProps.get(this).scale;
   }
 
   /**
@@ -249,22 +297,22 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @return mixed
    */
   getDefault(message = null) {
-    if (null === this.defaultValue) {
-      if (this.useTypeDefault) {
-        return this.isASingleValue() ? this.type.getDefault() : [];
+    if (null === privateProps.get(this).defaultValue) {
+      if (privateProps.get(this).useTypeDefault) {
+        return this.isASingleValue() ? privateProps.get(this).type.getDefault() : [];
       }
 
       return this.isASingleValue() ? null : [];
     }
 
-    if ('function' === typeof this.defaultValue) {
+    if ('function' === typeof privateProps.get(this).defaultValue) {
       let defaultValue = this.defaultValue(message, this);
 
       guardDefault.bind(this)(defaultValue);
 
       if (null === defaultValue) {
-        if (this.useTypeDefault) {
-          return this.isASingleValue() ? this.type.getDefault() : [];
+        if (privateProps.get(this).useTypeDefault) {
+          return this.isASingleValue() ? privateProps.get(this).type.getDefault() : [];
         }
 
         return this.isASingleValue() ? null : [];
@@ -274,42 +322,42 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
     }
 
 
-    return this.defaultValue;
+    return privateProps.get(this).defaultValue;
   }
 
   /**
    * @return bool
    */
   hasClassName() {
-    return null !== this.className;
+    return null !== privateProps.get(this).className;
   }
 
   /**
    * @return string
    */
   getClassName() {
-    return this.className;
+    return privateProps.get(this).className;
   }
 
   /**
    * @return bool
    */
   hasAnyOfClassNames() {
-    return null !== this.anyOfClassNames;
+    return null !== privateProps.get(this).anyOfClassNames;
   }
 
   /**
    * @return array
    */
   getAnyOfClassNames() {
-    return this.anyOfClassNames;
+    return privateProps.get(this).anyOfClassNames;
   }
 
   /**
    * @return bool
    */
   isOverridable() {
-    return this.overridable;
+    return privateProps.get(this).overridable;
   }
 
   /**
@@ -319,16 +367,16 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @throws \Exception
    */
   guardValue(value) {
-    if (this.required && null === value) {
-      throw new Error('Field [' + this.name + '] is required and cannot be null.');
+    if (privateProps.get(this).required && null === value) {
+      throw new Error('Field [' + privateProps.get(this).name + '] is required and cannot be null.');
     }
 
     if (null !== value) {
-      this.type.guard(value, this);
+      privateProps.get(this).type.guard(value, this);
     }
 
-    if (null !== this.assertion) {
-      this.assertion(value, this);
+    if (null !== privateProps.get(this).assertion) {
+      privateProps.get(this).assertion(value, this);
     }
   }
 
@@ -337,24 +385,24 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    */
   toArray() {
     return {
-      'name': this.name,
-      'type': this.type.getTypeValue(),
-      'rule': this.rule.getName(),
-      'required': this.required,
-      'min_length': this.minLength,
-      'max_length': this.maxLength,
-      'pattern': this.pattern,
-      'format': this.format.getValue(),
-      'min': this.min,
-      'max': this.max,
-      'precision': this.precision,
-      'scale': this.scale,
+      'name': privateProps.get(this).name,
+      'type': privateProps.get(this).type.getTypeValue(),
+      'rule': privateProps.get(this).rule.getName(),
+      'required': privateProps.get(this).required,
+      'min_length': privateProps.get(this).minLength,
+      'max_length': privateProps.get(this).maxLength,
+      'pattern': privateProps.get(this).pattern,
+      'format': privateProps.get(this).format.getValue(),
+      'min': privateProps.get(this).min,
+      'max': privateProps.get(this).max,
+      'precision': privateProps.get(this).precision,
+      'scale': privateProps.get(this).scale,
       'default': this.getDefault(),
-      'use_type_default': this.useTypeDefault,
-      'class_name': this.className,
-      'any_of_class_names': this.anyOfClassNames,
-      'has_assertion': null !== this.assertion,
-      'overridable': this.overridable,
+      'use_type_default': privateProps.get(this).useTypeDefault,
+      'class_name': privateProps.get(this).className,
+      'any_of_class_names': privateProps.get(this).anyOfClassNames,
+      'has_assertion': null !== privateProps.get(this).assertion,
+      'overridable': privateProps.get(this).overridable,
     };
   }
 
@@ -367,23 +415,23 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @return bool
    */
   isCompatibleForMerge(other) {
-    if (this.name !== other.name) {
+    if (privateProps.get(this).name !== other.name) {
       return false;
     }
 
-    if (this.type !== other.type) {
+    if (privateProps.get(this).type !== other.type) {
       return false;
     }
 
-    if (this.rule !== other.rule) {
+    if (privateProps.get(this).rule !== other.rule) {
       return false;
     }
 
-    if (this.className !== other.className) {
+    if (privateProps.get(this).className !== other.className) {
       return false;
     }
 
-    if (this.anyOfClassNames.filter(function(k) {
+    if (privateProps.get(this).anyOfClassNames.filter(function(k) {
         return other.anyOfClassNames.indexOf(k) != -1;
     }).length === 0) {
       return false;
@@ -401,23 +449,23 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @return bool
    */
   isCompatibleForOverride(other) {
-    if (!this.overridable) {
+    if (!privateProps.get(this).overridable) {
       return false;
     }
 
-    if (this.name !== other.name) {
+    if (privateProps.get(this).name !== other.name) {
       return false;
     }
 
-    if (this.type !== other.type) {
+    if (privateProps.get(this).type !== other.type) {
       return false;
     }
 
-    if (this.rule !== other.rule) {
+    if (privateProps.get(this).rule !== other.rule) {
       return false;
     }
 
-    if (this.required !== other.required) {
+    if (privateProps.get(this).required !== other.required) {
       return false;
     }
 
@@ -431,12 +479,10 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
  * @throws AssertionFailed
  */
 function applyFieldRule(rule = null) {
+  privateProps.get(this).rule = rule || FieldRule.A_SINGLE_VALUE;
 
-  /** @var FieldRule */
-  this.rule = rule || FieldRule.A_SINGLE_VALUE;
-
-  if (this.isASet() && !this.type.allowedInSet()) {
-    throw new Error('Field [' + this.name + '] with type [' + this.type.getTypeValue() + '] cannot be used in a set.');
+  if (this.isASet() && !privateProps.get(this).type.allowedInSet()) {
+    throw new Error('Field [' + privateProps.get(this).name + '] with type [' + privateProps.get(this).type.getTypeValue() + '] cannot be used in a set.');
   }
 }
 
@@ -447,40 +493,25 @@ function applyFieldRule(rule = null) {
  * @param null|string format
  */
 function applyStringOptions(minLength = null, maxLength = null, pattern = null, format = null) {
-
-  /** @var int */
-  this.minLength = parseInt(minLength);
-
-  /** @var int */
-  this.maxLength = parseInt(maxLength);
+  privateProps.get(this).minLength = parseInt(minLength);
+  privateProps.get(this).maxLength = parseInt(maxLength);
 
   if (maxLength > 0) {
-    this.maxLength = maxLength;
-    this.minLength = NumberUtils.bound(minLength, 0, this.maxLength);
+    privateProps.get(this).maxLength = maxLength;
+    privateProps.get(this).minLength = NumberUtils.bound(minLength, 0, privateProps.get(this).maxLength);
   } else {
     // arbitrary string minimum range
-    this.minLength = NumberUtils.bound(minLength, 0, this.type.getMaxBytes());
+    privateProps.get(this).minLength = NumberUtils.bound(minLength, 0, privateProps.get(this).type.getMaxBytes());
   }
 
-  /**
-   * A regular expression to match against for string types.
-   * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#pattern
-   *
-   * @var string
-   */
   if (null !== pattern) {
-    this.pattern = '/' + pattern.trim().replace('/', '') + '/';
+    privateProps.get(this).pattern = '/' + pattern.trim().replace('/', '') + '/';
   }
 
-  /**
-   * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#format
-   *
-   * @var Format
-   */
   if (null !== format && Format.enumValueOf(format)) {
-    this.format = Format.enumValueOf(format);
+    privateProps.get(this).format = Format.enumValueOf(format);
   } else {
-    this.format = Format.UNKNOWN;
+    privateProps.get(this).format = Format.UNKNOWN;
   }
 }
 
@@ -491,26 +522,21 @@ function applyStringOptions(minLength = null, maxLength = null, pattern = null, 
  * @param int      scale
  */
 function applyNumericOptions(min = null, max = null, precision = 10, scale = 2) {
-  /** @var int */
   if (null !== max) {
-    this.max = parseInt(max);
+    privateProps.get(this).max = parseInt(max);
   }
 
-  /** @var int */
   if (null !== min) {
-    this.min = parseInt(min);
-    if (null !== this.max) {
-      if (this.min > this.max) {
-        this.min = this.max;
+    privateProps.get(this).min = parseInt(min);
+    if (null !== privateProps.get(this).max) {
+      if (privateProps.get(this).min > privateProps.get(this).max) {
+        privateProps.get(this).min = privateProps.get(this).max;
       }
     }
   }
 
-   /** @var int */
-  this.precision = NumberUtils.bound(parseInt(precision), 1, 65);
-
-   /** @var int */
-  this.scale = NumberUtils.bound(parseInt(scale), 0, this.precision)
+  privateProps.get(this).precision = NumberUtils.bound(parseInt(precision), 1, 65);
+  privateProps.get(this).scale = NumberUtils.bound(parseInt(scale), 0, privateProps.get(this).precision)
 }
 
 /**
@@ -520,35 +546,34 @@ function applyNumericOptions(min = null, max = null, precision = 10, scale = 2) 
  * @throws \Exception
  */
 function applyDefault(defaultValue = null) {
-  /** @var mixed */
-  this.defaultValue = defaultValue;
+  privateProps.get(this).defaultValue = defaultValue;
 
-  if (this.type.isScalar()) {
-    if (this.type.getTypeName() !== TypeName.TIMESTAMP) {
-      this.useTypeDefault = true;
+  if (privateProps.get(this).type.isScalar()) {
+    if (privateProps.get(this).type.getTypeName() !== TypeName.TIMESTAMP) {
+      privateProps.get(this).useTypeDefault = true;
     }
   } else {
-    let decodeDefault = null !== this.defaultValue && 'function' !== typeof this.defaultValue;
+    let decodeDefault = null !== privateProps.get(this).defaultValue && 'function' !== typeof privateProps.get(this).defaultValue;
 
-    switch (this.type.getTypeName()) {
+    switch (privateProps.get(this).type.getTypeName()) {
       case TypeName.IDENTIFIER:
-        if (null === this.className) {
-          throw new Error('Field [' + this.className + '] requires a className.');
+        if (null === privateProps.get(this).className) {
+          throw new Error('Field [' + privateProps.get(this).className + '] requires a className.');
         }
 
-        if (decodeDefault && !this.defaultValue.hasTrait('Identifier')) {
-          this.defaultValue = this.type.decode(this.defaultValue, this);
+        if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Identifier')) {
+          privateProps.get(this).defaultValue = privateProps.get(this).type.decode(privateProps.get(this).defaultValue, this);
         }
         break;
 
       case TypeName.INT_ENUM:
       case TypeName.STRING_ENUM:
-        if (null === this.className) {
-          throw new Error('Field [' + this.className + '] requires a className.');
+        if (null === privateProps.get(this).className) {
+          throw new Error('Field [' + privateProps.get(this).className + '] requires a className.');
         }
 
-        if (decodeDefault && !this.defaultValue.hasTrait('Enum')) {
-          this.defaultValue = this.type.decode(this.defaultValue, this);
+        if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Enum')) {
+          privateProps.get(this).defaultValue = privateProps.get(this).type.decode(privateProps.get(this).defaultValue, this);
         }
         break;
 
@@ -557,8 +582,8 @@ function applyDefault(defaultValue = null) {
     }
   }
 
-  if (null !== this.defaultValue && 'function' !== typeof this.defaultValue) {
-    guardDefault.bind(this)(this.defaultValue);
+  if (null !== privateProps.get(this).defaultValue && 'function' !== typeof privateProps.get(this).defaultValue) {
+    guardDefault.bind(this)(privateProps.get(this).defaultValue);
   }
 }
 
@@ -576,7 +601,7 @@ function guardDefault(defaultValue) {
   }
 
   if (null !== defaultValue || !Array.isArray(defaultValue)) {
-    throw new Error('Field [' + this.name + '] default must be an array.');
+    throw new Error('Field [' + privateProps.get(this).name + '] default must be an array.');
   }
 
   if (null === defaultValue) {
@@ -585,13 +610,13 @@ function guardDefault(defaultValue) {
 
   if (this.isAMap()) {
     if (!ArrayUtils.isAssoc(defaultValue)) {
-      throw new Error('Field [' + this.name + '] default must be an associative array.');
+      throw new Error('Field [' + privateProps.get(this).name + '] default must be an associative array.');
     }
   }
 
   ArrayUtils.each(defaultValue, function(value, key) {
     if (null === value) {
-      throw new Error('Field [' + this.name + '] default for key [' + value + '] cannot be null.');
+      throw new Error('Field [' + privateProps.get(this).name + '] default for key [' + value + '] cannot be null.');
     }
 
     this.guardValue(value);

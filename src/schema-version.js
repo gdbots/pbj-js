@@ -9,6 +9,13 @@ import InvalidSchemaVersion from 'gdbots/pbj/exception/invalid-schema-version';
 export const VALID_PATTERN = /^([0-9]+)-([0-9]+)-([0-9]+)/;
 
 /**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
+/**
  * Similar to semantic versioning but with dashes and no "alpha, beta, etc." qualifiers.
  *
  * E.g. 1-0-0 (major-minor-patch)
@@ -39,22 +46,27 @@ export default class SchemaVersion
    * @param int patch
    */
   constructor(major = 1, minor = 0, patch = 0) {
+    major = parseInt(major);
+    minor = parseInt(minor);
+    patch = parseInt(patch);
 
-    /** @var int */
-    this.major = parseInt(major);
+    privateProps.set(this, {
+      /** @var int */
+      major: major,
 
-    /** @var int */
-    this.minor = parseInt(minor);
+      /** @var int */
+      minor: minor,
 
-    /** @var int */
-    this.patch = parseInt(patch);
+      /** @var int */
+      patch: patch,
 
-    /**
-     * E.g. 1-0-0 (major-minor-patch)
-     *
-     * @var string
-     */
-    this.version = this.major + '-' + this.minor + '-' + this.patch;
+      /**
+       * E.g. 1-0-0 (major-minor-patch)
+       *
+       * @var string
+       */
+      version: major + '-' + minor + '-' + patch
+    });
   }
 
   /**
@@ -77,27 +89,27 @@ export default class SchemaVersion
    * @return string
    */
   toString() {
-    return this.version;
+    return privateProps.get(this).version;
   }
 
   /**
    * @return int
    */
   getMajor() {
-    return this.major;
+    return privateProps.get(this).major;
   }
 
   /**
    * @return int
    */
   getMinor() {
-    return this.minor;
+    return privateProps.get(this).minor;
   }
 
   /**
    * @return int
    */
   getPatch() {
-    return this.patch;
+    return privateProps.get(this).patch;
   }
 }

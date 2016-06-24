@@ -23,6 +23,13 @@ let _schemas = {};
 /** @var ArraySerializer */
 let serializer = null;
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class Message extends SystemUtils.mixinClass(null, FromArray, ToArray)
 {
   /**
@@ -31,31 +38,33 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
   constructor() {
     super(); // require before using `this`
 
-    /** @var array */
-    this.data = {};
+    privateProps.set(this, {
+      /** @var array */
+      data: {},
 
-    /**
-     * An array of fields that have been cleared or set to null that
-     * must be included when serialized so it's clear that the
-     * value has been unset.
-     *
-     * @var array
-     */
-    this.clearedFields = [];
+      /**
+       * An array of fields that have been cleared or set to null that
+       * must be included when serialized so it's clear that the
+       * value has been unset.
+       *
+       * @var array
+       */
+      clearedFields: [],
 
-    /**
-     * @see Message::freeze
-     *
-     * @var bool
-     */
-    this.isFrozen = false;
+      /**
+       * @see Message::freeze
+       *
+       * @var bool
+       */
+      isFrozen: false,
 
-    /**
-     * @see Message::isReplay
-     *
-     * @var bool
-     */
-    this.isReplay = false;
+      /**
+       * @see Message::isReplay
+       *
+       * @var bool
+       */
+      isReplay: false
+    });
   }
 
   /**
@@ -234,12 +243,12 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @throws RequiredFieldNotSet
    */
   freeze() {
-    if (this.isFrozen()) {
+    if (privateProps.get(this).isFrozen()) {
         return this;
     }
 
     this.validate();
-    this.isFrozen = true;
+    privateProps.get(this).isFrozen = true;
 
     ArrayUtils.each(this.constructor.schema().getFields(), function(field) {
       if (field.getType().isMessage()) {
@@ -271,7 +280,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isFrozen() {
-    return this.isFrozen;
+    return privateProps.get(this).isFrozen;
   }
 
   /**
@@ -298,18 +307,18 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    */
   isReplay(replay = null) {
     if (null === replay) {
-      if (null === this.isReplay) {
-        this.isReplay = false;
+      if (null === privateProps.get(this).isReplay) {
+        privateProps.get(this).isReplay = false;
       }
-      return this.isReplay;
+      return privateProps.get(this).isReplay;
     }
 
-    if (null === this.isReplay) {
-      this.isReplay = Boolean(replay);
-      if (this.isReplay) {
+    if (null === privateProps.get(this).isReplay) {
+      privateProps.get(this).isReplay = Boolean(replay);
+      if (privateProps.get(this).isReplay) {
         this.freeze();
       }
-      return this.isReplay;
+      return privateProps.get(this).isReplay;
     }
 
     throw new LogicException('You can only set the replay mode on one time.');
@@ -347,12 +356,12 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   has(fieldName) {
-    if (undefined === this.data[fieldName]) {
+    if (undefined === privateProps.get(this).data[fieldName]) {
       return false;
     }
 
-    if (Array.isArray(this.data[fieldName])) {
-      return this.data[fieldName] && this.data[fieldName].length;
+    if (Array.isArray(privateProps.get(this).data[fieldName])) {
+      return privateProps.get(this).data[fieldName] && privateProps.get(this).data[fieldName].length;
     }
 
     return true;
@@ -374,12 +383,12 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
     let field = this.constructor.schema().getField(fieldName);
     if (field.isASet()) {
-      return Object.keys(this.data[fieldName]).map(function(v) {
-        return this.data[fieldName][v];
+      return Object.keys(privateProps.get(this).data[fieldName]).map(function(v) {
+        return privateProps.get(this).data[fieldName][v];
       });
     }
 
-    return this.data[fieldName];
+    return privateProps.get(this).data[fieldName];
   }
 
   /**
@@ -397,9 +406,9 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
     let field = this.constructor.schema().getField(fieldName);
 
-    delete this.data[fieldName];
+    delete privateProps.get(this).data[fieldName];
 
-    this.clearedFields[fieldName] = true;
+    privateProps.get(this).clearedFields[fieldName] = true;
 
     populateDefault.bind(this)(field);
 
@@ -414,7 +423,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   hasClearedField(fieldName) {
-    return undefined !== this.clearedFields[fieldName];
+    return undefined !== privateProps.get(this).clearedFields[fieldName];
   }
 
   /**
@@ -423,7 +432,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return array
    */
   getClearedFields() {
-    return Object.keys(this.clearedFields);
+    return Object.keys(privateProps.get(this).clearedFields);
   }
 
   /**
@@ -464,9 +473,9 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
     field.guardValue(value);
 
-    this.data[fieldName] = value;
+    privateProps.get(this).data[fieldName] = value;
 
-    delete this.clearedFields[fieldName];
+    delete privateProps.get(this).clearedFields[fieldName];
 
     return this;
   }
@@ -480,7 +489,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInSet(fieldName, value) {
-    if (!this.data[fieldName] || this.data[fieldName].length === 0 || !Array.isArray(this.data[fieldName])) {
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName])) {
       return false;
     }
 
@@ -494,7 +503,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
       return false;
     }
 
-    return undefined !== this.data[fieldName][key.toLowerCase()];
+    return undefined !== privateProps.get(this).data[fieldName][key.toLowerCase()];
   }
 
   /**
@@ -524,11 +533,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
       key = value.trim().toLowerCase();
 
-      this.data[fieldName][key] = value;
+      privateProps.get(this).data[fieldName][key] = value;
     }.bind(this));
 
-    if (this.data[fieldName] && this.data[fieldName].length) {
-      delete this.clearedFields[fieldName];
+    if (privateProps.get(this).data[fieldName] && privateProps.get(this).data[fieldName].length) {
+      delete privateProps.get(this).clearedFields[fieldName];
     }
 
     return this;
@@ -559,11 +568,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
       let key = value.trim().toLowerCase();
 
-      this.data[fieldName][key] = value;
+      privateProps.get(this).data[fieldName][key] = value;
     }.bind(this));
 
-    if (!this.data[fieldName] || this.data[fieldName].length === 0) {
-      this.clearedFields[fieldName] = true
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0) {
+      privateProps.get(this).clearedFields[fieldName] = true
     }
 
     return this;
@@ -580,11 +589,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInList(fieldName, value) {
-    if (!this.data[fieldName] || this.data[fieldName].length === 0 || !Array.isArray(this.data[fieldName])) {
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName])) {
         return false;
       }
 
-      return -1 !== this.data[fieldName].indexOf(value);
+      return -1 !== privateProps.get(this).data[fieldName].indexOf(value);
   }
 
   /**
@@ -599,15 +608,15 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
   getFromListAt(fieldName, index, defaultValue = null) {
     index = parseInt(index);
 
-    if (!this.data[fieldName]
-      || this.data[fieldName].length === 0
-      || !Array.isArray(this.data[fieldName])
-      || undefined === this.data[fieldName][index]
+    if (!privateProps.get(this).data[fieldName]
+      || privateProps.get(this).data[fieldName].length === 0
+      || !Array.isArray(privateProps.get(this).data[fieldName])
+      || undefined === privateProps.get(this).data[fieldName][index]
     ) {
       return defaultValue;
     }
 
-    return this.data[fieldName][index];
+    return privateProps.get(this).data[fieldName][index];
   }
 
   /**
@@ -631,10 +640,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
     ArrayUtils.each(values, function(value) {
       field.guardValue(value);
 
-      this.data[fieldName].push(value);
+      privateProps.get(this).data[fieldName].push(value);
     }.bind(this));
 
-    delete this.clearedFields[fieldName];
+    delete privateProps.get(this).clearedFields[fieldName];
 
     return this;
   }
@@ -659,22 +668,22 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
     index = parseInt(index);
 
-    if (!this.data[fieldName] || this.data[fieldName].length === 0) {
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0) {
       return this;
     }
 
-    if (undefined !== this.data[fieldName][index]) {
-      delete this.data[fieldName][index];
+    if (undefined !== privateProps.get(this).data[fieldName][index]) {
+      delete privateProps.get(this).data[fieldName][index];
     }
 
-    if (!this.data[fieldName] || this.data[fieldName].length === 0) {
-      this.clearedFields[fieldName] = true;
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0) {
+      privateProps.get(this).clearedFields[fieldName] = true;
 
       return this;
     }
 
-    this.data[fieldName] = Object.keys(this.data[fieldName]).map(function(v) {
-      return this.data[fieldName][v];
+    privateProps.get(this).data[fieldName] = Object.keys(privateProps.get(this).data[fieldName]).map(function(v) {
+      return privateProps.get(this).data[fieldName][v];
     });
 
     return this;
@@ -689,11 +698,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInMap(fieldName, key) {
-    if (!this.data[fieldName] || this.data[fieldName].length === 0 || !Array.isArray(this.data[fieldName]) || 'string' !== typeof key) {
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName]) || 'string' !== typeof key) {
       return false;
     }
 
-    return undefined !== this.data[fieldName][key];
+    return undefined !== privateProps.get(this).data[fieldName][key];
   }
 
   /**
@@ -710,7 +719,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
       return defaultValue;
     }
 
-    return this.data[fieldName][key];
+    return privateProps.get(this).data[fieldName][key];
   }
 
   /**
@@ -738,9 +747,9 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
     field.guardValue(value);
 
-    this.data[fieldName][key] = value;
+    privateProps.get(this).data[fieldName][key] = value;
 
-    delete this.clearedFields[fieldName];
+    delete privateProps.get(this).clearedFields[fieldName];
 
     return this;
   }
@@ -763,10 +772,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
       throw new Error('Field [' + fieldName + '] must be a map.');
     }
 
-    delete this.data[fieldName][key];
+    delete privateProps.get(this).data[fieldName][key];
 
-    if (!this.data[fieldName] || this.data[fieldName].length === 0) {
-        this.clearedFields[fieldName] = true;
+    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0) {
+        privateProps.get(this).clearedFields[fieldName] = true;
     }
 
     return this;
@@ -778,8 +787,8 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
  * Used internally during the clone process.
  */
 function unFreeze() {
-  this.isFrozen = false;
-  this.isReplay = null;
+  privateProps.get(this).isFrozen = false;
+  privateProps.get(this).isReplay = null;
 
   ArrayUtils.each(this.constructor.schema().getFields(), function(field) {
     if (field.getType().isMessage()) {
@@ -808,7 +817,7 @@ function unFreeze() {
  * @throws FrozenMessageIsImmutable
  */
 function guardFrozenMessage() {
-  if (this.isFrozen) {
+  if (privateProps.get(this).isFrozen) {
     throw new FrozenMessageIsImmutable(this);
   }
 }
@@ -832,9 +841,9 @@ function populateDefault(field) {
   }
 
   if (field.isASingleValue()) {
-    this.data[field.getName()] = defaultValue;
+    privateProps.get(this).data[field.getName()] = defaultValue;
 
-    delete this.clearedFields[field.getName()];
+    delete privateProps.get(this).clearedFields[field.getName()];
 
     return true;
   }
@@ -852,9 +861,9 @@ function populateDefault(field) {
     return true;
   }
 
-  this.data[field.getName()] = defaultValue;
+  privateProps.get(this).data[field.getName()] = defaultValue;
 
-  delete this.clearedFields[field.getName()];
+  delete privateProps.get(this).clearedFields[field.getName()];
 
   return true;
 }

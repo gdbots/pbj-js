@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class MixinAlreadyAdded extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -13,27 +20,29 @@ export default class MixinAlreadyAdded extends SystemUtils.mixinClass(GdbotsPbjE
   constructor(schema, originalMixin, duplicateMixin) {
     super('Mixin with id [' + duplicateMixin.getId().toString() + '] was already added from [' + originalMixin.getId().toString() + '] to message [' + schema.getClassName() + ']. You cannot add multiple versions of the same mixin.');
 
-    /** @var Schema */
-    this.schema = schema;
+    privateProps.set(this, {
+      /** @var Schema */
+      schema: schema,
 
-    /** @var Mixin */
-    this.originalMixin = originalMixin;
+      /** @var Mixin */
+      originalMixin: originalMixin,
 
-    /** @var Mixin */
-    this.duplicateMixin = duplicateMixin;
+      /** @var Mixin */
+      duplicateMixin: duplicateMixin
+    });
   }
 
   /**
    * @return Mixin
    */
   getOriginalMixin() {
-    return this.originalMixin;
+    return privateProps.get(this).originalMixin;
   }
 
   /**
    * @return Mixin
    */
   getDuplicateMixin() {
-    return this.duplicateMixin;
+    return privateProps.get(this).duplicateMixin;
   }
 }

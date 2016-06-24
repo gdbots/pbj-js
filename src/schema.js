@@ -14,6 +14,13 @@ import StringType from 'gdbots/pbj/type/string-type';
 
 export const PBJ_FIELD_NAME = '_schema';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class Schema extends SystemUtils.mixinClass(null, ToArray)
 {
   /**
@@ -25,29 +32,31 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
   constructor(id, className, fields = [], mixins = []) {
     super(); // require before using `this`
 
-    /** @var string */
-    this.id = 'SchemaId' === SystemUtils.getClass(id) ? id : SchemaId.fromString(id);
+    privateProps.set(this, {
+      /** @var string */
+      id: 'SchemaId' === SystemUtils.getClass(id) ? id : SchemaId.fromString(id),
 
-    /** @var string */
-    this.className = className;
+      /** @var string */
+      className: className,
 
-    /** @var Mixin[] */
-    this.mixins = {};
-    this.mixinsByCurie = {}
+      /** @var Mixin[] */
+      mixins: {},
+      mixinsByCurie: {},
 
-    /** @var Field[] */
-    this.fields = {};
-    this.requiredFields = {};
+      /** @var Field[] */
+      fields: {},
+      requiredFields: {},
 
-    /** @var string[] */
-    this.mixinIds = [];
-    this.mixinCuries = [];
+      /** @var string[] */
+      mixinIds: [],
+      mixinCuries: []
+    });
 
     addField.bind(this)(
       FieldBuilder.create(PBJ_FIELD_NAME, StringType.create())
-        .isRequired()
+        .required()
         .setPattern(SchemaId.VALID_PATTERN)
-        .setDefaultValue(this.id.toString())
+        .setDefaultValue(privateProps.get(this).id.toString())
         .build()
     );
 
@@ -60,17 +69,17 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
     }.bind(this));
 
     /** @var string[] */
-    this.mixinIds = Object.keys(this.mixins);
+    privateProps.get(this).mixinIds = Object.keys(privateProps.get(this).mixins);
 
     /** @var string[] */
-    this.mixinCuries = Object.keys(this.mixinsByCurie);
+    privateProps.get(this).mixinCuries = Object.keys(privateProps.get(this).mixinsByCurie);
   }
 
   /**
    * @return string
    */
   toString() {
-    return this.id.toString();
+    return privateProps.get(this).id.toString();
   }
 
   /**
@@ -78,16 +87,16 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    */
   toArray() {
     return {
-      'id': this.id,
+      'id': privateProps.get(this).id,
       'curie': this.getCurie(),
       'curie_major': this.getCurieMajor(),
-      'class_name': this.className,
-      'mixins': this.mixins.map(
+      'class_name': privateProps.get(this).className,
+      'mixins': privateProps.get(this).mixins.map(
         function(mixin) {
           return mixin.getId();
         }
       ),
-      'fields': this.fields
+      'fields': privateProps.get(this).fields
     };
   }
 
@@ -95,14 +104,14 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return SchemaId
    */
   getId() {
-    return this.id;
+    return privateProps.get(this).id;
   }
 
   /**
    * @return SchemaCurie
    */
   getCurie() {
-    return this.id.getCurie();
+    return privateProps.get(this).id.getCurie();
   }
 
   /**
@@ -111,34 +120,14 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return string
    */
   getCurieMajor() {
-    return this.id.getCurieMajor();
+    return privateProps.get(this).id.getCurieMajor();
   }
 
   /**
    * @return string
    */
   getClassName() {
-    return this.className;
-  }
-
-  /**
-   * Convenience method to return the name of the method that should
-   * exist to handle this message.
-   *
-   * For example, an ImportUserV1 message would be handled by:
-   * SomeClass::importUserV1(ImportUserV1 command)
-   *
-   * @param bool withMajor
-   *
-   * @return string
-   */
-  getHandlerMethodName(withMajor = true) {
-    if (true === withMajor) {
-      return this.classShortName.charAt(0).toLowerCase() + this.classShortName.substr(1);
-    }
-
-    let classShortName = this.classShortName.replace('V' + this.id.getVersion().getMajor(), '');
-    return classShortName.charAt(0).toLowerCase() + classShortName.substr(1);
+    return privateProps.get(this).className;
   }
 
   /**
@@ -147,7 +136,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return bool
    */
   hasField(fieldName) {
-    return undefined !== this.fields[fieldName];
+    return undefined !== privateProps.get(this).fields[fieldName];
   }
 
   /**
@@ -158,25 +147,25 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @throws FieldNotDefined
    */
   getField(fieldName) {
-    if (undefined === this.fields[fieldName]) {
+    if (undefined === privateProps.get(this).fields[fieldName]) {
       throw new FieldNotDefined(this, fieldName);
     }
 
-    return this.fields[fieldName];
+    return privateProps.get(this).fields[fieldName];
   }
 
   /**
    * @return Field[]
    */
   getFields() {
-    return this.fields;
+    return privateProps.get(this).fields;
   }
 
   /**
    * @return Field[]
    */
   getRequiredFields() {
-    return this.requiredFields;
+    return privateProps.get(this).requiredFields;
   }
 
   /**
@@ -189,7 +178,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return bool
    */
   hasMixin(mixinId) {
-    return undefined !== this.mixins[mixinId] || undefined !== this.mixinsByCurie[mixinId];
+    return undefined !== privateProps.get(this).mixins[mixinId] || undefined !== privateProps.get(this).mixinsByCurie[mixinId];
   }
 
   /**
@@ -200,12 +189,12 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @throws MixinNotDefined
    */
   getMixin(mixinId) {
-    if (undefined !== this.mixins[mixinId]) {
-      return this.mixins[mixinId];
+    if (undefined !== privateProps.get(this).mixins[mixinId]) {
+      return privateProps.get(this).mixins[mixinId];
     }
 
-    if (undefined !== this.mixinsByCurie[mixinId]) {
-      return this.mixinsByCurie[mixinId];
+    if (undefined !== privateProps.get(this).mixinsByCurie[mixinId]) {
+      return privateProps.get(this).mixinsByCurie[mixinId];
     }
 
     throw new MixinNotDefined(this, mixinId);
@@ -215,7 +204,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return Mixin[]
    */
   getMixins() {
-    return this.mixins;
+    return privateProps.get(this).mixins;
   }
 
   /**
@@ -225,7 +214,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return array
    */
   getMixinIds() {
-    return this.mixinIds;
+    return privateProps.get(this).mixinIds;
   }
 
   /**
@@ -234,7 +223,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    * @return array
    */
   getMixinCuries() {
-    return this.mixinCuries;
+    return privateProps.get(this).mixinCuries;
   }
 }
 
@@ -256,9 +245,9 @@ function addField(field) {
     }
   }
 
-  this.fields[fieldName] = field;
+  privateProps.get(this).fields[fieldName] = field;
   if (field.isRequired()) {
-    this.requiredFields[fieldName] = field;
+    privateProps.get(this).requiredFields[fieldName] = field;
   }
 }
 
@@ -271,12 +260,12 @@ function addMixin(mixin) {
   let id = mixin.getId();
   let curieStr = id.getCurie().toString();
 
-  if (undefined !== this.mixinsByCurie[curieStr]) {
-    throw new MixinAlreadyAdded(this, this.mixinsByCurie[curieStr], mixin);
+  if (undefined !== privateProps.get(this).mixinsByCurie[curieStr]) {
+    throw new MixinAlreadyAdded(this, privateProps.get(this).mixinsByCurie[curieStr], mixin);
   }
 
-  this.mixins[id.getCurieMajor()] = mixin;
-  this.mixinsByCurie[curieStr] = mixin;
+  privateProps.get(this).mixins[id.getCurieMajor()] = mixin;
+  privateProps.get(this).mixinsByCurie[curieStr] = mixin;
 
   ArrayUtils.each(mixin.getFields(), function(field) {
     addField.bind(this)(field);

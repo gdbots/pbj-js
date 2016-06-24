@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class FieldOverrideNotCompatible extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -15,34 +22,36 @@ export default class FieldOverrideNotCompatible extends SystemUtils.mixinClass(G
 
     super('Field [' + existingField.getName() + '] override for [' + schema.getClassName() + '] is not compatible. Name, Type, Rule and Required must match.');
 
-    /** @var Schema */
-    this.schema = schema;
+    privateProps.set(this, {
+      /** @var Schema */
+      schema: schema,
 
-    /** @var Field */
-    this.existingField = existingField;
+      /** @var Field */
+      existingField: existingField,
 
-    /** @var Field */
-    this.overrideField = overrideField;
+      /** @var Field */
+      overrideField: overrideField
+    });
   }
 
   /**
    * @return Field
    */
   getExistingField() {
-    return this.existingField;
+    return privateProps.get(this).existingField;
   }
 
   /**
    * @return string
    */
   getFieldName() {
-    return this.existingField.getName();
+    return privateProps.get(this).existingField.getName();
   }
 
   /**
    * @return Field
    */
   getOverrideField() {
-    return this.overrideField;
+    return privateProps.get(this).overrideField;
   }
 }

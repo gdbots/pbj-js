@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class FieldAlreadyDefined extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -14,24 +21,26 @@ export default class FieldAlreadyDefined extends SystemUtils.mixinClass(GdbotsPb
 
     super('Field [' + field.getName() + '] is already defined on message [' + schema.getClassName() + '] and is not overridable.');
 
-    /** @var Schema */
-    this.schema = schema;
+    privateProps.set(this, {
+      /** @var Schema */
+      schema: schema,
 
-    /** @var Field */
-    this.field = field;
+      /** @var Field */
+      field: field
+    });
   }
 
   /**
    * @return Field
    */
   getField() {
-    return this.field;
+    return privateProps.get(this).field;
   }
 
   /**
    * @return string
    */
   getFieldName() {
-    return this.field.getName();
+    return privateProps.get(this).field.getName();
   }
 }

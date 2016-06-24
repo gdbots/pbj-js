@@ -4,7 +4,15 @@ import InvalidSchemaId from 'gdbots/pbj/exception/invalid-schema-id';
 import SchemaCurie from 'gdbots/pbj/schema-curie';
 import SchemaVersion from 'gdbots/pbj/schema-version';
 
+/** @var array */
 let _instances = {};
+
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
 
 /**
  * Regular expression pattern for matching a valid SchemaId string.
@@ -69,32 +77,39 @@ export default class SchemaId
    * @param string version
    */
   constructor(vendor, packageName, category, message, version) {
+    if (!category) {
+      category = '';
+    }
 
-    /** @var string */
-    this.vendor = vendor;
+    privateProps.set(this, {
+      /** @var string */
+      vendor: vendor,
 
-    /** @var string */
-    this.package = packageName;
+      /** @var string */
+      package: packageName,
 
-    /** @var string */
-    this.category = category ? category : '';
+      /** @var string */
+      category: category,
 
-    /** @var string */
-    this.message = message;
+      /** @var string */
+      message: message,
 
-    /** @var SchemaVersion */
-    this.version = SchemaVersion.fromString(version);
+      /** @var SchemaVersion */
+      version: SchemaVersion.fromString(version),
 
-    /** @var string */
-    this.id = 'pbj:' + this.vendor + ':' + this.package + ':' + this.category + ':' + this.message + ':' + this.version.toString();
+      /** @var string */
+      id: 'pbj:' + vendor + ':' + packageName + ':' + category + ':' + message + ':' + version.toString(),
 
-    /**
-     * The curie is the short name for the schema (without the version) that can be used
-     * to reference another message without fully qualifying the version.
-     *
-     * @var SchemaCurie
-     */
-    this.curie = SchemaCurie.fromId(this);
+      /**
+       * The curie is the short name for the schema (without the version) that can be used
+       * to reference another message without fully qualifying the version.
+       *
+       * @var SchemaCurie
+       */
+      curie: null
+    });
+
+    privateProps.get(this).curie = SchemaCurie.fromId(this);
   }
 
   /**
@@ -126,49 +141,49 @@ export default class SchemaId
    * @return string
    */
   toString() {
-    return this.id;
+    return privateProps.get(this).id;
   }
 
   /**
    * @return string
    */
   getVendor() {
-    return this.vendor;
+    return privateProps.get(this).vendor;
   }
 
   /**
    * @return string
    */
   getPackage() {
-    return this.package;
+    return privateProps.get(this).package;
   }
 
   /**
    * @return string
    */
   getCategory() {
-    return this.category;
+    return privateProps.get(this).category;
   }
 
   /**
    * @return string
    */
   getMessage() {
-    return this.message;
+    return privateProps.get(this).message;
   }
 
   /**
    * @return SchemaVersion
    */
   getVersion() {
-    return this.version;
+    return privateProps.get(this).version;
   }
 
   /**
    * @return SchemaCurie
    */
   getCurie() {
-    return this.curie;
+    return privateProps.get(this).curie;
   }
 
   /**
@@ -183,6 +198,6 @@ export default class SchemaId
    * @return string
    */
   getCurieMajor() {
-    return this.curie.toString() + ':v' + this.version.getMajor();
+    return privateProps.get(this).curie.toString() + ':v' + privateProps.get(this).version.getMajor();
   }
 }

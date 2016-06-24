@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class FieldNotDefined extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -12,17 +19,19 @@ export default class FieldNotDefined extends SystemUtils.mixinClass(GdbotsPbjExc
   constructor(schema, fieldName) {
     super('Field [' + fieldName + '] is not defined on message [' + schema.getClassName() + '].');
 
-    /** @var Schema */
-    this.schema = schema;
+    privateProps.set(this, {
+      /** @var Schema */
+      schema: schema,
 
-    /** @var string */
-    this.fieldName = fieldName;
+      /** @var string */
+      fieldName: fieldName
+    });
   }
 
   /**
    * @return string
    */
   getFieldName() {
-    return this.fieldName;
+    return privateProps.get(this).fieldName;
   }
 }

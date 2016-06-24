@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class RequiredFieldNotSet extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -12,34 +19,36 @@ export default class RequiredFieldNotSet extends SystemUtils.mixinClass(GdbotsPb
   constructor(type, field) {
     super('Required field [' + field.getName() + '] must be set on message [' + type.constructor.schema().getClassName() + '].');
 
-    /** @var Message */
-    this.type = type;
+    privateProps.set(this, {
+      /** @var Message */
+      type: type,
 
-    /** @var Schema */
-    this.schema = type.constructor.schema();
+      /** @var Schema */
+      schema: type.constructor.schema(),
 
-    /** @var Field */
-    this.field = field;
+      /** @var Field */
+      field: field
+    });
   }
 
   /**
    * @return Message
    */
   getType() {
-    return this.type;
+    return privateProps.get(this).type;
   }
 
   /**
    * @return Field
    */
   getField() {
-    return this.field;
+    return privateProps.get(this).field;
   }
 
   /**
    * @return string
    */
   getFieldName() {
-    return this.field.getName();
+    return privateProps.get(this).field.getName();
   }
 }

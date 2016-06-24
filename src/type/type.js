@@ -3,7 +3,15 @@
 import StringUtils from 'gdbots/common/util/string-utils';
 import TypeName from 'gdbots/pbj/enum/type-name';
 
+/** @var array */
 let _instances = {};
+
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
 
 export default class Type
 {
@@ -13,9 +21,10 @@ export default class Type
    * @param TypeName typeName
    */
   constructor(typeName) {
-
-    /** @var TypeName */
-    this.typeName = typeName;
+    privateProps.set(this, {
+      /** @var TypeName */
+      typeName: typeName
+    });
   }
 
   /**
@@ -34,7 +43,7 @@ export default class Type
    * @return TypeName
    */
   getTypeName() {
-    return this.typeName;
+    return privateProps.get(this).typeName;
   }
 
   /**
@@ -43,7 +52,7 @@ export default class Type
    * @return string
    */
   getTypeValue() {
-    return this.typeName.value;
+    return privateProps.get(this).typeName.value;
   }
 
   /**

@@ -3,6 +3,13 @@
 import FieldRule from 'gdbots/pbj/enum/field-rule';
 import Field from 'gdbots/pbj/field';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class FieldBuilder
 {
   /**
@@ -10,60 +17,61 @@ export default class FieldBuilder
    * @param Type   type
    */
   constructor(name, type) {
+    privateProps.set(this, {
+      /** @var string */
+      name: name,
 
-    /** @var string */
-    this.name = name;
+      /** @var Type */
+      type: type,
 
-    /** @var Type */
-    this.type = type;
+      /** @var FieldRule */
+      rule: null,
 
-    /** @var FieldRule */
-    this.rule = null;
+      /** @var bool */
+      required: false,
 
-    /** @var bool */
-    this.required = false;
+      /** @var int */
+      minLength: null,
 
-    /** @var int */
-    this.minLength = null;
+      /** @var int */
+      maxLength: null,
 
-    /** @var int */
-    this.maxLength = null;
+      /** @var string */
+      pattern: null,
 
-    /** @var string */
-    this.pattern = null;
+      /** @var string */
+      format: null,
 
-    /** @var string */
-    this.format = null;
+      /** @var int */
+      min: null,
 
-    /** @var int */
-    this.min = null;
+      /** @var int */
+      max: null,
 
-    /** @var int */
-    this.max = null;
+      /** @var int */
+      precision: 10,
 
-    /** @var int */
-    this.precision = 10;
+      /** @var int */
+      scale: 2,
 
-    /** @var int */
-    this.scale = 2;
+      /** @var mixed */
+      defaultValue: null,
 
-    /** @var mixed */
-    this.defaultValue = null;
+      /** @var bool */
+      useTypeDefault: true,
 
-    /** @var bool */
-    this.useTypeDefault = true;
+      /** @var string */
+      className: null,
 
-    /** @var string */
-    this.className = null;
+      /** @var array */
+      anyOfClassNames: null,
 
-    /** @var array */
-    this.anyOfClassNames = null;
+      /** @var \Closure */
+      assertion: null,
 
-    /** @var \Closure */
-    this.assertion = null;
-
-    /** @var bool */
-    this.overridable = false;
+      /** @var bool */
+      overridable: false
+    });
   }
 
   /**
@@ -79,8 +87,8 @@ export default class FieldBuilder
   /**
    * @return self
    */
-  isRequired() {
-    this.required = true;
+  required() {
+    privateProps.get(this).required = true;
     return this;
   }
 
@@ -88,7 +96,7 @@ export default class FieldBuilder
    * @return self
    */
   isOptional() {
-    this.required = false;
+    privateProps.get(this).required = false;
     return this;
   }
 
@@ -96,7 +104,7 @@ export default class FieldBuilder
    * @return self
    */
   asASingleValue() {
-    this.rule = FieldRule.A_SINGLE_VALUE;
+    privateProps.get(this).rule = FieldRule.A_SINGLE_VALUE;
     return this;
   }
 
@@ -104,7 +112,7 @@ export default class FieldBuilder
    * @return self
    */
   asASet() {
-    this.rule = FieldRule.A_SET;
+    privateProps.get(this).rule = FieldRule.A_SET;
     return this;
   }
 
@@ -112,7 +120,7 @@ export default class FieldBuilder
    * @return self
    */
   asAList() {
-    this.rule = FieldRule.A_LIST;
+    privateProps.get(this).rule = FieldRule.A_LIST;
     return this;
   }
 
@@ -120,7 +128,7 @@ export default class FieldBuilder
    * @return self
    */
   asAMap() {
-    this.rule = FieldRule.A_MAP;
+    privateProps.get(this).rule = FieldRule.A_MAP;
     return this;
   }
 
@@ -130,7 +138,7 @@ export default class FieldBuilder
    * @return self
    */
   setMinLength(minLength) {
-    this.minLength = parseInt(minLength);
+    privateProps.get(this).minLength = parseInt(minLength);
     return this;
   }
 
@@ -140,7 +148,7 @@ export default class FieldBuilder
    * @return self
    */
   setMaxLength(maxLength) {
-    this.maxLength = parseInt(maxLength);
+    privateProps.get(this).maxLength = parseInt(maxLength);
     return this;
   }
 
@@ -150,7 +158,7 @@ export default class FieldBuilder
    * @return self
    */
   setPattern(pattern) {
-    this.pattern = pattern;
+    privateProps.get(this).pattern = pattern;
     return this;
   }
 
@@ -160,7 +168,7 @@ export default class FieldBuilder
    * @return self
    */
   setFormat(format) {
-    this.format = format;
+    privateProps.get(this).format = format;
     return this;
   }
 
@@ -170,7 +178,7 @@ export default class FieldBuilder
    * @return self
    */
   setMin(min) {
-    this.min = parseInt(min);
+    privateProps.get(this).min = parseInt(min);
     return this;
   }
 
@@ -180,7 +188,7 @@ export default class FieldBuilder
    * @return self
    */
   setMax(max) {
-    this.max = parseInt(max);
+    privateProps.get(this).max = parseInt(max);
     return this;
   }
 
@@ -190,7 +198,7 @@ export default class FieldBuilder
    * @return self
    */
   setPrecision(precision) {
-    this.precision = parseInt(precision);
+    privateProps.get(this).precision = parseInt(precision);
     return this;
   }
 
@@ -200,7 +208,7 @@ export default class FieldBuilder
    * @return self
    */
   setScale(scale) {
-    this.scale = parseInt(scale);
+    privateProps.get(this).scale = parseInt(scale);
     return this;
   }
 
@@ -210,7 +218,7 @@ export default class FieldBuilder
    * @return self
    */
   setDefaultValue(defaultValue) {
-    this.defaultValue = defaultValue;
+    privateProps.get(this).defaultValue = defaultValue;
     return this;
   }
 
@@ -220,7 +228,7 @@ export default class FieldBuilder
    * @return self
    */
   setUseTypeDefault(useTypeDefault) {
-    this.useTypeDefault = Boolean(useTypeDefault);
+    privateProps.get(this).useTypeDefault = Boolean(useTypeDefault);
     return this;
   }
 
@@ -230,8 +238,8 @@ export default class FieldBuilder
    * @return self
    */
   setClassName(className) {
-    this.className = className;
-    this.anyOfClassNames = null;
+    privateProps.get(this).className = className;
+    privateProps.get(this).anyOfClassNames = null;
     return this;
   }
 
@@ -241,8 +249,8 @@ export default class FieldBuilder
    * @return self
    */
   setAnyOfClassNames(anyOfClassNames) {
-    this.anyOfClassNames = anyOfClassNames;
-    this.className = null;
+    privateProps.get(this).anyOfClassNames = anyOfClassNames;
+    privateProps.get(this).className = null;
     return this;
   }
 
@@ -252,7 +260,7 @@ export default class FieldBuilder
    * @return self
    */
   setAssertion(assertion) {
-    this.assertion = assertion;
+    privateProps.get(this).assertion = assertion;
     return this;
   }
 
@@ -262,7 +270,7 @@ export default class FieldBuilder
    * @return self
    */
   setOverridable(overridable) {
-    this.overridable = Boolean(overridable);
+    privateProps.get(this).overridable = Boolean(overridable);
     return this;
   }
 
@@ -270,29 +278,29 @@ export default class FieldBuilder
    * @return Field
    */
   build() {
-    if (null === this.rule) {
-      this.rule = FieldRule.A_SINGLE_VALUE;
+    if (null === privateProps.get(this).rule) {
+      privateProps.get(this).rule = FieldRule.A_SINGLE_VALUE;
     }
 
     return new Field(
-      this.name,
-      this.type,
-      this.rule,
-      this.required,
-      this.minLength,
-      this.maxLength,
-      this.pattern,
-      this.format,
-      this.min,
-      this.max,
-      this.precision,
-      this.scale,
-      this.defaultValue,
-      this.useTypeDefault,
-      this.className,
-      this.anyOfClassNames,
-      this.assertion,
-      this.overridable
+      privateProps.get(this).name,
+      privateProps.get(this).type,
+      privateProps.get(this).rule,
+      privateProps.get(this).required,
+      privateProps.get(this).minLength,
+      privateProps.get(this).maxLength,
+      privateProps.get(this).pattern,
+      privateProps.get(this).format,
+      privateProps.get(this).min,
+      privateProps.get(this).max,
+      privateProps.get(this).precision,
+      privateProps.get(this).scale,
+      privateProps.get(this).defaultValue,
+      privateProps.get(this).useTypeDefault,
+      privateProps.get(this).className,
+      privateProps.get(this).anyOfClassNames,
+      privateProps.get(this).assertion,
+      privateProps.get(this).overridable
     );
   }
 }

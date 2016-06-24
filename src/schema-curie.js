@@ -2,7 +2,15 @@
 
 import InvalidSchemaCurie from 'gdbots/pbj/exception/invalid-schema-curie';
 
+/** @var array */
 let _instances = {};
+
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
 
 /**
  * Regular expression pattern for matching a valid SchemaCurie string.
@@ -30,21 +38,26 @@ export default class SchemaCurie
    * @param string message
    */
   constructor(vendor, packageName, category, message) {
+    if (!category) {
+      category = '';
+    }
 
-    /** @var string */
-    this.vendor = vendor;
+    privateProps.set(this, {
+      /** @var string */
+      vendor: vendor,
 
-    /** @var string */
-    this.package = packageName;
+      /** @var string */
+      package: packageName,
 
-    /** @var string */
-    this.category = category ? category : '';
+      /** @var string */
+      category: category,
 
-    /** @var string */
-    this.message = message;
+      /** @var string */
+      message: message,
 
-    /** @var string */
-    this.curie = this.vendor + ':' + this.package + ':' + this.category + ':' + this.message;
+      /** @var string */
+      curie: vendor + ':' + packageName + ':' + category + ':' + message
+    });
   }
 
   /**
@@ -92,41 +105,41 @@ export default class SchemaCurie
    * @return string
    */
   toString() {
-    return this.curie;
+    return privateProps.get(this).curie;
   }
 
   /**
    * @return string
    */
   getVendor() {
-    return this.vendor;
+    return privateProps.get(this).vendor;
   }
 
   /**
    * @return string
    */
   getPackage() {
-    return this.package;
+    return privateProps.get(this).package;
   }
 
   /**
    * @return string
    */
   getCategory() {
-    return this.category;
+    return privateProps.get(this).category;
   }
 
   /**
    * @return string
    */
   getMessage() {
-    return this.message;
+    return privateProps.get(this).message;
   }
 
   /**
    * @return bool
    */
   isMixin() {
-    return 'mixin' === this.category;
+    return 'mixin' === privateProps.get(this).category;
   }
 }

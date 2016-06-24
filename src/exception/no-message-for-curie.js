@@ -3,6 +3,13 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
 
+/**
+ * Holds private properties
+ *
+ * @var WeakMap
+ */
+let privateProps = new WeakMap();
+
 export default class NoMessageForCurie extends SystemUtils.mixinClass(GdbotsPbjException)
 {
   /**
@@ -11,14 +18,16 @@ export default class NoMessageForCurie extends SystemUtils.mixinClass(GdbotsPbjE
   constructor(curie) {
     super('MessageResolver is unable to resolve [' + curie.toString() + '] to a message.');
 
-    /** @var SchemaCurie */
-    this.curie = curie;
+    privateProps.set(this, {
+      /** @var SchemaCurie */
+      curie: curie
+    });
   }
 
   /**
    * @return SchemaCurie
    */
   getCurie() {
-    return this.curie;
+    return privateProps.get(this).curie;
   }
 }
