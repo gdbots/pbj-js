@@ -49,7 +49,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
        *
        * @var array
        */
-      clearedFields: [],
+      clearedFields: {},
 
       /**
        * @see Message::freeze
@@ -489,7 +489,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInSet(fieldName, value) {
-    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName])) {
+    if (!privateProps.get(this).data[fieldName]
+      || privateProps.get(this).data[fieldName].length === 0
+      || !Array.isArray(privateProps.get(this).data[fieldName])
+    ) {
       return false;
     }
 
@@ -524,6 +527,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
       throw new Error('Field [' + fieldName + '] must be a set.');
     }
 
+    if (undefined === privateProps.get(this).data[fieldName]) {
+      privateProps.get(this).data[fieldName] = [];
+    }
+
     ArrayUtils.each(values, function(value) {
       if (0 === value.length) {
         return;
@@ -531,9 +538,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
       field.guardValue(value);
 
-      key = value.trim().toLowerCase();
-
-      privateProps.get(this).data[fieldName][key] = value;
+      privateProps.get(this).data[fieldName].push(value);
     }.bind(this));
 
     if (privateProps.get(this).data[fieldName] && privateProps.get(this).data[fieldName].length) {
@@ -566,9 +571,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
         return;
       }
 
-      let key = value.trim().toLowerCase();
+      let index = privateProps.get(this).data[fieldName].indexOf(value);
 
-      privateProps.get(this).data[fieldName][key] = value;
+      if (index >= 0) {
+        delete privateProps.get(this).data[fieldName][index];
+      }
     }.bind(this));
 
     if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0) {
@@ -589,7 +596,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInList(fieldName, value) {
-    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName])) {
+    if (!privateProps.get(this).data[fieldName]
+      || privateProps.get(this).data[fieldName].length === 0
+      || !Array.isArray(privateProps.get(this).data[fieldName])
+    ) {
         return false;
       }
 
@@ -635,6 +645,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
     let field = this.constructor.schema().getField(fieldName);
     if (!field.isAList()) {
       throw new Error('Field [' + fieldName + '] must be a list.');
+    }
+
+    if (undefined === privateProps.get(this).data[fieldName]) {
+      privateProps.get(this).data[fieldName] = [];
     }
 
     ArrayUtils.each(values, function(value) {
@@ -698,7 +712,11 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @return bool
    */
   isInMap(fieldName, key) {
-    if (!privateProps.get(this).data[fieldName] || privateProps.get(this).data[fieldName].length === 0 || !Array.isArray(privateProps.get(this).data[fieldName]) || 'string' !== typeof key) {
+    if (!privateProps.get(this).data[fieldName]
+      || Object.keys(privateProps.get(this).data[fieldName]).length === 0
+      || 'object' !== typeof privateProps.get(this).data[fieldName]
+      || 'string' !== typeof key
+    ) {
       return false;
     }
 
@@ -746,6 +764,10 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
     }
 
     field.guardValue(value);
+
+    if (undefined === privateProps.get(this).data[fieldName]) {
+      privateProps.get(this).data[fieldName] = {};
+    }
 
     privateProps.get(this).data[fieldName][key] = value;
 
