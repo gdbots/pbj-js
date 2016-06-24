@@ -95,7 +95,7 @@ export default class FieldBuilder
   /**
    * @return self
    */
-  isOptional() {
+  optional() {
     privateProps.get(this).required = false;
     return this;
   }
@@ -137,7 +137,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setMinLength(minLength) {
+  minLength(minLength) {
     privateProps.get(this).minLength = parseInt(minLength);
     return this;
   }
@@ -147,7 +147,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setMaxLength(maxLength) {
+  maxLength(maxLength) {
     privateProps.get(this).maxLength = parseInt(maxLength);
     return this;
   }
@@ -157,7 +157,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setPattern(pattern) {
+  pattern(pattern) {
     privateProps.get(this).pattern = pattern;
     return this;
   }
@@ -167,7 +167,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setFormat(format) {
+  format(format) {
     privateProps.get(this).format = format;
     return this;
   }
@@ -177,7 +177,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setMin(min) {
+  min(min) {
     privateProps.get(this).min = parseInt(min);
     return this;
   }
@@ -187,7 +187,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setMax(max) {
+  max(max) {
     privateProps.get(this).max = parseInt(max);
     return this;
   }
@@ -197,7 +197,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setPrecision(precision) {
+  precision(precision) {
     privateProps.get(this).precision = parseInt(precision);
     return this;
   }
@@ -207,7 +207,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setScale(scale) {
+  scale(scale) {
     privateProps.get(this).scale = parseInt(scale);
     return this;
   }
@@ -217,7 +217,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setDefaultValue(defaultValue) {
+  withDefault(defaultValue) {
     privateProps.get(this).defaultValue = defaultValue;
     return this;
   }
@@ -227,7 +227,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setUseTypeDefault(useTypeDefault) {
+  useTypeDefault(useTypeDefault) {
     privateProps.get(this).useTypeDefault = Boolean(useTypeDefault);
     return this;
   }
@@ -237,7 +237,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setClassName(className) {
+  className(className) {
     privateProps.get(this).className = className;
     privateProps.get(this).anyOfClassNames = null;
     return this;
@@ -248,7 +248,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setAnyOfClassNames(anyOfClassNames) {
+  anyOfClassNames(anyOfClassNames) {
     privateProps.get(this).anyOfClassNames = anyOfClassNames;
     privateProps.get(this).className = null;
     return this;
@@ -259,7 +259,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setAssertion(assertion) {
+  assertion(assertion) {
     privateProps.get(this).assertion = assertion;
     return this;
   }
@@ -269,7 +269,7 @@ export default class FieldBuilder
    *
    * @return self
    */
-  setOverridable(overridable) {
+  overridable(overridable) {
     privateProps.get(this).overridable = Boolean(overridable);
     return this;
   }

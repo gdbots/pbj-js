@@ -55,8 +55,8 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
     addField.bind(this)(
       FieldBuilder.create(PBJ_FIELD_NAME, StringType.create())
         .required()
-        .setPattern(SchemaId.VALID_PATTERN)
-        .setDefaultValue(privateProps.get(this).id.toString())
+        .pattern(SchemaId.VALID_PATTERN)
+        .withDefault(privateProps.get(this).id.toString())
         .build()
     );
 
