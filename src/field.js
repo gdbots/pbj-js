@@ -558,7 +558,7 @@ function applyDefault(defaultValue = null) {
     switch (privateProps.get(this).type.getTypeName()) {
       case TypeName.IDENTIFIER:
         if (null === privateProps.get(this).instance) {
-          throw new Error('Field [' + privateProps.get(this).instance.name + '] requires an instance.');
+          throw new Error('Field [' + privateProps.get(this).name + '] requires an instance.');
         }
 
         if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Identifier')) {
@@ -569,7 +569,7 @@ function applyDefault(defaultValue = null) {
       case TypeName.INT_ENUM:
       case TypeName.STRING_ENUM:
         if (null === privateProps.get(this).instance) {
-          throw new Error('Field [' + privateProps.get(this).instance.name + '] requires an instance.');
+          throw new Error('Field [' + privateProps.get(this).name + '] requires an instance.');
         }
 
         if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Enum')) {
