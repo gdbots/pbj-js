@@ -14,8 +14,8 @@ export default class IdentifierType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Identifier" but is not.');
     }
 
-    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
+    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
 
     // intentionally using strlen to get byte length, not mb_strlen
@@ -47,11 +47,11 @@ export default class IdentifierType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    /** @var Identifier className */
-    className = field.getClassName();
+    /** @var Identifier instance */
+    let instance = field.getInstance();
 
     try {
-      return eval(className + '.fromString(value)');
+      return instance.fromString(value);
     } catch (e) {
       throw new DecodeValueFailed(value, field, e);
     }

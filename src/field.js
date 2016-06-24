@@ -40,8 +40,8 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
    * @param int         scale
    * @param null|mixed  defaultValue
    * @param bool        useTypeDefault
-   * @param null|string className
-   * @param null|array  anyOfClassNames
+   * @param null|string instance
+   * @param null|array  anyOfInstances
    * @param bool        overridable
    */
   constructor(
@@ -59,8 +59,8 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
     scale = 2,
     defaultValue = null,
     useTypeDefault = true,
-    className = null,
-    anyOfClassNames = null,
+    instance = null,
+    anyOfInstances = null,
     assertion = null,
     overridable = false
   ) {
@@ -87,13 +87,13 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
 
     /*
      * a message type allows for interfaces to be used
-     * as the "className". so long as the provided argument
+     * as the "instance". so long as the provided argument
      * passes the instanceof check it's okay.
      */
     if (type.getTypeName() !== TypeName.MESSAGE) {
 
       // anyOf is only supported on nested messages
-      anyOfClassNames = null;
+      anyOfInstances = null;
     }
 
     privateProps.set(this, {
@@ -149,10 +149,10 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
       useTypeDefault: useTypeDefault,
 
       /** @var string */
-      className: className,
+      instance: instance,
 
       /** @var array */
-      anyOfClassNames: anyOfClassNames,
+      anyOfInstances: anyOfInstances,
 
       /** @var \Closure */
       assertion: assertion,
@@ -328,29 +328,29 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
   /**
    * @return bool
    */
-  hasClassName() {
-    return null !== privateProps.get(this).className;
+  hasInstance() {
+    return null !== privateProps.get(this).instance;
   }
 
   /**
    * @return string
    */
-  getClassName() {
-    return privateProps.get(this).className;
+  getInstance() {
+    return privateProps.get(this).instance;
   }
 
   /**
    * @return bool
    */
-  hasAnyOfClassNames() {
-    return null !== privateProps.get(this).anyOfClassNames;
+  hasAnyOfInstances() {
+    return null !== privateProps.get(this).anyOfInstances;
   }
 
   /**
    * @return array
    */
-  getAnyOfClassNames() {
-    return privateProps.get(this).anyOfClassNames;
+  getAnyOfInstances() {
+    return privateProps.get(this).anyOfInstances;
   }
 
   /**
@@ -399,8 +399,8 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
       'scale': privateProps.get(this).scale,
       'default': this.getDefault(),
       'use_type_default': privateProps.get(this).useTypeDefault,
-      'class_name': privateProps.get(this).className,
-      'any_of_class_names': privateProps.get(this).anyOfClassNames,
+      'instance': privateProps.get(this).instance,
+      'any_of_instances': privateProps.get(this).anyOfInstances,
       'has_assertion': null !== privateProps.get(this).assertion,
       'overridable': privateProps.get(this).overridable,
     };
@@ -427,12 +427,12 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
       return false;
     }
 
-    if (privateProps.get(this).className !== other.className) {
+    if (privateProps.get(this).instance !== other.instance) {
       return false;
     }
 
-    if (privateProps.get(this).anyOfClassNames.filter(function(k) {
-        return other.anyOfClassNames.indexOf(k) != -1;
+    if (privateProps.get(this).anyOfInstances.filter(function(k) {
+        return other.anyOfInstances.indexOf(k) != -1;
     }).length === 0) {
       return false;
     }
@@ -557,8 +557,8 @@ function applyDefault(defaultValue = null) {
 
     switch (privateProps.get(this).type.getTypeName()) {
       case TypeName.IDENTIFIER:
-        if (null === privateProps.get(this).className) {
-          throw new Error('Field [' + privateProps.get(this).className + '] requires a className.');
+        if (null === privateProps.get(this).instance) {
+          throw new Error('Field [' + privateProps.get(this).instance.name + '] requires an instance.');
         }
 
         if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Identifier')) {
@@ -568,8 +568,8 @@ function applyDefault(defaultValue = null) {
 
       case TypeName.INT_ENUM:
       case TypeName.STRING_ENUM:
-        if (null === privateProps.get(this).className) {
-          throw new Error('Field [' + privateProps.get(this).className + '] requires a className.');
+        if (null === privateProps.get(this).instance) {
+          throw new Error('Field [' + privateProps.get(this).instance.name + '] requires an instance.');
         }
 
         if (decodeDefault && !privateProps.get(this).defaultValue.hasTrait('Enum')) {

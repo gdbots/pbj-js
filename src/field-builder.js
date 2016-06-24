@@ -61,10 +61,10 @@ export default class FieldBuilder
       useTypeDefault: true,
 
       /** @var string */
-      className: null,
+      instance: null,
 
       /** @var array */
-      anyOfClassNames: null,
+      anyOfInstances: null,
 
       /** @var \Closure */
       assertion: null,
@@ -233,24 +233,24 @@ export default class FieldBuilder
   }
 
   /**
-   * @param string className
+   * @param string instance
    *
    * @return self
    */
-  className(className) {
-    privateProps.get(this).className = className;
-    privateProps.get(this).anyOfClassNames = null;
+  instance(instance) {
+    privateProps.get(this).instance = instance;
+    privateProps.get(this).anyOfInstances = null;
     return this;
   }
 
   /**
-   * @param array anyOfClassNames
+   * @param array anyOfInstances
    *
    * @return self
    */
-  anyOfClassNames(anyOfClassNames) {
-    privateProps.get(this).anyOfClassNames = anyOfClassNames;
-    privateProps.get(this).className = null;
+  anyOfInstances(anyOfInstances) {
+    privateProps.get(this).anyOfInstances = anyOfInstances;
+    privateProps.get(this).instance = null;
     return this;
   }
 
@@ -297,8 +297,8 @@ export default class FieldBuilder
       privateProps.get(this).scale,
       privateProps.get(this).defaultValue,
       privateProps.get(this).useTypeDefault,
-      privateProps.get(this).className,
-      privateProps.get(this).anyOfClassNames,
+      privateProps.get(this).instance,
+      privateProps.get(this).anyOfInstances,
       privateProps.get(this).assertion,
       privateProps.get(this).overridable
     );

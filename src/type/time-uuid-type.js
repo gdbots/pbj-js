@@ -14,8 +14,8 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "TimeUuidIdentifier" but is not.');
     }
 
-    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
+    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
   }
 
@@ -38,13 +38,13 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    /** @var TimeUuidIdentifier className */
-    let className = field.getClassName() || 'TimeUuidIdentifier';
-    if (value.hasTrait(className) || className === SystemUtils.getClass(value)) {
+    /** @var TimeUuidIdentifier instance */
+    let instance = field.getInstance() || TimeUuidIdentifier;
+    if (value.hasTrait(instance.name) || instance.name === SystemUtils.getClass(value)) {
       return value;
     }
 
-    return eval(className + '.fromString(value)');
+    return instance.fromString(value);
   }
 
   /**

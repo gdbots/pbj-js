@@ -14,8 +14,8 @@ export default class UuidType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "UuidIdentifier" but is not.');
     }
 
-    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
+    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
   }
 
@@ -38,13 +38,13 @@ export default class UuidType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    /** @var UuidIdentifier className */
-    let className = field.getClassName() || 'UuidIdentifier';
-    if (value.hasTrait(className) || className === SystemUtils.getClass(value)) {
+    /** @var UuidIdentifier instance */
+    let instance = field.getInstance() || UuidIdentifier;
+    if (value.hasTrait(instance.name) || instance.name === SystemUtils.getClass(value)) {
       return value;
     }
 
-    return eval(className + '.fromString(value)');
+    return instance.fromString(value);
   }
 
   /**

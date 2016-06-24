@@ -48,7 +48,7 @@ export default class Serializer
     message = message.create();
 
     if (message.constructor.schema().getCurieMajor() !== schemaId.getCurieMajor()) {
-      throw new InvalidResolvedSchema(message.constructor.schema(), schemaId, className);
+      throw new InvalidResolvedSchema(message.constructor.schema(), schemaId, message.name);
     }
 
     return message;

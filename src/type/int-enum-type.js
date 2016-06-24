@@ -14,8 +14,8 @@ export default class IntEnumType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Enum" but is not.');
     }
 
-    if (field.hasClassName() && !value.hasTrait(field.getClassName())) {
-      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getClassName() + '" but is not.');
+    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+      throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
 
     if (value === +value && isFinite(value) && !(value % 1)) {
@@ -46,11 +46,11 @@ export default class IntEnumType extends SystemUtils.mixinClass(Type)
       return null;
     }
 
-    /** @var Enum className */
-    className = field.getClassName();
+    /** @var Enum instance */
+    let instance = field.getInstance();
 
     try {
-      return eval(className + '.initEnum([value])');
+      return instance.initEnum([value]);
     } catch (e) {
       throw new DecodeValueFailed(value, field, e);
     }
