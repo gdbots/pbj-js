@@ -67,8 +67,8 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
    */
   static fromArray(data = {}) {
     if (data.curie || false) {
-      id = data.id || 'null';
-      tag = data.tag || null;
+      let id = data.id || 'null';
+      let tag = data.tag || null;
 
       return new this(SchemaCurie.fromString(data.curie), id, tag);
     }

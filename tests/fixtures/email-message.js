@@ -2,6 +2,7 @@
 
 import Priority from './enum/priority';
 import Provider from './enum/provider';
+import NestedMessage from './nested-message';
 import SystemUtils from 'gdbots/common/util/system-utils';
 import Format from 'gdbots/pbj/enum/format';
 import BooleanType from 'gdbots/pbj/type/boolean-type';

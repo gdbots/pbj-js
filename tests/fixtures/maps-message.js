@@ -3,7 +3,6 @@
 import NestedMessage from './nested-message';
 import StringEnum from './enum/string-enum';
 import IntEnum from './enum/int-enum';
-
 import StringUtils from 'gdbots/common/util/string-utils';
 import SystemUtils from 'gdbots/common/util/system-utils';
 import TimeUuidIdentifier from 'gdbots/identifiers/time-uuid-identifier';
@@ -12,7 +11,6 @@ import MessageRef from 'gdbots/pbj/message-ref';
 import MessageResolver from 'gdbots/pbj/message-resolver';
 import Message from 'gdbots/pbj/message';
 import Schema from 'gdbots/pbj/schema';
-
 import BigIntType from 'gdbots/pbj/type/big-int-type';
 import BinaryType from 'gdbots/pbj/type/binary-type';
 import BlobType from 'gdbots/pbj/type/blob-type';

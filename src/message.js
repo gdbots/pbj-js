@@ -385,7 +385,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
     if (field.isASet()) {
       return Object.keys(privateProps.get(this).data[fieldName]).map(function(v) {
         return privateProps.get(this).data[fieldName][v];
-      });
+      }.bind(this));
     }
 
     return privateProps.get(this).data[fieldName];
@@ -491,29 +491,35 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
   isInSet(fieldName, value) {
     if (!privateProps.get(this).data[fieldName]
       || privateProps.get(this).data[fieldName].length === 0
-      || !Array.isArray(privateProps.get(this).data[fieldName])
+      || 'object' !== typeof privateProps.get(this).data[fieldName]
     ) {
       return false;
     }
 
-    if ((/boolean|number|string/).test(typeof value) || ('object' === typeof value && undefined !== value.prototype.toString)) {
-      key = value.trim();
-    } else {
+    if (!(/object|boolean|number|string/).test(typeof value)) {
       return false;
     }
+
+    let key = null;
+    try {
+      key = value.toString();
+    } catch (e) {
+      key = value;
+    }
+    key = String(key).trim().toLowerCase();
 
     if (0 === key.length) {
       return false;
     }
 
-    return undefined !== privateProps.get(this).data[fieldName][key.toLowerCase()];
+    return undefined !== privateProps.get(this).data[fieldName][String(key).trim().toLowerCase()];
   }
 
   /**
    * Adds an array of unique values to an unsorted set of values.
    *
    * @param string fieldName
-   * @param array values
+   * @param array  values
    *
    * @return static
    *
@@ -528,7 +534,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
     }
 
     if (undefined === privateProps.get(this).data[fieldName]) {
-      privateProps.get(this).data[fieldName] = [];
+      privateProps.get(this).data[fieldName] = {};
     }
 
     ArrayUtils.each(values, function(value) {
@@ -538,7 +544,15 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
       field.guardValue(value);
 
-      privateProps.get(this).data[fieldName].push(value);
+      let key = null;
+      try {
+        key = value.toString();
+      } catch (e) {
+        key = value;
+      }
+      key = String(key).trim().toLowerCase();
+
+      privateProps.get(this).data[fieldName][key] = value;
     }.bind(this));
 
     if (privateProps.get(this).data[fieldName] && privateProps.get(this).data[fieldName].length) {
@@ -571,10 +585,16 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
         return;
       }
 
-      let index = privateProps.get(this).data[fieldName].indexOf(value);
+      let key = null;
+      try {
+        key = value.toString();
+      } catch (e) {
+        key = value;
+      }
+      key = String(key).trim().toLowerCase();
 
-      if (index >= 0) {
-        delete privateProps.get(this).data[fieldName][index];
+      if (undefined !== privateProps.get(this).data[fieldName][key]) {
+        delete privateProps.get(this).data[fieldName][key];
       }
     }.bind(this));
 

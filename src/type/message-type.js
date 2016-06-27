@@ -16,7 +16,12 @@ export default class MessageType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Message" but is not.');
     }
 
-    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+    if (field.hasInstance()
+      && !(
+        field.getInstance().name === SystemUtils.getClass(value)
+        || value.hasTrait(field.getInstance().name)
+      )
+    ) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
 

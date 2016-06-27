@@ -9,7 +9,7 @@ export default class BooleanType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (value === true || value === false) {
+    if (value !== true && value !== false) {
       throw new Error('Value "' + value + '" is not a boolean.')
     }
   }

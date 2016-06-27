@@ -306,7 +306,7 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
     }
 
     if ('function' === typeof privateProps.get(this).defaultValue) {
-      let defaultValue = this.defaultValue(message, this);
+      let defaultValue = privateProps.get(this).defaultValue(message, this);
 
       guardDefault.bind(this)(defaultValue);
 

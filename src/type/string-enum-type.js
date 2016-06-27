@@ -1,5 +1,6 @@
 'use strict';
 
+import ArrayUtils from 'gdbots/common/util/array-utils';
 import SystemUtils from 'gdbots/common/util/system-utils';
 import Type from 'gdbots/pbj/type/type';
 import DecodeValueFailed from 'gdbots/pbj/exception/decode-value-failed';
@@ -14,7 +15,12 @@ export default class StringEnumType extends SystemUtils.mixinClass(Type)
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "Enum" but is not.');
     }
 
-    if (field.hasInstance() && field.getInstance().name !== SystemUtils.getClass(value)) {
+    if (field.hasInstance()
+      && !(
+        field.getInstance().name === SystemUtils.getClass(value)
+        || value.hasTrait(field.getInstance().name)
+      )
+    ) {
       throw new Error('Class "' + value.name + '" was expected to be instanceof of "' + field.getInstance().name + '" but is not.');
     }
 
@@ -37,7 +43,7 @@ export default class StringEnumType extends SystemUtils.mixinClass(Type)
    */
   encode(value, field) {
     if (value.hasTrait('Enum')) {
-      return parseInt(value.getValue());
+      return String(value.getValue());
     }
 
     return null;
@@ -53,12 +59,19 @@ export default class StringEnumType extends SystemUtils.mixinClass(Type)
 
     /** @var Enum instance */
     let instance = field.getInstance();
+    let enumValue = null;
 
-    try {
-      return instance.initEnum([value]);
-    } catch (e) {
+    ArrayUtils.each(instance.enumValues, function(item) {
+      if (value === String(item.getValue())) {
+        enumValue = item;
+      }
+    });
+
+    if (null === enumValue) {
       throw new DecodeValueFailed(value, field, e);
     }
+
+    return enumValue;
   }
 
   /**

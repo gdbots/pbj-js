@@ -17,7 +17,7 @@ export default class JsonSerializer extends SystemUtils.mixinClass(ArraySerializ
    * {@inheritdoc}
    */
   deserialize(data, options = {}) {
-    if (!Array.isArray(data)) {
+    if ('string' === typeof data) {
       try {
         data = JSON.parse(data);
       } catch (e) {
