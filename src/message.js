@@ -243,7 +243,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
    * @throws RequiredFieldNotSet
    */
   freeze() {
-    if (privateProps.get(this).isFrozen()) {
+    if (privateProps.get(this).isFrozen) {
         return this;
     }
 
@@ -258,7 +258,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
           return;
         }
 
-        if (value.hasTrait('Message')) {
+        if (!Array.isArray(value) && value.hasTrait('Message')) {
           value.freeze();
           return;
         }
