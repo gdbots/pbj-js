@@ -115,6 +115,19 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
   }
 
   /**
+   * @param string|SchemaCurie curie
+   *
+   * @return bool
+   */
+  isA(curie) {
+    if ('SchemaCurie' === SystemUtils.getClass(curie)) {
+      curie = curie.toString();
+    }
+
+    return curie === this.getCurie().toString();
+  }
+
+  /**
    * @see SchemaId::getCurieMajor
    *
    * @return string
