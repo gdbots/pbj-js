@@ -505,7 +505,7 @@ function applyStringOptions(minLength = null, maxLength = null, pattern = null, 
   }
 
   if (null !== pattern) {
-    privateProps.get(this).pattern = '/' + pattern.trim().replace('/', '') + '/';
+    privateProps.get(this).pattern = pattern.trim().replace('/', '');
   }
 
   if (null !== format && Format.enumValueOf(format)) {
