@@ -15,7 +15,7 @@ export default class StringType extends SystemUtils.mixinClass(AbstractStringTyp
     super.guard(value, field);
 
     let pattern = field.getPattern();
-    if (pattern && !new RegExp(pattern).test(value)) {
+    if (pattern && pattern.exec(value) === null) {
       throw new Error('Value [' + value + '] is invalid. It must match the pattern [' + pattern + '].');
     }
 
