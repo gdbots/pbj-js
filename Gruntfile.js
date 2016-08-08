@@ -26,7 +26,11 @@ module.exports = function(grunt) {
           getModuleId: function(moduleName) {
             return 'gdbots/pbj/' + moduleName.substr(4);
           },
-          plugins: ['transform-es2015-modules-umd']
+          plugins: [
+            ['transform-es2015-modules-umd', {
+              exactGlobals: true
+            }]
+          ]
         },
         files: [{
           expand: true,
