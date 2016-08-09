@@ -87,7 +87,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
     }
 
     if (!privateProps.get(this).decodeFromBase64) {
-      return $value;
+      return value;
     }
 
     value = UrlUtils.base64Decode(value);
