@@ -1,7 +1,7 @@
 'use strict';
 
 import SystemUtils from 'gdbots/common/util/system-utils';
-import BigNumber from 'gdbots/common/big-number';
+import BigNumber from 'gdbots/pbj/well-known/big-number';
 import Type from 'gdbots/pbj/type/type';
 
 export default class BigIntType extends SystemUtils.mixinClass(Type)
@@ -26,7 +26,7 @@ export default class BigIntType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     if ('BigNumber' === SystemUtils.getClass(value)) {
       return value.toString();
     }
@@ -37,7 +37,7 @@ export default class BigIntType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     if (null === value || 'BigNumber' === SystemUtils.getClass(value)) {
       return value;
     }

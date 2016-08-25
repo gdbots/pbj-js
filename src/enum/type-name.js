@@ -11,6 +11,7 @@ import SystemUtils from 'gdbots/common/util/system-utils';
  * @method static TypeName DATE()
  * @method static TypeName DATE_TIME()
  * @method static TypeName DECIMAL()
+ * @method static TypeName DYNAMIC_FIELD()
  * @method static TypeName FLOAT()
  * @method static TypeName GEO_POINT()
  * @method static TypeName IDENTIFIER()
@@ -46,6 +47,7 @@ TypeName.initEnum({
   DATE: 'date',
   DATE_TIME: 'date-time',
   DECIMAL: 'decimal',
+  DYNAMIC_FIELD: 'dynamic-field',
   FLOAT: 'float',
   GEO_POINT: 'geo-point',
   IDENTIFIER: 'identifier',

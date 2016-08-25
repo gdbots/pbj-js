@@ -9,7 +9,7 @@ require('babel-register')({
   plugins: [
     ['module-alias', [
       { src: './src', expose: 'gdbots/pbj' },
-      { src: 'npm:@gdbots/common/src', expose: 'gdbots' }
+      { src: 'npm:@gdbots/common/src', expose: 'gdbots/common' }
     ]]
   ]
 });

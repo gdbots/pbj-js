@@ -17,14 +17,14 @@ export default class BooleanType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     return Boolean(value);
   }
 
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     return Boolean(value);
   }
 

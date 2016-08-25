@@ -1,7 +1,7 @@
 'use strict';
 
 import SystemUtils from 'gdbots/common/util/system-utils';
-import Microtime from 'gdbots/common/microtime';
+import Microtime from 'gdbots/pbj/well-known/microtime';
 import Type from 'gdbots/pbj/type/type';
 
 export default class MicrotimeType extends SystemUtils.mixinClass(Type)
@@ -18,7 +18,7 @@ export default class MicrotimeType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     if ('Microtime' === SystemUtils.getClass(value)) {
       return value.toString();
     }
@@ -29,7 +29,7 @@ export default class MicrotimeType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     if (!value || value.length === 0) {
       return null;
     }

@@ -57,6 +57,15 @@ export default class MessageResolver
   }
 
   /**
+   * Returns all of the registed schemas.
+   *
+   * @var Message[]
+   */
+  static all() {
+    return _messages;
+  }
+
+  /**
    * Returns the Message to be used for the provided schema id.
    *
    * @param SchemaId id

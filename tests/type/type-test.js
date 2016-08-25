@@ -1,7 +1,7 @@
 'use strict';
 
 import NestedMessage from '../fixtures/nested-message';
-import GeoPoint from 'gdbots/common/geo-point';
+import GeoPoint from 'gdbots/pbj/well-known/geo-point';
 import ArraySerializer from 'gdbots/pbj/serializer/array-serializer';
 import BinaryType from 'gdbots/pbj/type/binary-type';
 import BlobType from 'gdbots/pbj/type/blob-type';

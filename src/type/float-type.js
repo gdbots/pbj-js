@@ -9,7 +9,7 @@ export default class FloatType extends SystemUtils.mixinClass(Type)
    * {@inheritdoc}
    */
   guard(value, field) {
-    if (+value === value && (!isFinite(value) || !!(value % 1))) {
+    if (!(+value === value && (!isFinite(value) || !!(value % 1)))) {
       throw new Error('Value "' + value + '" is not a float.')
     }
   }
@@ -17,14 +17,14 @@ export default class FloatType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     return parseFloat(value);
   }
 
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     return parseFloat(value);
   }
 

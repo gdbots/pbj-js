@@ -26,14 +26,14 @@ export default class AbstractIntType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     return parseInt(value);
   }
 
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     return parseInt(value);
   }
 

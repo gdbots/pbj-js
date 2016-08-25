@@ -3,6 +3,8 @@
 import SystemUtils from 'gdbots/common/util/system-utils';
 import FromArray from 'gdbots/common/from-array';
 import ToArray from 'gdbots/common/to-array';
+import InvalidArgumentException from 'gdbots/pbj/exception/invalid-argument-exception';
+import LogicException from 'gdbots/pbj/exception/logic-exception';
 import SchemaCurie from 'gdbots/pbj/schema-curie';
 
 /**
@@ -58,7 +60,7 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
     }
 
     if (privateProps.get(this).curie.isMixin()) {
-      throw new Error('Mixins cannot be used in a MessageRef.');
+      throw new LogicException('Mixins cannot be used in a MessageRef.');
     }
   }
 
@@ -73,7 +75,7 @@ export default class MessageRef extends SystemUtils.mixinClass(null, FromArray, 
       return new this(SchemaCurie.fromString(data.curie), id, tag);
     }
 
-    throw new Error('Payload must be a MessageRef type.');
+    throw new InvalidArgumentException('Payload must be a MessageRef type.');
   }
 
   /**

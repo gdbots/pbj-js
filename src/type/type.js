@@ -66,24 +66,26 @@ export default class Type
   /**
    * @param mixed value
    * @param Field field
+   * @param Codec codec
    *
    * @return mixed
    *
    * @throws GdbotsPbjException
    * @throws EncodeValueFailed
    */
-  encode(value, field) {}
+  encode(value, field, codec = null) {}
 
   /**
    * @param mixed value
    * @param Field field
+   * @param Codec codec
    *
    * @return mixed
    *
    * @throws GdbotsPbjException
    * @throws DecodeValueFailed
    */
-  decode(value, field) {}
+  decode(value, field, codec = null) {}
 
   /**
    * Returns true if the value gets decoded and stored during runtime as a scalar value.

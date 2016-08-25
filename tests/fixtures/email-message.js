@@ -7,6 +7,7 @@ import SystemUtils from 'gdbots/common/util/system-utils';
 import Format from 'gdbots/pbj/enum/format';
 import BooleanType from 'gdbots/pbj/type/boolean-type';
 import DateTimeType from 'gdbots/pbj/type/date-time-type';
+import DynamicFieldType from 'gdbots/pbj/type/dynamic-field-type';
 import IntEnumType from 'gdbots/pbj/type/int-enum-type';
 import MessageType from 'gdbots/pbj/type/message-type';
 import MicrotimeType from 'gdbots/pbj/type/microtime-type';
@@ -74,6 +75,9 @@ export default class EmailMessage extends SystemUtils.mixinClass(Message)
           .build(),
         Fb.create('any_of_message', MessageType.create())
           .instance(Message)
+          .asAList()
+          .build(),
+        Fb.create('dynamic_fields', DynamicFieldType.create())
           .asAList()
           .build(),
       ]

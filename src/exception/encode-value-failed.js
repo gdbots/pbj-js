@@ -1,7 +1,7 @@
 'use strict';
 
 import SystemUtils from 'gdbots/common/util/system-utils';
-import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
+import InvalidArgumentException from 'gdbots/pbj/exception/invalid-argument-exception';
 
 /**
  * Holds private properties
@@ -10,7 +10,7 @@ import GdbotsPbjException from 'gdbots/pbj/exception/gdbots-pbj-exception';
  */
 let privateProps = new WeakMap();
 
-export default class EncodeValueFailed extends SystemUtils.mixinClass(GdbotsPbjException)
+export default class EncodeValueFailed extends SystemUtils.mixinClass(InvalidArgumentException)
 {
   /**
    * @param mixed  value

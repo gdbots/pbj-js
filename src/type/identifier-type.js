@@ -36,7 +36,7 @@ export default class IdentifierType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     if (value.hasTrait('Identifier')) {
       return value.toString();
     }
@@ -47,7 +47,7 @@ export default class IdentifierType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     if (!value || value.length === 0) {
       return null;
     }

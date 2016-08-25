@@ -1,49 +1,145 @@
 'use strict';
 
-import GeoPoint from 'gdbots/common/geo-point';
+import GeoPoint from 'gdbots/pbj/well-known/geo-point';
+import DynamicField from 'gdbots/pbj/well-known/dynamic-field';
 import ArrayUtils from 'gdbots/common/util/array-utils';
 import SystemUtils from 'gdbots/common/util/system-utils';
 import DeserializeMessageFailed from 'gdbots/pbj/exception/deserialize-message-failed';
 import EncodeValueFailed from 'gdbots/pbj/exception/encode-value-failed';
+import InvalidResolvedSchema from 'gdbots/pbj/exception/invalid-resolved-schema';
 import Serializer from 'gdbots/pbj/serializer/serializer';
 import TypeName from 'gdbots/pbj/enum/type-name';
 import FieldRule from 'gdbots/pbj/enum/field-rule';
+import Codec from 'gdbots/pbj/codec';
 import MessageRef from 'gdbots/pbj/message-ref';
+import MessageResolver from 'gdbots/pbj/message-resolver';
+import SchemaId from 'gdbots/pbj/schema-id';
 import {PBJ_FIELD_NAME} from 'gdbots/pbj/schema';
 
-export default class ArraySerializer extends SystemUtils.mixinClass(Serializer)
+/**
+ * Options for the serializer to use, e.g. json encoding options,
+ * 'includeAllFields' which includes fields even if they're not set, etc.
+ *
+ * @var array
+ */
+let _options = {};
+
+export default class ArraySerializer extends SystemUtils.mixinClass(Serializer, Codec)
 {
   /**
    * {@inheritdoc}
    */
   serialize(message, options = {}) {
-    return doSerialize.bind(this)(message, options);
+    _options = options;
+
+    return doSerialize.bind(this)(message);
   }
 
   /**
    * {@inheritdoc}
    */
   deserialize(data, options = {}) {
+    _options = options;
+
     if (-1 === Object.keys(data).indexOf(PBJ_FIELD_NAME)) {
       throw new Error('[' + this.constructor.name + '::deserialize] Array provided must contain the [' + PBJ_FIELD_NAME +'] key.');
     }
 
-    return doDeserialize.bind(this)(data, options);
+    return doDeserialize.bind(this)(data);
+  }
+
+  /**
+   * @param Message message
+   * @param Field field
+   *
+   * @return mixed
+   */
+  encodeMessage(message, field) {
+    return doSerialize.bind(this)(message);
+  }
+
+  /**
+   * @param mixed value
+   * @param Field field
+   *
+   * @return Message
+   */
+  decodeMessage(value, field) {
+    return doDeserialize.bind(this)(value);
+  }
+
+  /**
+   * @param MessageRef messageRef
+   * @param Field field
+   *
+   * @return mixed
+   */
+  encodeMessageRef(messageRef, field) {
+    return messageRef.toArray();
+  }
+
+  /**
+   * @param mixed value
+   * @param Field field
+   *
+   * @return MessageRef
+   */
+  decodeMessageRef(value, field) {
+    return MessageRef.fromArray(value);
+  }
+
+  /**
+   * @param GeoPoint geoPoint
+   * @param Field field
+   *
+   * @return mixed
+   */
+  encodeGeoPoint(geoPoint, field) {
+    return geoPoint.toArray();
+  }
+
+  /**
+   * @param mixed value
+   * @param Field field
+   *
+   * @return GeoPoint
+   */
+  decodeGeoPoint(value, field) {
+    return GeoPoint.fromArray(value);
+  }
+
+  /**
+   * @param DynamicField dynamicField
+   * @param Field field
+   *
+   * @return mixed
+   */
+  encodeDynamicField(dynamicField, field) {
+    return dynamicField.toArray();
+  }
+
+  /**
+   * @param mixed value
+   * @param Field field
+   *
+   * @return DynamicField
+   */
+  decodeDynamicField(value, field) {
+    return DynamicField.fromArray(value);
   }
 }
 
 /**
  * @param Message message
- * @param array   options
  *
  * @return array
  */
-function doSerialize(message, options = {}) {
+function doSerialize(message) {
   let schema = message.constructor.schema();
   message.validate();
 
   let payload = {};
-  let includeAllFields = undefined !== options.includeAllFields && true === options.includeAllFields;
+  let includeAllFields = undefined !== _options.includeAllFields && true === _options.includeAllFields;
 
   ArrayUtils.each(schema.getFields(), function(field) {
     let fieldName = field.getName();
@@ -57,10 +153,11 @@ function doSerialize(message, options = {}) {
     }
 
     let value = message.get(fieldName);
+    let type = field.getType();
 
     switch (field.getRule()) {
       case FieldRule.A_SINGLE_VALUE:
-        payload[fieldName] = encodeValue.bind(this)(value, field, options);
+        payload[fieldName] = type.encode(value, field, this);
 
         break;
 
@@ -69,7 +166,7 @@ function doSerialize(message, options = {}) {
         payload[fieldName] = [];
 
         ArrayUtils.each(value, function(v) {
-          payload[fieldName].push(encodeValue.bind(this)(v, field, options));
+          payload[fieldName].push(type.encode(v, field, this));
         }.bind(this));
 
         break;
@@ -78,7 +175,7 @@ function doSerialize(message, options = {}) {
         payload[fieldName] = {};
 
         ArrayUtils.each(value, function(v) {
-          payload[fieldName][k] = encodeValue.bind(this)(v, field, options);
+          payload[fieldName][k] = type.encode(v, field, this);
         }.bind(this));
 
         break;
@@ -93,15 +190,29 @@ function doSerialize(message, options = {}) {
 
 /**
  * @param array data
- * @param array options
  *
  * @return Message
  *
  * @throws \Exception
  * @throws GdbotsPbjException
  */
-function doDeserialize(data, options = {}) {
-  let message = this.createMessage(data[PBJ_FIELD_NAME]);
+function doDeserialize(data) {
+
+  /** @var SchemaId schemaId */
+  let schemaId = SchemaId.fromString(data[PBJ_FIELD_NAME]);
+
+  /** @var Message message */
+  let message = MessageResolver.resolveId(schemaId);
+  if (!message.hasTrait('Message')) {
+    throw new Error('Invalid message.');
+  }
+
+  message = message.create();
+
+  if (message.constructor.schema().getCurieMajor() !== schemaId.getCurieMajor()) {
+    throw new InvalidResolvedSchema(message.constructor.schema(), schemaId, message.name);
+  }
+
   let schema = message.constructor.schema();
 
   ArrayUtils.each(data, function(value, fieldName) {
@@ -115,10 +226,11 @@ function doDeserialize(data, options = {}) {
     }
 
     let field = schema.getField(fieldName);
+    let type = field.getType();
 
     switch (field.getRule()) {
       case FieldRule.A_SINGLE_VALUE:
-        message.set(fieldName, decodeValue.bind(this)(value, field, options));
+        message.set(fieldName, type.decode(value, field, this));
         break;
 
       case FieldRule.A_SET:
@@ -130,7 +242,7 @@ function doDeserialize(data, options = {}) {
         let values = [];
 
         ArrayUtils.each(value, function(v) {
-          values.push(decodeValue.bind(this)(v, field, options));
+          values.push(type.decode(v, field, this));
         }.bind(this));
 
         if (field.isASet()) {
@@ -147,7 +259,7 @@ function doDeserialize(data, options = {}) {
         }
 
         ArrayUtils.each(value, function(v, k) {
-          message.addToMap(fieldName, k, decodeValue.bind(this)(v, field, options));
+          message.addToMap(fieldName, k, type.decode(v, field, this));
         }.bind(this));
 
         break;
@@ -158,61 +270,4 @@ function doDeserialize(data, options = {}) {
   }.bind(this));
 
   return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
-}
-
-/**
- * @param mixed value
- * @param Field field
- * @param array options
- *
- * @return mixed
- *
- * @throws EncodeValueFailed
- */
-function encodeValue(value, field, options) {
-  let type = field.getType();
-
-  if (type.encodesToScalar()) {
-    return type.encode(value, field);
-  }
-
-  if (value.hasTrait('Message')) {
-    return doSerialize.bind(this)(value, options);
-  }
-
-  if (value.hasTrait('ToArray')) {
-    return value.toArray();
-  }
-
-  throw new EncodeValueFailed(value, field, this.constructor.name + ' has no handling for this value.');
-}
-
-/**
- * @param mixed value
- * @param Field field
- * @param array options
- *
- * @return mixed
- *
- * @throws DecodeValueFailed
- */
-function decodeValue(value, field, options) {
-  let type = field.getType();
-  if (type.encodesToScalar()) {
-    return type.decode(value, field);
-  }
-
-  if (type.isMessage()) {
-    return this.deserialize(value, options);
-  }
-
-  if (type.getTypeName() === TypeName.GEO_POINT) {
-    return GeoPoint.fromArray(value);
-  }
-
-  if (type.getTypeName() === TypeName.MESSAGE_REF) {
-    return MessageRef.fromArray(value);
-  }
-
-  throw new DecodeValueFailed(value, field, this.constructor.name + ' has no handling for this value.');
 }

@@ -19,15 +19,15 @@ export default class MessageRefType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
-    throw new EncodeValueFailed(value, field, 'MessageRef must be encoded with a Serializer.');
+  encode(value, field, codec = null) {
+    return codec.encodeMessageRef(value, field);
   }
 
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
-    throw new DecodeValueFailed(value, field, 'MessageRef must be decoded with a Serializer.');
+  decode(value, field, codec = null) {
+    return codec.decodeMessageRef(value, field);
   }
 
   /**

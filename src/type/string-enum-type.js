@@ -41,7 +41,7 @@ export default class StringEnumType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     if (value.hasTrait('Enum')) {
       return String(value.getValue());
     }
@@ -52,7 +52,7 @@ export default class StringEnumType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     if (null === value) {
       return null;
     }

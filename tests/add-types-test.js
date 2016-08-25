@@ -7,13 +7,14 @@ import StringEnum from './fixtures/enum/string-enum';
 import MapsMessage from './fixtures/maps-message';
 import EmailMessage from './fixtures/email-message';
 import NestedMessage from './fixtures/nested-message';
-import BigNumber from 'gdbots/common/big-number';
-import GeoPoint from 'gdbots/common/geo-point';
-import Microtime from 'gdbots/common/microtime';
 import ArrayUtils from 'gdbots/common/util/array-utils';
 import StringUtils from 'gdbots/common/util/string-utils';
-import TimeUuidIdentifier from 'gdbots/identifiers/time-uuid-identifier';
-import UuidIdentifier from 'gdbots/identifiers/uuid-identifier';
+import BigNumber from 'gdbots/pbj/well-known/big-number';
+import GeoPoint from 'gdbots/pbj/well-known/geo-point';
+import DynamicField from 'gdbots/pbj/well-known/dynamic-field';
+import Microtime from 'gdbots/pbj/well-known/microtime';
+import TimeUuidIdentifier from 'gdbots/pbj/well-known/time-uuid-identifier';
+import UuidIdentifier from 'gdbots/pbj/well-known/uuid-identifier';
 import MessageRef from 'gdbots/pbj/message-ref';
 
 describe('add-types-test', function() {
@@ -176,6 +177,7 @@ function getTypeValues() {
     'Date': new Date(),
     'DateTime': new Date(),
     'Decimal': 3.14,
+    'DynamicField': DynamicField.createIntVal('int_val', 1),
     'Float': 13213.032468,
     'GeoPoint': new GeoPoint(0.5, 102.0),
     'IntEnum': IntEnum.UNKNOWN.getValue(),
@@ -210,6 +212,7 @@ function getInvalidTypeValues() {
     'Date': 'not_a_date',
     'DateTime': 'not_a_date',
     'Decimal': 1,
+    'DynamicField': 'not_a_dynamic_field',
     'Float': 1,
     'GeoPoint': 'not_a_geo_point',
     'IntEnum': Priority.NORMAL.getValue(), // not the correct enum

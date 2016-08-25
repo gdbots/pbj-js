@@ -1,7 +1,7 @@
 'use strict';
 
 import SystemUtils from 'gdbots/common/util/system-utils';
-import TimeUuidIdentifier from 'gdbots/identifiers/time-uuid-identifier';
+import TimeUuidIdentifier from 'gdbots/pbj/well-known/time-uuid-identifier';
 import Type from 'gdbots/pbj/type/type';
 
 export default class TimeUuidType extends SystemUtils.mixinClass(Type)
@@ -27,7 +27,7 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     if (value.hasTrait('TimeUuidIdentifier') || 'TimeUuidIdentifier' === SystemUtils.getClass(value)) {
       return value.toString();
     }
@@ -38,7 +38,7 @@ export default class TimeUuidType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     if (!value || value.length === 0) {
       return null;
     }

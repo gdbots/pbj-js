@@ -90,6 +90,7 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
       'id': privateProps.get(this).id,
       'curie': this.getCurie(),
       'curie_major': this.getCurieMajor(),
+      'qname': this.getQName(),
       'class_name': privateProps.get(this).className,
       'mixins': privateProps.get(this).mixins.map(
         function(mixin) {
@@ -134,6 +135,13 @@ export default class Schema extends SystemUtils.mixinClass(null, ToArray)
    */
   getCurieMajor() {
     return privateProps.get(this).id.getCurieMajor();
+  }
+
+  /**
+   * @return SchemaQName
+   */
+  getQName() {
+    return privateProps.get(this).id.getCurie().getQName();
   }
 
   /**

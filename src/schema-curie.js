@@ -1,6 +1,7 @@
 'use strict';
 
 import InvalidSchemaCurie from 'gdbots/pbj/exception/invalid-schema-curie';
+import SchemaQName from 'gdbots/pbj/schema-q-name';
 
 /** @var array */
 let _instances = {};
@@ -56,8 +57,13 @@ export default class SchemaCurie
       message: message,
 
       /** @var string */
-      curie: vendor + ':' + packageName + ':' + category + ':' + message
+      curie: vendor + ':' + packageName + ':' + category + ':' + message,
+
+      /** @var SchemaQName */
+      qname: null
     });
+
+    privateProps.get(this).qname = SchemaQName.fromCurie(this);
   }
 
   /**
@@ -141,5 +147,12 @@ export default class SchemaCurie
    */
   isMixin() {
     return 'mixin' === privateProps.get(this).category;
+  }
+
+  /**
+   * @return SchemaQName
+   */
+  getQName() {
+    return privateProps.get(this).qname;
   }
 }

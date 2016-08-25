@@ -66,7 +66,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  encode(value, field) {
+  encode(value, field, codec = null) {
     value = value.trim();
 
     if (value === '') {
@@ -79,7 +79,7 @@ export default class AbstractBinaryType extends SystemUtils.mixinClass(Type)
   /**
    * {@inheritdoc}
    */
-  decode(value, field) {
+  decode(value, field, codec = null) {
     value = value.trim();
 
     if (value === '') {
