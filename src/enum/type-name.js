@@ -35,6 +35,7 @@ import SystemUtils from 'gdbots/common/util/system-utils';
  * @method static TypeName TIME_UUID()
  * @method static TypeName TIMESTAMP()
  * @method static TypeName TINY_INT()
+ * @method static TypeName TRINARY()
  * @method static TypeName UUID()
  */
 export default class TypeName extends SystemUtils.mixinClass(Enum) {}
@@ -71,5 +72,6 @@ TypeName.initEnum({
   TIME_UUID: 'time-uuid',
   TIMESTAMP: 'timestamp',
   TINY_INT: 'tiny-int',
+  TRINARY: 'trinary',
   UUID: 'uuid'
 });

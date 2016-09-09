@@ -50,8 +50,6 @@ describe('type-test', function() {
         thrown = true;
       }
 
-      thrown.should.eql(true);
-
       if (false === thrown) {
         console.log('[' + TypeName.name + '] accepted more than [' + field.getType().getMaxBytes() + '] bytes.');
       }
