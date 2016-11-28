@@ -29,7 +29,7 @@ export default class Identifier
    *
    * @param Identifier other
    *
-   * @return boolean
+   * @return bool
    */
   equals(other) {
     throw new Error('Interface function.');

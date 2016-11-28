@@ -113,7 +113,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
   /**
    * Returns a new message from the provided array using the Array Serializer.
-   * @see Gdbots\Pbj\Serializer\ArraySerializer::deserialize
+   * @see ArraySerializer::deserialize
    *
    * @param array data
    *
@@ -133,7 +133,7 @@ export default class Message extends SystemUtils.mixinClass(null, FromArray, ToA
 
   /**
    * Returns the message as an associative array using the Array Serializer.
-   * @see Gdbots\Pbj\Serializer\ArraySerializer::serialize
+   * @see ArraySerializer::serialize
    *
    * @return array
    */

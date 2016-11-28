@@ -5,11 +5,14 @@ import SystemUtils from 'gdbots/common/util/system-utils';
 import NoMessageForCurie from 'gdbots/pbj/exception/no-message-for-curie';
 import NoMessageForSchemaId from 'gdbots/pbj/exception/no-message-for-schema-id';
 import NoMessageForMixin from 'gdbots/pbj/exception/no-message-for-mixin';
+import NoMessageForQName from 'gdbots/pbj/exception/no-message-for-q-name';
 import MoreThanOneMessageForMixin from 'gdbots/pbj/exception/more-than-one-message-for-mixin';
+import SchemaCurie from 'gdbots/pbj/schema-curie';
 
 let _registerPromise = null;
 let _messages = {};
 let _resolved = {};
+let _resolvedQnames = {};
 let _resolvedMixins = {};
 
 export default class MessageResolver
@@ -54,6 +57,17 @@ export default class MessageResolver
    */
   static resolvedMixins() {
     return _resolvedMixins;
+  }
+
+  /**
+   * An array of resolved lookups by qname.
+   *
+   * @see SchemaQName
+   *
+   * @var SchemaCurie[]
+   */
+  static resolvedQnames() {
+    return _resolvedQnames;
   }
 
   /**
@@ -121,6 +135,44 @@ export default class MessageResolver
     }
 
     throw new NoMessageForCurie(curie);
+  }
+
+  /**
+   * Returns the SchemaCurie for the given SchemaQName.
+   *
+   * @param SchemaQName $qname
+   *
+   * @return SchemaCurie
+   *
+   * @throws NoMessageForQName
+   */
+  static resolveQName(qname) {
+    let key = qname.toString();
+    if (-1 !== Object.keys(_resolvedQnames).indexOf(key)) {
+      return _resolvedQnames[key];
+    }
+
+    let qvendor = qname.getVendor();
+    let qmessage = qname.getMessage();
+
+    ArrayUtils.each(_messages, function(message, id) {
+      let parts = id.split(':', 4);
+      let vendor = parts[0];
+      let packageName = parts[1] || null;
+      let category = parts[2] || null;
+      message = parts[3] || null;
+
+      if (qvendor === vendor && qmessage === message) {
+        _resolvedQnames[key] = SchemaCurie.fromString(vendor + ':' + packageName + ':' + category + ':' + message);
+        return;
+      }
+    });
+
+    if (-1 === Object.keys(_resolvedQnames).indexOf(key)) {
+      throw new NoMessageForQName(qname);
+    }
+
+    return _resolvedQnames[key];
   }
 
   /**

@@ -92,7 +92,7 @@ export default class SchemaQName
       throw new InvalidSchemaCurie('SchemaQName [' + qname + '] is invalid. It must match the pattern [' + VALID_PATTERN + '].');
     }
 
-    _instances[qname] = new this(matches[1], matches[4]);
+    _instances[qname] = new this(matches[1], matches[2]);
     return _instances[qname];
   }
 
