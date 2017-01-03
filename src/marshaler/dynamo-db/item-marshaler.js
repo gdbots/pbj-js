@@ -253,8 +253,8 @@ function doUnmarshal(data) {
       return;
     }
 
-    let dynamoType = dynamoValue.keys()[0];
-    let value = dynamoValue.values()[0];
+    let dynamoType = Object.keys(dynamoValue)[0];
+    let value = dynamoValue[dynamoType];
 
     if ('NULL' === dynamoType) {
       message.clear(fieldName);
