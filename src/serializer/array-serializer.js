@@ -174,7 +174,7 @@ function doSerialize(message) {
       case FieldRule.A_MAP:
         payload[fieldName] = {};
 
-        ArrayUtils.each(value, function(v) {
+        ArrayUtils.each(value, function(v, k) {
           payload[fieldName][k] = type.encode(v, field, this);
         }.bind(this));
 

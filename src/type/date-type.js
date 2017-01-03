@@ -37,7 +37,7 @@ export default class DateType extends SystemUtils.mixinClass(Type)
       return value;
     }
 
-    return new Date();
+    return new Date(value);
   }
 
   /**

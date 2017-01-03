@@ -39,7 +39,7 @@ export default class FixtureLoader
 
     let message = this.cloneMessage(emailMessageFixture);
 
-    message.set('date_sent', new Date('2014-12-25T12:12:00.123456Z'));
+    message.set('date_sent', new Date('2014-12-25T12:12:00.123Z'));
 
     return message;
   }
@@ -48,14 +48,14 @@ export default class FixtureLoader
    * @return string
    */
   static jsonEmailMessage() {
-    return JSON.stringify({
+    return {
       "_schema": "pbj:gdbots:tests.pbj:fixtures:email-message:1-0-0",
       "id": "0dcee564-aa71-11e4-a811-3c15c2c60168",
       "from_name": "homer  ",
       "from_email": "homer@thesimpsons.com",
       "priority": 2,
       "sent": false,
-      "date_sent": "2014-12-25T12:12:00.123456+00:00",
+      "date_sent": "2014-12-25T12:12:00.123Z",
       "microtime_sent": "1422122017734617",
       "provider": "gmail",
       "labels": [
@@ -108,7 +108,33 @@ export default class FixtureLoader
           "_schema": "pbj:gdbots:tests.pbj:fixtures:nested-message:1-0-0",
           "test1": "value1"
         }
+      ],
+      "dynamic_fields": [
+        {
+          "name": "bool_val",
+          "bool_val": true
+        },
+        {
+          "name": "date_val",
+          "date_val": "2015-12-25"
+        },
+        {
+          "name": "float_val",
+          "float_val": 3.14
+        },
+        {
+          "name": "int_val",
+          "int_val": 100
+        },
+        {
+          "name": "string_val",
+          "string_val": "string"
+        },
+        {
+          "name": "text_val",
+          "text_val": "text"
+        }
       ]
-    });
+    };
   }
 }

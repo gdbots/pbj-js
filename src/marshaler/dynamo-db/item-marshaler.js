@@ -134,7 +134,7 @@ export default class ItemMarshaler extends SystemUtils.mixinClass(null, Codec)
   encodeMessageRef(messageRef, field) {
     return {
       'M': {
-        'curie': {'S': messageRef.getCurie()},
+        'curie': {'S': messageRef.getCurie().toString()},
         'id': {'S': messageRef.getId()},
         'tag': messageRef.hasTag() ? {'S': messageRef.getTag()} : {'NULL': true}
       }
@@ -398,5 +398,8 @@ function encodeASetValue(value, field) {
     }
   }.bind(this));
 
-  return {dynamoType: result};
+  let data = {};
+  data[dynamoType] = result;
+
+  return data;
 }

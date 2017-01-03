@@ -66,10 +66,11 @@ export default class MapsMessage extends SystemUtils.mixinClass(Message)
 
     /** @var Type type */
     for (let type of this.getAllTypes()) {
-      let typeName = StringUtils.toSnakeCase(type.name.substring(0, type.name.length-4)).toLowerCase();
+      let typeName = type.name.substring(0, type.name.length-4);
+      let snakeCase = StringUtils.toSnakeCase(typeName).toLowerCase();
       let field = null;
 
-      switch (typeName) {
+      switch (snakeCase) {
           case 'identifier':
             field = Fb.create(typeName, type.create())
               .asAMap()

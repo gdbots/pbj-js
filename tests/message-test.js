@@ -81,7 +81,7 @@ describe('maps-test', function() {
 
     let messageInList = message.get('any_of_message')[0];
     let messageNotInList = FixtureLoader.cloneMessage(messageInList);
-    messageNotInList.addToMap('string', 'key', 'val');
+    messageNotInList.addToMap('String', 'key', 'val');
 
     message.isInList('any_of_message', messageInList).should.true;
     message.isInList('any_of_message', messageNotInList).should.false;
@@ -115,15 +115,15 @@ describe('maps-test', function() {
 
   it('is in map', function(done) {
     let message = MapsMessage.create();
-    message.addToMap('string', 'string1', 'val1');
+    message.addToMap('String', 'string1', 'val1');
 
-    message.isInMap('string', 'string1').should.true;
-    message.isInMap('string', 'notinmap').should.false;
-    message.isInMap('microtime', 'notinmap').should.false;
+    message.isInMap('String', 'string1').should.true;
+    message.isInMap('String', 'notinmap').should.false;
+    message.isInMap('Microtime', 'notinmap').should.false;
 
-    message.clear('string');
+    message.clear('String');
 
-    message.isInMap('string', 'string1').should.false;
+    message.isInMap('String', 'string1').should.false;
 
     done();
   });
@@ -147,7 +147,7 @@ describe('maps-test', function() {
       .addToList(
         'any_of_message',
         [
-          MapsMessage.create().addToMap('string', 'test:field:name', 'value1'),
+          MapsMessage.create().addToMap('String', 'test:field:name', 'value1'),
           NestedMessage.create().set('test1', 'value1')
         ]
     );

@@ -162,7 +162,7 @@ export default class DynamicField extends SystemUtils.mixinClass(null, FromArray
 
     delete data.name;
 
-    let kind = Array.keys(data)[0];
+    let kind = Object.keys(data)[0];
 
     try {
       kind = DynamicFieldKind[kind.toUpperCase()];
