@@ -5,26 +5,21 @@ import Provider from './fixtures/enum/provider';
 import MapsMessage from './fixtures/maps-message';
 import EmailMessage from './fixtures/email-message';
 import NestedMessage from './fixtures/nested-message';
+import FixtureLoader from './fixtures/fixture-loader';
 import Enum from 'gdbots/common/enum';
 import FrozenMessageIsImmutable from 'gdbots/pbj/exception/frozen-message-is-immutable';
 import JsonSerializer from 'gdbots/pbj/serializer/json-serializer';
 
-/** @var Serializer */
-let serializer = null;
-
-/** @var EmailMessage */
-let emailMessageFixture = null;
-
 describe('maps-test', function() {
   it('create message from array', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     message.set('priority', Priority.HIGH);
 
     message.get('priority').should.eql(Priority.HIGH);
     Priority.HIGH.should.eql(message.get('priority'));
 
-    let json = getSerializer().serialize(message);
-    message = getSerializer().deserialize(json);
+    let json = FixtureLoader.getSerializer().serialize(message);
+    message = FixtureLoader.getSerializer().deserialize(json);
 
     message.get('priority').should.eql(Priority.HIGH);
     Priority.HIGH.should.eql(message.get('priority'));
@@ -82,10 +77,10 @@ describe('maps-test', function() {
   });
 
   it('is in list', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
 
     let messageInList = message.get('any_of_message')[0];
-    let messageNotInList = cloneMessage(messageInList);
+    let messageNotInList = FixtureLoader.cloneMessage(messageInList);
     messageNotInList.addToMap('string', 'key', 'val');
 
     message.isInList('any_of_message', messageInList).should.true;
@@ -134,7 +129,7 @@ describe('maps-test', function() {
   });
 
   it('nested message', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     let nestedMessage = NestedMessage.create()
       .set('test1', 'val1')
       .addToSet('test2', [1, 2]);
@@ -163,7 +158,7 @@ describe('maps-test', function() {
   });
 
   it('freeze', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     let nestedMessage = NestedMessage.create();
     message.set('nested', nestedMessage);
 
@@ -176,7 +171,7 @@ describe('maps-test', function() {
   });
 
   it('frozen message is immutable', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     let nestedMessage = NestedMessage.create();
     message.set('nested', nestedMessage);
 
@@ -194,13 +189,13 @@ describe('maps-test', function() {
   });
 
   it('clone', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     let nestedMessage = NestedMessage.create();
     message.set('nested', nestedMessage);
 
     nestedMessage.set('test1', 'original');
 
-    let message2 = cloneMessage(message);
+    let message2 = FixtureLoader.cloneMessage(message);
     message2.set('from_name', 'marge').get('nested').set('test1', 'clone');
 
     (message == message2).should.false;
@@ -213,7 +208,7 @@ describe('maps-test', function() {
   });
 
   it('clone is mutable after original is frozen', function(done) {
-    let message = createEmailMessage();
+    let message = FixtureLoader.createEmailMessage();
     let nestedMessage = NestedMessage.create();
     message.set('nested', nestedMessage);
 
@@ -221,7 +216,7 @@ describe('maps-test', function() {
 
     message.freeze();
 
-    let message2 = cloneMessage(message);
+    let message2 = FixtureLoader.cloneMessage(message);
     message2.set('from_name', 'marge').get('nested').set('test1', 'clone');
 
     try {
@@ -235,105 +230,3 @@ describe('maps-test', function() {
     done();
   });
 });
-
-/**
- * @return Message message
- */
-function cloneMessage(message) {
-  return getSerializer().deserialize(
-    getSerializer().serialize(message)
-  );
-}
-
-/**
- * @return Serializer
- */
-function getSerializer() {
-  if (null === serializer) {
-    serializer = new JsonSerializer();
-  }
-  return serializer;
-}
-
-/**
- * @return EmailMessage
- */
-function createEmailMessage() {
-  if (null === emailMessageFixture) {
-    emailMessageFixture = getSerializer().deserialize(jsonEmailMessage());
-  }
-
-  let message = cloneMessage(emailMessageFixture);
-
-  message.set('date_sent', new Date('2014-12-25T12:12:00.123456Z'));
-
-  return message;
-}
-
-/**
- * @return string
- */
-function jsonEmailMessage() {
-  return JSON.stringify({
-    "_schema": "pbj:gdbots:tests.pbj:fixtures:email-message:1-0-0",
-    "id": "0dcee564-aa71-11e4-a811-3c15c2c60168",
-    "from_name": "homer  ",
-    "from_email": "homer@thesimpsons.com",
-    "priority": 2,
-    "sent": false,
-    "date_sent": "2014-12-25T12:12:00.123456+00:00",
-    "microtime_sent": "1422122017734617",
-    "provider": "gmail",
-    "labels": [
-      "donuts",
-      "mmmm",
-      "chicken"
-    ],
-    "nested": {
-      "_schema": "pbj:gdbots:tests.pbj:fixtures:nested-message:1-0-0",
-      "test1": "val1",
-      "test2": [
-        1,
-        2
-      ],
-      "location": {
-        "type": "Point",
-        "coordinates": [102.0,0.5]
-      },
-      "refs": [
-        {
-          "curie": "gdbots:tests.pbj:fixtures:email-message",
-          "id": "0dcee564-aa71-11e4-a811-3c15c2c60168",
-          "tag": "parent"
-        },
-        {
-          "curie": "gdbots:tests.pbj:fixtures:email-message",
-          "id": "0dcee564-aa71-11e4-a811-3c15c2c60168",
-          "tag": "parent"
-        }
-      ]
-    },
-    "enum_in_set": [
-      "aol",
-      "gmail"
-    ],
-    "enum_in_list": [
-      "aol",
-      "aol",
-      "gmail",
-      "gmail"
-    ],
-    "any_of_message": [
-      {
-        "_schema": "pbj:gdbots:tests.pbj:fixtures:maps-message:1-0-0",
-        "String": {
-          "test:field:name": "value1"
-        }
-      },
-      {
-        "_schema": "pbj:gdbots:tests.pbj:fixtures:nested-message:1-0-0",
-        "test1": "value1"
-      }
-    ]
-  });
-}
