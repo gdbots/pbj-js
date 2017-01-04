@@ -182,7 +182,7 @@ export default class ItemMarshaler extends SystemUtils.mixinClass(null, Codec)
    * @return GeoPoint
    */
   decodeGeoPoint(value, field) {
-    return new GeoPoint(value.coordinates.L[1].N, valuecoordinates.L[0].N);
+    return new GeoPoint(value.coordinates.L[1].N, value.coordinates.L[0].N);
   }
 
   /**

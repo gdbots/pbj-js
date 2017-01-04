@@ -7,7 +7,8 @@
     "gdbots-common": "git://github.com/gdbots/common-js.git#master",
     "bignumber.js": "~2.3",
     "uuid": "~2.0",
-    "aws-sdk": "^2.6"
+    "aws-sdk": "^2.6",
+    "elasticsearch": "^12.1"
   },
   "devDependencies": {
     "chai": "~3.5",
