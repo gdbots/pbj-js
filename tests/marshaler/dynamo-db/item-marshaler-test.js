@@ -1,7 +1,6 @@
 'use strict';
 
-import {expect} from 'chai'
-import EmailMessage from '../../fixtures/email-message';
+import {expect} from 'chai';
 import FixtureLoader from '../../fixtures/fixture-loader';
 import ItemMarshaler from 'gdbots/pbj/marshaler/dynamo-db/item-marshaler.js';
 

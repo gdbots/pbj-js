@@ -1,6 +1,6 @@
 'use strict';
 
-import {expect} from 'chai'
+import {expect} from 'chai';
 import UuidIdentifier from 'gdbots/pbj/well-known/uuid-identifier';
 
 describe('uuid-identifier-test', function() {

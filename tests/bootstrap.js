@@ -16,3 +16,9 @@ require('babel-register')({
 
 require('chai').should();
 global.expect = require('chai');
+
+// auto registers the schema with the MessageResolver
+// only done for tests or dynamic messages.
+require('./fixtures/nested-message').default.schema();
+require('./fixtures/email-message').default.schema();
+require('./fixtures/maps-message').default.schema();

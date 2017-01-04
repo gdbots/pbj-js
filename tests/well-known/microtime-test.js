@@ -1,6 +1,6 @@
 'use strict';
 
-import {expect} from 'chai'
+import {expect} from 'chai';
 import DateUtils from 'gdbots/common/util/date-utils.js';
 import StringUtils from 'gdbots/common/util/string-utils.js';
 import Microtime from 'gdbots/pbj/well-known/microtime.js';

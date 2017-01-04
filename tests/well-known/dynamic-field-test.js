@@ -1,6 +1,6 @@
 'use strict';
 
-import {expect} from 'chai'
+import {expect} from 'chai';
 import EmailMessage from '../fixtures/email-message';
 import DynamicField from 'gdbots/pbj/well-known/dynamic-field.js';
 
