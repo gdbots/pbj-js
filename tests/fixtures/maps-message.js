@@ -18,6 +18,7 @@ import BooleanType from 'gdbots/pbj/type/boolean-type';
 import DateTimeType from 'gdbots/pbj/type/date-time-type';
 import DateType from 'gdbots/pbj/type/date-type';
 import DecimalType from 'gdbots/pbj/type/decimal-type';
+import DynamicFieldType from 'gdbots/pbj/type/dynamic-field-type';
 import FloatType from 'gdbots/pbj/type/float-type';
 import GeoPointType from 'gdbots/pbj/type/geo-point-type';
 import IdentifierType from 'gdbots/pbj/type/identifier-type';
@@ -50,7 +51,7 @@ export default class MapsMessage extends SystemUtils.mixinClass(Message)
    */
   static getAllTypes() {
     return [
-      BigIntType, BinaryType, BlobType, BooleanType, DateTimeType, DateType, DecimalType,
+      BigIntType, BinaryType, BlobType, BooleanType, DateTimeType, DateType, DecimalType, DynamicFieldType,
       FloatType, GeoPointType, IdentifierType, IntEnumType, IntType, MediumBlobType, MediumIntType,
       MediumTextType, MessageRefType, MessageType, MicrotimeType, SignedBigIntType, SignedIntType,
       SignedMediumIntType, SignedSmallIntType, SignedTinyIntType, SmallIntType, StringEnumType,
