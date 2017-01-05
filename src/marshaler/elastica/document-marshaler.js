@@ -21,37 +21,26 @@ export default class DocumentMarshaler extends SystemUtils.mixinClass(null, Code
 {
   /**
    * @param Message  message
-   * @param Document document
    *
    * @return Document
    *
    * @throws \Exception
    * @throws GdbotsPbjException
    */
-  marshal(message, document = null) {
-    if (!document) {
-      document = {};
-    }
-
-    document.data = doMarshal.bind(this)(message);
-
-    return document;
+  marshal(message) {
+    return doMarshal.bind(this)(message);
   }
 
   /**
-   * @param Document|array documentOrSource Document object or source array
+   * @param array data
    *
    * @return Message
    *
    * @throws \Exception
    * @throws GdbotsPbjException
    */
-  unmarshal(documentOrSource) {
-    if (undefined !== documentOrSource.data) {
-      return doUnmarshal.bind(this)(documentOrSource.data);
-    }
-
-    return doUnmarshal.bind(this)(documentOrSource);
+  unmarshal(data) {
+    return doUnmarshal.bind(this)(data);
   }
 
   /**

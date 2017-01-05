@@ -10,6 +10,7 @@ import ItemMarshaler from 'gdbots/pbj/marshaler/dynamo-db/item-marshaler.js';
 describe('dynamo-db-test', function() {
   let key = process.env.AWS_KEY || 'faker';
   let secret = process.env.AWS_SECRET || 'secret';
+  let tableName = process.env.DYNAMODB_TABLE || 'pbj_tests';
 
   if (!key || !secret) {
       return;
@@ -23,7 +24,6 @@ describe('dynamo-db-test', function() {
 
   let marshaler = new ItemMarshaler();
   let message = FixtureLoader.createEmailMessage();
-  let tableName = process.env.DYNAMODB_TABLE || 'pbj_tests';
 
   before(function() {
     awsMock.mock('DynamoDB', 'getItem', function(params, callback) {
