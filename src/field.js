@@ -321,7 +321,6 @@ export default class Field extends SystemUtils.mixinClass(null, ToArray)
       return defaultValue;
     }
 
-
     return privateProps.get(this).defaultValue;
   }
 
