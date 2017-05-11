@@ -7,6 +7,7 @@ import FixtureLoader from '../fixtures/fixture-loader';
 import DocumentMarshaler from 'gdbots/pbj/marshaler/elastica/document-marshaler.js';
 import MappingFactory from 'gdbots/pbj/marshaler/elastica/mapping-factory.js';
 
+/*
 describe('elastica-test', function() {
   let host = process.env.ELASTIC_HOST || 'localhost';
   let port = process.env.ELASTIC_PORT || 9200;
@@ -95,4 +96,4 @@ describe('elastica-test', function() {
       done();
     });
   });
-});
+});*/

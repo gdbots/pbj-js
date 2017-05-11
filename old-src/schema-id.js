@@ -67,7 +67,7 @@ export const VALID_PATTERN = /^pbj:([a-z0-9-]+):([a-z0-9\.-]+):([a-z0-9-]+)?:([a
  * @see SchemaVersion
  *
  */
-export default class SchemaId
+class SchemaId
 {
   /**
    * @param string vendor

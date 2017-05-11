@@ -26,6 +26,8 @@ describe('maps-test', function() {
 
     message.get('nested').get('location').getLatitude().should.eql(0.5);
 
+    console.log(JSON.stringify(message.toArray(), null, 2));
+
     done();
   });
 

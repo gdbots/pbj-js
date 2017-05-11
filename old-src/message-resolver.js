@@ -82,7 +82,7 @@ export default class MessageResolver
   /**
    * Returns the Message to be used for the provided schema id.
    *
-   * @param SchemaId id
+   * @param {SchemaId} id
    *
    * @return Message
    *
