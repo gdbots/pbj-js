@@ -1,19 +1,23 @@
 import test from 'tape';
-import booleanType from '../../src/Type/BooleanType';
 import TypeName from '../../src/Enum/TypeName';
+import Type from '../../src/Type/Type';
+import Field from '../../src/Field';
+import booleanType from '../../src/Type/booleanType';
+import samples from '../fixtures/typeSamples';
 
 test('booleanType property tests', (assert) => {
+  assert.true(booleanType instanceof Type);
   assert.same(booleanType.getTypeName(), TypeName.BOOLEAN);
   assert.same(booleanType.getTypeValue(), TypeName.BOOLEAN.valueOf());
-  assert.same(booleanType.isScalar(), true);
-  assert.same(booleanType.encodesToScalar(), true);
-  assert.same(booleanType.getDefault(), false);
-  assert.same(booleanType.isBoolean(), true);
-  assert.same(booleanType.isBinary(), false);
-  assert.same(booleanType.isNumeric(), false);
-  assert.same(booleanType.isString(), false);
-  assert.same(booleanType.isMessage(), false);
-  assert.same(booleanType.allowedInSet(), false);
+  assert.true(booleanType.isScalar());
+  assert.true(booleanType.encodesToScalar());
+  assert.false(booleanType.getDefault());
+  assert.true(booleanType.isBoolean());
+  assert.false(booleanType.isBinary());
+  assert.false(booleanType.isNumeric());
+  assert.false(booleanType.isString());
+  assert.false(booleanType.isMessage());
+  assert.false(booleanType.allowedInSet());
 
   try {
     booleanType.test = 1;
@@ -27,6 +31,9 @@ test('booleanType property tests', (assert) => {
 
 
 test('booleanType guard tests', (assert) => {
+  const field = new Field('test', booleanType);
+  samples.guardValid(field, assert);
+  samples.guardInvalid(field, assert);
   assert.end();
 });
 

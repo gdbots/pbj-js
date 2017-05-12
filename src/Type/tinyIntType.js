@@ -1,24 +1,18 @@
 /* eslint-disable class-methods-use-this */
 
-import isBoolean from 'lodash/isBoolean';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 
-class BooleanType extends Type {
+class TinyIntType extends Type {
   constructor() {
-    super(TypeName.BOOLEAN);
+    super(TypeName.TINY_INT);
   }
 
   /**
    * @param {*} value
    * @param {Field} field
    */
-  guard(value, field) {
-    if (isBoolean(value)) {
-      return;
-    }
-
-    throw new Error(`Field [${field.getName()}] expected a boolean, got [${JSON.stringify(value)}].`);
+  guard(value, field) { // eslint-disable-line no-unused-vars
   }
 
   /**
@@ -53,18 +47,11 @@ class BooleanType extends Type {
   /**
    * @return {boolean}
    */
-  isBoolean() {
-    return true;
-  }
-
-  /**
-   * @return {boolean}
-   */
   allowedInSet() {
     return false;
   }
 }
 
-const booleanType = new BooleanType();
-Object.freeze(booleanType);
-export default booleanType;
+const tinyIntType = new TinyIntType();
+Object.freeze(tinyIntType);
+export default tinyIntType;

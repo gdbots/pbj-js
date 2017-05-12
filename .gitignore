@@ -50,21 +50,6 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# Vagrant provisioning #
-########################
-.vagrant
-.bundle
-.cache
-.kitchen
-/provisioning/vagrant/chef.json
-/provisioning/vagrant/data_bags/*
-/provisioning/vagrant/nodes/*
-!/provisioning/vagrant/data_bags/.gitkeep
-!/provisioning/vagrant/nodes/.gitkeep
-!/provisioning/vagrant/data_bags/aws_opsworks*
-/provisioning/vendor/
-/tmp/
-
 # Environment Variable Files #
 ########################
 .env

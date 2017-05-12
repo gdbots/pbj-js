@@ -1,9 +1,11 @@
-export default class AbstractType {
+/* eslint-disable class-methods-use-this */
+
+export default class Type {
   /**
    * @param {TypeName} typeName
    */
   constructor(typeName) {
-    this.typeName = typeName
+    this.typeName = typeName;
   }
 
   /**
