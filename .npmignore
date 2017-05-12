@@ -1,1 +1,9 @@
-#/src/
+#/src/ #remove after testing
+/tests/
+.babelrc
+.codeclimate
+.editorconfig
+.eslint*
+.nvmrc
+.travis.yml
+rollup.config.js

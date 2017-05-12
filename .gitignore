@@ -1,7 +1,7 @@
 # Node App Files #
 ############
 /node_modules/
-/lib/
+#/lib/ #remove after testing, before publish
 
 # Deployment/IDE Tools #
 ############
