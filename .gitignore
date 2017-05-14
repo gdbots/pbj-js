@@ -1,7 +1,8 @@
 # Node App Files #
 ############
 /node_modules/
-#/lib/ #remove after testing, before publish
+#lib
+#es6
 
 # Deployment/IDE Tools #
 ############
@@ -49,7 +50,3 @@
 Icon?
 ehthumbs.db
 Thumbs.db
-
-# Environment Variable Files #
-########################
-.env

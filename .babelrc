@@ -35,6 +35,10 @@
             "useBuiltIns": true
           }
         ]
+      ],
+      "plugins": [
+        "lodash",
+        "./build/use-lodash-es"
       ]
     }
   }

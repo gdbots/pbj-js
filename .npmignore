@@ -1,9 +1,8 @@
-#/src/ #remove after testing
+/src/
 /tests/
 .babelrc
-.codeclimate
+.codeclimate.yml
 .editorconfig
 .eslint*
 .nvmrc
 .travis.yml
-rollup.config.js

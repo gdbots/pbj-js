@@ -8,20 +8,21 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "rimraf lib",
-    "test": "BABEL_ENV=cjs tape -r babel-register tests/**/*.test.js | faucet",
+    "build:cjs": "BABEL_ENV=cjs babel src --out-dir ./lib/",
+    "build:es6": "BABEL_ENV=es6 babel src --out-dir ./es6/",
+    "clean": "rimraf lib es6",
     "lint": "eslint src tests",
-    "build:cjs": "BABEL_ENV=cjs babel src --out-dir lib/cjs",
-    "build:es6": "BABEL_ENV=es6 babel src --out-dir lib/es6",
-    "prepublish": "npm run clean && npm run lint && npm run test && npm run build:cjs && npm run build:es6"
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build:cjs && npm run build:es6",
+    "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js ./tests/**/*.test.js | faucet"
   },
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/es6/index.js",
-  "jsnext:main": "./lib/es6/index.js",
+  "main": "./lib/index.js",
+  "module": "./es6/index.js",
+  "jsnext:main": "./es6/index.js",
   "dependencies": {
     "bignumber.js": "^4.0.2",
     "@gdbots/common": "git://github.com/gdbots/common-js.git#0.1.x-dev",
     "lodash": "^4.17.4",
+    "lodash-es": "^4.17.4",
     "mixin": "^0.2.0",
     "uuid": "^3.0.1"
   },
@@ -29,6 +30,7 @@
     "aws-sdk-mock": "^1.7.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
+    "babel-plugin-lodash": "^3.2.11",
     "babel-preset-env": "^1.4.0",
     "babel-register": "^6.24.1",
     "elasticsearch": "^13.0.1",
@@ -39,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "faucet": "^0.0.1",
+    "lodash-es": "^4.17.4",
     "rimraf": "^2.6.1",
     "tape": "^4.6.3"
   }
