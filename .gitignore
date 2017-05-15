@@ -1,7 +1,12 @@
 # Node App Files #
 ############
 /node_modules/
-#/es6/
+/dist/
+#/*.js # uncomment once we're publishing to npm
+#/Enum
+#/Exception
+#/Type
+#/WellKnown
 
 # Deployment/IDE Tools #
 ############

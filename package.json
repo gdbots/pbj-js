@@ -8,10 +8,9 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "BABEL_ENV=es6 babel src --out-dir ./es6/",
-    "clean": "rimraf es6",
+    "build": "BABEL_ENV=es6 babel src --out-dir ./dist/ && cp -R ./dist/* .",
+    "clean": "rimraf dist",
     "lint": "eslint src tests",
-    "postinstall": "mv ./es6/* . && npm run clean",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
     "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js ./tests/**/*.test.js | faucet"
   },
