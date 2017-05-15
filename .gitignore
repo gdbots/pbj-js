@@ -1,8 +1,7 @@
 # Node App Files #
 ############
 /node_modules/
-#lib
-#es6
+#/es6/
 
 # Deployment/IDE Tools #
 ############

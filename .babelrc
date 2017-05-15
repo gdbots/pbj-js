@@ -6,9 +6,6 @@
           "env",
           {
             "targets": {
-              "browsers": [
-                "last 2 versions"
-              ],
               "node": "current"
             },
             "modules": "commonjs",
@@ -26,9 +23,6 @@
           "env",
           {
             "targets": {
-              "browsers": [
-                "last 2 versions"
-              ],
               "node": "current"
             },
             "modules": false,

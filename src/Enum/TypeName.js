@@ -1,4 +1,4 @@
-import Enum from '@gdbots/common/es6/Enum';
+import Enum from '@gdbots/common/Enum';
 
 class TypeName extends Enum {
 }

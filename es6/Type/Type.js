@@ -1,162 +1,108 @@
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 /* eslint-disable class-methods-use-this */
 
-var Type = function () {
+export default class Type {
   /**
    * @param {TypeName} typeName
    */
-  function Type(typeName) {
-    _classCallCheck(this, Type);
-
+  constructor(typeName) {
     this.typeName = typeName;
   }
 
   /**
    * @return {TypeName}
    */
+  getTypeName() {
+    return this.typeName;
+  }
 
+  /**
+   * @return {string}
+   */
+  getTypeValue() {
+    return this.typeName.getValue();
+  }
 
-  _createClass(Type, [{
-    key: "getTypeName",
-    value: function getTypeName() {
-      return this.typeName;
-    }
+  /**
+   * @return {boolean}
+   */
+  isScalar() {
+    return true;
+  }
 
-    /**
-     * @return {string}
-     */
+  /**
+   * @return {boolean}
+   */
+  encodesToScalar() {
+    return true;
+  }
 
-  }, {
-    key: "getTypeValue",
-    value: function getTypeValue() {
-      return this.typeName.getValue();
-    }
+  /**
+   * @return {*}
+   */
+  getDefault() {
+    return null;
+  }
 
-    /**
-     * @return {boolean}
-     */
+  /**
+   * @return {boolean}
+   */
+  isBoolean() {
+    return false;
+  }
 
-  }, {
-    key: "isScalar",
-    value: function isScalar() {
-      return true;
-    }
+  /**
+   * @return {boolean}
+   */
+  isBinary() {
+    return false;
+  }
 
-    /**
-     * @return {boolean}
-     */
+  /**
+   * @return {boolean}
+   */
+  isNumeric() {
+    return false;
+  }
 
-  }, {
-    key: "encodesToScalar",
-    value: function encodesToScalar() {
-      return true;
-    }
+  /**
+   * @return {boolean}
+   */
+  isString() {
+    return false;
+  }
 
-    /**
-     * @return {*}
-     */
+  /**
+   * @return {boolean}
+   */
+  isMessage() {
+    return false;
+  }
 
-  }, {
-    key: "getDefault",
-    value: function getDefault() {
-      return null;
-    }
+  /**
+   * @return {Integer}
+   */
+  getMin() {
+    return -2147483648;
+  }
 
-    /**
-     * @return {boolean}
-     */
+  /**
+   * @return {Integer}
+   */
+  getMax() {
+    return 2147483647;
+  }
 
-  }, {
-    key: "isBoolean",
-    value: function isBoolean() {
-      return false;
-    }
+  /**
+   * @return {Integer}
+   */
+  getMaxBytes() {
+    return 65535;
+  }
 
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isBinary",
-    value: function isBinary() {
-      return false;
-    }
-
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isNumeric",
-    value: function isNumeric() {
-      return false;
-    }
-
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isString",
-    value: function isString() {
-      return false;
-    }
-
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isMessage",
-    value: function isMessage() {
-      return false;
-    }
-
-    /**
-     * @return {Integer}
-     */
-
-  }, {
-    key: "getMin",
-    value: function getMin() {
-      return -2147483648;
-    }
-
-    /**
-     * @return {Integer}
-     */
-
-  }, {
-    key: "getMax",
-    value: function getMax() {
-      return 2147483647;
-    }
-
-    /**
-     * @return {Integer}
-     */
-
-  }, {
-    key: "getMaxBytes",
-    value: function getMaxBytes() {
-      return 65535;
-    }
-
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "allowedInSet",
-    value: function allowedInSet() {
-      return true;
-    }
-  }]);
-
-  return Type;
-}();
-
-export default Type;
+  /**
+   * @return {boolean}
+   */
+  allowedInSet() {
+    return true;
+  }
+}
