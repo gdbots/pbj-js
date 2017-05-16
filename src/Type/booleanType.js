@@ -1,8 +1,10 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import isBoolean from 'lodash/isBoolean';
+import toLower from 'lodash/toLower';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
+import AssertionFailed from '../Exception/AssertionFailed';
 
 class BooleanType extends Type {
   constructor() {
@@ -18,7 +20,7 @@ class BooleanType extends Type {
       return;
     }
 
-    throw new Error(`Field [${field.getName()}] expected a boolean, got [${JSON.stringify(value)}].`);
+    throw new AssertionFailed(`Field [${field.getName()}] expected a boolean, got [${JSON.stringify(value)}].`);
   }
 
   /**
@@ -28,8 +30,8 @@ class BooleanType extends Type {
    *
    * @return {boolean}
    */
-  encode(value, field, codec = null) { // eslint-disable-line no-unused-vars
-    return value;
+  encode(value, field, codec = null) {
+    return !!value;
   }
 
   /**
@@ -39,8 +41,12 @@ class BooleanType extends Type {
    *
    * @return {boolean}
    */
-  decode(value, field, codec = null) { // eslint-disable-line no-unused-vars
-    return value;
+  decode(value, field, codec = null) {
+    if (isBoolean(value)) {
+      return !!value;
+    }
+
+    return ['1', 'true', 'yes', 'on', '+'].indexOf(toLower(value)) !== -1;
   }
 
   /**

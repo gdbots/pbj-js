@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
