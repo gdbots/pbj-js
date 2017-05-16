@@ -2,6 +2,7 @@
 
 import isBoolean from 'lodash-es/isBoolean';
 import toLower from 'lodash-es/toLower';
+import trim from 'lodash-es/trim';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
@@ -28,7 +29,7 @@ class BooleanType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {boolean}
+   * @returns {boolean}
    */
   encode(value, field, codec = null) {
     return !!value;
@@ -39,32 +40,32 @@ class BooleanType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {boolean}
+   * @returns {boolean}
    */
   decode(value, field, codec = null) {
     if (isBoolean(value)) {
       return !!value;
     }
 
-    return ['1', 'true', 'yes', 'on', '+'].indexOf(toLower(value)) !== -1;
+    return ['1', 'true', 'yes', 'on', '+'].indexOf(trim(toLower(value))) !== -1;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   getDefault() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isBoolean() {
     return true;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   allowedInSet() {
     return false;

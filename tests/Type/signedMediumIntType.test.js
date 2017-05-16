@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import signedMediumIntType from '../../src/Type/signedMediumIntType';
-import samples from '../fixtures/typeSamples';
+import * as helpers from './helpers';
 
 test('signedMediumIntType property tests', (assert) => {
   assert.true(signedMediumIntType instanceof Type);
@@ -32,41 +32,57 @@ test('signedMediumIntType property tests', (assert) => {
 
 test('signedMediumIntType guard tests', (assert) => {
   const field = new Field('test', signedMediumIntType);
-  samples.guardValid(field, assert);
-  samples.guardInvalid(field, assert);
-  // don't validate against other ints
-  samples.guardMismatch(field, assert, (name => name.indexOf('_INT') !== -1));
+  const valid = [0, -8388608, 8388607, -8388607, 8388606];
+  const invalid = [-8388609, 8388608, '-8388608', '8388607', '', NaN, undefined, null];
+  helpers.guardValidSamples(field, valid, assert);
+  helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
 });
 
 
 test('signedMediumIntType encode tests', (assert) => {
   const field = new Field('test', signedMediumIntType);
-  const type = field.getType();
-  assert.same(type.encode(-8388608, field), -8388608);
-  assert.same(type.encode(8388607, field), 8388607);
-  assert.same(type.encode(-8388607, field), -8388607);
-  assert.same(type.encode(8388606, field), 8388606);
+  const samples = [
+    { input: -8388608, output: -8388608 },
+    { input: 8388607, output: 8388607 },
+    { input: -8388607, output: -8388607 },
+    { input: 8388606, output: 8388606 },
+    { input: false, output: 0 },
+    { input: '', output: 0 },
+    { input: null, output: 0 },
+    { input: undefined, output: 0 },
+    { input: 0, output: 0 },
+    { input: NaN, output: 0 },
+    { input: 3.14, output: 3 },
+    { input: -3.14, output: -3 },
+    { input: '3.14', output: 3 },
+    { input: '-3.14', output: -3 },
+  ];
+
+  helpers.encodeSamples(field, samples, assert);
   assert.end();
 });
 
 
 test('signedMediumIntType decode tests', (assert) => {
   const field = new Field('test', signedMediumIntType);
-  const type = field.getType();
-  assert.same(type.decode(-8388608, field), -8388608);
-  assert.same(type.decode(8388607, field), 8388607);
-  assert.same(type.decode(-8388607, field), -8388607);
-  assert.same(type.decode(8388606, field), 8388606);
+  const samples = [
+    { input: -8388608, output: -8388608 },
+    { input: 8388607, output: 8388607 },
+    { input: -8388607, output: -8388607 },
+    { input: 8388606, output: 8388606 },
+    { input: false, output: 0 },
+    { input: '', output: 0 },
+    { input: null, output: 0 },
+    { input: undefined, output: 0 },
+    { input: 0, output: 0 },
+    { input: NaN, output: 0 },
+    { input: 3.14, output: 3 },
+    { input: -3.14, output: -3 },
+    { input: '3.14', output: 3 },
+    { input: '-3.14', output: -3 },
+  ];
 
-  assert.same(type.decode('-8388608', field), -8388608);
-  assert.same(type.decode('8388607', field), 8388607);
-  assert.same(type.decode('-8388607', field), -8388607);
-  assert.same(type.decode('8388606', field), 8388606);
-
-  assert.same(type.decode('', field), 0);
-  assert.same(type.decode(undefined, field), 0);
-  assert.same(type.decode(null, field), 0);
-
+  helpers.decodeSamples(field, samples, assert);
   assert.end();
 });

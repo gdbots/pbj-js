@@ -3,26 +3,26 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class TinyIntType extends AbstractIntType {
+class SignedMediumIntType extends AbstractIntType {
   constructor() {
-    super(TypeName.TINY_INT);
+    super(TypeName.SIGNED_MEDIUM_INT);
   }
 
   /**
    * @returns {number}
    */
   getMin() {
-    return 0;
+    return -8388608;
   }
 
   /**
    * @returns {number}
    */
   getMax() {
-    return 255;
+    return 8388607;
   }
 }
 
-const instance = new TinyIntType();
-Object.freeze(instance);
-export default instance;
+const signedMediumIntType = new SignedMediumIntType();
+Object.freeze(signedMediumIntType);
+export default signedMediumIntType;

@@ -29,7 +29,7 @@ export default class AbstractIntType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {number}
+   * @returns {number}
    */
   encode(value, field, codec = null) {
     return toSafeInteger(value) || 0;
@@ -40,21 +40,21 @@ export default class AbstractIntType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {number}
+   * @returns {number}
    */
   decode(value, field, codec = null) {
     return toSafeInteger(value) || 0;
   }
 
   /**
-   * @return {number}
+   * @returns {number}
    */
   getDefault() {
     return 0;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isNumeric() {
     return true;

@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
+/* eslint-disable class-methods-use-this */
 
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
@@ -23,6 +23,6 @@ class SignedMediumIntType extends AbstractIntType {
   }
 }
 
-const signedMediumIntType = new SignedMediumIntType();
-Object.freeze(signedMediumIntType);
-export default signedMediumIntType;
+const instance = new SignedMediumIntType();
+Object.freeze(instance);
+export default instance;

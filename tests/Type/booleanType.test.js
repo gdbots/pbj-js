@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import booleanType from '../../src/Type/booleanType';
-import samples from '../fixtures/typeSamples';
+import * as helpers from './helpers';
 
 test('booleanType property tests', (assert) => {
   assert.true(booleanType instanceof Type);
@@ -32,58 +32,69 @@ test('booleanType property tests', (assert) => {
 
 test('booleanType guard tests', (assert) => {
   const field = new Field('test', booleanType);
-  samples.guardValid(field, assert);
-  samples.guardInvalid(field, assert);
+  const valid = [true, false];
+  const invalid = ['true', 'false', 1, 0, 'on', 'off', 'yes', 'no', '+', '-', null, [], {}, -1, '', NaN, undefined];
+  helpers.guardValidSamples(field, valid, assert);
+  helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
 });
 
 
 test('booleanType encode tests', (assert) => {
   const field = new Field('test', booleanType);
-  const type = field.getType();
-  assert.same(type.encode(false, field), false);
-  assert.same(type.encode('', field), false);
-  assert.same(type.encode(null, field), false);
-  assert.same(type.encode(undefined, field), false);
-  assert.same(type.encode(true, field), true);
+  const samples = [
+    { input: false, output: false },
+    { input: '', output: false },
+    { input: null, output: false },
+    { input: undefined, output: false },
+    { input: 0, output: false },
+    { input: NaN, output: false },
+    { input: true, output: true },
+  ];
+
+  helpers.encodeSamples(field, samples, assert);
   assert.end();
 });
 
 
 test('booleanType decode tests', (assert) => {
   const field = new Field('test', booleanType);
-  const type = field.getType();
-  assert.same(type.decode(false, field), false);
-  assert.same(type.decode('false', field), false);
-  assert.same(type.decode('FALSE', field), false);
-  assert.same(type.decode('False', field), false);
-  assert.same(type.decode('FaLSe', field), false);
-  assert.same(type.decode('0', field), false);
-  assert.same(type.decode('-1', field), false);
-  assert.same(type.decode('no', field), false);
-  assert.same(type.decode('null', field), false);
-  assert.same(type.decode('', field), false);
-  assert.same(type.decode(0, field), false);
-  assert.same(type.decode(-1, field), false);
-  assert.same(type.decode(null, field), false);
-  assert.same(type.decode(undefined, field), false);
-  assert.same(type.decode({}, field), false);
-  assert.same(type.decode([], field), false);
+  const samples = [
+    { input: false, output: false },
+    { input: 'false', output: false },
+    { input: 'FALSE', output: false },
+    { input: 'False', output: false },
+    { input: 'FaLSe', output: false },
+    { input: '0', output: false },
+    { input: '-1', output: false },
+    { input: 'no', output: false },
+    { input: 'null', output: false },
+    { input: '', output: false },
+    { input: 0, output: false },
+    { input: -1, output: false },
+    { input: null, output: false },
+    { input: undefined, output: false },
+    { input: {}, output: false },
+    { input: [], output: false },
+    { input: NaN, output: false },
 
-  assert.same(type.decode(true, field), true);
-  assert.same(type.decode('true', field), true);
-  assert.same(type.decode('TRUE', field), true);
-  assert.same(type.decode('True', field), true);
-  assert.same(type.decode('tRuE', field), true);
-  assert.same(type.decode('1', field), true);
-  assert.same(type.decode('yes', field), true);
-  assert.same(type.decode('YES', field), true);
-  assert.same(type.decode('Yes', field), true);
-  assert.same(type.decode('+', field), true);
-  assert.same(type.decode('on', field), true);
-  assert.same(type.decode('ON', field), true);
-  assert.same(type.decode('On', field), true);
-  assert.same(type.decode(1, field), true);
+    { input: true, output: true },
+    { input: 'true', output: true },
+    { input: 'TRUE', output: true },
+    { input: 'True', output: true },
+    { input: 'tRuE', output: true },
+    { input: '1', output: true },
+    { input: 'yes', output: true },
+    { input: 'YES', output: true },
+    { input: 'Yes', output: true },
+    { input: 'yEs', output: true },
+    { input: '+', output: true },
+    { input: 'on', output: true },
+    { input: 'ON', output: true },
+    { input: 'On', output: true },
+    { input: 1, output: true },
+  ];
 
+  helpers.decodeSamples(field, samples, assert);
   assert.end();
 });

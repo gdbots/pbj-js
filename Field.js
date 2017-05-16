@@ -8,10 +8,11 @@ export default class Field {
     this.type = type;
     this.min = null;
     this.max = null;
+    Object.freeze(this);
   }
 
   /**
-   * @return {string}
+   * @returns {string}
    */
   getName() {
     return this.name;
@@ -28,19 +29,13 @@ export default class Field {
    * @returns {?number}
    */
   getMin() {
-    if (this.min === null) {
-      return this.type.getMin();
-    }
-    return this.min;
+    return this.min === null ? this.type.getMin() : this.min;
   }
 
   /**
    * @returns {?number}
    */
   getMax() {
-    if (this.max === null) {
-      return this.type.getMax();
-    }
-    return this.max;
+    return this.max === null ? this.type.getMax() : this.max;
   }
 }

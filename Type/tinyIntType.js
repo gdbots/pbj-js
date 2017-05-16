@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
+/* eslint-disable class-methods-use-this */
 
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
@@ -9,14 +9,14 @@ class TinyIntType extends AbstractIntType {
   }
 
   /**
-   * @return {number}
+   * @returns {number}
    */
   getMin() {
     return 0;
   }
 
   /**
-   * @return {number}
+   * @returns {number}
    */
   getMax() {
     return 255;

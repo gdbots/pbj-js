@@ -2,6 +2,7 @@
 
 import isBoolean from 'lodash/isBoolean';
 import toLower from 'lodash/toLower';
+import trim from 'lodash/trim';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
@@ -46,7 +47,7 @@ class BooleanType extends Type {
       return !!value;
     }
 
-    return ['1', 'true', 'yes', 'on', '+'].indexOf(toLower(value)) !== -1;
+    return ['1', 'true', 'yes', 'on', '+'].indexOf(trim(toLower(value))) !== -1;
   }
 
   /**
@@ -71,6 +72,6 @@ class BooleanType extends Type {
   }
 }
 
-const booleanType = new BooleanType();
-Object.freeze(booleanType);
-export default booleanType;
+const instance = new BooleanType();
+Object.freeze(instance);
+export default instance;
