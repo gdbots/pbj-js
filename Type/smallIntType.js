@@ -3,9 +3,9 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class TinyIntType extends AbstractIntType {
+class SmallIntType extends AbstractIntType {
   constructor() {
-    super(TypeName.TINY_INT);
+    super(TypeName.SMALL_INT);
   }
 
   /**
@@ -19,10 +19,10 @@ class TinyIntType extends AbstractIntType {
    * @returns {number}
    */
   getMax() {
-    return 255;
+    return 65535;
   }
 }
 
-const instance = new TinyIntType();
+const instance = new SmallIntType();
 Object.freeze(instance);
 export default instance;

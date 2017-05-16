@@ -72,6 +72,6 @@ class BooleanType extends Type {
   }
 }
 
-const booleanType = new BooleanType();
-Object.freeze(booleanType);
-export default booleanType;
+const instance = new BooleanType();
+Object.freeze(instance);
+export default instance;

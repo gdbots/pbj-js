@@ -23,6 +23,6 @@ class SignedMediumIntType extends AbstractIntType {
   }
 }
 
-const signedMediumIntType = new SignedMediumIntType();
-Object.freeze(signedMediumIntType);
-export default signedMediumIntType;
+const instance = new SignedMediumIntType();
+Object.freeze(instance);
+export default instance;
