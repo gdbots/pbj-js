@@ -20,7 +20,7 @@ class BooleanType extends Type {
       return;
     }
 
-    throw new AssertionFailed(`Field [${field.getName()}] expected a boolean, got [${JSON.stringify(value)}].`);
+    throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a boolean.`);
   }
 
   /**

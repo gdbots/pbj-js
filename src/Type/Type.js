@@ -9,98 +9,98 @@ export default class Type {
   }
 
   /**
-   * @return {TypeName}
+   * @returns {TypeName}
    */
   getTypeName() {
     return this.typeName;
   }
 
   /**
-   * @return {string}
+   * @returns {string}
    */
   getTypeValue() {
     return this.typeName.getValue();
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isScalar() {
     return true;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   encodesToScalar() {
     return true;
   }
 
   /**
-   * @return {*}
+   * @returns {*}
    */
   getDefault() {
     return null;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isBoolean() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isBinary() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isNumeric() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isString() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isMessage() {
     return false;
   }
 
   /**
-   * @return {Integer}
+   * @returns {number}
    */
   getMin() {
     return -2147483648;
   }
 
   /**
-   * @return {Integer}
+   * @returns {number}
    */
   getMax() {
     return 2147483647;
   }
 
   /**
-   * @return {Integer}
+   * @returns {number}
    */
   getMaxBytes() {
     return 65535;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   allowedInSet() {
     return true;

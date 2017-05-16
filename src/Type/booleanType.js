@@ -20,7 +20,7 @@ class BooleanType extends Type {
       return;
     }
 
-    throw new AssertionFailed(`Field [${field.getName()}] expected a boolean, got [${JSON.stringify(value)}].`);
+    throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a boolean.`);
   }
 
   /**
@@ -28,7 +28,7 @@ class BooleanType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {boolean}
+   * @returns {boolean}
    */
   encode(value, field, codec = null) {
     return !!value;
@@ -39,7 +39,7 @@ class BooleanType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @return {boolean}
+   * @returns {boolean}
    */
   decode(value, field, codec = null) {
     if (isBoolean(value)) {
@@ -50,21 +50,21 @@ class BooleanType extends Type {
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   getDefault() {
     return false;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   isBoolean() {
     return true;
   }
 
   /**
-   * @return {boolean}
+   * @returns {boolean}
    */
   allowedInSet() {
     return false;

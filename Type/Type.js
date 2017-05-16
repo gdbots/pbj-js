@@ -79,21 +79,21 @@ export default class Type {
   }
 
   /**
-   * @return {Integer}
+   * @return {number}
    */
   getMin() {
     return -2147483648;
   }
 
   /**
-   * @return {Integer}
+   * @return {number}
    */
   getMax() {
     return 2147483647;
   }
 
   /**
-   * @return {Integer}
+   * @return {number}
    */
   getMaxBytes() {
     return 65535;

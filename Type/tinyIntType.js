@@ -1,56 +1,25 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import Type from './Type';
+import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class TinyIntType extends Type {
+class TinyIntType extends AbstractIntType {
   constructor() {
     super(TypeName.TINY_INT);
   }
 
   /**
-   * @param {*} value
-   * @param {Field} field
+   * @return {number}
    */
-  guard(value, field) {} // eslint-disable-line no-unused-vars
-
-
-  /**
-   * @param {*} value
-   * @param {Field} field
-   * @param {Codec} [codec]
-   *
-   * @return {boolean}
-   */
-  encode(value, field, codec = null) {
-    // eslint-disable-line no-unused-vars
-    return value;
+  getMin() {
+    return 0;
   }
 
   /**
-   * @param {*} value
-   * @param {Field} field
-   * @param {Codec} [codec]
-   *
-   * @return {boolean}
+   * @return {number}
    */
-  decode(value, field, codec = null) {
-    // eslint-disable-line no-unused-vars
-    return value;
-  }
-
-  /**
-   * @return {boolean}
-   */
-  getDefault() {
-    return false;
-  }
-
-  /**
-   * @return {boolean}
-   */
-  allowedInSet() {
-    return false;
+  getMax() {
+    return 255;
   }
 }
 

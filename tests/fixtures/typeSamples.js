@@ -42,7 +42,7 @@ function guardValid(field, assert) {
 function guardInvalid(field, assert, filter = null) {
   const type = field.getType();
   Object.keys(valid)
-    .filter(name => name !== TypeName.BOOLEAN.getName())
+    .filter(name => name !== type.getTypeName().getName())
     .filter(filter || (() => true))
     .forEach((key) => {
       valid[key].forEach((value) => {
