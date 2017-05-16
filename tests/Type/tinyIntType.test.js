@@ -34,6 +34,8 @@ test('tinyIntType guard tests', (assert) => {
   const field = new Field('test', tinyIntType);
   samples.guardValid(field, assert);
   samples.guardInvalid(field, assert);
+  // don't validate against other ints
+  samples.guardMismatch(field, assert, (name => name.indexOf('_INT') !== -1));
   assert.end();
 });
 
@@ -56,6 +58,15 @@ test('tinyIntType decode tests', (assert) => {
   assert.same(type.decode(255, field), 255);
   assert.same(type.decode(1, field), 1);
   assert.same(type.decode(254, field), 254);
+
+  assert.same(type.decode('0', field), 0);
+  assert.same(type.decode('255', field), 255);
+  assert.same(type.decode('1', field), 1);
+  assert.same(type.decode('254', field), 254);
+
+  assert.same(type.decode('', field), 0);
+  assert.same(type.decode(undefined, field), 0);
+  assert.same(type.decode(null, field), 0);
 
   assert.end();
 });
