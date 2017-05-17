@@ -80,4 +80,3 @@ test('tinyIntType decode tests', (assert) => {
   helpers.decodeSamples(field, samples, assert);
   assert.end();
 });
-
