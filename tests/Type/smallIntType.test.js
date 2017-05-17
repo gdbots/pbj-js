@@ -31,9 +31,9 @@ test('smallIntType property tests', (assert) => {
 
 
 test('smallIntType guard tests', (assert) => {
-  const field = new Field('test', smallIntType);
+  const field = new Field({ name: 'test', type: smallIntType });
   const valid = [0, 65535, 1, 65534];
-  const invalid = [-1, 65536, '0', '65535', '', NaN, undefined, null];
+  const invalid = [-1, 65536, '0', '65535', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('smallIntType guard tests', (assert) => {
 
 
 test('smallIntType encode tests', (assert) => {
-  const field = new Field('test', smallIntType);
+  const field = new Field({ name: 'test', type: smallIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 65535, output: 65535 },
@@ -62,7 +62,7 @@ test('smallIntType encode tests', (assert) => {
 
 
 test('smallIntType decode tests', (assert) => {
-  const field = new Field('test', smallIntType);
+  const field = new Field({ name: 'test', type: smallIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 65535, output: 65535 },

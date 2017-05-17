@@ -31,9 +31,9 @@ test('signedIntType property tests', (assert) => {
 
 
 test('signedIntType guard tests', (assert) => {
-  const field = new Field('test', signedIntType);
+  const field = new Field({ name: 'test', type: signedIntType });
   const valid = [0, -2147483648, 2147483647, -2147483647, 2147483646];
-  const invalid = [-2147483649, 2147483648, '-2147483648', '2147483647', '', NaN, undefined, null];
+  const invalid = [-2147483649, 2147483648, '-2147483648', '2147483647', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('signedIntType guard tests', (assert) => {
 
 
 test('signedIntType encode tests', (assert) => {
-  const field = new Field('test', signedIntType);
+  const field = new Field({ name: 'test', type: signedIntType });
   const samples = [
     { input: -2147483648, output: -2147483648 },
     { input: 2147483647, output: 2147483647 },
@@ -65,7 +65,7 @@ test('signedIntType encode tests', (assert) => {
 
 
 test('signedIntType decode tests', (assert) => {
-  const field = new Field('test', signedIntType);
+  const field = new Field({ name: 'test', type: signedIntType });
   const samples = [
     { input: -2147483648, output: -2147483648 },
     { input: 2147483647, output: 2147483647 },

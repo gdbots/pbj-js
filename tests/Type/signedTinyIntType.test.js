@@ -31,9 +31,9 @@ test('signedTinyIntType property tests', (assert) => {
 
 
 test('signedTinyIntType guard tests', (assert) => {
-  const field = new Field('test', signedTinyIntType);
+  const field = new Field({ name: 'test', type: signedTinyIntType });
   const valid = [0, -128, 127, -127, 126];
-  const invalid = [-129, 128, '-128', '127', '', NaN, undefined, null];
+  const invalid = [-129, 128, '-128', '127', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('signedTinyIntType guard tests', (assert) => {
 
 
 test('signedTinyIntType encode tests', (assert) => {
-  const field = new Field('test', signedTinyIntType);
+  const field = new Field({ name: 'test', type: signedTinyIntType });
   const samples = [
     { input: -128, output: -128 },
     { input: 127, output: 127 },
@@ -65,7 +65,7 @@ test('signedTinyIntType encode tests', (assert) => {
 
 
 test('signedTinyIntType decode tests', (assert) => {
-  const field = new Field('test', signedTinyIntType);
+  const field = new Field({ name: 'test', type: signedTinyIntType });
   const samples = [
     { input: -128, output: -128 },
     { input: 127, output: 127 },

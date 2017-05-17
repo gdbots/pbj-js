@@ -31,9 +31,9 @@ test('intType property tests', (assert) => {
 
 
 test('intType guard tests', (assert) => {
-  const field = new Field('test', intType);
+  const field = new Field({ name: 'test', type: intType });
   const valid = [0, 4294967295, 1, 4294967294];
-  const invalid = [-1, 4294967296, '0', '4294967295', '', NaN, undefined, null];
+  const invalid = [-1, 4294967296, '0', '4294967295', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('intType guard tests', (assert) => {
 
 
 test('intType encode tests', (assert) => {
-  const field = new Field('test', intType);
+  const field = new Field({ name: 'test', type: intType });
   const samples = [
     { input: 0, output: 0 },
     { input: 4294967295, output: 4294967295 },
@@ -62,7 +62,7 @@ test('intType encode tests', (assert) => {
 
 
 test('intType decode tests', (assert) => {
-  const field = new Field('test', intType);
+  const field = new Field({ name: 'test', type: intType });
   const samples = [
     { input: 0, output: 0 },
     { input: 4294967295, output: 4294967295 },

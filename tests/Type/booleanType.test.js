@@ -31,7 +31,7 @@ test('booleanType property tests', (assert) => {
 
 
 test('booleanType guard tests', (assert) => {
-  const field = new Field('test', booleanType);
+  const field = new Field({ name: 'test', type: booleanType });
   const valid = [true, false];
   const invalid = ['true', 'false', 1, 0, 'on', 'off', 'yes', 'no', '+', '-', null, [], {}, -1, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
@@ -41,7 +41,7 @@ test('booleanType guard tests', (assert) => {
 
 
 test('booleanType encode tests', (assert) => {
-  const field = new Field('test', booleanType);
+  const field = new Field({ name: 'test', type: booleanType });
   const samples = [
     { input: false, output: false },
     { input: '', output: false },
@@ -58,7 +58,7 @@ test('booleanType encode tests', (assert) => {
 
 
 test('booleanType decode tests', (assert) => {
-  const field = new Field('test', booleanType);
+  const field = new Field({ name: 'test', type: booleanType });
   const samples = [
     { input: false, output: false },
     { input: 'false', output: false },

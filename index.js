@@ -1,2 +1,4 @@
-export { default as Field } from './Field';
-export { default as booleanType } from './Type/booleanType';
+import Field from './Field';
+import * as Type from './Type';
+
+export { Field, Type };

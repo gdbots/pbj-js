@@ -31,9 +31,9 @@ test('tinyIntType property tests', (assert) => {
 
 
 test('tinyIntType guard tests', (assert) => {
-  const field = new Field('test', tinyIntType);
+  const field = new Field({ name: 'test', type: tinyIntType });
   const valid = [0, 255, 1, 254];
-  const invalid = [-1, 256, '0', '255', '', NaN, undefined, null];
+  const invalid = [-1, 256, '0', '255', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('tinyIntType guard tests', (assert) => {
 
 
 test('tinyIntType encode tests', (assert) => {
-  const field = new Field('test', tinyIntType);
+  const field = new Field({ name: 'test', type: tinyIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 255, output: 255 },
@@ -62,7 +62,7 @@ test('tinyIntType encode tests', (assert) => {
 
 
 test('tinyIntType decode tests', (assert) => {
-  const field = new Field('test', tinyIntType);
+  const field = new Field({ name: 'test', type: tinyIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 255, output: 255 },

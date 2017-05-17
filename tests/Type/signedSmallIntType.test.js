@@ -31,9 +31,9 @@ test('signedSmallIntType property tests', (assert) => {
 
 
 test('signedSmallIntType guard tests', (assert) => {
-  const field = new Field('test', signedSmallIntType);
+  const field = new Field({ name: 'test', type: signedSmallIntType });
   const valid = [0, -32768, 32767, -32767, 32766];
-  const invalid = [-32769, 32768, '-32768', '32767', '', NaN, undefined, null];
+  const invalid = [-32769, 32768, '-32768', '32767', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('signedSmallIntType guard tests', (assert) => {
 
 
 test('signedSmallIntType encode tests', (assert) => {
-  const field = new Field('test', signedSmallIntType);
+  const field = new Field({ name: 'test', type: signedSmallIntType });
   const samples = [
     { input: -32768, output: -32768 },
     { input: 32767, output: 32767 },
@@ -65,7 +65,7 @@ test('signedSmallIntType encode tests', (assert) => {
 
 
 test('signedSmallIntType decode tests', (assert) => {
-  const field = new Field('test', signedSmallIntType);
+  const field = new Field({ name: 'test', type: signedSmallIntType });
   const samples = [
     { input: -32768, output: -32768 },
     { input: 32767, output: 32767 },

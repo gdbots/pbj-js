@@ -31,9 +31,9 @@ test('signedMediumIntType property tests', (assert) => {
 
 
 test('signedMediumIntType guard tests', (assert) => {
-  const field = new Field('test', signedMediumIntType);
+  const field = new Field({ name: 'test', type: signedMediumIntType });
   const valid = [0, -8388608, 8388607, -8388607, 8388606];
-  const invalid = [-8388609, 8388608, '-8388608', '8388607', '', NaN, undefined, null];
+  const invalid = [-8388609, 8388608, '-8388608', '8388607', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('signedMediumIntType guard tests', (assert) => {
 
 
 test('signedMediumIntType encode tests', (assert) => {
-  const field = new Field('test', signedMediumIntType);
+  const field = new Field({ name: 'test', type: signedMediumIntType });
   const samples = [
     { input: -8388608, output: -8388608 },
     { input: 8388607, output: 8388607 },
@@ -65,7 +65,7 @@ test('signedMediumIntType encode tests', (assert) => {
 
 
 test('signedMediumIntType decode tests', (assert) => {
-  const field = new Field('test', signedMediumIntType);
+  const field = new Field({ name: 'test', type: signedMediumIntType });
   const samples = [
     { input: -8388608, output: -8388608 },
     { input: 8388607, output: 8388607 },

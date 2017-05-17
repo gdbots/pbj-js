@@ -1,13 +1,17 @@
 export default class Field {
   /**
    * @param {string} name
-   * @param {Type} type
+   * @param {Type}   type
+   * @param {number} precision
+   * @param {number} scale
    */
-  constructor(name, type) {
+  constructor({ name, type, precision = 10, scale = 2 }) {
     this.name = name;
     this.type = type;
     this.min = null;
     this.max = null;
+    this.precision = precision;
+    this.scale = scale;
     Object.freeze(this);
   }
 
@@ -37,5 +41,19 @@ export default class Field {
    */
   getMax() {
     return this.max === null ? this.type.getMax() : this.max;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getPrecision() {
+    return this.precision;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getScale() {
+    return this.scale;
   }
 }

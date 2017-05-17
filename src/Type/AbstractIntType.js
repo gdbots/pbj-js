@@ -32,7 +32,7 @@ export default class AbstractIntType extends Type {
    * @returns {number}
    */
   encode(value, field, codec = null) {
-    return toSafeInteger(value) || 0;
+    return toSafeInteger(value);
   }
 
   /**
@@ -43,7 +43,7 @@ export default class AbstractIntType extends Type {
    * @returns {number}
    */
   decode(value, field, codec = null) {
-    return toSafeInteger(value) || 0;
+    return toSafeInteger(value);
   }
 
   /**

@@ -31,9 +31,9 @@ test('mediumIntType property tests', (assert) => {
 
 
 test('mediumIntType guard tests', (assert) => {
-  const field = new Field('test', mediumIntType);
+  const field = new Field({ name: 'test', type: mediumIntType });
   const valid = [0, 16777215, 1, 16777214];
-  const invalid = [-1, 16777216, '0', '16777215', '', NaN, undefined, null];
+  const invalid = [-1, 16777216, '0', '16777215', null, [], {}, '', NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
   helpers.guardInvalidSamples(field, invalid, assert);
   assert.end();
@@ -41,7 +41,7 @@ test('mediumIntType guard tests', (assert) => {
 
 
 test('mediumIntType encode tests', (assert) => {
-  const field = new Field('test', mediumIntType);
+  const field = new Field({ name: 'test', type: mediumIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 16777215, output: 16777215 },
@@ -62,7 +62,7 @@ test('mediumIntType encode tests', (assert) => {
 
 
 test('mediumIntType decode tests', (assert) => {
-  const field = new Field('test', mediumIntType);
+  const field = new Field({ name: 'test', type: mediumIntType });
   const samples = [
     { input: 0, output: 0 },
     { input: 16777215, output: 16777215 },

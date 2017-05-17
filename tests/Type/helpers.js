@@ -1,3 +1,5 @@
+import toString from 'lodash/toString';
+
 /**
  * Runs guard against an array of valid samples for the provided
  * type and asserts that it *MUST* pass.
@@ -49,7 +51,9 @@ function guardInvalidSamples(field, samples, assert) {
 function encodeSamples(field, samples, assert) {
   samples.forEach((obj) => {
     try {
-      assert.same(field.getType().encode(obj.input, field), obj.output);
+      const actual = field.getType().encode(obj.input, field);
+      assert.same(actual, obj.output);
+      assert.same(toString(actual), toString(obj.output));
     } catch (e) {
       assert.fail(e.message);
     }
@@ -67,7 +71,9 @@ function encodeSamples(field, samples, assert) {
 function decodeSamples(field, samples, assert) {
   samples.forEach((obj) => {
     try {
-      assert.same(field.getType().decode(obj.input, field), obj.output);
+      const actual = field.getType().decode(obj.input, field);
+      assert.same(actual, obj.output);
+      assert.same(toString(actual), toString(obj.output));
     } catch (e) {
       assert.fail(e.message);
     }
