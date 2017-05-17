@@ -74,5 +74,4 @@ class DecimalType extends Type {
 }
 
 const instance = new DecimalType();
-Object.freeze(instance);
 export default instance;

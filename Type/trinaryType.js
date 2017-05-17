@@ -1,15 +1,20 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import isFinite from 'lodash-es/isFinite';
-import toFinite from 'lodash-es/toFinite';
+import isSafeInteger from 'lodash-es/isSafeInteger';
+import toSafeInteger from 'lodash-es/toSafeInteger';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-// fixme: handle precision and scale
-class FloatType extends Type {
+/**
+ * @link https://en.wikipedia.org/wiki/Three-valued_logic
+ * 0 = unknown
+ * 1 = true
+ * 2 = false
+ */
+class TrinaryType extends Type {
   constructor() {
-    super(TypeName.FLOAT);
+    super(TypeName.TRINARY);
   }
 
   /**
@@ -17,8 +22,12 @@ class FloatType extends Type {
    * @param {Field} field
    */
   guard(value, field) {
-    if (!isFinite(value)) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a float.`);
+    if (!isSafeInteger(value)) {
+      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not an integer.`);
+    }
+
+    if ([0, 1, 2].indexOf(value) === -1) {
+      throw new AssertionFailed(`${field.getName()} :: Value "${value}" is not an element of the valid values: [0, 1, 2]`);
     }
   }
 
@@ -30,7 +39,7 @@ class FloatType extends Type {
    * @returns {number}
    */
   encode(value, field, codec = null) {
-    return toFinite(value);
+    return toSafeInteger(value);
   }
 
   /**
@@ -41,14 +50,14 @@ class FloatType extends Type {
    * @returns {number}
    */
   decode(value, field, codec = null) {
-    return toFinite(value);
+    return toSafeInteger(value);
   }
 
   /**
    * @returns {number}
    */
   getDefault() {
-    return 0.0;
+    return 0;
   }
 
   /**
@@ -62,16 +71,23 @@ class FloatType extends Type {
    * @returns {number}
    */
   getMin() {
-    return Number.MIN_VALUE;
+    return 0;
   }
 
   /**
    * @returns {number}
    */
   getMax() {
-    return Number.MAX_VALUE;
+    return 2;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  allowedInSet() {
+    return false;
   }
 }
 
-const instance = new FloatType();
+const instance = new TrinaryType();
 export default instance;

@@ -24,5 +24,4 @@ class SignedMediumIntType extends AbstractIntType {
 }
 
 const instance = new SignedMediumIntType();
-Object.freeze(instance);
 export default instance;

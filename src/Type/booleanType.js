@@ -73,5 +73,4 @@ class BooleanType extends Type {
 }
 
 const instance = new BooleanType();
-Object.freeze(instance);
 export default instance;

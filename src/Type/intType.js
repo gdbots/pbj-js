@@ -24,5 +24,4 @@ class IntType extends AbstractIntType {
 }
 
 const instance = new IntType();
-Object.freeze(instance);
 export default instance;

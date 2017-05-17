@@ -24,5 +24,4 @@ class MediumIntType extends AbstractIntType {
 }
 
 const instance = new MediumIntType();
-Object.freeze(instance);
 export default instance;

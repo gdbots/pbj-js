@@ -24,5 +24,4 @@ class TinyIntType extends AbstractIntType {
 }
 
 const instance = new TinyIntType();
-Object.freeze(instance);
 export default instance;

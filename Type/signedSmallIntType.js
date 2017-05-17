@@ -24,5 +24,4 @@ class SignedSmallIntType extends AbstractIntType {
 }
 
 const instance = new SignedSmallIntType();
-Object.freeze(instance);
 export default instance;

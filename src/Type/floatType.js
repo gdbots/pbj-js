@@ -74,5 +74,4 @@ class FloatType extends Type {
 }
 
 const instance = new FloatType();
-Object.freeze(instance);
 export default instance;
