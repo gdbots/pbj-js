@@ -9,6 +9,7 @@ export { default as signedMediumIntType } from './signedMediumIntType';
 export { default as signedSmallIntType } from './signedSmallIntType';
 export { default as signedTinyIntType } from './signedTinyIntType';
 export { default as smallIntType } from './smallIntType';
+export { default as textType } from './textType';
 export { default as timestampType } from './timestampType';
 export { default as tinyIntType } from './tinyIntType';
 export { default as trinaryType } from './trinaryType';

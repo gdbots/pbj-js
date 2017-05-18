@@ -1,4 +1,5 @@
 import toString from 'lodash/toString';
+import truncate from 'lodash/truncate';
 
 /**
  * Runs guard against an array of valid samples for the provided
@@ -13,7 +14,8 @@ function guardValidSamples(field, samples, assert) {
   samples.forEach((value) => {
     try {
       type.guard(value, field);
-      assert.pass(`${type.getTypeName().getName()}.guard accepted valid value [${JSON.stringify(value)}].`);
+      const truncated = truncate(JSON.stringify(value));
+      assert.pass(`${type.getTypeName().getName()}.guard accepted valid value [${truncated}].`);
     } catch (e) {
       assert.fail(e.message);
     }

@@ -1,6 +1,6 @@
 import Enum from '@gdbots/common/Enum';
 
-class TypeName extends Enum {}
+export default class TypeName extends Enum {}
 
 TypeName.configure({
   BIG_INT: 'big-int',
@@ -37,5 +37,3 @@ TypeName.configure({
   TRINARY: 'trinary',
   UUID: 'uuid'
 }, 'gdbots:pbj:type-name');
-
-export default TypeName;
