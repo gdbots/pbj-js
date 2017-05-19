@@ -23,11 +23,11 @@ class TrinaryType extends Type {
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not an integer.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not an integer.`);
     }
 
     if ([0, 1, 2].indexOf(value) === -1) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${value}" is not an element of the valid values: [0, 1, 2]`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" is not an element of the valid values: [0, 1, 2]`);
     }
   }
 

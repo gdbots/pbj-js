@@ -13,7 +13,7 @@ export default class AbstractStringType extends Type {
    */
   guard(value, field) {
     if (!isString(value)) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a string.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a string.`);
     }
 
     // fixme: deal with browsers not having "Buffer" available
@@ -27,7 +27,7 @@ export default class AbstractStringType extends Type {
     }
 
     throw new AssertionFailed(
-      `${field.getName()} :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`
+      `Field [${field.getName()}] :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`
     );
   }
 

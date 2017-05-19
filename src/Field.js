@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
 import isBoolean from 'lodash/isBoolean';
+import trim from 'lodash/trim';
 import FieldRule from './Enum/FieldRule';
 import Message from './Message';
 import Type from './Type/Type';
@@ -67,7 +68,9 @@ export default class Field {
   applyStringOptions(minLength = null, maxLength = null, pattern = null, format = null) {
     this.minLength = 0; // minLength;
     this.maxLength = maxLength;
-    this.pattern = pattern;
+
+    this.pattern = pattern ? `/${trim(pattern, '/')}/` : null;
+
     this.format = format;
   }
 

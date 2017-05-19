@@ -18,7 +18,7 @@ class DecimalType extends Type {
    */
   guard(value, field) {
     if (!isFinite(value)) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a decimal.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a decimal.`);
     }
   }
 

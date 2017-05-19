@@ -13,14 +13,14 @@ export default class AbstractIntType extends Type {
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {
-      throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not an integer.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not an integer.`);
     }
 
     const min = clamp(field.getMin(), this.getMin(), this.getMax());
     const max = clamp(field.getMax(), this.getMin(), this.getMax());
 
     if (value < min || value > max) {
-      throw new AssertionFailed(`${field.getName()} :: Number "${value}" was expected to be at least "${min}" and at most "${max}".`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Number "${value}" was expected to be at least "${min}" and at most "${max}".`);
     }
   }
 
