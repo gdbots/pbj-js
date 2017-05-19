@@ -19,13 +19,10 @@ class StringType extends AbstractStringType {
   guard(value, field) {
     super.guard(value, field);
 
-    if (field.getPattern()) {
-      const regex = new RegExp(field.getPattern());
-      if (!regex.test(value)) {
-        throw new AssertionFailed(
-          `Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`
-        );
-      }
+    if (field.getPattern() && !field.getPattern().test(value)) {
+      throw new AssertionFailed(
+        `Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`
+      );
     }
 
     switch (field.getFormat()) {

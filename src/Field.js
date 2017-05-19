@@ -69,7 +69,7 @@ export default class Field {
     this.minLength = 0; // minLength;
     this.maxLength = maxLength;
 
-    this.pattern = pattern ? `/${trim(pattern, '/')}/` : null;
+    this.pattern = pattern ? new RegExp(trim(pattern, '/')) : null;
 
     this.format = format;
   }
