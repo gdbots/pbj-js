@@ -16,16 +16,18 @@ export default class AbstractStringType extends Type {
       throw new AssertionFailed(`${field.getName()} :: Value "${JSON.stringify(value)}" is not a string.`);
     }
 
-    const strlen = encodeURIComponent(value).split(/%..|./).length - 1;
+    // fixme: deal with browsers not having "Buffer" available
+    // we must get BYTES, not characters ಠ_ಠ
+    const strLength = Buffer.from(value).byteLength;
     const minLength = field.getMinLength();
     const maxLength = clamp(field.getMaxLength(), minLength, this.getMaxBytes());
 
-    if (strlen >= minLength && strlen <= maxLength) {
+    if (strLength >= minLength && strLength <= maxLength) {
       return;
     }
 
     throw new AssertionFailed(
-      `${field.getName()} :: Must be between [${minLength}] and [${maxLength}] bytes, [${strlen}] bytes given.`
+      `${field.getName()} :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`
     );
   }
 

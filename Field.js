@@ -65,7 +65,7 @@ export default class Field {
    */
   applyStringOptions(minLength = null, maxLength = null, pattern = null, format = null) {
     this.minLength = 0; // minLength;
-    this.maxLength = 65536; // maxLength;
+    this.maxLength = maxLength;
     this.pattern = pattern;
     this.format = format;
   }

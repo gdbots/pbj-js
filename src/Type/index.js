@@ -4,6 +4,7 @@ export { default as decimalType } from './decimalType';
 export { default as floatType } from './floatType';
 export { default as intType } from './intType';
 export { default as mediumIntType } from './mediumIntType';
+export { default as mediumTextType } from './mediumTextType';
 export { default as signedIntType } from './signedIntType';
 export { default as signedMediumIntType } from './signedMediumIntType';
 export { default as signedSmallIntType } from './signedSmallIntType';

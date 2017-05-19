@@ -2,37 +2,37 @@ import test from 'tape';
 import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
-import textType from '../../src/Type/textType';
+import mediumTextType from '../../src/Type/mediumTextType';
 import * as helpers from './helpers';
 
-test('textType property tests', (assert) => {
-  assert.true(textType instanceof Type);
-  assert.same(textType.getTypeName(), TypeName.TEXT);
-  assert.same(textType.getTypeValue(), TypeName.TEXT.valueOf());
-  assert.same(textType.isScalar(), true);
-  assert.same(textType.encodesToScalar(), true);
-  assert.same(textType.getDefault(), null);
-  assert.same(textType.isBoolean(), false);
-  assert.same(textType.isBinary(), false);
-  assert.same(textType.isNumeric(), false);
-  assert.same(textType.isString(), true);
-  assert.same(textType.isMessage(), false);
-  assert.same(textType.allowedInSet(), false);
+test('mediumTextType property tests', (assert) => {
+  assert.true(mediumTextType instanceof Type);
+  assert.same(mediumTextType.getTypeName(), TypeName.MEDIUM_TEXT);
+  assert.same(mediumTextType.getTypeValue(), TypeName.MEDIUM_TEXT.valueOf());
+  assert.same(mediumTextType.isScalar(), true);
+  assert.same(mediumTextType.encodesToScalar(), true);
+  assert.same(mediumTextType.getDefault(), null);
+  assert.same(mediumTextType.isBoolean(), false);
+  assert.same(mediumTextType.isBinary(), false);
+  assert.same(mediumTextType.isNumeric(), false);
+  assert.same(mediumTextType.isString(), true);
+  assert.same(mediumTextType.isMessage(), false);
+  assert.same(mediumTextType.allowedInSet(), false);
 
   try {
-    textType.test = 1;
-    assert.fail('textType instance is mutable');
+    mediumTextType.test = 1;
+    assert.fail('mediumTextType instance is mutable');
   } catch (e) {
-    assert.pass('textType instance is immutable');
+    assert.pass('mediumTextType instance is immutable');
   }
 
   assert.end();
 });
 
 
-test('textType guard tests', (assert) => {
-  const field = new Field({ name: 'test', type: textType });
-  const largeText = 'a'.repeat(textType.getMaxBytes());
+test('mediumTextType guard tests', (assert) => {
+  const field = new Field({ name: 'test', type: mediumTextType });
+  const largeText = 'a'.repeat(mediumTextType.getMaxBytes());
   const valid = ['test', largeText, '(╯°□°)╯︵ ┻━┻', ' ice 🍦 poop 💩 doh 😳 ', 'ಠ_ಠ'];
   const invalid = [-1, 1, `${largeText}b`, true, false, null, [], {}, NaN, undefined];
   helpers.guardValidSamples(field, valid, assert);
@@ -41,9 +41,9 @@ test('textType guard tests', (assert) => {
 });
 
 
-test('textType encode tests', (assert) => {
-  const field = new Field({ name: 'test', type: textType });
-  const largeText = 'a'.repeat(textType.getMaxBytes());
+test('mediumTextType encode tests', (assert) => {
+  const field = new Field({ name: 'test', type: mediumTextType });
+  const largeText = 'a'.repeat(mediumTextType.getMaxBytes());
   const samples = [
     { input: 'hello', output: 'hello' },
     { input: '  hello', output: 'hello' },
@@ -61,9 +61,9 @@ test('textType encode tests', (assert) => {
 });
 
 
-test('textType decode tests', (assert) => {
-  const field = new Field({ name: 'test', type: textType });
-  const largeText = 'a'.repeat(textType.getMaxBytes());
+test('mediumTextType decode tests', (assert) => {
+  const field = new Field({ name: 'test', type: mediumTextType });
+  const largeText = 'a'.repeat(mediumTextType.getMaxBytes());
   const samples = [
     { input: 'hello', output: 'hello' },
     { input: '  hello', output: 'hello' },
