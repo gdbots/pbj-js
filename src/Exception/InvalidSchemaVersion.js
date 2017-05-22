@@ -1,6 +1,6 @@
 import GdbotsPbjException from './GdbotsPbjException';
 
-export default class AssertionFailed extends GdbotsPbjException {
+export default class InvalidSchemaVersion extends GdbotsPbjException {
   /**
    * @param {string} message
    */

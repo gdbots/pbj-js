@@ -1,6 +1,6 @@
-import Exception from '@gdbots/common/Exception';
+import GdbotsPbjException from './GdbotsPbjException';
 
-export default class AssertionFailed extends Exception {
+export default class AssertionFailed extends GdbotsPbjException {
   /**
    * @param {string} message
    */
