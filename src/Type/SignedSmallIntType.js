@@ -3,20 +3,20 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-/** @type SmallIntType */
+/** @type SignedSmallIntType */
 let instance = null;
 
-export default class SmallIntType extends AbstractIntType {
+export default class SignedSmallIntType extends AbstractIntType {
   constructor() {
-    super(TypeName.SMALL_INT);
+    super(TypeName.SIGNED_SMALL_INT);
   }
 
   /**
-   * @returns {SmallIntType}
+   * @returns {SignedSmallIntType}
    */
   static create() {
     if (instance === null) {
-      instance = new SmallIntType();
+      instance = new SignedSmallIntType();
     }
 
     return instance;
@@ -26,13 +26,13 @@ export default class SmallIntType extends AbstractIntType {
    * @returns {number}
    */
   getMin() {
-    return 0;
+    return -32768;
   }
 
   /**
    * @returns {number}
    */
   getMax() {
-    return 65535;
+    return 32767;
   }
 }

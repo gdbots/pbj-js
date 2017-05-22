@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, max-len, comma-dangle */
 
-import trim from 'lodash-es/trim';
+import trim from 'lodash/trim';
 import isValidHashtag from '@gdbots/common/isValidHashtag';
 import AbstractStringType from './AbstractStringType';
 import Format from '../Enum/Format';
@@ -34,7 +34,9 @@ export default class StringType extends AbstractStringType {
     super.guard(value, field);
 
     if (field.getPattern() && !field.getPattern().test(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`);
+      throw new AssertionFailed(
+        `Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`
+      );
     }
 
     switch (field.getFormat()) {
@@ -43,7 +45,9 @@ export default class StringType extends AbstractStringType {
 
       case Format.HASHTAG:
         if (!isValidHashtag(value)) {
-          throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" is not a valid hashtag.`);
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid hashtag.`
+          );
         }
 
         break;
@@ -138,6 +142,7 @@ export default class StringType extends AbstractStringType {
     //         break;
     // }
   }
+
 
   /**
    * @returns {number}

@@ -1,26 +1,26 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import isSafeInteger from 'lodash-es/isSafeInteger';
-import toSafeInteger from 'lodash-es/toSafeInteger';
-import isValidTimestamp from '@gdbots/common/isValidTimestamp';
+import isFinite from 'lodash/isFinite';
+import toFinite from 'lodash/toFinite';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type TimestampType */
+/** @type DecimalType */
 let instance = null;
 
-export default class TimestampType extends Type {
+// fixme: handle precision
+export default class DecimalType extends Type {
   constructor() {
-    super(TypeName.TIMESTAMP);
+    super(TypeName.DECIMAL);
   }
 
   /**
-   * @returns {TimestampType}
+   * @returns {DecimalType}
    */
   static create() {
     if (instance === null) {
-      instance = new TimestampType();
+      instance = new DecimalType();
     }
 
     return instance;
@@ -31,8 +31,8 @@ export default class TimestampType extends Type {
    * @param {Field} field
    */
   guard(value, field) {
-    if (!isSafeInteger(value) || !isValidTimestamp(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a valid unix timestamp.`);
+    if (!isFinite(value)) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a decimal.`);
     }
   }
 
@@ -41,10 +41,10 @@ export default class TimestampType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @returns {number}
+   * @returns {string}
    */
   encode(value, field, codec = null) {
-    return toSafeInteger(value);
+    return toFinite(value).toFixed(field.getScale());
   }
 
   /**
@@ -55,14 +55,14 @@ export default class TimestampType extends Type {
    * @returns {number}
    */
   decode(value, field, codec = null) {
-    return toSafeInteger(value);
+    return toFinite(toFinite(value).toFixed(field.getScale()));
   }
 
   /**
    * @returns {number}
    */
   getDefault() {
-    return Math.floor(Date.now() / 1000);
+    return 0.0;
   }
 
   /**
@@ -70,5 +70,19 @@ export default class TimestampType extends Type {
    */
   isNumeric() {
     return true;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getMin() {
+    return Number.MIN_VALUE;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getMax() {
+    return Number.MAX_VALUE;
   }
 }

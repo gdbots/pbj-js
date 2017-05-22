@@ -1,26 +1,26 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import isSafeInteger from 'lodash-es/isSafeInteger';
-import toSafeInteger from 'lodash-es/toSafeInteger';
-import isValidTimestamp from '@gdbots/common/isValidTimestamp';
+import isBoolean from 'lodash/isBoolean';
+import toLower from 'lodash/toLower';
+import trim from 'lodash/trim';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type TimestampType */
+/** @type BooleanType */
 let instance = null;
 
-export default class TimestampType extends Type {
+export default class BooleanType extends Type {
   constructor() {
-    super(TypeName.TIMESTAMP);
+    super(TypeName.BOOLEAN);
   }
 
   /**
-   * @returns {TimestampType}
+   * @returns {BooleanType}
    */
   static create() {
     if (instance === null) {
-      instance = new TimestampType();
+      instance = new BooleanType();
     }
 
     return instance;
@@ -31,9 +31,11 @@ export default class TimestampType extends Type {
    * @param {Field} field
    */
   guard(value, field) {
-    if (!isSafeInteger(value) || !isValidTimestamp(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a valid unix timestamp.`);
+    if (isBoolean(value)) {
+      return;
     }
+
+    throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a boolean.`);
   }
 
   /**
@@ -41,10 +43,10 @@ export default class TimestampType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @returns {number}
+   * @returns {boolean}
    */
   encode(value, field, codec = null) {
-    return toSafeInteger(value);
+    return !!value;
   }
 
   /**
@@ -52,23 +54,34 @@ export default class TimestampType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @returns {number}
+   * @returns {boolean}
    */
   decode(value, field, codec = null) {
-    return toSafeInteger(value);
-  }
+    if (isBoolean(value)) {
+      return !!value;
+    }
 
-  /**
-   * @returns {number}
-   */
-  getDefault() {
-    return Math.floor(Date.now() / 1000);
+    return ['1', 'true', 'yes', 'on', '+'].indexOf(trim(toLower(value))) !== -1;
   }
 
   /**
    * @returns {boolean}
    */
-  isNumeric() {
+  getDefault() {
+    return false;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isBoolean() {
     return true;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  allowedInSet() {
+    return false;
   }
 }

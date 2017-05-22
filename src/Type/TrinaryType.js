@@ -1,26 +1,31 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import isSafeInteger from 'lodash-es/isSafeInteger';
-import toSafeInteger from 'lodash-es/toSafeInteger';
-import isValidTimestamp from '@gdbots/common/isValidTimestamp';
+import isSafeInteger from 'lodash/isSafeInteger';
+import toSafeInteger from 'lodash/toSafeInteger';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type TimestampType */
+/** @type TrinaryType */
 let instance = null;
 
-export default class TimestampType extends Type {
+/**
+ * @link https://en.wikipedia.org/wiki/Three-valued_logic
+ * 0 = unknown
+ * 1 = true
+ * 2 = false
+ */
+export default class TrinaryType extends Type {
   constructor() {
-    super(TypeName.TIMESTAMP);
+    super(TypeName.TRINARY);
   }
 
   /**
-   * @returns {TimestampType}
+   * @returns {TrinaryType}
    */
   static create() {
     if (instance === null) {
-      instance = new TimestampType();
+      instance = new TrinaryType();
     }
 
     return instance;
@@ -31,8 +36,12 @@ export default class TimestampType extends Type {
    * @param {Field} field
    */
   guard(value, field) {
-    if (!isSafeInteger(value) || !isValidTimestamp(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a valid unix timestamp.`);
+    if (!isSafeInteger(value)) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not an integer.`);
+    }
+
+    if ([0, 1, 2].indexOf(value) === -1) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" is not an element of the valid values: [0, 1, 2]`);
     }
   }
 
@@ -62,7 +71,7 @@ export default class TimestampType extends Type {
    * @returns {number}
    */
   getDefault() {
-    return Math.floor(Date.now() / 1000);
+    return 0;
   }
 
   /**
@@ -70,5 +79,26 @@ export default class TimestampType extends Type {
    */
   isNumeric() {
     return true;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getMin() {
+    return 0;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getMax() {
+    return 2;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  allowedInSet() {
+    return false;
   }
 }

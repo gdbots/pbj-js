@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import isSafeInteger from 'lodash-es/isSafeInteger';
-import toSafeInteger from 'lodash-es/toSafeInteger';
+import isSafeInteger from 'lodash/isSafeInteger';
+import toSafeInteger from 'lodash/toSafeInteger';
 import isValidTimestamp from '@gdbots/common/isValidTimestamp';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';

@@ -6,10 +6,24 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
+/** @type FloatType */
+let instance = null;
+
 // fixme: handle precision and scale
-class FloatType extends Type {
+export default class FloatType extends Type {
   constructor() {
     super(TypeName.FLOAT);
+  }
+
+  /**
+   * @returns {FloatType}
+   */
+  static create() {
+    if (instance === null) {
+      instance = new FloatType();
+    }
+
+    return instance;
   }
 
   /**
@@ -72,6 +86,3 @@ class FloatType extends Type {
     return Number.MAX_VALUE;
   }
 }
-
-const instance = new FloatType();
-export default instance;

@@ -3,9 +3,23 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class MediumIntType extends AbstractIntType {
+/** @type MediumIntType */
+let instance = null;
+
+export default class MediumIntType extends AbstractIntType {
   constructor() {
     super(TypeName.MEDIUM_INT);
+  }
+
+  /**
+   * @returns {MediumIntType}
+   */
+  static create() {
+    if (instance === null) {
+      instance = new MediumIntType();
+    }
+
+    return instance;
   }
 
   /**
@@ -22,6 +36,3 @@ class MediumIntType extends AbstractIntType {
     return 16777215;
   }
 }
-
-const instance = new MediumIntType();
-export default instance;

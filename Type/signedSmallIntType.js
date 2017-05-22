@@ -3,9 +3,23 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class SignedSmallIntType extends AbstractIntType {
+/** @type SignedSmallIntType */
+let instance = null;
+
+export default class SignedSmallIntType extends AbstractIntType {
   constructor() {
     super(TypeName.SIGNED_SMALL_INT);
+  }
+
+  /**
+   * @returns {SignedSmallIntType}
+   */
+  static create() {
+    if (instance === null) {
+      instance = new SignedSmallIntType();
+    }
+
+    return instance;
   }
 
   /**
@@ -22,6 +36,3 @@ class SignedSmallIntType extends AbstractIntType {
     return 32767;
   }
 }
-
-const instance = new SignedSmallIntType();
-export default instance;

@@ -3,9 +3,23 @@
 import AbstractStringType from './AbstractStringType';
 import TypeName from '../Enum/TypeName';
 
-class MediumTextType extends AbstractStringType {
+/** @type MediumTextType */
+let instance = null;
+
+export default class MediumTextType extends AbstractStringType {
   constructor() {
     super(TypeName.MEDIUM_TEXT);
+  }
+
+  /**
+   * @returns {MediumTextType}
+   */
+  static create() {
+    if (instance === null) {
+      instance = new MediumTextType();
+    }
+
+    return instance;
   }
 
   /**
@@ -22,6 +36,3 @@ class MediumTextType extends AbstractStringType {
     return false;
   }
 }
-
-const instance = new MediumTextType();
-export default instance;

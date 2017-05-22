@@ -3,9 +3,23 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-class TinyIntType extends AbstractIntType {
+/** @type TinyIntType */
+let instance = null;
+
+export default class TinyIntType extends AbstractIntType {
   constructor() {
     super(TypeName.TINY_INT);
+  }
+
+  /**
+   * @returns {TinyIntType}
+   */
+  static create() {
+    if (instance === null) {
+      instance = new TinyIntType();
+    }
+
+    return instance;
   }
 
   /**
@@ -22,6 +36,3 @@ class TinyIntType extends AbstractIntType {
     return 255;
   }
 }
-
-const instance = new TinyIntType();
-export default instance;
