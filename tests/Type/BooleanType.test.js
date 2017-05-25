@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import BooleanType from '../../src/Type/BooleanType';
 import * as helpers from './helpers';
 
-test('BooleanType property tests', (assert) => {
+test('BooleanType property tests', (t) => {
   const booleanType = BooleanType.create();
-  assert.true(booleanType instanceof Type);
-  assert.true(booleanType instanceof BooleanType);
-  assert.same(booleanType, BooleanType.create());
-  assert.same(booleanType.getTypeName(), TypeName.BOOLEAN);
-  assert.same(booleanType.getTypeValue(), TypeName.BOOLEAN.valueOf());
-  assert.same(booleanType.isScalar(), true);
-  assert.same(booleanType.encodesToScalar(), true);
-  assert.same(booleanType.getDefault(), false);
-  assert.same(booleanType.isBoolean(), true);
-  assert.same(booleanType.isBinary(), false);
-  assert.same(booleanType.isNumeric(), false);
-  assert.same(booleanType.isString(), false);
-  assert.same(booleanType.isMessage(), false);
-  assert.same(booleanType.allowedInSet(), false);
+  t.true(booleanType instanceof Type);
+  t.true(booleanType instanceof BooleanType);
+  t.same(booleanType, BooleanType.create());
+  t.same(booleanType.getTypeName(), TypeName.BOOLEAN);
+  t.same(booleanType.getTypeValue(), TypeName.BOOLEAN.valueOf());
+  t.same(booleanType.isScalar(), true);
+  t.same(booleanType.encodesToScalar(), true);
+  t.same(booleanType.getDefault(), false);
+  t.same(booleanType.isBoolean(), true);
+  t.same(booleanType.isBinary(), false);
+  t.same(booleanType.isNumeric(), false);
+  t.same(booleanType.isString(), false);
+  t.same(booleanType.isMessage(), false);
+  t.same(booleanType.allowedInSet(), false);
 
   try {
     booleanType.test = 1;
-    assert.fail('booleanType instance is mutable');
+    t.fail('booleanType instance is mutable');
   } catch (e) {
-    assert.pass('booleanType instance is immutable');
+    t.pass('booleanType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('BooleanType guard tests', (assert) => {
+test('BooleanType guard tests', (t) => {
   const field = new Field({ name: 'test', type: BooleanType.create() });
   const valid = [true, false];
   const invalid = ['true', 'false', 1, 0, 'on', 'off', 'yes', 'no', '+', '-', null, [], {}, -1, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('BooleanType encode tests', (assert) => {
+test('BooleanType encode tests', (t) => {
   const field = new Field({ name: 'test', type: BooleanType.create() });
   const samples = [
     { input: false, output: false },
@@ -55,12 +55,12 @@ test('BooleanType encode tests', (assert) => {
     { input: true, output: true },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('BooleanType decode tests', (assert) => {
+test('BooleanType decode tests', (t) => {
   const field = new Field({ name: 'test', type: BooleanType.create() });
   const samples = [
     { input: false, output: false },
@@ -98,6 +98,6 @@ test('BooleanType decode tests', (assert) => {
     { input: 1, output: true },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

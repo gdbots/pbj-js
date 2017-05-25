@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import SignedSmallIntType from '../../src/Type/SignedSmallIntType';
 import * as helpers from './helpers';
 
-test('signedSmallIntType property tests', (assert) => {
+test('signedSmallIntType property tests', (t) => {
   const signedSmallIntType = SignedSmallIntType.create();
-  assert.true(signedSmallIntType instanceof Type);
-  assert.true(signedSmallIntType instanceof SignedSmallIntType);
-  assert.same(signedSmallIntType, SignedSmallIntType.create());
-  assert.same(signedSmallIntType.getTypeName(), TypeName.SIGNED_SMALL_INT);
-  assert.same(signedSmallIntType.getTypeValue(), TypeName.SIGNED_SMALL_INT.valueOf());
-  assert.same(signedSmallIntType.isScalar(), true);
-  assert.same(signedSmallIntType.encodesToScalar(), true);
-  assert.same(signedSmallIntType.getDefault(), 0);
-  assert.same(signedSmallIntType.isBoolean(), false);
-  assert.same(signedSmallIntType.isBinary(), false);
-  assert.same(signedSmallIntType.isNumeric(), true);
-  assert.same(signedSmallIntType.isString(), false);
-  assert.same(signedSmallIntType.isMessage(), false);
-  assert.same(signedSmallIntType.allowedInSet(), true);
+  t.true(signedSmallIntType instanceof Type);
+  t.true(signedSmallIntType instanceof SignedSmallIntType);
+  t.same(signedSmallIntType, SignedSmallIntType.create());
+  t.same(signedSmallIntType.getTypeName(), TypeName.SIGNED_SMALL_INT);
+  t.same(signedSmallIntType.getTypeValue(), TypeName.SIGNED_SMALL_INT.valueOf());
+  t.same(signedSmallIntType.isScalar(), true);
+  t.same(signedSmallIntType.encodesToScalar(), true);
+  t.same(signedSmallIntType.getDefault(), 0);
+  t.same(signedSmallIntType.isBoolean(), false);
+  t.same(signedSmallIntType.isBinary(), false);
+  t.same(signedSmallIntType.isNumeric(), true);
+  t.same(signedSmallIntType.isString(), false);
+  t.same(signedSmallIntType.isMessage(), false);
+  t.same(signedSmallIntType.allowedInSet(), true);
 
   try {
     signedSmallIntType.test = 1;
-    assert.fail('signedSmallIntType instance is mutable');
+    t.fail('signedSmallIntType instance is mutable');
   } catch (e) {
-    assert.pass('signedSmallIntType instance is immutable');
+    t.pass('signedSmallIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('signedSmallIntType guard tests', (assert) => {
+test('signedSmallIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const valid = [0, -32768, 32767, -32767, 32766];
   const invalid = [-32769, 32768, '-32768', '32767', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('signedSmallIntType encode tests', (assert) => {
+test('signedSmallIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const samples = [
     { input: -32768, output: -32768 },
@@ -62,12 +62,12 @@ test('signedSmallIntType encode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('signedSmallIntType decode tests', (assert) => {
+test('signedSmallIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const samples = [
     { input: -32768, output: -32768 },
@@ -86,6 +86,6 @@ test('signedSmallIntType decode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

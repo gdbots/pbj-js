@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import SignedMediumIntType from '../../src/Type/SignedMediumIntType';
 import * as helpers from './helpers';
 
-test('SignedMediumIntType property tests', (assert) => {
+test('SignedMediumIntType property tests', (t) => {
   const signedMediumIntType = SignedMediumIntType.create();
-  assert.true(signedMediumIntType instanceof Type);
-  assert.true(signedMediumIntType instanceof SignedMediumIntType);
-  assert.same(signedMediumIntType, SignedMediumIntType.create());
-  assert.same(signedMediumIntType.getTypeName(), TypeName.SIGNED_MEDIUM_INT);
-  assert.same(signedMediumIntType.getTypeValue(), TypeName.SIGNED_MEDIUM_INT.valueOf());
-  assert.same(signedMediumIntType.isScalar(), true);
-  assert.same(signedMediumIntType.encodesToScalar(), true);
-  assert.same(signedMediumIntType.getDefault(), 0);
-  assert.same(signedMediumIntType.isBoolean(), false);
-  assert.same(signedMediumIntType.isBinary(), false);
-  assert.same(signedMediumIntType.isNumeric(), true);
-  assert.same(signedMediumIntType.isString(), false);
-  assert.same(signedMediumIntType.isMessage(), false);
-  assert.same(signedMediumIntType.allowedInSet(), true);
+  t.true(signedMediumIntType instanceof Type);
+  t.true(signedMediumIntType instanceof SignedMediumIntType);
+  t.same(signedMediumIntType, SignedMediumIntType.create());
+  t.same(signedMediumIntType.getTypeName(), TypeName.SIGNED_MEDIUM_INT);
+  t.same(signedMediumIntType.getTypeValue(), TypeName.SIGNED_MEDIUM_INT.valueOf());
+  t.same(signedMediumIntType.isScalar(), true);
+  t.same(signedMediumIntType.encodesToScalar(), true);
+  t.same(signedMediumIntType.getDefault(), 0);
+  t.same(signedMediumIntType.isBoolean(), false);
+  t.same(signedMediumIntType.isBinary(), false);
+  t.same(signedMediumIntType.isNumeric(), true);
+  t.same(signedMediumIntType.isString(), false);
+  t.same(signedMediumIntType.isMessage(), false);
+  t.same(signedMediumIntType.allowedInSet(), true);
 
   try {
     signedMediumIntType.test = 1;
-    assert.fail('signedMediumIntType instance is mutable');
+    t.fail('signedMediumIntType instance is mutable');
   } catch (e) {
-    assert.pass('signedMediumIntType instance is immutable');
+    t.pass('signedMediumIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('SignedMediumIntType guard tests', (assert) => {
+test('SignedMediumIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: SignedMediumIntType.create() });
   const valid = [0, -8388608, 8388607, -8388607, 8388606];
   const invalid = [-8388609, 8388608, '-8388608', '8388607', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('SignedMediumIntType encode tests', (assert) => {
+test('SignedMediumIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedMediumIntType.create() });
   const samples = [
     { input: -8388608, output: -8388608 },
@@ -62,12 +62,12 @@ test('SignedMediumIntType encode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('SignedMediumIntType decode tests', (assert) => {
+test('SignedMediumIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedMediumIntType.create() });
   const samples = [
     { input: -8388608, output: -8388608 },
@@ -86,6 +86,6 @@ test('SignedMediumIntType decode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

@@ -17,7 +17,7 @@
   "module": "./index.js",
   "jsnext:main": "./index.js",
   "dependencies": {
-    "@gdbots/common": "git://github.com/gdbots/common-js.git#0.1.x-dev",
+    "@gdbots/common": "^0.1.0",
     "bignumber.js": "^4.0.2",
     "lodash": "^4.17.4",
     "lodash-es": "^4.17.4",

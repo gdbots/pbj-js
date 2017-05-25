@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import TinyIntType from '../../src/Type/TinyIntType';
 import * as helpers from './helpers';
 
-test('tinyIntType property tests', (assert) => {
+test('tinyIntType property tests', (t) => {
   const tinyIntType = TinyIntType.create();
-  assert.true(tinyIntType instanceof Type);
-  assert.true(tinyIntType instanceof TinyIntType);
-  assert.same(tinyIntType, TinyIntType.create());
-  assert.same(tinyIntType.getTypeName(), TypeName.TINY_INT);
-  assert.same(tinyIntType.getTypeValue(), TypeName.TINY_INT.valueOf());
-  assert.same(tinyIntType.isScalar(), true);
-  assert.same(tinyIntType.encodesToScalar(), true);
-  assert.same(tinyIntType.getDefault(), 0);
-  assert.same(tinyIntType.isBoolean(), false);
-  assert.same(tinyIntType.isBinary(), false);
-  assert.same(tinyIntType.isNumeric(), true);
-  assert.same(tinyIntType.isString(), false);
-  assert.same(tinyIntType.isMessage(), false);
-  assert.same(tinyIntType.allowedInSet(), true);
+  t.true(tinyIntType instanceof Type);
+  t.true(tinyIntType instanceof TinyIntType);
+  t.same(tinyIntType, TinyIntType.create());
+  t.same(tinyIntType.getTypeName(), TypeName.TINY_INT);
+  t.same(tinyIntType.getTypeValue(), TypeName.TINY_INT.valueOf());
+  t.same(tinyIntType.isScalar(), true);
+  t.same(tinyIntType.encodesToScalar(), true);
+  t.same(tinyIntType.getDefault(), 0);
+  t.same(tinyIntType.isBoolean(), false);
+  t.same(tinyIntType.isBinary(), false);
+  t.same(tinyIntType.isNumeric(), true);
+  t.same(tinyIntType.isString(), false);
+  t.same(tinyIntType.isMessage(), false);
+  t.same(tinyIntType.allowedInSet(), true);
 
   try {
     tinyIntType.test = 1;
-    assert.fail('tinyIntType instance is mutable');
+    t.fail('tinyIntType instance is mutable');
   } catch (e) {
-    assert.pass('tinyIntType instance is immutable');
+    t.pass('tinyIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('tinyIntType guard tests', (assert) => {
+test('tinyIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const valid = [0, 255, 1, 254];
   const invalid = [-1, 256, '0', '255', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('tinyIntType encode tests', (assert) => {
+test('tinyIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -59,12 +59,12 @@ test('tinyIntType encode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('tinyIntType decode tests', (assert) => {
+test('tinyIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -80,6 +80,6 @@ test('tinyIntType decode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

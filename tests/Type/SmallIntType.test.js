@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import SmallIntType from '../../src/Type/SmallIntType';
 import * as helpers from './helpers';
 
-test('smallIntType property tests', (assert) => {
+test('smallIntType property tests', (t) => {
   const smallIntType = SmallIntType.create();
-  assert.true(smallIntType instanceof Type);
-  assert.true(smallIntType instanceof SmallIntType);
-  assert.same(smallIntType, SmallIntType.create());
-  assert.same(smallIntType.getTypeName(), TypeName.SMALL_INT);
-  assert.same(smallIntType.getTypeValue(), TypeName.SMALL_INT.valueOf());
-  assert.same(smallIntType.isScalar(), true);
-  assert.same(smallIntType.encodesToScalar(), true);
-  assert.same(smallIntType.getDefault(), 0);
-  assert.same(smallIntType.isBoolean(), false);
-  assert.same(smallIntType.isBinary(), false);
-  assert.same(smallIntType.isNumeric(), true);
-  assert.same(smallIntType.isString(), false);
-  assert.same(smallIntType.isMessage(), false);
-  assert.same(smallIntType.allowedInSet(), true);
+  t.true(smallIntType instanceof Type);
+  t.true(smallIntType instanceof SmallIntType);
+  t.same(smallIntType, SmallIntType.create());
+  t.same(smallIntType.getTypeName(), TypeName.SMALL_INT);
+  t.same(smallIntType.getTypeValue(), TypeName.SMALL_INT.valueOf());
+  t.same(smallIntType.isScalar(), true);
+  t.same(smallIntType.encodesToScalar(), true);
+  t.same(smallIntType.getDefault(), 0);
+  t.same(smallIntType.isBoolean(), false);
+  t.same(smallIntType.isBinary(), false);
+  t.same(smallIntType.isNumeric(), true);
+  t.same(smallIntType.isString(), false);
+  t.same(smallIntType.isMessage(), false);
+  t.same(smallIntType.allowedInSet(), true);
 
   try {
     smallIntType.test = 1;
-    assert.fail('smallIntType instance is mutable');
+    t.fail('smallIntType instance is mutable');
   } catch (e) {
-    assert.pass('smallIntType instance is immutable');
+    t.pass('smallIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('smallIntType guard tests', (assert) => {
+test('smallIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: SmallIntType.create() });
   const valid = [0, 65535, 1, 65534];
   const invalid = [-1, 65536, '0', '65535', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('smallIntType encode tests', (assert) => {
+test('smallIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: SmallIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -59,12 +59,12 @@ test('smallIntType encode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('smallIntType decode tests', (assert) => {
+test('smallIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: SmallIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -80,6 +80,6 @@ test('smallIntType decode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

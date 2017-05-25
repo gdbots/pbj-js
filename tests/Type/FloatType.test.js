@@ -5,35 +5,35 @@ import Field from '../../src/Field';
 import FloatType from '../../src/Type/FloatType';
 import * as helpers from './helpers';
 
-test('FloatType property tests', (assert) => {
+test('FloatType property tests', (t) => {
   const floatType = FloatType.create();
-  assert.true(floatType instanceof Type);
-  assert.true(floatType instanceof FloatType);
-  assert.same(floatType, FloatType.create());
-  assert.same(floatType.getTypeName(), TypeName.FLOAT);
-  assert.same(floatType.getTypeValue(), TypeName.FLOAT.valueOf());
-  assert.same(floatType.isScalar(), true);
-  assert.same(floatType.encodesToScalar(), true);
-  assert.same(floatType.getDefault(), 0.0);
-  assert.same(floatType.isBoolean(), false);
-  assert.same(floatType.isBinary(), false);
-  assert.same(floatType.isNumeric(), true);
-  assert.same(floatType.isString(), false);
-  assert.same(floatType.isMessage(), false);
-  assert.same(floatType.allowedInSet(), true);
+  t.true(floatType instanceof Type);
+  t.true(floatType instanceof FloatType);
+  t.same(floatType, FloatType.create());
+  t.same(floatType.getTypeName(), TypeName.FLOAT);
+  t.same(floatType.getTypeValue(), TypeName.FLOAT.valueOf());
+  t.same(floatType.isScalar(), true);
+  t.same(floatType.encodesToScalar(), true);
+  t.same(floatType.getDefault(), 0.0);
+  t.same(floatType.isBoolean(), false);
+  t.same(floatType.isBinary(), false);
+  t.same(floatType.isNumeric(), true);
+  t.same(floatType.isString(), false);
+  t.same(floatType.isMessage(), false);
+  t.same(floatType.allowedInSet(), true);
 
   try {
     floatType.test = 1;
-    assert.fail('floatType instance is mutable');
+    t.fail('floatType instance is mutable');
   } catch (e) {
-    assert.pass('floatType instance is immutable');
+    t.pass('floatType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('FloatType guard tests', (assert) => {
+test('FloatType guard tests', (t) => {
   const field = new Field({ name: 'test', type: FloatType.create() });
   const valid = [
     0.0, 3.14159265358979323846, -3.14159265358979323846, Number.MIN_VALUE, Number.MAX_VALUE,
@@ -41,13 +41,13 @@ test('FloatType guard tests', (assert) => {
   const invalid = [
     '0', '0.0', '3.14159265358979323846', '-3.14159265358979323846', null, [], {}, '', NaN, undefined,
   ];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('FloatType encode tests', (assert) => {
+test('FloatType encode tests', (t) => {
   const field = new Field({ name: 'test', type: FloatType.create() });
   const samples = [
     { input: 0.0, output: 0.0 },
@@ -62,12 +62,12 @@ test('FloatType encode tests', (assert) => {
     { input: '-3.14159265358979', output: -3.14159265358979 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('FloatType decode tests', (assert) => {
+test('FloatType decode tests', (t) => {
   const field = new Field({ name: 'test', type: FloatType.create() });
   const samples = [
     { input: 0.0, output: 0.0 },
@@ -82,6 +82,6 @@ test('FloatType decode tests', (assert) => {
     { input: '-3.14159265358979', output: -3.14159265358979 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

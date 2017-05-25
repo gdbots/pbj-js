@@ -1,5 +1,5 @@
 import test from 'tape';
 
-test('index tests', (assert) => {
-  assert.end();
+test('index tests', (t) => {
+  t.end();
 });

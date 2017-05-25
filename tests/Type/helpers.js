@@ -7,17 +7,17 @@ import truncate from 'lodash/truncate';
  *
  * @param {Field}  field   - The field object.
  * @param {Array}  samples - An array of valid samples to test.
- * @param {Object} assert  - The assert provider (with pass/fail methods).
+ * @param {Object} test    - The test provider (with pass/fail methods).
  */
-function guardValidSamples(field, samples, assert) {
+function guardValidSamples(field, samples, test) {
   const type = field.getType();
   samples.forEach((value) => {
     try {
       type.guard(value, field);
       const truncated = truncate(JSON.stringify(value));
-      assert.pass(`${type.getTypeName().getName()}.guard accepted valid value [${truncated}].`);
+      test.pass(`${type.getTypeName().getName()}.guard accepted valid value [${truncated}].`);
     } catch (e) {
-      assert.fail(e.message);
+      test.fail(e.message);
     }
   });
 }
@@ -28,16 +28,16 @@ function guardValidSamples(field, samples, assert) {
  *
  * @param {Field}  field   - The field object.
  * @param {Array}  samples - An array of invalid samples to test.
- * @param {Object} assert  - The assert provider (with pass/fail methods).
+ * @param {Object} test    - The test provider (with pass/fail methods).
  */
-function guardInvalidSamples(field, samples, assert) {
+function guardInvalidSamples(field, samples, test) {
   const type = field.getType();
   samples.forEach((value) => {
     try {
       type.guard(value, field);
-      assert.fail(`${type.getTypeName().getName()}.guard accepted invalid value [${JSON.stringify(value)}].`);
+      test.fail(`${type.getTypeName().getName()}.guard accepted invalid value [${JSON.stringify(value)}].`);
     } catch (e) {
-      assert.pass(e.message);
+      test.pass(e.message);
     }
   });
 }
@@ -48,16 +48,16 @@ function guardInvalidSamples(field, samples, assert) {
  *
  * @param {Field}  field   - The field object.
  * @param {Array}  samples - An array of objects with input/output properties.
- * @param {Object} assert  - The assert provider (with pass/fail methods).
+ * @param {Object} test    - The test provider (with pass/fail methods).
  */
-function encodeSamples(field, samples, assert) {
+function encodeSamples(field, samples, test) {
   samples.forEach((obj) => {
     try {
       const actual = field.getType().encode(obj.input, field);
-      assert.same(actual, obj.output);
-      assert.same(toString(actual), toString(obj.output));
+      test.same(actual, obj.output);
+      test.same(toString(actual), toString(obj.output));
     } catch (e) {
-      assert.fail(e.message);
+      test.fail(e.message);
     }
   });
 }
@@ -68,16 +68,16 @@ function encodeSamples(field, samples, assert) {
  *
  * @param {Field}  field   - The field object.
  * @param {Array}  samples - An array of objects with input/output properties.
- * @param {Object} assert  - The assert provider (with pass/fail methods).
+ * @param {Object} test    - The test provider (with pass/fail methods).
  */
-function decodeSamples(field, samples, assert) {
+function decodeSamples(field, samples, test) {
   samples.forEach((obj) => {
     try {
       const actual = field.getType().decode(obj.input, field);
-      assert.same(actual, obj.output);
-      assert.same(toString(actual), toString(obj.output));
+      test.same(actual, obj.output);
+      test.same(toString(actual), toString(obj.output));
     } catch (e) {
-      assert.fail(e.message);
+      test.fail(e.message);
     }
   });
 }

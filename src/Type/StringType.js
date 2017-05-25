@@ -1,7 +1,13 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, max-len, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars, max-len, comma-dangle, no-useless-escape */
 
-import trim from 'lodash/trim';
+import isValidEmail from '@gdbots/common/isValidEmail';
 import isValidHashtag from '@gdbots/common/isValidHashtag';
+import isValidISO8601Date from '@gdbots/common/isValidISO8601Date';
+import isValidHostname from '@gdbots/common/isValidHostname';
+import isValidIpv4 from '@gdbots/common/isValidIpv4';
+import isValidIpv6 from '@gdbots/common/isValidIpv6';
+import isValidUri from '@gdbots/common/isValidUri';
+import isValidUrl from '@gdbots/common/isValidUrl';
 import AbstractStringType from './AbstractStringType';
 import Format from '../Enum/Format';
 import TypeName from '../Enum/TypeName';
@@ -43,6 +49,45 @@ export default class StringType extends AbstractStringType {
       case Format.UNKNOWN:
         break;
 
+      case Format.DATE:
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid date with format "YYYY-MM-DD".`
+          );
+        }
+
+        break;
+
+      case Format.DATE_TIME:
+        if (!isValidISO8601Date(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid ISO8601 date/time.  E.g. "2017-05-25T02:54:18Z".`
+          );
+        }
+
+        break;
+
+      case Format.SLUG:
+        // note that this format is less restrictive than "isValidSlug" function from @gdbots/common.
+        // This is intentional as not everyone is as strict with slug formats.  for example, youtube
+        // "slugs" contain both upper and lower case characters and underscores and hyphens.
+        if (!/^([\w\/-]|[\w-][\w\/-]*[\w-])$/.test(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid slug.`
+          );
+        }
+
+        break;
+
+      case Format.EMAIL:
+        if (!isValidEmail(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid email address.`
+          );
+        }
+
+        break;
+
       case Format.HASHTAG:
         if (!isValidHashtag(value)) {
           throw new AssertionFailed(
@@ -52,95 +97,63 @@ export default class StringType extends AbstractStringType {
 
         break;
 
+      case Format.IPV4:
+        if (!isValidIpv4(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv4 address.`
+          );
+        }
+
+        break;
+
+      case Format.IPV6:
+        if (!isValidIpv6(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv6 address.`
+          );
+        }
+
+        break;
+
+      case Format.HOSTNAME:
+        if (!isValidHostname(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid HOSTNAME.`
+          );
+        }
+
+        break;
+
+      case Format.URI:
+        if (!isValidUri(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid URI.`
+          );
+        }
+
+        break;
+
+      case Format.URL:
+        if (!isValidUrl(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid URL.`
+          );
+        }
+
+        break;
+
+      case Format.UUID:
+        if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(value)) {
+          throw new AssertionFailed(
+            `Field [${field.getName()}] :: Value "${value}" is not a valid UUID.`
+          );
+        }
+
+        break;
+
       default:
         break;
     }
-
-    // todo: convert below (from pbj-php) to es6
-    //
-    // switch ($field->getFormat()->getValue()) {
-    //
-    //     case Format::DATE:
-    //         Assertion::regex($value, '/^\d{4}-\d{2}-\d{2}$/', null, $field->getName());
-    //         break;
-    //
-    //     case Format::DATE_TIME:
-    //         Assertion::true(
-    //             DateUtils::isValidISO8601Date($value),
-    //             sprintf(
-    //                 'Field [%s] must be a valid ISO8601 date-time.  Format must match one of [%s], [%s] or [%s].',
-    //                 $field->getName(),
-    //                 DateUtils::ISO8601_ZULU,
-    //                 DateUtils::ISO8601,
-    //                 \DateTime::ISO8601
-    //             ),
-    //             $field->getName()
-    //         );
-    //         break;
-    //
-    //     case Format::SLUG:
-    //         Assertion::regex($value, '/^([\w\/-]|[\w-][\w\/-]*[\w-])$/', null, $field->getName());
-    //         break;
-    //
-    //     case Format::EMAIL:
-    //         Assertion::email($value, null, $field->getName());
-    //         break;
-    //
-    //     case Format::HASHTAG:
-    //         Assertion::true(
-    //             HashtagUtils::isValid($value),
-    //             sprintf('Field [%s] must be a valid hashtag.  @see HashtagUtils::isValid', $field->getName()),
-    //             $field->getName()
-    //         );
-    //         break;
-    //
-    //     case Format::IPV4:
-    //     case Format::IPV6:
-    //         /*
-    //          * todo: need separate assertion for ipv4 and ipv6
-    //          */
-    //         Assertion::url(
-    //             'http://' . $value,
-    //             sprintf(
-    //                 'Field [%s] must be a valid [%s].',
-    //                 $field->getName(),
-    //                 $field->getFormat()->getValue()
-    //             ),
-    //             $field->getName()
-    //         );
-    //         break;
-    //
-    //     case Format::HOSTNAME:
-    //     case Format::URI:
-    //     case Format::URL:
-    //         /*
-    //          * fixme: need better handling for HOSTNAME, URI and URL... assertion library just has one "url" handling
-    //          * but we really need separate ones for each of these formats.  right now we're just prefixing
-    //          * the value with a http so it looks like a url.  this won't work for thinks like mailto:
-    //          * urn:, etc.
-    //          */
-    //         if (false === strpos($value, 'http')) {
-    //             $value = 'http://' . $value;
-    //         }
-    //
-    //         Assertion::url(
-    //             $value,
-    //             sprintf(
-    //                 'Field [%s] must be a valid [%s].',
-    //                 $field->getName(),
-    //                 $field->getFormat()->getValue()
-    //             ),
-    //             $field->getName()
-    //         );
-    //         break;
-    //
-    //     case Format::UUID:
-    //         Assertion::uuid($value, null, $field->getName());
-    //         break;
-    //
-    //     default:
-    //         break;
-    // }
   }
 
 

@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import TrinaryType from '../../src/Type/TrinaryType';
 import * as helpers from './helpers';
 
-test('TrinaryType property tests', (assert) => {
+test('TrinaryType property tests', (t) => {
   const trinaryType = TrinaryType.create();
-  assert.true(trinaryType instanceof Type);
-  assert.true(trinaryType instanceof TrinaryType);
-  assert.same(trinaryType, TrinaryType.create());
-  assert.same(trinaryType.getTypeName(), TypeName.TRINARY);
-  assert.same(trinaryType.getTypeValue(), TypeName.TRINARY.valueOf());
-  assert.same(trinaryType.isScalar(), true);
-  assert.same(trinaryType.encodesToScalar(), true);
-  assert.same(trinaryType.getDefault(), 0);
-  assert.same(trinaryType.isBoolean(), false);
-  assert.same(trinaryType.isBinary(), false);
-  assert.same(trinaryType.isNumeric(), true);
-  assert.same(trinaryType.isString(), false);
-  assert.same(trinaryType.isMessage(), false);
-  assert.same(trinaryType.allowedInSet(), false);
+  t.true(trinaryType instanceof Type);
+  t.true(trinaryType instanceof TrinaryType);
+  t.same(trinaryType, TrinaryType.create());
+  t.same(trinaryType.getTypeName(), TypeName.TRINARY);
+  t.same(trinaryType.getTypeValue(), TypeName.TRINARY.valueOf());
+  t.same(trinaryType.isScalar(), true);
+  t.same(trinaryType.encodesToScalar(), true);
+  t.same(trinaryType.getDefault(), 0);
+  t.same(trinaryType.isBoolean(), false);
+  t.same(trinaryType.isBinary(), false);
+  t.same(trinaryType.isNumeric(), true);
+  t.same(trinaryType.isString(), false);
+  t.same(trinaryType.isMessage(), false);
+  t.same(trinaryType.allowedInSet(), false);
 
   try {
     trinaryType.test = 1;
-    assert.fail('trinaryType instance is mutable');
+    t.fail('trinaryType instance is mutable');
   } catch (e) {
-    assert.pass('trinaryType instance is immutable');
+    t.pass('trinaryType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('TrinaryType guard tests', (assert) => {
+test('TrinaryType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TrinaryType.create() });
   const valid = [0, 1, 2];
   const invalid = [-1, 3, '0', '1', '2', true, false, null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('TrinaryType encode tests', (assert) => {
+test('TrinaryType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TrinaryType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -60,12 +60,12 @@ test('TrinaryType encode tests', (assert) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('TrinaryType decode tests', (assert) => {
+test('TrinaryType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TrinaryType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -82,6 +82,6 @@ test('TrinaryType decode tests', (assert) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

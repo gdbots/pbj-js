@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import TimestampType from '../../src/Type/TimestampType';
 import * as helpers from './helpers';
 
-test('timestampType property tests', (assert) => {
+test('timestampType property tests', (t) => {
   const timestampType = TimestampType.create();
-  assert.true(timestampType instanceof Type);
-  assert.true(timestampType instanceof TimestampType);
-  assert.same(timestampType, TimestampType.create());
-  assert.same(timestampType.getTypeName(), TypeName.TIMESTAMP);
-  assert.same(timestampType.getTypeValue(), TypeName.TIMESTAMP.valueOf());
-  assert.same(timestampType.isScalar(), true);
-  assert.same(timestampType.encodesToScalar(), true);
-  assert.same(timestampType.getDefault(), Math.floor(Date.now() / 1000));
-  assert.same(timestampType.isBoolean(), false);
-  assert.same(timestampType.isBinary(), false);
-  assert.same(timestampType.isNumeric(), true);
-  assert.same(timestampType.isString(), false);
-  assert.same(timestampType.isMessage(), false);
-  assert.same(timestampType.allowedInSet(), true);
+  t.true(timestampType instanceof Type);
+  t.true(timestampType instanceof TimestampType);
+  t.same(timestampType, TimestampType.create());
+  t.same(timestampType.getTypeName(), TypeName.TIMESTAMP);
+  t.same(timestampType.getTypeValue(), TypeName.TIMESTAMP.valueOf());
+  t.same(timestampType.isScalar(), true);
+  t.same(timestampType.encodesToScalar(), true);
+  t.same(timestampType.getDefault(), Math.floor(Date.now() / 1000));
+  t.same(timestampType.isBoolean(), false);
+  t.same(timestampType.isBinary(), false);
+  t.same(timestampType.isNumeric(), true);
+  t.same(timestampType.isString(), false);
+  t.same(timestampType.isMessage(), false);
+  t.same(timestampType.allowedInSet(), true);
 
   try {
     timestampType.test = 1;
-    assert.fail('timestampType instance is mutable');
+    t.fail('timestampType instance is mutable');
   } catch (e) {
-    assert.pass('timestampType instance is immutable');
+    t.pass('timestampType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('timestampType guard tests', (assert) => {
+test('timestampType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const valid = [1451001600, 1495053313];
   const invalid = [-1, '1451001600', '1495053313', true, false, null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('timestampType encode tests', (assert) => {
+test('timestampType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const samples = [
     { input: 1451001600, output: 1451001600 },
@@ -58,12 +58,12 @@ test('timestampType encode tests', (assert) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('timestampType decode tests', (assert) => {
+test('timestampType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const samples = [
     { input: 1451001600, output: 1451001600 },
@@ -78,6 +78,6 @@ test('timestampType decode tests', (assert) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

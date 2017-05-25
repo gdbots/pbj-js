@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import IntType from '../../src/Type/IntType';
 import * as helpers from './helpers';
 
-test('IntType property tests', (assert) => {
+test('IntType property tests', (t) => {
   const intType = IntType.create();
-  assert.true(intType instanceof Type);
-  assert.true(intType instanceof IntType);
-  assert.same(intType, IntType.create());
-  assert.same(intType.getTypeName(), TypeName.INT);
-  assert.same(intType.getTypeValue(), TypeName.INT.valueOf());
-  assert.same(intType.isScalar(), true);
-  assert.same(intType.encodesToScalar(), true);
-  assert.same(intType.getDefault(), 0);
-  assert.same(intType.isBoolean(), false);
-  assert.same(intType.isBinary(), false);
-  assert.same(intType.isNumeric(), true);
-  assert.same(intType.isString(), false);
-  assert.same(intType.isMessage(), false);
-  assert.same(intType.allowedInSet(), true);
+  t.true(intType instanceof Type);
+  t.true(intType instanceof IntType);
+  t.same(intType, IntType.create());
+  t.same(intType.getTypeName(), TypeName.INT);
+  t.same(intType.getTypeValue(), TypeName.INT.valueOf());
+  t.same(intType.isScalar(), true);
+  t.same(intType.encodesToScalar(), true);
+  t.same(intType.getDefault(), 0);
+  t.same(intType.isBoolean(), false);
+  t.same(intType.isBinary(), false);
+  t.same(intType.isNumeric(), true);
+  t.same(intType.isString(), false);
+  t.same(intType.isMessage(), false);
+  t.same(intType.allowedInSet(), true);
 
   try {
     intType.test = 1;
-    assert.fail('intType instance is mutable');
+    t.fail('intType instance is mutable');
   } catch (e) {
-    assert.pass('intType instance is immutable');
+    t.pass('intType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('IntType guard tests', (assert) => {
+test('IntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: IntType.create() });
   const valid = [0, 4294967295, 1, 4294967294];
   const invalid = [-1, 4294967296, '0', '4294967295', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('IntType encode tests', (assert) => {
+test('IntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: IntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -59,12 +59,12 @@ test('IntType encode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('IntType decode tests', (assert) => {
+test('IntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: IntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -80,6 +80,6 @@ test('IntType decode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

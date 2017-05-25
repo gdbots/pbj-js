@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import MediumIntType from '../../src/Type/MediumIntType';
 import * as helpers from './helpers';
 
-test('MediumIntType property tests', (assert) => {
+test('MediumIntType property tests', (t) => {
   const mediumIntType = MediumIntType.create();
-  assert.true(mediumIntType instanceof Type);
-  assert.true(mediumIntType instanceof MediumIntType);
-  assert.same(mediumIntType, MediumIntType.create());
-  assert.same(mediumIntType.getTypeName(), TypeName.MEDIUM_INT);
-  assert.same(mediumIntType.getTypeValue(), TypeName.MEDIUM_INT.valueOf());
-  assert.same(mediumIntType.isScalar(), true);
-  assert.same(mediumIntType.encodesToScalar(), true);
-  assert.same(mediumIntType.getDefault(), 0);
-  assert.same(mediumIntType.isBoolean(), false);
-  assert.same(mediumIntType.isBinary(), false);
-  assert.same(mediumIntType.isNumeric(), true);
-  assert.same(mediumIntType.isString(), false);
-  assert.same(mediumIntType.isMessage(), false);
-  assert.same(mediumIntType.allowedInSet(), true);
+  t.true(mediumIntType instanceof Type);
+  t.true(mediumIntType instanceof MediumIntType);
+  t.same(mediumIntType, MediumIntType.create());
+  t.same(mediumIntType.getTypeName(), TypeName.MEDIUM_INT);
+  t.same(mediumIntType.getTypeValue(), TypeName.MEDIUM_INT.valueOf());
+  t.same(mediumIntType.isScalar(), true);
+  t.same(mediumIntType.encodesToScalar(), true);
+  t.same(mediumIntType.getDefault(), 0);
+  t.same(mediumIntType.isBoolean(), false);
+  t.same(mediumIntType.isBinary(), false);
+  t.same(mediumIntType.isNumeric(), true);
+  t.same(mediumIntType.isString(), false);
+  t.same(mediumIntType.isMessage(), false);
+  t.same(mediumIntType.allowedInSet(), true);
 
   try {
     mediumIntType.test = 1;
-    assert.fail('mediumIntType instance is mutable');
+    t.fail('mediumIntType instance is mutable');
   } catch (e) {
-    assert.pass('mediumIntType instance is immutable');
+    t.pass('mediumIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('MediumIntType guard tests', (assert) => {
+test('MediumIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: MediumIntType.create() });
   const valid = [0, 16777215, 1, 16777214];
   const invalid = [-1, 16777216, '0', '16777215', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('MediumIntType encode tests', (assert) => {
+test('MediumIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: MediumIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -59,12 +59,12 @@ test('MediumIntType encode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('MediumIntType decode tests', (assert) => {
+test('MediumIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: MediumIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -80,6 +80,6 @@ test('MediumIntType decode tests', (assert) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });

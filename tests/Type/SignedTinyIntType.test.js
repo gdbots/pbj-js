@@ -5,45 +5,45 @@ import Field from '../../src/Field';
 import SignedTinyIntType from '../../src/Type/SignedTinyIntType';
 import * as helpers from './helpers';
 
-test('SignedTinyIntType property tests', (assert) => {
+test('SignedTinyIntType property tests', (t) => {
   const signedTinyIntType = SignedTinyIntType.create();
-  assert.true(signedTinyIntType instanceof Type);
-  assert.true(signedTinyIntType instanceof SignedTinyIntType);
-  assert.same(signedTinyIntType, SignedTinyIntType.create());
-  assert.same(signedTinyIntType.getTypeName(), TypeName.SIGNED_TINY_INT);
-  assert.same(signedTinyIntType.getTypeValue(), TypeName.SIGNED_TINY_INT.valueOf());
-  assert.same(signedTinyIntType.isScalar(), true);
-  assert.same(signedTinyIntType.encodesToScalar(), true);
-  assert.same(signedTinyIntType.getDefault(), 0);
-  assert.same(signedTinyIntType.isBoolean(), false);
-  assert.same(signedTinyIntType.isBinary(), false);
-  assert.same(signedTinyIntType.isNumeric(), true);
-  assert.same(signedTinyIntType.isString(), false);
-  assert.same(signedTinyIntType.isMessage(), false);
-  assert.same(signedTinyIntType.allowedInSet(), true);
+  t.true(signedTinyIntType instanceof Type);
+  t.true(signedTinyIntType instanceof SignedTinyIntType);
+  t.same(signedTinyIntType, SignedTinyIntType.create());
+  t.same(signedTinyIntType.getTypeName(), TypeName.SIGNED_TINY_INT);
+  t.same(signedTinyIntType.getTypeValue(), TypeName.SIGNED_TINY_INT.valueOf());
+  t.same(signedTinyIntType.isScalar(), true);
+  t.same(signedTinyIntType.encodesToScalar(), true);
+  t.same(signedTinyIntType.getDefault(), 0);
+  t.same(signedTinyIntType.isBoolean(), false);
+  t.same(signedTinyIntType.isBinary(), false);
+  t.same(signedTinyIntType.isNumeric(), true);
+  t.same(signedTinyIntType.isString(), false);
+  t.same(signedTinyIntType.isMessage(), false);
+  t.same(signedTinyIntType.allowedInSet(), true);
 
   try {
     signedTinyIntType.test = 1;
-    assert.fail('signedTinyIntType instance is mutable');
+    t.fail('signedTinyIntType instance is mutable');
   } catch (e) {
-    assert.pass('signedTinyIntType instance is immutable');
+    t.pass('signedTinyIntType instance is immutable');
   }
 
-  assert.end();
+  t.end();
 });
 
 
-test('SignedTinyIntType guard tests', (assert) => {
+test('SignedTinyIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: SignedTinyIntType.create() });
   const valid = [0, -128, 127, -127, 126];
   const invalid = [-129, 128, '-128', '127', null, [], {}, '', NaN, undefined];
-  helpers.guardValidSamples(field, valid, assert);
-  helpers.guardInvalidSamples(field, invalid, assert);
-  assert.end();
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
 });
 
 
-test('SignedTinyIntType encode tests', (assert) => {
+test('SignedTinyIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedTinyIntType.create() });
   const samples = [
     { input: -128, output: -128 },
@@ -62,12 +62,12 @@ test('SignedTinyIntType encode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.encodeSamples(field, samples, assert);
-  assert.end();
+  helpers.encodeSamples(field, samples, t);
+  t.end();
 });
 
 
-test('SignedTinyIntType decode tests', (assert) => {
+test('SignedTinyIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedTinyIntType.create() });
   const samples = [
     { input: -128, output: -128 },
@@ -86,6 +86,6 @@ test('SignedTinyIntType decode tests', (assert) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.decodeSamples(field, samples, assert);
-  assert.end();
+  helpers.decodeSamples(field, samples, t);
+  t.end();
 });
