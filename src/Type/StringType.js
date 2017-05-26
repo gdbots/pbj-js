@@ -156,7 +156,6 @@ export default class StringType extends AbstractStringType {
     }
   }
 
-
   /**
    * @returns {number}
    */
