@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import TimestampType from '../../src/Type/TimestampType';
 import * as helpers from './helpers';
 
-test('timestampType property tests', (t) => {
+test('TimestampType property tests', (t) => {
   const timestampType = TimestampType.create();
   t.true(timestampType instanceof Type);
   t.true(timestampType instanceof TimestampType);
@@ -24,16 +24,16 @@ test('timestampType property tests', (t) => {
 
   try {
     timestampType.test = 1;
-    t.fail('timestampType instance is mutable');
+    t.fail('TimestampType instance is mutable');
   } catch (e) {
-    t.pass('timestampType instance is immutable');
+    t.pass('TimestampType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('timestampType guard tests', (t) => {
+test('TimestampType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const valid = [1451001600, 1495053313];
   const invalid = [-1, '1451001600', '1495053313', true, false, null, [], {}, '', NaN, undefined];
@@ -43,7 +43,7 @@ test('timestampType guard tests', (t) => {
 });
 
 
-test('timestampType encode tests', (t) => {
+test('TimestampType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const samples = [
     { input: 1451001600, output: 1451001600 },
@@ -63,7 +63,7 @@ test('timestampType encode tests', (t) => {
 });
 
 
-test('timestampType decode tests', (t) => {
+test('TimestampType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const samples = [
     { input: 1451001600, output: 1451001600 },

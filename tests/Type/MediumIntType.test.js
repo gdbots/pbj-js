@@ -21,6 +21,8 @@ test('MediumIntType property tests', (t) => {
   t.same(mediumIntType.isString(), false);
   t.same(mediumIntType.isMessage(), false);
   t.same(mediumIntType.allowedInSet(), true);
+  t.same(mediumIntType.getMin(), 0);
+  t.same(mediumIntType.getMax(), 16777215);
 
   try {
     mediumIntType.test = 1;

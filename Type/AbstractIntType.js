@@ -10,6 +10,8 @@ export default class AbstractIntType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {

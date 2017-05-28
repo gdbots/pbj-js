@@ -29,6 +29,8 @@ export default class DecimalType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     if (!isFinite(value)) {

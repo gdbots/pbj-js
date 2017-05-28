@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import TextType from '../../src/Type/TextType';
 import * as helpers from './helpers';
 
-test('textType property tests', (t) => {
+test('TextType property tests', (t) => {
   const textType = TextType.create();
   t.true(textType instanceof Type);
   t.true(textType instanceof TextType);
@@ -21,19 +21,20 @@ test('textType property tests', (t) => {
   t.same(textType.isString(), true);
   t.same(textType.isMessage(), false);
   t.same(textType.allowedInSet(), false);
+  t.same(textType.getMaxBytes(), 65535);
 
   try {
     textType.test = 1;
-    t.fail('textType instance is mutable');
+    t.fail('TextType instance is mutable');
   } catch (e) {
-    t.pass('textType instance is immutable');
+    t.pass('TextType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('textType guard tests', (t) => {
+test('TextType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TextType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const valid = ['test', largeText, '(╯°□°)╯︵ ┻━┻', ' ice 🍦 poop 💩 doh 😳 ', 'ಠ_ಠ'];
@@ -44,7 +45,7 @@ test('textType guard tests', (t) => {
 });
 
 
-test('textType encode tests', (t) => {
+test('TextType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TextType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [
@@ -64,7 +65,7 @@ test('textType encode tests', (t) => {
 });
 
 
-test('textType decode tests', (t) => {
+test('TextType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TextType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [

@@ -21,6 +21,8 @@ test('SignedTinyIntType property tests', (t) => {
   t.same(signedTinyIntType.isString(), false);
   t.same(signedTinyIntType.isMessage(), false);
   t.same(signedTinyIntType.allowedInSet(), true);
+  t.same(signedTinyIntType.getMin(), -128);
+  t.same(signedTinyIntType.getMax(), 127);
 
   try {
     signedTinyIntType.test = 1;

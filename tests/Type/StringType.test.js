@@ -6,7 +6,7 @@ import Field from '../../src/Field';
 import StringType from '../../src/Type/StringType';
 import * as helpers from './helpers';
 
-test('stringType property tests', (t) => {
+test('StringType property tests', (t) => {
   const stringType = StringType.create();
   t.true(stringType instanceof Type);
   t.true(stringType instanceof StringType);
@@ -22,19 +22,20 @@ test('stringType property tests', (t) => {
   t.same(stringType.isString(), true);
   t.same(stringType.isMessage(), false);
   t.same(stringType.allowedInSet(), true);
+  t.same(stringType.getMaxBytes(), 255);
 
   try {
     stringType.test = 1;
-    t.fail('stringType instance is mutable');
+    t.fail('StringType instance is mutable');
   } catch (e) {
-    t.pass('stringType instance is immutable');
+    t.pass('StringType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('stringType guard tests', (t) => {
+test('StringType guard tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const valid = ['test', largeText, '(╯°□°)╯︵ ┻━┻', ' ice 🍦 poop 💩 doh 😳 ', 'ಠ_ಠ'];
@@ -45,7 +46,17 @@ test('stringType guard tests', (t) => {
 });
 
 
-test('stringType guard (custom pattern) tests', (t) => {
+test('StringType guard (min/max length) tests', (t) => {
+  const field = new Field({ name: 'test', type: StringType.create(), minLength: 5, maxLength: 10 });
+  const valid = ['01234', '0123456789', '012345', '012345678'];
+  const invalid = ['0123', '01234567890'];
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
+});
+
+
+test('StringType guard (custom pattern) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), pattern: '^\\w+$' });
   const valid = ['AValidValue', 'a_zA_Z0_9', 'all_lower', 'ALL_UPPER'];
   const invalid = ['No spaces, commas, etc.', 'nope!', 'http://www.', '--', '', '#test', 'ಠ_ಠ'];
@@ -55,7 +66,7 @@ test('stringType guard (custom pattern) tests', (t) => {
 });
 
 
-test('stringType guard (format=date) tests', (t) => {
+test('StringType guard (format=date) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.DATE });
   const valid = ['2015-12-25', '1999-12-31'];
   const invalid = [
@@ -72,7 +83,7 @@ test('stringType guard (format=date) tests', (t) => {
 });
 
 
-test('stringType guard (format=date-time) tests', (t) => {
+test('StringType guard (format=date-time) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.DATE_TIME });
   const valid = ['2017-05-25T02:54:18Z', '2017-05-25T02:54:18+00:00'];
   const invalid = [
@@ -90,7 +101,7 @@ test('stringType guard (format=date-time) tests', (t) => {
 });
 
 
-test('stringType guard (format=slug) tests', (t) => {
+test('StringType guard (format=slug) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.SLUG });
   const valid = [
     'slug-case',
@@ -114,7 +125,7 @@ test('stringType guard (format=slug) tests', (t) => {
 });
 
 
-test('stringType guard (format=email) tests', (t) => {
+test('StringType guard (format=email) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.EMAIL });
   const valid = ['homer@simpsons.com', 'TEST@WHAT.co.uk'];
   const invalid = ['Not An Email', 'nope!', 'http://www.', 'test@what', '@'];
@@ -124,7 +135,7 @@ test('stringType guard (format=email) tests', (t) => {
 });
 
 
-test('stringType guard (format=hashtag) tests', (t) => {
+test('StringType guard (format=hashtag) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.HASHTAG });
   const valid = ['#Hashtag', 'NotherHashtag'];
   const invalid = ['Not A Hashtag', 'nope!', 'http://www.', '111', '_111'];
@@ -134,7 +145,7 @@ test('stringType guard (format=hashtag) tests', (t) => {
 });
 
 
-test('stringType guard (format=ipv4) tests', (t) => {
+test('StringType guard (format=ipv4) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.IPV4 });
   const valid = ['192.168.0.10', '4.2.2.2', '10.0.0.0'];
   const invalid = ['Not An IPv4', 'nope!', 'http://www.', '10.1.2.', '10.1.2', '10.1', '.10.1.'];
@@ -144,7 +155,7 @@ test('stringType guard (format=ipv4) tests', (t) => {
 });
 
 
-test('stringType guard (format=ipv6) tests', (t) => {
+test('StringType guard (format=ipv6) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.IPV6 });
   const valid = ['fe80::6ae3:b5ff:fe92:330e', '2001:0db8:0a0b:12f0:0000:0000:0000:0001'];
   const invalid = [
@@ -161,7 +172,7 @@ test('stringType guard (format=ipv6) tests', (t) => {
 });
 
 
-test('stringType guard (format=hostname) tests', (t) => {
+test('StringType guard (format=hostname) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.HOSTNAME });
   const valid = ['test.com', 'localhost', 'local-dev', 'test.whatever.com'];
   const invalid = [
@@ -183,7 +194,7 @@ test('stringType guard (format=hostname) tests', (t) => {
 });
 
 
-test('stringType guard (format=uri) tests', (t) => {
+test('StringType guard (format=uri) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.URI });
   const valid = [
     'tel:+1-816-555-1212',
@@ -208,7 +219,7 @@ test('stringType guard (format=uri) tests', (t) => {
 });
 
 
-test('stringType guard (format=url) tests', (t) => {
+test('StringType guard (format=url) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.URL });
   const valid = [
     'http://www.foo.bar./',
@@ -251,7 +262,7 @@ test('stringType guard (format=url) tests', (t) => {
 });
 
 
-test('stringType guard (format=uuid) tests', (t) => {
+test('StringType guard (format=uuid) tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create(), format: Format.UUID });
   const valid = [
     'e452dd74-41b5-11e7-a919-92ebcb67fe33',
@@ -273,7 +284,7 @@ test('stringType guard (format=uuid) tests', (t) => {
 });
 
 
-test('stringType encode tests', (t) => {
+test('StringType encode tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [
@@ -293,7 +304,7 @@ test('stringType encode tests', (t) => {
 });
 
 
-test('stringType decode tests', (t) => {
+test('StringType decode tests', (t) => {
   const field = new Field({ name: 'test', type: StringType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [

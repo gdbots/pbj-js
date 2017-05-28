@@ -21,6 +21,8 @@ test('IntType property tests', (t) => {
   t.same(intType.isString(), false);
   t.same(intType.isMessage(), false);
   t.same(intType.allowedInSet(), true);
+  t.same(intType.getMin(), 0);
+  t.same(intType.getMax(), 4294967295);
 
   try {
     intType.test = 1;
@@ -37,6 +39,16 @@ test('IntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: IntType.create() });
   const valid = [0, 4294967295, 1, 4294967294];
   const invalid = [-1, 4294967296, '0', '4294967295', null, [], {}, '', NaN, undefined];
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
+});
+
+
+test('IntType guard (min/max) tests', (t) => {
+  const field = new Field({ name: 'test', type: IntType.create(), min: 5, max: 10 });
+  const valid = [5, 6, 10, 9];
+  const invalid = [4, 11];
   helpers.guardValidSamples(field, valid, t);
   helpers.guardInvalidSamples(field, invalid, t);
   t.end();

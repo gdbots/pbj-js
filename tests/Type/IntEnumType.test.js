@@ -1,0 +1,91 @@
+import test from 'tape';
+import TypeName from '../../src/Enum/TypeName';
+import Type from '../../src/Type/Type';
+import Field from '../../src/Field';
+import IntEnumType from '../../src/Type/IntEnumType';
+import IntEnum from '../Fixtures/IntEnum';
+import StringEnum from '../Fixtures/StringEnum';
+import * as helpers from './helpers';
+
+test('IntEnumType property tests', (t) => {
+  const intEnumType = IntEnumType.create();
+  t.true(intEnumType instanceof Type);
+  t.true(intEnumType instanceof IntEnumType);
+  t.same(intEnumType, IntEnumType.create());
+  t.same(intEnumType.getTypeName(), TypeName.INT_ENUM);
+  t.same(intEnumType.getTypeValue(), TypeName.INT_ENUM.valueOf());
+  t.same(intEnumType.isScalar(), false);
+  t.same(intEnumType.encodesToScalar(), true);
+  t.same(intEnumType.getDefault(), null);
+  t.same(intEnumType.isBoolean(), false);
+  t.same(intEnumType.isBinary(), false);
+  t.same(intEnumType.isNumeric(), true);
+  t.same(intEnumType.isString(), false);
+  t.same(intEnumType.isMessage(), false);
+  t.same(intEnumType.allowedInSet(), true);
+  t.same(intEnumType.getMin(), 0);
+  t.same(intEnumType.getMax(), 65535);
+
+  try {
+    intEnumType.test = 1;
+    t.fail('IntEnumType instance is mutable');
+  } catch (e) {
+    t.pass('IntEnumType instance is immutable');
+  }
+
+  t.end();
+});
+
+
+test('IntEnumType guard tests', (t) => {
+  const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: IntEnum });
+  const valid = [IntEnum.UNKNOWN, IntEnum.ENUM1, IntEnum.ENUM2];
+  const invalid = [0, 1, 2, '0', '1', '2', null, [], {}, '', NaN, undefined, StringEnum.UNKNOWN];
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
+});
+
+
+test('IntEnumType encode tests', (t) => {
+  const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: IntEnum });
+  const samples = [
+    { input: IntEnum.UNKNOWN, output: 0 },
+    { input: IntEnum.ENUM1, output: 1 },
+    { input: IntEnum.ENUM2, output: 2 },
+    { input: 0, output: 0 },
+    { input: 1, output: 0 },
+    { input: 2, output: 0 },
+    { input: false, output: 0 },
+    { input: '', output: 0 },
+    { input: null, output: 0 },
+    { input: undefined, output: 0 },
+    { input: NaN, output: 0 },
+    { input: StringEnum.UNKNOWN, output: 0 },
+  ];
+
+  helpers.encodeSamples(field, samples, t);
+  t.end();
+});
+
+
+test('IntEnumType decode tests', (t) => {
+  const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: IntEnum });
+  const samples = [
+    { input: 0, output: IntEnum.UNKNOWN },
+    { input: 1, output: IntEnum.ENUM1 },
+    { input: 2, output: IntEnum.ENUM2 },
+    { input: null, output: null },
+  ];
+
+  helpers.decodeSamples(field, samples, t);
+  t.end();
+});
+
+
+test('IntEnumType decode(invalid) tests', (t) => {
+  const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: IntEnum });
+  const samples = [3, false, [], {}, '', NaN, undefined, StringEnum.UNKNOWN];
+  helpers.decodeInvalidSamples(field, samples, t);
+  t.end();
+});

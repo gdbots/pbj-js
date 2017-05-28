@@ -24,7 +24,7 @@ function guardValidSamples(field, samples, test) {
 
 /**
  * Runs guard against an array of invalid samples for the provided
- * type and asserts that it *MUST* pass.
+ * type and asserts that it *MUST* fail.
  *
  * @param {Field}  field   - The field object.
  * @param {Array}  samples - An array of invalid samples to test.
@@ -82,4 +82,30 @@ function decodeSamples(field, samples, test) {
   });
 }
 
-export { guardValidSamples, guardInvalidSamples, encodeSamples, decodeSamples };
+/**
+ * Runs decode against an array of invalid samples for the provided
+ * type and asserts that it *MUST* pass.
+ *
+ * @param {Field}  field   - The field object.
+ * @param {Array}  samples - An array of invalid samples to test.
+ * @param {Object} test    - The test provider (with pass/fail methods).
+ */
+function decodeInvalidSamples(field, samples, test) {
+  const type = field.getType();
+  samples.forEach((value) => {
+    try {
+      type.guard(value, field);
+      test.fail(`${type.getTypeName().getName()}.decode accepted invalid value [${JSON.stringify(value)}].`);
+    } catch (e) {
+      test.pass(e.message);
+    }
+  });
+}
+
+export {
+  guardValidSamples,
+  guardInvalidSamples,
+  encodeSamples,
+  decodeSamples,
+  decodeInvalidSamples,
+};

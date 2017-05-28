@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import TinyIntType from '../../src/Type/TinyIntType';
 import * as helpers from './helpers';
 
-test('tinyIntType property tests', (t) => {
+test('TinyIntType property tests', (t) => {
   const tinyIntType = TinyIntType.create();
   t.true(tinyIntType instanceof Type);
   t.true(tinyIntType instanceof TinyIntType);
@@ -21,19 +21,21 @@ test('tinyIntType property tests', (t) => {
   t.same(tinyIntType.isString(), false);
   t.same(tinyIntType.isMessage(), false);
   t.same(tinyIntType.allowedInSet(), true);
+  t.same(tinyIntType.getMin(), 0);
+  t.same(tinyIntType.getMax(), 255);
 
   try {
     tinyIntType.test = 1;
-    t.fail('tinyIntType instance is mutable');
+    t.fail('TinyIntType instance is mutable');
   } catch (e) {
-    t.pass('tinyIntType instance is immutable');
+    t.pass('TinyIntType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('tinyIntType guard tests', (t) => {
+test('TinyIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const valid = [0, 255, 1, 254];
   const invalid = [-1, 256, '0', '255', null, [], {}, '', NaN, undefined];
@@ -43,7 +45,7 @@ test('tinyIntType guard tests', (t) => {
 });
 
 
-test('tinyIntType encode tests', (t) => {
+test('TinyIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -64,7 +66,7 @@ test('tinyIntType encode tests', (t) => {
 });
 
 
-test('tinyIntType decode tests', (t) => {
+test('TinyIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const samples = [
     { input: 0, output: 0 },

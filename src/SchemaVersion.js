@@ -38,7 +38,7 @@ export default class SchemaVersion {
    * @param {number} minor
    * @param {number} patch
    *
-   * @throws InvalidSchemaVersion
+   * @throws {InvalidSchemaVersion}
    */
   constructor(major = 1, minor = 0, patch = 0) {
     this.major = toInteger(major);
@@ -58,9 +58,9 @@ export default class SchemaVersion {
   /**
    * @param {string} version - A valid SchemaVersion as a string, e.g. 1-0-0
    *
-   * @returns SchemaVersion
+   * @returns {SchemaVersion}
    *
-   * @throws InvalidSchemaVersion
+   * @throws {InvalidSchemaVersion}
    */
   static fromString(version = '1-0-0') {
     const matches = `${version}`.match(VALID_PATTERN);

@@ -24,6 +24,7 @@
     "lodash-es": "^4.17.4",
     "mixin": "^0.2.0",
     "moment": "^2.18.1",
+    "utf8": "^2.1.2",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

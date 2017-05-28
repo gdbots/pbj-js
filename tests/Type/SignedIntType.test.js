@@ -21,6 +21,8 @@ test('SignedIntType property tests', (t) => {
   t.same(signedIntType.isString(), false);
   t.same(signedIntType.isMessage(), false);
   t.same(signedIntType.allowedInSet(), true);
+  t.same(signedIntType.getMin(), -2147483648);
+  t.same(signedIntType.getMax(), 2147483647);
 
   try {
     signedIntType.test = 1;

@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import SignedSmallIntType from '../../src/Type/SignedSmallIntType';
 import * as helpers from './helpers';
 
-test('signedSmallIntType property tests', (t) => {
+test('SignedSmallIntType property tests', (t) => {
   const signedSmallIntType = SignedSmallIntType.create();
   t.true(signedSmallIntType instanceof Type);
   t.true(signedSmallIntType instanceof SignedSmallIntType);
@@ -21,19 +21,21 @@ test('signedSmallIntType property tests', (t) => {
   t.same(signedSmallIntType.isString(), false);
   t.same(signedSmallIntType.isMessage(), false);
   t.same(signedSmallIntType.allowedInSet(), true);
+  t.same(signedSmallIntType.getMin(), -32768);
+  t.same(signedSmallIntType.getMax(), 32767);
 
   try {
     signedSmallIntType.test = 1;
-    t.fail('signedSmallIntType instance is mutable');
+    t.fail('SignedSmallIntType instance is mutable');
   } catch (e) {
-    t.pass('signedSmallIntType instance is immutable');
+    t.pass('SignedSmallIntType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('signedSmallIntType guard tests', (t) => {
+test('SignedSmallIntType guard tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const valid = [0, -32768, 32767, -32767, 32766];
   const invalid = [-32769, 32768, '-32768', '32767', null, [], {}, '', NaN, undefined];
@@ -43,7 +45,7 @@ test('signedSmallIntType guard tests', (t) => {
 });
 
 
-test('signedSmallIntType encode tests', (t) => {
+test('SignedSmallIntType encode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const samples = [
     { input: -32768, output: -32768 },
@@ -67,7 +69,7 @@ test('signedSmallIntType encode tests', (t) => {
 });
 
 
-test('signedSmallIntType decode tests', (t) => {
+test('SignedSmallIntType decode tests', (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const samples = [
     { input: -32768, output: -32768 },

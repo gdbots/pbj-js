@@ -2,40 +2,40 @@ import test from 'tape';
 import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
-import BinaryType from '../../src/Type/BinaryType';
+import BlobType from '../../src/Type/BlobType';
 import * as helpers from './helpers';
 
-test('BinaryType property tests', (t) => {
-  const binaryType = BinaryType.create();
-  t.true(binaryType instanceof Type);
-  t.true(binaryType instanceof BinaryType);
-  t.same(binaryType, BinaryType.create());
-  t.same(binaryType.getTypeName(), TypeName.BINARY);
-  t.same(binaryType.getTypeValue(), TypeName.BINARY.valueOf());
-  t.same(binaryType.isScalar(), true);
-  t.same(binaryType.encodesToScalar(), true);
-  t.same(binaryType.getDefault(), null);
-  t.same(binaryType.isBoolean(), false);
-  t.same(binaryType.isBinary(), true);
-  t.same(binaryType.isNumeric(), false);
-  t.same(binaryType.isString(), true);
-  t.same(binaryType.isMessage(), false);
-  t.same(binaryType.allowedInSet(), true);
-  t.same(binaryType.getMaxBytes(), 255);
+test('BlobType property tests', (t) => {
+  const blobType = BlobType.create();
+  t.true(blobType instanceof Type);
+  t.true(blobType instanceof BlobType);
+  t.same(blobType, BlobType.create());
+  t.same(blobType.getTypeName(), TypeName.BLOB);
+  t.same(blobType.getTypeValue(), TypeName.BLOB.valueOf());
+  t.same(blobType.isScalar(), true);
+  t.same(blobType.encodesToScalar(), true);
+  t.same(blobType.getDefault(), null);
+  t.same(blobType.isBoolean(), false);
+  t.same(blobType.isBinary(), true);
+  t.same(blobType.isNumeric(), false);
+  t.same(blobType.isString(), true);
+  t.same(blobType.isMessage(), false);
+  t.same(blobType.allowedInSet(), false);
+  t.same(blobType.getMaxBytes(), 65535);
 
   try {
-    binaryType.test = 1;
-    t.fail('binaryType instance is mutable');
+    blobType.test = 1;
+    t.fail('blobType instance is mutable');
   } catch (e) {
-    t.pass('binaryType instance is immutable');
+    t.pass('blobType instance is immutable');
   }
 
   t.end();
 });
 
 
-test('BinaryType guard tests', (t) => {
-  const field = new Field({ name: 'test', type: BinaryType.create() });
+test('BlobType guard tests', (t) => {
+  const field = new Field({ name: 'test', type: BlobType.create() });
   const valid = [
     'test',
     'KOKVr8Kw4pahwrAp4pWv77i1IOKUu+KUgeKUuw==',
@@ -49,25 +49,25 @@ test('BinaryType guard tests', (t) => {
 });
 
 
-test('BinaryType guard (min/max length) tests', (t) => {
-  const binaryType = BinaryType.create();
-  binaryType.decodeFromBase64(false);
-  binaryType.encodeToBase64(false);
+test('BlobType guard (min/max length) tests', (t) => {
+  const blobType = BlobType.create();
+  blobType.decodeFromBase64(false);
+  blobType.encodeToBase64(false);
 
-  const field = new Field({ name: 'test', type: binaryType, minLength: 5, maxLength: 10 });
+  const field = new Field({ name: 'test', type: blobType, minLength: 5, maxLength: 10 });
   const valid = ['01234', '0123456789', '012345', '012345678'];
   const invalid = ['0123', '01234567890'];
   helpers.guardValidSamples(field, valid, t);
   helpers.guardInvalidSamples(field, invalid, t);
 
-  binaryType.decodeFromBase64(true);
-  binaryType.encodeToBase64(true);
+  blobType.decodeFromBase64(true);
+  blobType.encodeToBase64(true);
   t.end();
 });
 
 
-test('BinaryType encode tests', (t) => {
-  const field = new Field({ name: 'test', type: BinaryType.create() });
+test('BlobType encode tests', (t) => {
+  const field = new Field({ name: 'test', type: BlobType.create() });
   const samples = [
     { input: 'test', output: 'dGVzdA==' },
     { input: 'homer simpson', output: 'aG9tZXIgc2ltcHNvbg==' },
@@ -83,8 +83,8 @@ test('BinaryType encode tests', (t) => {
 });
 
 
-test('BinaryType decode tests', (t) => {
-  const field = new Field({ name: 'test', type: BinaryType.create() });
+test('BlobType decode tests', (t) => {
+  const field = new Field({ name: 'test', type: BlobType.create() });
   const samples = [
     { input: 'dGVzdA==', output: 'test' },
     { input: 'aG9tZXIgc2ltcHNvbg==', output: 'homer simpson' },

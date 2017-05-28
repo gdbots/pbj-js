@@ -21,6 +21,8 @@ test('DecimalType property tests', (t) => {
   t.same(decimalType.isString(), false);
   t.same(decimalType.isMessage(), false);
   t.same(decimalType.allowedInSet(), true);
+  t.same(decimalType.getMin(), Number.MIN_VALUE);
+  t.same(decimalType.getMax(), Number.MAX_VALUE);
 
   try {
     decimalType.test = 1;

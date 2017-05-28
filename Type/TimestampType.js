@@ -29,6 +29,8 @@ export default class TimestampType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     if (!isSafeInteger(value) || !isValidTimestamp(value)) {

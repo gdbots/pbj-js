@@ -21,6 +21,8 @@ test('SignedMediumIntType property tests', (t) => {
   t.same(signedMediumIntType.isString(), false);
   t.same(signedMediumIntType.isMessage(), false);
   t.same(signedMediumIntType.allowedInSet(), true);
+  t.same(signedMediumIntType.getMin(), -8388608);
+  t.same(signedMediumIntType.getMax(), 8388607);
 
   try {
     signedMediumIntType.test = 1;

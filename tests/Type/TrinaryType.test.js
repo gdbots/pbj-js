@@ -21,6 +21,8 @@ test('TrinaryType property tests', (t) => {
   t.same(trinaryType.isString(), false);
   t.same(trinaryType.isMessage(), false);
   t.same(trinaryType.allowedInSet(), false);
+  t.same(trinaryType.getMin(), 0);
+  t.same(trinaryType.getMax(), 2);
 
   try {
     trinaryType.test = 1;

@@ -21,6 +21,8 @@ test('FloatType property tests', (t) => {
   t.same(floatType.isString(), false);
   t.same(floatType.isMessage(), false);
   t.same(floatType.allowedInSet(), true);
+  t.same(floatType.getMin(), Number.MIN_VALUE);
+  t.same(floatType.getMax(), Number.MAX_VALUE);
 
   try {
     floatType.test = 1;

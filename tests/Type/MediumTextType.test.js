@@ -21,6 +21,7 @@ test('MediumTextType property tests', (t) => {
   t.same(mediumTextType.isString(), true);
   t.same(mediumTextType.isMessage(), false);
   t.same(mediumTextType.allowedInSet(), false);
+  t.same(mediumTextType.getMaxBytes(), 16777215);
 
   try {
     mediumTextType.test = 1;

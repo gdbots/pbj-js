@@ -34,6 +34,8 @@ export default class TrinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {

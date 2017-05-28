@@ -1,8 +1,12 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
+import clamp from 'lodash/clamp';
 import isBoolean from 'lodash/isBoolean';
+import isPlainObject from 'lodash/isPlainObject';
+import toInteger from 'lodash/toInteger';
 import trim from 'lodash/trim';
 import FieldRule from './Enum/FieldRule';
+import Format from './Enum/Format';
 import Message from './Message';
 import Type from './Type/Type';
 
@@ -26,7 +30,8 @@ export default class Field {
                 defaultValue = null,
                 useTypeDefault = true,
                 classProto = null,
-                anyOfClassProtos = null,
+                curie = null,
+                anyOfCuries = null,
                 assertion = null,
                 overridable = false,
               }) {
@@ -41,7 +46,8 @@ export default class Field {
     this.defaultValue = defaultValue;
     this.useTypeDefault = isBoolean(useTypeDefault) ? useTypeDefault : true;
     this.classProto = classProto;
-    this.anyOfClassProtos = anyOfClassProtos;
+    this.curie = curie;
+    this.anyOfCuries = anyOfCuries;
     this.assertion = assertion || (() => {});
     this.overridable = isBoolean(overridable) ? overridable : false;
 
@@ -66,12 +72,26 @@ export default class Field {
    * @param {?Format} format
    */
   applyStringOptions(minLength = null, maxLength = null, pattern = null, format = null) {
-    this.minLength = 0; // minLength;
-    this.maxLength = maxLength;
+    this.minLength = toInteger(minLength);
+    this.maxLength = toInteger(maxLength);
+
+    if (this.maxLength > 0) {
+      this.minLength = clamp(this.minLength, 0, this.maxLength);
+    } else {
+      this.minLength = clamp(this.minLength, 0, this.type.getMaxBytes());
+    }
 
     this.pattern = pattern ? new RegExp(trim(pattern, '/')) : null;
 
-    this.format = format;
+    if (format) {
+      try {
+        this.format = Format.create(`${format}`);
+      } catch (e) {
+        this.format = Format.UNKNOWN;
+      }
+    } else {
+      this.format = Format.UNKNOWN;
+    }
   }
 
   /**
@@ -160,7 +180,7 @@ export default class Field {
    * @returns {number}
    */
   getMaxLength() {
-    return this.maxLength === null ? this.type.getMaxBytes() : this.maxLength;
+    return this.maxLength > 0 ? this.maxLength : this.type.getMaxBytes();
   }
 
   /**
@@ -215,5 +235,160 @@ export default class Field {
    * @param {*} defaultValue
    */
   guardDefault(defaultValue) {
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  hasClassProto() {
+    return isPlainObject(this.classProto);
+  }
+
+  /**
+   * @returns {?Enum|Object|Message|Identifier}
+   */
+  getClassProto() {
+    return this.classProto;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  hasCurie() {
+    return this.curie && this.curie.length;
+  }
+
+  /**
+   * @returns {?string}
+   */
+  getCurie() {
+    return this.curie;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  hasAnyOfCuries() {
+    return this.anyOfCuries && this.anyOfCuries.length;
+  }
+
+  /**
+   * @returns {string[]}
+   */
+  getAnyOfCuries() {
+    return this.anyOfCuries || [];
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isOverridable() {
+    return this.overridable;
+  }
+
+  /**
+   * @param {*} value
+   * @throws AssertionFailed
+   * @throws \Exception
+   */
+  guardValue(value) {
+    if (this.required) {
+      // Assertion::notNull($value,
+      // sprintf('Field [%s] is required and cannot be null.', this.name));
+    }
+
+    if (value !== null) {
+      this.type.guard(value, this);
+    }
+
+    if (this.assertion) {
+      this.assertion(value, this);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  toArray() {
+    // return [
+    //     'name'          => this.name,
+    //     'type'          => this.type->getTypeValue(),
+    //     'rule'          => this.rule->getName(),
+    //     'required'      => this.required,
+    //     'min_length'    => this.minLength,
+    //     'max_length'    => this.maxLength,
+    //     'pattern'       => this.pattern,
+    //     'format'        => this.format->getValue(),
+    //     'min'           => this.min,
+    //     'max'           => this.max,
+    //     'precision'     => this.precision,
+    //     'scale'         => this.scale,
+    //     'default'       => this.getDefault(),
+    //     'use_type_default' => this.useTypeDefault,
+    //     'class_name'    => this.className,
+    //     'any_of_class_names' => this.anyOfClassNames,
+    //     'has_assertion' => null !== this.assertion,
+    //     'overridable'   => this.overridable,
+    // ];
+  }
+
+  /**
+   * Returns true if this field is likely compatible with the
+   * provided field during a mergeFrom operation.
+   *
+   * todo: implement/test isCompatibleForMerge
+   *
+   * @param {Field} other
+   * @returns {boolean}
+   */
+  isCompatibleForMerge(other) {
+    if (this.name !== other.name) {
+      return false;
+    }
+
+    if (this.type !== other.type) {
+      return false;
+    }
+
+    if (this.rule !== other.rule) {
+      return false;
+    }
+
+    if (this.curie !== other.curie) {
+      return false;
+    }
+
+    // if (!array_intersect(this.anyOfClassNames, other.anyOfClassNames)) {
+    //     return false;
+    // }
+
+    return true;
+  }
+
+  /**
+   * Returns true if the provided field can be used as an
+   * override to this field.
+   *
+   * @param {Field} other
+   * @returns {boolean}
+   */
+  isCompatibleForOverride(other) {
+    if (!this.overridable) {
+      return false;
+    }
+
+    if (this.name !== other.name) {
+      return false;
+    }
+
+    if (this.type !== other.type) {
+      return false;
+    }
+
+    if (this.rule !== other.rule) {
+      return false;
+    }
+
+    return this.required === other.required;
   }
 }

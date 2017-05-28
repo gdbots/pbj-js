@@ -35,6 +35,8 @@ export default class StringType extends AbstractStringType {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     super.guard(value, field);

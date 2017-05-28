@@ -35,7 +35,7 @@ export default class SchemaQName {
    * @param {string} vendor
    * @param {string} message
    *
-   * @throws InvalidSchemaVersion
+   * @throws {InvalidSchemaVersion}
    */
   constructor(vendor, message) {
     this.vendor = vendor;
@@ -53,9 +53,9 @@ export default class SchemaQName {
   /**
    * @param {string} qname - A valid SchemaQName as a string, e.g. vendor:message
    *
-   * @returns SchemaQName
+   * @returns {SchemaQName}
    *
-   * @throws InvalidSchemaQName
+   * @throws {InvalidSchemaQName}
    */
   static fromString(qname) {
     if (instances.has(qname)) {
@@ -73,7 +73,7 @@ export default class SchemaQName {
   /**
    * @param {SchemaId} id
    *
-   * @returns SchemaQName
+   * @returns {SchemaQName}
    */
   static fromId(id) {
     return this.fromCurie(id.getCurie());
@@ -82,7 +82,7 @@ export default class SchemaQName {
   /**
    * @param {SchemaCurie} curie
    *
-   * @returns SchemaQName
+   * @returns {SchemaQName}
    */
   static fromCurie(curie) {
     const qname = `${curie.getVendor()}:${curie.getMessage()}`;

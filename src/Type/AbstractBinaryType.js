@@ -4,8 +4,10 @@ import base64 from 'base-64';
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';
 import trim from 'lodash/trim';
+import utf8 from 'utf8';
 import Type from './Type';
 import AssertionFailed from '../Exception/AssertionFailed';
+import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
 let useDecodeFromBase64 = true;
 let useEncodeToBase64 = true;
@@ -28,6 +30,8 @@ export default class AbstractBinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
+   *
+   * @throws {AssertionFailed}
    */
   guard(value, field) {
     if (!isString(value)) {
@@ -62,7 +66,7 @@ export default class AbstractBinaryType extends Type {
       return null;
     }
 
-    return useEncodeToBase64 ? base64.encode(trimmed) : trimmed;
+    return useEncodeToBase64 ? base64.encode(utf8.encode(trimmed)) : trimmed;
   }
 
   /**
@@ -71,6 +75,8 @@ export default class AbstractBinaryType extends Type {
    * @param {Codec} [codec]
    *
    * @returns {?string}
+   *
+   * @throws {DecodeValueFailed}
    */
   decode(value, field, codec = null) {
     const trimmed = trim(value);
@@ -82,13 +88,11 @@ export default class AbstractBinaryType extends Type {
       return trimmed;
     }
 
-    const decoded = base64.decode(trimmed);
-    if (decoded === false) {
-      throw new AssertionFailed('Strict base64_decode failed.');
-      //throw new DecodeValueFailed($value, $field, 'Strict base64_decode failed.');
+    try {
+      return utf8.decode(base64.decode(trimmed));
+    } catch (e) {
+      throw new DecodeValueFailed(value, field, `${e.name}::${e.message}`);
     }
-
-    return decoded;
   }
 
   /**
