@@ -2,7 +2,6 @@
 
 import Enum from '@gdbots/common/Enum';
 import isString from 'lodash/isString';
-import toString from 'lodash/toString';
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
@@ -44,7 +43,7 @@ export default class StringEnumType extends Type {
 
     const enumValue = value.getValue();
     if (!isString(enumValue)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Enum's value "${JSON.stringify(value)}" is not a string.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Enum's value "${value}" is not a string.`);
     }
 
     if (enumValue.length < 1 || enumValue.length > this.getMaxBytes()) {
@@ -61,7 +60,7 @@ export default class StringEnumType extends Type {
    */
   encode(value, field, codec = null) {
     if (value instanceof Enum) {
-      return toString(value.getValue());
+      return `${value.getValue()}`;
     }
 
     return null;

@@ -44,7 +44,7 @@ export default class IntEnumType extends Type {
 
     const enumValue = value.getValue();
     if (!isSafeInteger(enumValue)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Enum's value "${JSON.stringify(value)}" is not an integer.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Enum's value "${value}" is not an integer.`);
     }
 
     if (enumValue < this.getMin() || enumValue > this.getMax()) {
