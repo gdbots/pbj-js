@@ -1,4 +1,5 @@
 export { default as Type } from './Type';
+export { default as BigIntType } from './BigIntType';
 export { default as BinaryType } from './BinaryType';
 export { default as BlobType } from './BlobType';
 export { default as BooleanType } from './BooleanType';
@@ -9,6 +10,7 @@ export { default as IntType } from './IntType';
 export { default as MediumBlobType } from './MediumBlobType';
 export { default as MediumIntType } from './MediumIntType';
 export { default as MediumTextType } from './MediumTextType';
+export { default as SignedBigIntType } from './SignedBigIntType';
 export { default as SignedIntType } from './SignedIntType';
 export { default as SignedMediumIntType } from './SignedMediumIntType';
 export { default as SignedSmallIntType } from './SignedSmallIntType';
@@ -20,3 +22,4 @@ export { default as TextType } from './TextType';
 export { default as TimestampType } from './TimestampType';
 export { default as TinyIntType } from './TinyIntType';
 export { default as TrinaryType } from './TrinaryType';
+export { default as UuidType } from './UuidType';

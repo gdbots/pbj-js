@@ -2,6 +2,7 @@
 
 import clamp from 'lodash/clamp';
 import isBoolean from 'lodash/isBoolean';
+import isObject from 'lodash/isObject';
 import isPlainObject from 'lodash/isPlainObject';
 import toInteger from 'lodash/toInteger';
 import trim from 'lodash/trim';
@@ -241,7 +242,7 @@ export default class Field {
    * @returns {boolean}
    */
   hasClassProto() {
-    return isPlainObject(this.classProto);
+    return this.classProto !== null && isObject(this.classProto) && !isPlainObject(this.classProto);
   }
 
   /**
