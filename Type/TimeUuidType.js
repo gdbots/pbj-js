@@ -2,23 +2,23 @@
 
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
-import UuidIdentifier from '../WellKnown/UuidIdentifier';
+import TimeUuidIdentifier from '../WellKnown/TimeUuidIdentifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type UuidType */
+/** @type TimeUuidType */
 let instance = null;
 
-export default class UuidType extends Type {
+export default class TimeUuidType extends Type {
   constructor() {
-    super(TypeName.UUID);
+    super(TypeName.TIME_UUID);
   }
 
   /**
-   * @returns {UuidType}
+   * @returns {TimeUuidType}
    */
   static create() {
     if (instance === null) {
-      instance = new UuidType();
+      instance = new TimeUuidType();
     }
 
     return instance;
@@ -31,8 +31,8 @@ export default class UuidType extends Type {
    * @throws {AssertionFailed}
    */
   guard(value, field) {
-    if (!(value instanceof UuidIdentifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a UuidIdentifier.`);
+    if (!(value instanceof TimeUuidIdentifier)) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a TimeUuidIdentifier.`);
     }
 
     if (field.hasClassProto() && !(value instanceof field.getClassProto())) {
@@ -48,7 +48,7 @@ export default class UuidType extends Type {
    * @returns {?string}
    */
   encode(value, field, codec = null) {
-    if (value instanceof UuidIdentifier) {
+    if (value instanceof TimeUuidIdentifier) {
       return value.toString();
     }
 
@@ -60,10 +60,10 @@ export default class UuidType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @returns {?UuidIdentifier}
+   * @returns {?TimeUuidIdentifier}
    */
   decode(value, field, codec = null) {
-    const expectedProto = field.hasClassProto() ? field.getClassProto() : UuidIdentifier;
+    const expectedProto = field.hasClassProto() ? field.getClassProto() : TimeUuidIdentifier;
     if (value === null || value instanceof expectedProto) {
       return value;
     }
@@ -79,10 +79,10 @@ export default class UuidType extends Type {
   }
 
   /**
-   * @returns {UuidIdentifier}
+   * @returns {TimeUuidIdentifier}
    */
   getDefault() {
-    return UuidIdentifier.generate();
+    return TimeUuidIdentifier.generate();
   }
 
   /**

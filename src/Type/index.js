@@ -20,6 +20,7 @@ export { default as StringEnumType } from './StringEnumType';
 export { default as StringType } from './StringType';
 export { default as TextType } from './TextType';
 export { default as TimestampType } from './TimestampType';
+export { default as TimeUuidType } from './TimeUuidType';
 export { default as TinyIntType } from './TinyIntType';
 export { default as TrinaryType } from './TrinaryType';
 export { default as UuidType } from './UuidType';

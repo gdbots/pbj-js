@@ -91,6 +91,7 @@ test('UuidType decode tests', (t) => {
       output: SampleUuidIdentifier.fromString('4b268351-2445-4d98-a777-b461330d5c7f'),
     },
     { input: id.toString(), output: id },
+    { input: id, output: id },
     { input: null, output: null },
   ];
 

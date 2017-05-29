@@ -36,7 +36,7 @@ export default class UuidType extends Type {
     }
 
     if (field.hasClassProto() && !(value instanceof field.getClassProto())) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" was expected to be a "${field.getClassProto().constructor.name}".`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" was expected to be a "${field.getClassProto().name}".`);
     }
   }
 
