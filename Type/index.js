@@ -10,6 +10,7 @@ export { default as IntType } from './IntType';
 export { default as MediumBlobType } from './MediumBlobType';
 export { default as MediumIntType } from './MediumIntType';
 export { default as MediumTextType } from './MediumTextType';
+export { default as MicrotimeType } from './MicrotimeType';
 export { default as SignedBigIntType } from './SignedBigIntType';
 export { default as SignedIntType } from './SignedIntType';
 export { default as SignedMediumIntType } from './SignedMediumIntType';
