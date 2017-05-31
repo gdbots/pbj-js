@@ -4,6 +4,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import TimeUuidIdentifier from '../WellKnown/TimeUuidIdentifier';
 import AssertionFailed from '../Exception/AssertionFailed';
+import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
 /** @type TimeUuidType */
 let instance = null;
@@ -68,7 +69,11 @@ export default class TimeUuidType extends Type {
       return value;
     }
 
-    return expectedProto.fromString(`${value}`);
+    try {
+      return expectedProto.fromString(`${value}`);
+    } catch (e) {
+      throw new DecodeValueFailed(value, field, e.message);
+    }
   }
 
   /**

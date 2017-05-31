@@ -2,24 +2,24 @@
 
 import Type from './Type';
 import TypeName from '../Enum/TypeName';
-import TimeUuidIdentifier from '../WellKnown/TimeUuidIdentifier';
+import Identifier from '../WellKnown/Identifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type TimeUuidType */
+/** @type IdentifierType */
 let instance = null;
 
-export default class TimeUuidType extends Type {
+export default class IdentifierType extends Type {
   constructor() {
-    super(TypeName.TIME_UUID);
+    super(TypeName.IDENTIFIER);
   }
 
   /**
-   * @returns {TimeUuidType}
+   * @returns {IdentifierType}
    */
   static create() {
     if (instance === null) {
-      instance = new TimeUuidType();
+      instance = new IdentifierType();
     }
 
     return instance;
@@ -32,12 +32,17 @@ export default class TimeUuidType extends Type {
    * @throws {AssertionFailed}
    */
   guard(value, field) {
-    if (!(value instanceof TimeUuidIdentifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a TimeUuidIdentifier.`);
+    if (!(value instanceof Identifier)) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be an Identifier.`);
     }
 
-    if (field.hasClassProto() && !(value instanceof field.getClassProto())) {
+    if (!(value instanceof field.getClassProto())) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" was expected to be a "${field.getClassProto().name}".`);
+    }
+
+    const str = value.toString();
+    if (str.length < 1 || str.length > this.getMaxBytes()) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Must be between [1] and [${this.getMaxBytes()}] bytes, [${str.length}] bytes given.`);
     }
   }
 
@@ -49,7 +54,7 @@ export default class TimeUuidType extends Type {
    * @returns {?string}
    */
   encode(value, field, codec = null) {
-    if (value instanceof TimeUuidIdentifier) {
+    if (value instanceof Identifier) {
       return value.toString();
     }
 
@@ -61,10 +66,10 @@ export default class TimeUuidType extends Type {
    * @param {Field} field
    * @param {Codec} [codec]
    *
-   * @returns {?TimeUuidIdentifier}
+   * @returns {?Identifier}
    */
   decode(value, field, codec = null) {
-    const expectedProto = field.hasClassProto() ? field.getClassProto() : TimeUuidIdentifier;
+    const expectedProto = field.getClassProto();
     if (value === null || value instanceof expectedProto) {
       return value;
     }
@@ -84,16 +89,16 @@ export default class TimeUuidType extends Type {
   }
 
   /**
-   * @returns {TimeUuidIdentifier}
-   */
-  getDefault() {
-    return TimeUuidIdentifier.generate();
-  }
-
-  /**
    * @returns {boolean}
    */
   isString() {
     return true;
+  }
+
+  /**
+   * @returns {number}
+   */
+  getMaxBytes() {
+    return 100;
   }
 }

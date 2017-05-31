@@ -4,6 +4,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import Microtime from '../WellKnown/Microtime';
 import AssertionFailed from '../Exception/AssertionFailed';
+import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
 /** @type MicrotimeType */
 let instance = null;
@@ -63,7 +64,11 @@ export default class MicrotimeType extends Type {
       return value;
     }
 
-    return Microtime.fromString(`${value}`);
+    try {
+      return Microtime.fromString(`${value}`);
+    } catch (e) {
+      throw new DecodeValueFailed(value, field, e.message);
+    }
   }
 
   /**

@@ -4,6 +4,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import GeoPoint from '../WellKnown/GeoPoint';
 import AssertionFailed from '../Exception/AssertionFailed';
+import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
 /** @type GeoPointType */
 let instance = null;
@@ -63,7 +64,11 @@ export default class GeoPointType extends Type {
       return value;
     }
 
-    return codec.decodeGeoPoint(value, field);
+    try {
+      return codec.decodeGeoPoint(value, field);
+    } catch (e) {
+      throw new DecodeValueFailed(value, field, e.message);
+    }
   }
 
   /**
