@@ -5,6 +5,7 @@ export { default as BlobType } from './BlobType';
 export { default as BooleanType } from './BooleanType';
 export { default as DecimalType } from './DecimalType';
 export { default as FloatType } from './FloatType';
+export { default as GeoPointType } from './GeoPointType';
 export { default as IntEnumType } from './IntEnumType';
 export { default as IntType } from './IntType';
 export { default as MediumBlobType } from './MediumBlobType';
