@@ -3,6 +3,7 @@ export { default as BigIntType } from './BigIntType';
 export { default as BinaryType } from './BinaryType';
 export { default as BlobType } from './BlobType';
 export { default as BooleanType } from './BooleanType';
+export { default as DateType } from './DateType';
 export { default as DecimalType } from './DecimalType';
 export { default as FloatType } from './FloatType';
 export { default as GeoPointType } from './GeoPointType';
