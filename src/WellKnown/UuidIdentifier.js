@@ -7,11 +7,12 @@ export default class UuidIdentifier extends Identifier {
    * @param {string} value
    */
   constructor(value) {
-    if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(value)) {
-      throw new AssertionFailed(`Value "${value}" is not a valid UUID.`);
+    super(value);
+
+    if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(this.value)) {
+      throw new AssertionFailed(`Value "${this.value}" is not a valid UUID.`);
     }
 
-    super(value);
     Object.freeze(this);
   }
 

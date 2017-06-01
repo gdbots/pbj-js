@@ -7,11 +7,12 @@ export default class TimeUuidIdentifier extends UuidIdentifier {
    * @param {string} value
    */
   constructor(value) {
-    if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-1[0-9A-Fa-f]{3}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(value)) {
-      throw new AssertionFailed(`Value "${value}" is not a valid version 1 UUID.`);
+    super(value);
+
+    if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-1[0-9A-Fa-f]{3}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(this.value)) {
+      throw new AssertionFailed(`Value "${this.value}" is not a valid version 1 UUID.`);
     }
 
-    super(value);
     Object.freeze(this);
   }
 
