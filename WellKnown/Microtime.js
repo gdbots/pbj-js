@@ -61,6 +61,8 @@ export default class Microtime {
   }
 
   /**
+   * @private
+   *
    * @param {moment.Moment} m
    *
    * @returns {Microtime}
@@ -77,6 +79,8 @@ export default class Microtime {
   }
 
   /**
+   * @private
+   *
    * @returns {moment.Moment}
    */
   toMoment() {
