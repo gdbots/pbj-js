@@ -6,6 +6,7 @@ export { default as BooleanType } from './BooleanType';
 export { default as DateType } from './DateType';
 export { default as DateTimeType } from './DateTimeType';
 export { default as DecimalType } from './DecimalType';
+export { default as DynamicFieldType } from './DynamicFieldType';
 export { default as FloatType } from './FloatType';
 export { default as GeoPointType } from './GeoPointType';
 export { default as IdentifierType } from './IdentifierType';

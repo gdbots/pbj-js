@@ -39,7 +39,7 @@ export default class Microtime {
    * @returns {Microtime}
    */
   static create() {
-    return this.fromMoment(moment());
+    return Microtime.fromMoment(moment());
   }
 
   /**
@@ -48,7 +48,7 @@ export default class Microtime {
    * @returns {Microtime}
    */
   static fromDate(date) {
-    return this.fromMoment(moment(date));
+    return Microtime.fromMoment(moment(date));
   }
 
   /**

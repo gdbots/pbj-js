@@ -18,11 +18,11 @@ export default class GeoPoint {
     const flon = toFinite(toFinite(lon).toFixed(8));
 
     if (flat > 90.0 || flat < -90.0) {
-      throw new AssertionFailed(`Latitude "${flat}" must be within range [-90.0, 90.0]`);
+      throw new AssertionFailed(`Latitude "${flat}" must be within range [-90.0, 90.0].`);
     }
 
     if (flon > 180.0 || flon < -180.0) {
-      throw new AssertionFailed(`Longitude "${flon}" must be within range [-180.0, 180.0]`);
+      throw new AssertionFailed(`Longitude "${flon}" must be within range [-180.0, 180.0].`);
     }
 
     Object.defineProperty(this, 'lat', { value: flat });
@@ -37,7 +37,7 @@ export default class GeoPoint {
    */
   static fromString(value) {
     const p = value.split(',');
-    return new this(p[0], p[1]);
+    return new GeoPoint(p[0], p[1]);
   }
 
   /**
@@ -51,10 +51,10 @@ export default class GeoPoint {
     try {
       obj = JSON.parse(json);
     } catch (e) {
-      throw new AssertionFailed(`Payload "${json}" is not valid JSON.`);
+      throw new AssertionFailed('Invalid JSON.');
     }
 
-    return this.fromObject(obj);
+    return GeoPoint.fromObject(obj);
   }
 
   /**
@@ -67,7 +67,7 @@ export default class GeoPoint {
       return new GeoPoint(obj.coordinates[1], obj.coordinates[0]);
     }
 
-    throw new AssertionFailed(`Object [${JSON.stringify(obj)}] is not a valid GeoJson "Point" type.`);
+    throw new AssertionFailed('Invalid GeoJson "Point" type.');
   }
 
   /**
