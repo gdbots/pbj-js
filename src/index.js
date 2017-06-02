@@ -1,5 +1,6 @@
 import Field from './Field';
 import Message from './Message';
+import MessageRef from './MessageRef';
 import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
@@ -9,6 +10,7 @@ import * as Type from './Type';
 export {
   Field,
   Message,
+  MessageRef,
   SchemaCurie,
   SchemaId,
   SchemaQName,
