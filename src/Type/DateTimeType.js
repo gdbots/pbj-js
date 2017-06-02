@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import moment from 'moment';
 import isValidISO8601Date from '@gdbots/common/isValidISO8601Date';
@@ -67,7 +67,7 @@ export default class DateTimeType extends Type {
 
     if (!(value instanceof Date) && !isValidISO8601Date(value)) {
       throw new AssertionFailed(
-        `Field [${field.getName()}] :: Value "${value}" is not a valid ISO8601 date/time.  E.g. "2017-05-25T02:54:18Z".`
+        `Field [${field.getName()}] :: Value "${value}" is not a valid ISO8601 date/time.  E.g. "2017-05-25T02:54:18Z".`,
       );
     }
 

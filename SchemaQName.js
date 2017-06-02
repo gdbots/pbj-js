@@ -1,5 +1,3 @@
-/* eslint-disable comma-dangle */
-
 import InvalidSchemaQName from './Exception/InvalidSchemaQName';
 
 /**

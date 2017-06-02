@@ -1,5 +1,3 @@
-/* eslint-disable comma-dangle */
-
 import toInteger from 'lodash-es/toInteger';
 import InvalidSchemaVersion from './Exception/InvalidSchemaVersion';
 

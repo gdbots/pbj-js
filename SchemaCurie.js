@@ -1,4 +1,4 @@
-/* eslint-disable comma-dangle, no-useless-escape */
+/* eslint-disable no-useless-escape */
 
 import InvalidSchemaCurie from './Exception/InvalidSchemaCurie';
 import SchemaQName from './SchemaQName';

@@ -1,5 +1,3 @@
-/* eslint-disable comma-dangle */
-
 import toInteger from 'lodash/toInteger';
 import InvalidSchemaVersion from './Exception/InvalidSchemaVersion';
 
@@ -48,7 +46,7 @@ export default class SchemaVersion {
 
     if (!VALID_PATTERN.test(this.version)) {
       throw new InvalidSchemaVersion(
-        `SchemaVersion [${this.version}] is invalid. It must match the pattern [${VALID_PATTERN}].`
+        `SchemaVersion [${this.version}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
       );
     }
 
@@ -66,7 +64,7 @@ export default class SchemaVersion {
     const matches = `${version}`.match(VALID_PATTERN);
     if (matches === null) {
       throw new InvalidSchemaVersion(
-        `SchemaVersion [${version}] is invalid. It must match the pattern [${VALID_PATTERN}].`
+        `SchemaVersion [${version}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
       );
     }
 

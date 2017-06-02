@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import moment from 'moment';
 import isValidISO8601Date from '@gdbots/common/isValidISO8601Date';

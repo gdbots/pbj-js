@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, max-len, comma-dangle, no-useless-escape */
+/* eslint-disable class-methods-use-this, no-unused-vars, max-len, no-useless-escape */
 
 import isValidEmail from '@gdbots/common/isValidEmail';
 import isValidHashtag from '@gdbots/common/isValidHashtag';

@@ -1,5 +1,3 @@
-/* eslint-disable comma-dangle */
-
 import InvalidSchemaQName from './Exception/InvalidSchemaQName';
 
 /**
@@ -44,7 +42,7 @@ export default class SchemaQName {
 
     if (!VALID_PATTERN.test(this.qname)) {
       throw new InvalidSchemaQName(
-        `SchemaQName [${this.qname}] is invalid. It must match the pattern [${VALID_PATTERN}].`
+        `SchemaQName [${this.qname}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
       );
     }
 
@@ -67,7 +65,7 @@ export default class SchemaQName {
     const matches = `${qname}`.match(VALID_PATTERN);
     if (matches === null) {
       throw new InvalidSchemaQName(
-        `SchemaQName [${qname}] is invalid. It must match the pattern [${VALID_PATTERN}].`
+        `SchemaQName [${qname}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
       );
     }
 

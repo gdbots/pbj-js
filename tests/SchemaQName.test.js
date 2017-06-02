@@ -1,4 +1,5 @@
 import test from 'tape';
+import SchemaCurie from '../src/SchemaCurie';
 import SchemaQName from '../src/SchemaQName';
 import InvalidSchemaQName from '../src/Exception/InvalidSchemaQName';
 
@@ -83,8 +84,9 @@ test('SchemaQName instance tests', (t) => {
 
 
 test('SchemaQName fromCurie tests', (t) => {
-  // fixme: write SchemaQName fromCurie tests
-  t.skip('todo: write these tests');
+  const curie = SchemaCurie.fromString('acme:blog:node:article');
+  const qname = SchemaQName.fromCurie(curie);
+  t.same(qname.toString(), 'acme:article');
   t.end();
 });
 

@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';
@@ -29,7 +29,7 @@ export default class AbstractStringType extends Type {
     }
 
     throw new AssertionFailed(
-      `Field [${field.getName()}] :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`
+      `Field [${field.getName()}] :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`,
     );
   }
 

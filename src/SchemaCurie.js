@@ -1,4 +1,4 @@
-/* eslint-disable comma-dangle, no-useless-escape */
+/* eslint-disable no-useless-escape */
 
 import InvalidSchemaCurie from './Exception/InvalidSchemaCurie';
 import SchemaQName from './SchemaQName';
@@ -47,7 +47,7 @@ export default class SchemaCurie {
 
     if (!VALID_PATTERN.test(this.curie)) {
       throw new InvalidSchemaCurie(
-        `SchemaCurie [${this.curie}] is invalid. It must match the pattern [${VALID_PATTERN}].`
+        `SchemaCurie [${this.curie}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
       );
     }
 

@@ -1,4 +1,4 @@
-/* eslint-disable comma-dangle */
+/* eslint-disable */
 
 export default class SchemaId {
 

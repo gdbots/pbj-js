@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import clamp from 'lodash-es/clamp';
 import isString from 'lodash-es/isString';

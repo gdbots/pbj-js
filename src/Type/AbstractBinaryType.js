@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, comma-dangle */
+/* eslint-disable class-methods-use-this, no-unused-vars */
 
 import base64 from 'base-64';
 import clamp from 'lodash/clamp';
@@ -49,7 +49,7 @@ export default class AbstractBinaryType extends Type {
     }
 
     throw new AssertionFailed(
-      `Field [${field.getName()}] :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`
+      `Field [${field.getName()}] :: Must be between [${minLength}] and [${maxLength}] bytes, [${strLength}] bytes given.`,
     );
   }
 

@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this, no-unused-vars, max-len, comma-dangle, no-useless-escape */
+/* eslint-disable class-methods-use-this, no-unused-vars, max-len, no-useless-escape */
 
 import isValidEmail from '@gdbots/common/isValidEmail';
 import isValidHashtag from '@gdbots/common/isValidHashtag';
@@ -43,7 +43,7 @@ export default class StringType extends AbstractStringType {
 
     if (field.getPattern() && !field.getPattern().test(value)) {
       throw new AssertionFailed(
-        `Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`
+        `Field [${field.getName()}] :: Value "${value}" does not match expression "${field.getPattern()}".`,
       );
     }
 
@@ -54,7 +54,7 @@ export default class StringType extends AbstractStringType {
       case Format.DATE:
         if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid date with format "YYYY-MM-DD".`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid date with format "YYYY-MM-DD".`,
           );
         }
 
@@ -63,7 +63,7 @@ export default class StringType extends AbstractStringType {
       case Format.DATE_TIME:
         if (!isValidISO8601Date(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid ISO8601 date/time.  E.g. "2017-05-25T02:54:18Z".`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid ISO8601 date/time.  E.g. "2017-05-25T02:54:18Z".`,
           );
         }
 
@@ -75,7 +75,7 @@ export default class StringType extends AbstractStringType {
         // "slugs" contain both upper and lower case characters and underscores and hyphens.
         if (!/^([\w\/-]|[\w-][\w\/-]*[\w-])$/.test(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid slug.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid slug.`,
           );
         }
 
@@ -84,7 +84,7 @@ export default class StringType extends AbstractStringType {
       case Format.EMAIL:
         if (!isValidEmail(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid email address.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid email address.`,
           );
         }
 
@@ -93,7 +93,7 @@ export default class StringType extends AbstractStringType {
       case Format.HASHTAG:
         if (!isValidHashtag(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid hashtag.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid hashtag.`,
           );
         }
 
@@ -102,7 +102,7 @@ export default class StringType extends AbstractStringType {
       case Format.IPV4:
         if (!isValidIpv4(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv4 address.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv4 address.`,
           );
         }
 
@@ -111,7 +111,7 @@ export default class StringType extends AbstractStringType {
       case Format.IPV6:
         if (!isValidIpv6(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv6 address.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid IPv6 address.`,
           );
         }
 
@@ -120,7 +120,7 @@ export default class StringType extends AbstractStringType {
       case Format.HOSTNAME:
         if (!isValidHostname(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid HOSTNAME.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid HOSTNAME.`,
           );
         }
 
@@ -129,7 +129,7 @@ export default class StringType extends AbstractStringType {
       case Format.URI:
         if (!isValidUri(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid URI.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid URI.`,
           );
         }
 
@@ -138,7 +138,7 @@ export default class StringType extends AbstractStringType {
       case Format.URL:
         if (!isValidUrl(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid URL.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid URL.`,
           );
         }
 
@@ -147,7 +147,7 @@ export default class StringType extends AbstractStringType {
       case Format.UUID:
         if (!/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/.test(value)) {
           throw new AssertionFailed(
-            `Field [${field.getName()}] :: Value "${value}" is not a valid UUID.`
+            `Field [${field.getName()}] :: Value "${value}" is not a valid UUID.`,
           );
         }
 
