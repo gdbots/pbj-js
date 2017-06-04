@@ -58,18 +58,12 @@ export default class SchemaQName {
    * @throws {InvalidSchemaQName}
    */
   static fromString(qname) {
-    if (instances.has(qname)) {
-      return instances.get(qname);
+    const key = `${qname}`;
+    if (instances.has(key)) {
+      return instances.get(key);
     }
 
-    const matches = `${qname}`.match(VALID_PATTERN);
-    if (matches === null) {
-      throw new InvalidSchemaQName(
-        `SchemaQName [${qname}] is invalid. It must match the pattern [${VALID_PATTERN}].`,
-      );
-    }
-
-    return new SchemaQName(matches[1], matches[2]);
+    return new SchemaQName(...key.split(':'));
   }
 
   /**

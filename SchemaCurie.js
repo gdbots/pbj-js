@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 
-import AssertionFailed from './Exception/AssertionFailed';
 import InvalidSchemaCurie from './Exception/InvalidSchemaCurie';
 import SchemaQName from './SchemaQName';
 
@@ -37,7 +36,6 @@ export default class SchemaCurie {
    * @param {?string} category
    * @param {string} message
    *
-   * @throws {AssertionFailed}
    * @throws {InvalidSchemaCurie}
    */
   constructor(vendor, pkg, category, message) {
@@ -52,7 +50,7 @@ export default class SchemaCurie {
     }
 
     if (this.curie.length > 145) {
-      throw new AssertionFailed('SchemaCurie cannot be greater than 145 chars.');
+      throw new InvalidSchemaCurie('SchemaCurie cannot be greater than 145 chars.');
     }
 
     this.qname = SchemaQName.fromCurie(this);
@@ -66,11 +64,12 @@ export default class SchemaCurie {
    * @returns {SchemaCurie}
    */
   static fromString(curie) {
-    if (instances.has(curie)) {
-      return instances.get(curie);
+    const key = `${curie}`;
+    if (instances.has(key)) {
+      return instances.get(key);
     }
 
-    return new SchemaCurie(...curie.split(':'));
+    return new SchemaCurie(...key.split(':'));
   }
 
   /**

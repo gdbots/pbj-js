@@ -6,6 +6,7 @@ import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
 import SchemaVersion from './SchemaVersion';
 import * as Type from './Type';
+import * as WellKnown from './WellKnown';
 
 export {
   Field,
@@ -16,4 +17,5 @@ export {
   SchemaQName,
   SchemaVersion,
   Type,
+  WellKnown,
 };

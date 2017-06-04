@@ -26,6 +26,9 @@ test('SchemaCurie tests', (t) => {
       t.same(`${curie1}`, str);
       t.same(JSON.stringify(curie1), `"${str}"`);
       t.same(curie1.getVendor(), vendor);
+      t.same(curie1.getPackage(), pkg);
+      t.same(curie1.getCategory(), category || null);
+      t.same(curie1.getMessage(), message);
       t.true(curie1.equals(curie2));
       t.true(curie2.equals(curie1));
       t.true(curie1 === curie2);

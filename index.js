@@ -6,5 +6,6 @@ import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
 import SchemaVersion from './SchemaVersion';
 import * as Type from './Type';
+import * as WellKnown from './WellKnown';
 
-export { Field, Message, MessageRef, SchemaCurie, SchemaId, SchemaQName, SchemaVersion, Type };
+export { Field, Message, MessageRef, SchemaCurie, SchemaId, SchemaQName, SchemaVersion, Type, WellKnown };

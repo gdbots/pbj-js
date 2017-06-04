@@ -34,7 +34,6 @@ test('SchemaQName tests', (t) => {
   const invalid = [
     'Not A qname',
     'acme.widgets:widget',
-    'vendor:package:category:message',
     ' acme:widget ',
     ':',
     ' : ',
@@ -54,7 +53,7 @@ test('SchemaQName tests', (t) => {
       const schemaQName = SchemaQName.fromString(qname);
       t.fail(`SchemaQName [${schemaQName}] created with invalid value [${JSON.stringify(qname)}].`);
     } catch (e) {
-      t.true(e instanceof InvalidSchemaQName, 'Exception MUST be an instanceOf InvalidschemaQName');
+      t.true(e instanceof InvalidSchemaQName, 'Exception MUST be an instanceOf InvalidSchemaQName');
       t.pass(e.message);
     }
   });
