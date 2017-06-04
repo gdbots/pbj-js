@@ -94,8 +94,15 @@ export default class GeoPoint {
   /**
    * @returns {Object}
    */
-  toJSON() {
+  toObject() {
     return { type: 'Point', coordinates: [this.lon, this.lat] };
+  }
+
+  /**
+   * @returns {Object}
+   */
+  toJSON() {
+    return this.toObject();
   }
 
   /**

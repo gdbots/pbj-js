@@ -44,6 +44,7 @@ test('SchemaCurie tests', (t) => {
   });
 
   const invalid = [
+    `acme:blog:node:article${'x'.repeat(124)}`,
     'test::what',
     'test::',
     'test:::',
@@ -64,6 +65,9 @@ test('SchemaCurie tests', (t) => {
     'acme:blog::',
     'acme:::',
     'acme:::',
+    ' : ',
+    ' : : : ',
+    ':',
     null,
     false,
     true,

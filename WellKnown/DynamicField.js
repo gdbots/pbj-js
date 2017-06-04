@@ -125,6 +125,8 @@ export default class DynamicField {
    * @param {string} json
    *
    * @returns {DynamicField}
+   *
+   * @throws {AssertionFailed}
    */
   static fromJSON(json) {
     let obj;
@@ -142,6 +144,8 @@ export default class DynamicField {
    * @param {Object} obj
    *
    * @returns {DynamicField}
+   *
+   * @throws {AssertionFailed}
    */
   static fromObject(obj) {
     if (!obj.name) {
@@ -255,12 +259,19 @@ export default class DynamicField {
   /**
    * @returns {Object}
    */
-  toJSON() {
+  toObject() {
     const field = createField(this.kind);
     return {
       name: this.name,
       [this.kind]: field.getType().encode(this.value, field)
     };
+  }
+
+  /**
+   * @returns {Object}
+   */
+  toJSON() {
+    return this.toObject();
   }
 
   /**

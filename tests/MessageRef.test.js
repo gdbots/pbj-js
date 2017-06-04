@@ -5,46 +5,281 @@ import MessageRef from '../src/MessageRef';
 import SchemaCurie from '../src/SchemaCurie';
 
 test('MessageRef tests', (t) => {
-  t.end();
-  return;
-  const valid = [
-    'acme:blog:node:article:123#tag',
-    'acme:blog::article:123#tag',
-    'acme:blog::article:123',
-    'acme:blog:node:article:2015/12/25/test#tag',
-    'acme:blog:node:article:2015/12/25/test',
-    'acme:blog::article:2015/12/25/test#tag',
-    'acme:blog::article:2015/12/25/test',
-  ];
-  valid.forEach((version) => {
-    try {
-      const [vendor, pkg, category, last] = ref.split(':');
-      const [message, tag] = last.split('#');
-      //const curie = SchemaCurie
-      const ref1 = MessageRef.fromString(version);
-      const ref2 = new MessageRef(major, minor, patch);
-      t.same(`${ref1}`, `${ref2}`);
-      t.true(schemaVersion instanceof SchemaVersion, 'schemaVersion MUST be an instanceOf SchemaVersion');
-      t.same(schemaVersion.toString(), version);
-      t.same(schemaVersion.valueOf(), version);
-      t.same(schemaVersion.toJSON(), version);
-      t.same(`${schemaVersion}`, version);
-      t.same(JSON.stringify(schemaVersion), `"${version}"`);
-      t.same(schemaVersion.getMajor(), major);
-      t.same(schemaVersion.getMinor(), minor);
-      t.same(schemaVersion.getPatch(), patch);
+  const curie = SchemaCurie.fromString('acme:blog:node:article');
+  const id = '123';
+  const tag = null;
+  const refStr = `${curie}:${id}`;
 
-      try {
-        schemaVersion.test = 1;
-        t.fail('schemaVersion instance is mutable');
-      } catch (e) {
-        t.pass('schemaVersion instance is immutable');
+  const ref = MessageRef.fromString(refStr);
+  t.true(ref instanceof MessageRef, 'ref MUST be an instanceOf MessageRef');
+  t.same(`${ref}`, refStr);
+  t.same(ref.toString(), refStr);
+  t.same(ref.valueOf(), refStr);
+  t.same(ref.toJSON(), { curie: curie.toString(), id });
+  t.same(JSON.stringify(ref), `{"curie":"${curie}","id":"${id}"}`);
+  t.same(ref.getId(), id);
+  t.same(ref.getTag(), tag);
+  t.true(ref.hasId());
+  t.false(ref.hasTag());
+  t.true(ref.equals(new MessageRef(curie, id, tag)));
+  t.true(ref.equals(MessageRef.fromString(refStr)));
+  t.true(ref.getCurie() === curie);
+
+  try {
+    ref.test = 1;
+    t.fail('ref instance is mutable');
+  } catch (e) {
+    t.pass('ref instance is immutable');
+  }
+
+  t.end();
+});
+
+
+
+test('MessageRef with empty tag tests', (t) => {
+  const curie = SchemaCurie.fromString('acme:blog::article');
+  const id = '123';
+  const tag = '';
+  const refStr = `${curie}:${id}`;
+
+  const ref = new MessageRef(curie, id, tag);
+  t.true(ref instanceof MessageRef, 'ref MUST be an instanceOf MessageRef');
+  t.same(`${ref}`, refStr);
+  t.same(ref.toString(), refStr);
+  t.same(ref.valueOf(), refStr);
+  t.same(ref.toJSON(), { curie: curie.toString(), id });
+  t.same(JSON.stringify(ref), `{"curie":"${curie}","id":"${id}"}`);
+  t.same(ref.getId(), id);
+  t.same(ref.getTag(), null);
+  t.true(ref.hasId());
+  t.false(ref.hasTag());
+  t.true(ref.equals(new MessageRef(curie, id, tag)));
+  t.true(ref.equals(MessageRef.fromString(refStr)));
+  t.true(ref.getCurie() === curie);
+
+  try {
+    ref.test = 1;
+    t.fail('ref instance is mutable');
+  } catch (e) {
+    t.pass('ref instance is immutable');
+  }
+
+  t.end();
+});
+
+
+test('MessageRef with tag tests', (t) => {
+  const curie = SchemaCurie.fromString('acme:blog:node:article');
+  const id = '123';
+  const tag = 'tag';
+  const refStr = `${curie}:${id}#${tag}`;
+
+  const ref = MessageRef.fromString(refStr);
+  t.true(ref instanceof MessageRef, 'ref MUST be an instanceOf MessageRef');
+  t.same(`${ref}`, refStr);
+  t.same(ref.toString(), refStr);
+  t.same(ref.valueOf(), refStr);
+  t.same(ref.toJSON(), { curie: curie.toString(), id, tag });
+  t.same(JSON.stringify(ref), `{"curie":"${curie}","id":"${id}","tag":"${tag}"}`);
+  t.same(ref.getId(), id);
+  t.same(ref.getTag(), tag);
+  t.true(ref.hasId());
+  t.true(ref.hasTag());
+  t.true(ref.equals(new MessageRef(curie, id, tag)));
+  t.true(ref.equals(MessageRef.fromString(refStr)));
+  t.true(ref.getCurie() === curie);
+
+  try {
+    ref.test = 1;
+    t.fail('ref instance is mutable');
+  } catch (e) {
+    t.pass('ref instance is immutable');
+  }
+
+  t.end();
+});
+
+
+
+
+test('MessageRef fromJSON tests', (t) => {
+  const valid = [
+    {
+      input: '{"curie":"acme:blog:node:article","id":"123","tag":"tag"}',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '123',
+        tag: 'tag',
       }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"123","tag":"tag"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '123',
+        tag: 'tag',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"123"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '123',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog:node:article","id":"2015/12/25/test","tag":"tag"}',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '2015/12/25/test',
+        tag: 'tag',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog:node:article","id":"2015/12/25/test"}',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '2015/12/25/test',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"2015/12/25/test","tag":"tag"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test',
+        tag: 'tag',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"2015/12/25/test"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"2015/12/25/test:still:the:id"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test:still:the:id',
+      }
+    },
+    {
+      input: '{"curie":"acme:blog::article","id":"2015/12/25/test:Still_The:id","tag":"2015.Q4"}',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test:Still_The:id',
+        tag: '2015.q4'
+      }
+    },
+  ];
+
+  valid.forEach((sample) => {
+    try {
+      const ref1 = MessageRef.fromJSON(sample.input);
+      const ref2 = MessageRef.fromJSON(sample.input);
+      t.same(`${ref1}`, `${ref2}`);
+      t.same(ref1.toJSON(), sample.output);
+      t.true(ref1.getCurie() === SchemaCurie.fromString(sample.output.curie));
+      t.true(ref1.getCurie().toString() === sample.output.curie);
+      t.same(ref1.getId(), sample.output.id);
+      t.same(ref1.getTag(), sample.output.tag || null);
+      t.same(ref1.hasTag(), !!sample.output.tag);
     } catch (e) {
       t.fail(e.message);
     }
   });
 
+  t.end();
+});
+
+
+test('MessageRef fromString tests', (t) => {
+  const valid = [
+    {
+      input: 'acme:blog:node:article:123#tag',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '123',
+        tag: 'tag',
+      }
+    },
+    {
+      input: 'acme:blog::article:123#tag',
+      output: {
+        curie: 'acme:blog::article',
+        id: '123',
+        tag: 'tag',
+      }
+    },
+    {
+      input: 'acme:blog::article:123',
+      output: {
+        curie: 'acme:blog::article',
+        id: '123',
+      }
+    },
+    {
+      input: 'acme:blog:node:article:2015/12/25/test#tag',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '2015/12/25/test',
+        tag: 'tag',
+      }
+    },
+    {
+      input: 'acme:blog:node:article:2015/12/25/test',
+      output: {
+        curie: 'acme:blog:node:article',
+        id: '2015/12/25/test',
+      }
+    },
+    {
+      input: 'acme:blog::article:2015/12/25/test#tag',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test',
+        tag: 'tag',
+      }
+    },
+    {
+      input: 'acme:blog::article:2015/12/25/test',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test',
+      }
+    },
+    {
+      input: 'acme:blog::article:2015/12/25/test:still:the:id',
+      output: {
+        curie: 'acme:blog::article',
+        id: '2015/12/25/test:still:the:id',
+      }
+    },
+  ];
+
+  valid.forEach((sample) => {
+    try {
+      const ref1 = MessageRef.fromString(sample.input);
+      const ref2 = MessageRef.fromString(sample.input);
+      t.same(`${ref1}`, `${ref2}`);
+      t.same(ref1.toJSON(), sample.output);
+      t.true(ref1.getCurie() === SchemaCurie.fromString(sample.output.curie));
+      t.true(ref1.getCurie().toString() === sample.output.curie);
+      t.same(ref1.getId(), sample.output.id);
+      t.same(ref1.getTag(), sample.output.tag || null);
+      t.same(ref1.hasTag(), !!sample.output.tag);
+    } catch (e) {
+      t.fail(e.message);
+    }
+  });
+
+  t.end();
+});
+
+
+test('MessageRef fromString(invalid) tests', (t) => {
   const invalid = [
     'test::what',
     'test::',
@@ -66,6 +301,8 @@ test('MessageRef tests', (t) => {
     'acme:blog::',
     'acme:::',
     'acme:::#tag',
+    ' : ',
+    ' : : : #tag',
     null,
     false,
     true,
@@ -73,6 +310,7 @@ test('MessageRef tests', (t) => {
     [],
     NaN,
   ];
+
   invalid.forEach((str) => {
     try {
       const ref = MessageRef.fromString(str);

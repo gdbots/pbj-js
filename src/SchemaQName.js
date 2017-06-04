@@ -36,9 +36,9 @@ export default class SchemaQName {
    * @throws {InvalidSchemaVersion}
    */
   constructor(vendor, message) {
-    this.vendor = vendor;
-    this.message = message;
-    this.qname = `${vendor}:${message}`;
+    this.vendor = vendor || '';
+    this.message = message || '';
+    this.qname = `${this.vendor}:${this.message}`;
 
     if (!VALID_PATTERN.test(this.qname)) {
       throw new InvalidSchemaQName(
@@ -78,7 +78,7 @@ export default class SchemaQName {
    * @returns {SchemaQName}
    */
   static fromId(id) {
-    return this.fromCurie(id.getCurie());
+    return SchemaQName.fromCurie(id.getCurie());
   }
 
   /**

@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
 
+import AssertionFailed from './Exception/AssertionFailed';
 import InvalidSchemaCurie from './Exception/InvalidSchemaCurie';
 import SchemaQName from './SchemaQName';
 
@@ -36,17 +37,22 @@ export default class SchemaCurie {
    * @param {?string} category
    * @param {string} message
    *
+   * @throws {AssertionFailed}
    * @throws {InvalidSchemaCurie}
    */
   constructor(vendor, pkg, category, message) {
-    this.vendor = vendor;
-    this.pkg = pkg;
+    this.vendor = vendor || '';
+    this.pkg = pkg || '';
     this.category = `${category}`.trim() || null;
-    this.message = message;
-    this.curie = `${vendor}:${pkg}:${this.category || ''}:${message}`;
+    this.message = message || '';
+    this.curie = `${this.vendor}:${this.pkg}:${this.category || ''}:${this.message}`;
 
     if (!VALID_PATTERN.test(this.curie)) {
       throw new InvalidSchemaCurie(`SchemaCurie [${this.curie}] is invalid. It must match the pattern [${VALID_PATTERN}].`);
+    }
+
+    if (this.curie.length > 145) {
+      throw new AssertionFailed('SchemaCurie cannot be greater than 145 chars.');
     }
 
     this.qname = SchemaQName.fromCurie(this);
@@ -55,16 +61,25 @@ export default class SchemaCurie {
   }
 
   /**
-   * @param {string} value
+   * @param {string} curie
    *
    * @returns {SchemaCurie}
    */
-  static fromString(value) {
-    if (instances.has(value)) {
-      return instances.get(value);
+  static fromString(curie) {
+    if (instances.has(curie)) {
+      return instances.get(curie);
     }
 
-    return new SchemaCurie(...value.split(':'));
+    return new SchemaCurie(...curie.split(':'));
+  }
+
+  /**
+   * @param {SchemaId} id
+   *
+   * @returns {SchemaCurie}
+   */
+  static fromId(id) {
+    return SchemaCurie.fromString(id.toString().replace(`:${id.getVersion()}`, '').substr(4));
   }
 
   /**

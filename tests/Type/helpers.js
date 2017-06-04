@@ -97,8 +97,8 @@ function decodeInvalidSamples(field, samples, test, codec = null) {
   const type = field.getType();
   samples.forEach((value) => {
     try {
-      type.decode(value, field, codec);
-      test.fail(`${type.getTypeName().getName()}.decode accepted invalid value [${JSON.stringify(value)}].`);
+      const decoded = type.decode(value, field, codec);
+      test.fail(`${type.getTypeName().getName()}.decode accepted invalid value [${JSON.stringify(value)}] and returned [${JSON.stringify(decoded)}].`);
     } catch (e) {
       test.pass(e.message);
     }
