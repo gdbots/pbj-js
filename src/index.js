@@ -1,4 +1,5 @@
 import Field from './Field';
+import FieldBuilder from './FieldBuilder';
 import Message from './Message';
 import MessageRef from './MessageRef';
 import SchemaCurie from './SchemaCurie';
@@ -10,6 +11,7 @@ import * as WellKnown from './WellKnown';
 
 export {
   Field,
+  FieldBuilder,
   Message,
   MessageRef,
   SchemaCurie,
