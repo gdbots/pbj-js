@@ -182,7 +182,7 @@ export default class Field {
   }
 
   /**
-   * @returns {?string}
+   * @returns {?RegExp}
    */
   getPattern() {
     return this.pattern;
@@ -226,9 +226,13 @@ export default class Field {
   /**
    * @param {?Message} message
    */
-  getDefault(message = null) {}
+  getDefault(message = null) {
+    return this.defaultValue;
+  }
 
   /**
+   * @private
+   *
    * @param {*} defaultValue
    */
   guardDefault(defaultValue) {}
@@ -284,8 +288,7 @@ export default class Field {
 
   /**
    * @param {*} value
-   * @throws AssertionFailed
-   * @throws \Exception
+   * @throws {AssertionFailed}
    */
   guardValue(value) {
     if (this.required) {
