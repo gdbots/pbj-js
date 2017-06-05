@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import test from 'tape';
 import MessageRef from '../src/MessageRef';
 import SchemaCurie from '../src/SchemaCurie';
@@ -34,7 +32,6 @@ test('MessageRef tests', (t) => {
 
   t.end();
 });
-
 
 
 test('MessageRef with empty tag tests', (t) => {
@@ -101,8 +98,6 @@ test('MessageRef with tag tests', (t) => {
 });
 
 
-
-
 test('MessageRef fromJSON tests', (t) => {
   const valid = [
     {
@@ -111,7 +106,7 @@ test('MessageRef fromJSON tests', (t) => {
         curie: 'acme:blog:node:article',
         id: '123',
         tag: 'tag',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"123","tag":"tag"}',
@@ -119,14 +114,14 @@ test('MessageRef fromJSON tests', (t) => {
         curie: 'acme:blog::article',
         id: '123',
         tag: 'tag',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"123"}',
       output: {
         curie: 'acme:blog::article',
         id: '123',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog:node:article","id":"2015/12/25/test","tag":"tag"}',
@@ -134,14 +129,14 @@ test('MessageRef fromJSON tests', (t) => {
         curie: 'acme:blog:node:article',
         id: '2015/12/25/test',
         tag: 'tag',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog:node:article","id":"2015/12/25/test"}',
       output: {
         curie: 'acme:blog:node:article',
         id: '2015/12/25/test',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"2015/12/25/test","tag":"tag"}',
@@ -149,29 +144,29 @@ test('MessageRef fromJSON tests', (t) => {
         curie: 'acme:blog::article',
         id: '2015/12/25/test',
         tag: 'tag',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"2015/12/25/test"}',
       output: {
         curie: 'acme:blog::article',
         id: '2015/12/25/test',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"2015/12/25/test:still:the:id"}',
       output: {
         curie: 'acme:blog::article',
         id: '2015/12/25/test:still:the:id',
-      }
+      },
     },
     {
       input: '{"curie":"acme:blog::article","id":"2015/12/25/test:Still_The:id","tag":"2015.Q4"}',
       output: {
         curie: 'acme:blog::article',
         id: '2015/12/25/test:Still_The:id',
-        tag: '2015.q4'
-      }
+        tag: '2015.q4',
+      },
     },
   ];
 
@@ -203,7 +198,7 @@ test('MessageRef fromString tests', (t) => {
         curie: 'acme:blog:node:article',
         id: '123',
         tag: 'tag',
-      }
+      },
     },
     {
       input: 'acme:blog::article:123#tag',
@@ -211,14 +206,14 @@ test('MessageRef fromString tests', (t) => {
         curie: 'acme:blog::article',
         id: '123',
         tag: 'tag',
-      }
+      },
     },
     {
       input: 'acme:blog::article:123',
       output: {
         curie: 'acme:blog::article',
         id: '123',
-      }
+      },
     },
     {
       input: 'acme:blog:node:article:2015/12/25/test#tag',
@@ -226,14 +221,14 @@ test('MessageRef fromString tests', (t) => {
         curie: 'acme:blog:node:article',
         id: '2015/12/25/test',
         tag: 'tag',
-      }
+      },
     },
     {
       input: 'acme:blog:node:article:2015/12/25/test',
       output: {
         curie: 'acme:blog:node:article',
         id: '2015/12/25/test',
-      }
+      },
     },
     {
       input: 'acme:blog::article:2015/12/25/test#tag',
@@ -241,21 +236,21 @@ test('MessageRef fromString tests', (t) => {
         curie: 'acme:blog::article',
         id: '2015/12/25/test',
         tag: 'tag',
-      }
+      },
     },
     {
       input: 'acme:blog::article:2015/12/25/test',
       output: {
         curie: 'acme:blog::article',
         id: '2015/12/25/test',
-      }
+      },
     },
     {
       input: 'acme:blog::article:2015/12/25/test:still:the:id',
       output: {
         curie: 'acme:blog::article',
         id: '2015/12/25/test:still:the:id',
-      }
+      },
     },
   ];
 
