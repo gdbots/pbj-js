@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
 import clamp from 'lodash/clamp';
+import intersection from 'lodash/intersection';
 import isBoolean from 'lodash/isBoolean';
 import isObject from 'lodash/isObject';
 import isPlainObject from 'lodash/isPlainObject';
@@ -31,7 +32,6 @@ export default class Field {
                 defaultValue = null,
                 useTypeDefault = true,
                 classProto = null,
-                curie = null,
                 anyOfCuries = null,
                 assertion = null,
                 overridable = false,
@@ -47,7 +47,6 @@ export default class Field {
     this.defaultValue = defaultValue;
     this.useTypeDefault = isBoolean(useTypeDefault) ? useTypeDefault : true;
     this.classProto = classProto;
-    this.curie = curie;
     this.anyOfCuries = anyOfCuries;
     this.assertion = assertion || (() => {});
     this.overridable = isBoolean(overridable) ? overridable : false;
@@ -258,20 +257,6 @@ export default class Field {
   /**
    * @returns {boolean}
    */
-  hasCurie() {
-    return this.curie && this.curie.length;
-  }
-
-  /**
-   * @returns {?string}
-   */
-  getCurie() {
-    return this.curie;
-  }
-
-  /**
-   * @returns {boolean}
-   */
   hasAnyOfCuries() {
     return this.anyOfCuries && this.anyOfCuries.length;
   }
@@ -357,15 +342,7 @@ export default class Field {
       return false;
     }
 
-    if (this.curie !== other.curie) {
-      return false;
-    }
-
-    // if (!array_intersect(this.anyOfClassNames, other.anyOfClassNames)) {
-    //     return false;
-    // }
-
-    return true;
+    return intersection(this.anyOfCuries, other.anyOfCuries).length;
   }
 
   /**
@@ -373,6 +350,7 @@ export default class Field {
    * override to this field.
    *
    * @param {Field} other
+   *
    * @returns {boolean}
    */
   isCompatibleForOverride(other) {

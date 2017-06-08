@@ -189,24 +189,12 @@ export default class FieldBuilder {
   }
 
   /**
-   * @param {string} curie
-   *
-   * @returns {FieldBuilder}
-   */
-  curie(curie) {
-    this.config.curie = curie;
-    this.config.anyOfCuries = null;
-    return this;
-  }
-
-  /**
    * @param {string[]} anyOfCuries
    *
    * @returns {FieldBuilder}
    */
   anyOfCuries(anyOfCuries) {
     this.config.anyOfCuries = anyOfCuries;
-    this.config.curie = null;
     return this;
   }
 
