@@ -46,8 +46,8 @@ test('FieldBuilder tests', (t) => {
   t.false(field.isASingleValue());
   t.false(field.isOverridable());
 
-  field = Fb.create('test', T.DateType.create()).asASet().build();
-  t.same(field.getType(), T.DateType.create());
+  field = Fb.create('test', T.UuidType.create()).asASet().build();
+  t.same(field.getType(), T.UuidType.create());
   t.false(field.isAList());
   t.false(field.isAMap());
   t.true(field.isASet());

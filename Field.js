@@ -2,11 +2,15 @@
 
 import clamp from 'lodash-es/clamp';
 import intersection from 'lodash-es/intersection';
+import isArray from 'lodash-es/isArray';
 import isBoolean from 'lodash-es/isBoolean';
 import isObject from 'lodash-es/isObject';
+import isMap from 'lodash-es/isMap';
 import isPlainObject from 'lodash-es/isPlainObject';
+import isSet from 'lodash-es/isSet';
 import toInteger from 'lodash-es/toInteger';
 import trim from 'lodash-es/trim';
+import AssertionFailed from './Exception/AssertionFailed';
 import FieldRule from './Enum/FieldRule';
 import Format from './Enum/Format';
 import Message from './Message';
@@ -51,7 +55,9 @@ export default class Field {
     this.assertion = assertion || (() => {});
     this.overridable = isBoolean(overridable) ? overridable : false;
 
+    this.applyFieldRule(rule);
     this.applyStringOptions(minLength, maxLength, pattern, format);
+    this.applyNumericOptions(min, max, precision, scale);
     Object.freeze(this);
   }
 
@@ -60,7 +66,12 @@ export default class Field {
    *
    * @param {FieldRule} rule
    */
-  applyFieldRule(rule = null) {}
+  applyFieldRule(rule = null) {
+    this.rule = rule || FieldRule.A_SINGLE_VALUE;
+    if (this.isASet() && !this.type.allowedInSet()) {
+      throw new AssertionFailed(`Field [${this.name}] with type [${this.type.getTypeValue()}] cannot be used in a set.`);
+    }
+  }
 
   /**
    * @private
@@ -101,7 +112,21 @@ export default class Field {
    * @param {?number} precision
    * @param {?number} scale
    */
-  applyNumericOptions(min = null, max = null, precision = 10, scale = 2) {}
+  applyNumericOptions(min = null, max = null, precision = 10, scale = 2) {
+    if (max !== null) {
+      this.max = toInteger(max);
+    }
+
+    if (min !== null) {
+      this.min = toInteger(min);
+      if (this.max !== null && this.min > this.max) {
+        this.min = this.max;
+      }
+    }
+
+    this.precision = clamp(precision, 1, 65);
+    this.scale = clamp(scale, 0, this.precision);
+  }
 
   /**
    * @private
@@ -233,8 +258,35 @@ export default class Field {
    * @private
    *
    * @param {*} defaultValue
+   *
+   * @throws {AssertionFailed}
    */
-  guardDefault(defaultValue) {}
+  guardDefault(defaultValue) {
+    if (defaultValue === null) {
+      return;
+    }
+
+    if (this.isASingleValue()) {
+      this.guardValue(defaultValue);
+      return;
+    }
+
+    if (this.isAMap() && !isMap(defaultValue)) {
+      throw new AssertionFailed(`Field [${this.name}] default must be a Map.`);
+    } else if (this.isASet() && !isSet(defaultValue)) {
+      throw new AssertionFailed(`Field [${this.name}] default must be a Set.`);
+    } else if (this.isAList() && !isArray(defaultValue)) {
+      throw new AssertionFailed(`Field [${this.name}] default must be an Array.`);
+    }
+
+    defaultValue.forEach((v, k) => {
+      if (v === null) {
+        throw new AssertionFailed(`Field [${this.name}] default for key [${k}] cannot be null.`);
+      }
+
+      this.guardValue(v);
+    });
+  }
 
   /**
    * @returns {boolean}
@@ -273,12 +325,12 @@ export default class Field {
 
   /**
    * @param {*} value
+   *
    * @throws {AssertionFailed}
    */
   guardValue(value) {
-    if (this.required) {
-      // Assertion::notNull($value,
-      // sprintf('Field [%s] is required and cannot be null.', this.name));
+    if (this.required && value === null) {
+      throw new AssertionFailed(`Field [${this.name}] is required and cannot be null.`);
     }
 
     if (value !== null) {
@@ -291,30 +343,51 @@ export default class Field {
   }
 
   /**
-   * {@inheritdoc}
+   * @returns {string}
    */
-  toArray() {}
-  // return [
-  //     'name'          => this.name,
-  //     'type'          => this.type->getTypeValue(),
-  //     'rule'          => this.rule->getName(),
-  //     'required'      => this.required,
-  //     'min_length'    => this.minLength,
-  //     'max_length'    => this.maxLength,
-  //     'pattern'       => this.pattern,
-  //     'format'        => this.format->getValue(),
-  //     'min'           => this.min,
-  //     'max'           => this.max,
-  //     'precision'     => this.precision,
-  //     'scale'         => this.scale,
-  //     'default'       => this.getDefault(),
-  //     'use_type_default' => this.useTypeDefault,
-  //     'class_name'    => this.className,
-  //     'any_of_class_names' => this.anyOfClassNames,
-  //     'has_assertion' => null !== this.assertion,
-  //     'overridable'   => this.overridable,
-  // ];
+  toString() {
+    return JSON.stringify(this);
+  }
 
+  /**
+   * @returns {Object}
+   */
+  toObject() {
+    return {
+      name: this.name,
+      type: this.type.getTypeValue(),
+      rule: this.rule.getName(),
+      required: this.required,
+      min_length: this.minLength,
+      max_length: this.maxLength,
+      pattern: `${this.pattern}`,
+      format: this.format.getValue(),
+      min: this.min,
+      max: this.max,
+      precision: this.precision,
+      scale: this.scale,
+      default_value: this.defaultValue,
+      use_type_default: this.useTypeDefault,
+      class_proto: this.classProto,
+      any_of_curies: this.anyOfCuries,
+      has_assertion: this.assertion !== null,
+      overridable: this.overridable
+    };
+  }
+
+  /**
+   * @returns {Object}
+   */
+  toJSON() {
+    return this.toObject();
+  }
+
+  /**
+   * @returns {string}
+   */
+  valueOf() {
+    return this.toString();
+  }
 
   /**
    * Returns true if this field is likely compatible with the
@@ -323,6 +396,7 @@ export default class Field {
    * todo: implement/test isCompatibleForMerge
    *
    * @param {Field} other
+   *
    * @returns {boolean}
    */
   isCompatibleForMerge(other) {
