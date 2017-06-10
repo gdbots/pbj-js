@@ -35,7 +35,7 @@ export default class AbstractBinaryType extends Type {
    */
   guard(value, field) {
     if (!isString(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a string.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not a string.`);
     }
 
     // fixme: deal with browsers not having "Buffer" available

@@ -34,7 +34,7 @@ export default class TimestampType extends Type {
    */
   guard(value, field) {
     if (!isSafeInteger(value) || !isValidTimestamp(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a valid unix timestamp.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not a valid unix timestamp.`);
     }
   }
 

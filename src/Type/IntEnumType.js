@@ -35,7 +35,7 @@ export default class IntEnumType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof Enum)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be an Enum.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be an Enum.`);
     }
 
     if (!(value instanceof field.getClassProto())) {

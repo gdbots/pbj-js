@@ -34,7 +34,7 @@ export default class DateTimeType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof Date)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a Date.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a Date.`);
     }
   }
 

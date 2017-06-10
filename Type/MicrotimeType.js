@@ -33,7 +33,7 @@ export default class MicrotimeType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof Microtime)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a Microtime.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a Microtime.`);
     }
   }
 

@@ -33,7 +33,7 @@ export default class MessageRefType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof MessageRef)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a MessageRef.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a MessageRef.`);
     }
   }
 

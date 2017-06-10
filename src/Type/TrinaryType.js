@@ -39,7 +39,7 @@ export default class TrinaryType extends Type {
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not an integer.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not an integer.`);
     }
 
     if ([0, 1, 2].indexOf(value) === -1) {

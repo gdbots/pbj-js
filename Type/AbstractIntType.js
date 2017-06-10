@@ -15,7 +15,7 @@ export default class AbstractIntType extends Type {
    */
   guard(value, field) {
     if (!isSafeInteger(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not an integer.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not an integer.`);
     }
 
     const min = clamp(field.getMin(), this.getMin(), this.getMax());

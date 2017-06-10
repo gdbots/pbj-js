@@ -34,7 +34,7 @@ export default class FloatType extends Type {
    */
   guard(value, field) {
     if (!isFinite(value)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a float.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not a float.`);
     }
   }
 

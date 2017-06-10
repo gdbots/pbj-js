@@ -33,7 +33,7 @@ export default class DynamicFieldType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof DynamicField)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a DynamicField.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a DynamicField.`);
     }
   }
 

@@ -33,7 +33,7 @@ export default class UuidType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof UuidIdentifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a UuidIdentifier.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a UuidIdentifier.`);
     }
 
     if (field.hasClassProto() && !(value instanceof field.getClassProto())) {

@@ -33,7 +33,7 @@ export default class IdentifierType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof Identifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be an Identifier.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be an Identifier.`);
     }
 
     if (!(value instanceof field.getClassProto())) {

@@ -33,7 +33,7 @@ export default class TimeUuidType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof TimeUuidIdentifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a TimeUuidIdentifier.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a TimeUuidIdentifier.`);
     }
 
     if (field.hasClassProto() && !(value instanceof field.getClassProto())) {

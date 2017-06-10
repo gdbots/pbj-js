@@ -33,7 +33,7 @@ export default class GeoPointType extends Type {
    */
   guard(value, field) {
     if (!(value instanceof GeoPoint)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" was expected to be a GeoPoint.`);
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a GeoPoint.`);
     }
   }
 

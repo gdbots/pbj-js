@@ -3,6 +3,7 @@ import Field from '../src/Field';
 import FieldRule from '../src/Enum/FieldRule';
 import Format from '../src/Enum/Format';
 import * as T from '../src/Type';
+import SampleStringEnum from './Fixtures/Enum/SampleStringEnum';
 
 test('Field tests', (t) => {
   let field = new Field({
@@ -112,6 +113,61 @@ test('Field tests', (t) => {
   const regex = new RegExp('^a-z$');
   t.true(field.getPattern() instanceof RegExp);
   t.same(`${field.getPattern()}`, `${regex}`);
+
+  t.end();
+});
+
+
+test('Field applyDefault(Enum) tests', (t) => {
+  let field = new Field({
+    name: 'test',
+    type: T.StringEnumType.create(),
+    classProto: SampleStringEnum,
+    required: true,
+    defaultValue: SampleStringEnum.ENUM1.toString(),
+  });
+  t.true(field.defaultValue === SampleStringEnum.ENUM1);
+
+  field = new Field({
+    name: 'test',
+    type: T.StringEnumType.create(),
+    classProto: SampleStringEnum,
+    required: true,
+    defaultValue: SampleStringEnum.ENUM1,
+  });
+  t.true(field.defaultValue === SampleStringEnum.ENUM1);
+
+  field = new Field({
+    name: 'test',
+    type: T.StringEnumType.create(),
+    classProto: SampleStringEnum,
+    required: true,
+    defaultValue: () => SampleStringEnum.ENUM1,
+  });
+  t.true(field.getDefault() === SampleStringEnum.ENUM1);
+
+  t.end();
+});
+
+
+test('Field getDefault(dynamic) tests', (t) => {
+  const field = new Field({
+    name: 'test',
+    type: T.StringType.create(),
+    required: true,
+    defaultValue: (message, f) => {
+      const m = message ? message.test : '';
+      return `dynamic:${m}:${f.getName()}`;
+    },
+  });
+
+  t.same(field.getDefault(null), 'dynamic::test');
+
+  const message = { test: 1 };
+  t.same(field.getDefault(message), 'dynamic:1:test');
+
+  message.test = 2;
+  t.same(field.getDefault(message), 'dynamic:2:test');
 
   t.end();
 });

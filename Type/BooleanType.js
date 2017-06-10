@@ -37,7 +37,7 @@ export default class BooleanType extends Type {
       return;
     }
 
-    throw new AssertionFailed(`Field [${field.getName()}] :: Value "${JSON.stringify(value)}" is not a boolean.`);
+    throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] is not a boolean.`);
   }
 
   /**

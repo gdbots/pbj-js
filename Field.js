@@ -1,9 +1,9 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
+import Enum from '@gdbots/common/Enum';
 import clamp from 'lodash-es/clamp';
 import intersection from 'lodash-es/intersection';
 import isArray from 'lodash-es/isArray';
 import isBoolean from 'lodash-es/isBoolean';
+import isFunction from 'lodash-es/isFunction';
 import isObject from 'lodash-es/isObject';
 import isMap from 'lodash-es/isMap';
 import isPlainObject from 'lodash-es/isPlainObject';
@@ -13,8 +13,14 @@ import trim from 'lodash-es/trim';
 import AssertionFailed from './Exception/AssertionFailed';
 import FieldRule from './Enum/FieldRule';
 import Format from './Enum/Format';
-import Message from './Message';
-import Type from './Type/Type';
+import Identifier from './WellKnown/Identifier';
+import TypeName from './Enum/TypeName';
+
+/**
+ * Regular expression pattern for matching a valid field name.
+ * @type {RegExp}
+ */
+export const VALID_NAME_PATTERN = /^[a-zA-Z_]{1}[a-zA-Z0-9_]{0,126}$/;
 
 export default class Field {
   /**
@@ -36,28 +42,27 @@ export default class Field {
     defaultValue = null,
     useTypeDefault = true,
     classProto = null,
-    anyOfCuries = null,
+    anyOfCuries = [],
     assertion = null,
     overridable = false
   }) {
     this.name = name;
     this.type = type;
-    this.rule = rule;
     this.required = isBoolean(required) ? required : false;
-    this.min = min;
-    this.max = max;
-    this.precision = precision;
-    this.scale = scale;
-    this.defaultValue = defaultValue;
     this.useTypeDefault = isBoolean(useTypeDefault) ? useTypeDefault : true;
     this.classProto = classProto;
-    this.anyOfCuries = anyOfCuries;
-    this.assertion = assertion || (() => {});
+    this.anyOfCuries = isArray(anyOfCuries) ? anyOfCuries : [];
+    this.assertion = isFunction(assertion) ? assertion : null;
     this.overridable = isBoolean(overridable) ? overridable : false;
+
+    if (!VALID_NAME_PATTERN.test(this.name)) {
+      throw new AssertionFailed(`Field [${this.name}] must match pattern [${VALID_NAME_PATTERN}].`);
+    }
 
     this.applyFieldRule(rule);
     this.applyStringOptions(minLength, maxLength, pattern, format);
     this.applyNumericOptions(min, max, precision, scale);
+    this.applyDefault(defaultValue);
     Object.freeze(this);
   }
 
@@ -113,12 +118,15 @@ export default class Field {
    * @param {?number} scale
    */
   applyNumericOptions(min = null, max = null, precision = 10, scale = 2) {
-    if (max !== null) {
-      this.max = toInteger(max);
+    this.min = min;
+    this.max = max;
+
+    if (this.max !== null) {
+      this.max = toInteger(this.max);
     }
 
-    if (min !== null) {
-      this.min = toInteger(min);
+    if (this.min !== null) {
+      this.min = toInteger(this.min);
       if (this.max !== null && this.min > this.max) {
         this.min = this.max;
       }
@@ -133,7 +141,49 @@ export default class Field {
    *
    * @param {*} defaultValue
    */
-  applyDefault(defaultValue = null) {}
+  applyDefault(defaultValue = null) {
+    this.defaultValue = defaultValue;
+    const defaultValueIsAFunction = isFunction(this.defaultValue);
+
+    if (this.type.isScalar()) {
+      if (this.type.getTypeName() !== TypeName.TIMESTAMP) {
+        this.useTypeDefault = true;
+      }
+    } else {
+      const decodeDefault = this.defaultValue !== null && !defaultValueIsAFunction;
+      switch (this.type.getTypeValue()) {
+        case TypeName.IDENTIFIER.getValue():
+          if (!this.hasClassProto()) {
+            throw new AssertionFailed(`Field [${this.name}] requires a classProto.`);
+          }
+
+          if (decodeDefault && !(this.defaultValue instanceof Identifier)) {
+            this.defaultValue = this.type.decode(this.defaultValue, this);
+          }
+
+          break;
+
+        case TypeName.INT_ENUM.getValue():
+        case TypeName.STRING_ENUM.getValue():
+          if (!this.hasClassProto()) {
+            throw new AssertionFailed(`Field [${this.name}] requires a classProto.`);
+          }
+
+          if (decodeDefault && !(this.defaultValue instanceof Enum)) {
+            this.defaultValue = this.type.decode(this.defaultValue, this);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    if (this.defaultValue !== null && !defaultValueIsAFunction) {
+      this.guardDefault(this.defaultValue);
+    }
+  }
 
   /**
    * @returns {string}
@@ -251,7 +301,29 @@ export default class Field {
    * @param {?Message} message
    */
   getDefault(message = null) {
-    return this.defaultValue;
+    if (this.defaultValue === null) {
+      if (this.useTypeDefault) {
+        return this.isASingleValue() ? this.type.getDefault() : [];
+      }
+
+      return this.isASingleValue() ? null : [];
+    }
+
+    if (!isFunction(this.defaultValue)) {
+      return this.defaultValue;
+    }
+
+    const dynamicDefault = this.defaultValue(message, this);
+    this.guardDefault(dynamicDefault);
+    if (dynamicDefault === null) {
+      if (this.useTypeDefault) {
+        return this.isASingleValue() ? this.type.getDefault() : [];
+      }
+
+      return this.isASingleValue() ? null : [];
+    }
+
+    return dynamicDefault;
   }
 
   /**
@@ -300,13 +372,6 @@ export default class Field {
    */
   getClassProto() {
     return this.classProto;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  hasAnyOfCuries() {
-    return this.anyOfCuries && this.anyOfCuries.length;
   }
 
   /**
