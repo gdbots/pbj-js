@@ -7,7 +7,7 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type DateTimeType */
+/** @type {DateTimeType} */
 let instance = null;
 
 export default class DateTimeType extends Type {

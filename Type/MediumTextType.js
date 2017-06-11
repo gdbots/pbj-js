@@ -3,7 +3,7 @@
 import AbstractStringType from './AbstractStringType';
 import TypeName from '../Enum/TypeName';
 
-/** @type MediumTextType */
+/** @type {MediumTextType} */
 let instance = null;
 
 export default class MediumTextType extends AbstractStringType {

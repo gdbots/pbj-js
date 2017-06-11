@@ -7,7 +7,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type TimestampType */
+/** @type {TimestampType} */
 let instance = null;
 
 export default class TimestampType extends Type {

@@ -6,7 +6,7 @@ import TimeUuidIdentifier from '../WellKnown/TimeUuidIdentifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type TimeUuidType */
+/** @type {TimeUuidType} */
 let instance = null;
 
 export default class TimeUuidType extends Type {

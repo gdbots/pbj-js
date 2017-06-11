@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import SchemaId from './SchemaId';
 
-/** @type Mixin */
+/** @type {Mixin} */
 let instance = null;
 
 export default class Mixin {

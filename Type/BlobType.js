@@ -3,7 +3,7 @@
 import AbstractBinaryType from './AbstractBinaryType';
 import TypeName from '../Enum/TypeName';
 
-/** @type BlobType */
+/** @type {BlobType} */
 let instance = null;
 
 export default class BlobType extends AbstractBinaryType {

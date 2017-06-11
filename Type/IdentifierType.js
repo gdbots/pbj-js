@@ -6,7 +6,7 @@ import Identifier from '../WellKnown/Identifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type IdentifierType */
+/** @type {IdentifierType} */
 let instance = null;
 
 export default class IdentifierType extends Type {

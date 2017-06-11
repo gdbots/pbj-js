@@ -3,7 +3,7 @@
 import AbstractBinaryType from './AbstractBinaryType';
 import TypeName from '../Enum/TypeName';
 
-/** @type BinaryType */
+/** @type {BinaryType} */
 let instance = null;
 
 export default class BinaryType extends AbstractBinaryType {

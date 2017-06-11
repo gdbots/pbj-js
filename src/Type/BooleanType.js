@@ -7,7 +7,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type BooleanType */
+/** @type {BooleanType} */
 let instance = null;
 
 export default class BooleanType extends Type {

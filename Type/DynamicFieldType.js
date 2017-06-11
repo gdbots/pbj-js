@@ -6,7 +6,7 @@ import DynamicField from '../WellKnown/DynamicField';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type DynamicFieldType */
+/** @type {DynamicFieldType} */
 let instance = null;
 
 export default class DynamicFieldType extends Type {

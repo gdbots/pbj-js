@@ -6,7 +6,7 @@ import MessageRef from '../MessageRef';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type MessageRefType */
+/** @type {MessageRefType} */
 let instance = null;
 
 export default class MessageRefType extends Type {

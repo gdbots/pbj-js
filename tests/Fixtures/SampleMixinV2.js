@@ -4,16 +4,16 @@ import Mixin from '../../src/Mixin';
 import SchemaId from '../../src/SchemaId';
 import * as T from '../../src/Type';
 
-/** @type SampleMixin */
+/** @type {SampleMixinV2} */
 let instance = null;
 
-export default class SampleMixin extends Mixin {
+export default class SampleMixinV2 extends Mixin {
   /**
-   * @returns {SampleMixin}
+   * @returns {SampleMixinV2}
    */
   static create() {
     if (instance === null) {
-      instance = new SampleMixin();
+      instance = new SampleMixinV2();
     }
 
     return instance;
@@ -23,7 +23,7 @@ export default class SampleMixin extends Mixin {
    * @returns {SchemaId}
    */
   getId() {
-    return SchemaId.fromString('pbj:gdbots:pbj.tests::sample-mixin:1-0-0');
+    return SchemaId.fromString('pbj:gdbots:pbj.tests::sample-mixin:2-0-0');
   }
 
   /**
@@ -31,9 +31,13 @@ export default class SampleMixin extends Mixin {
    */
   getFields() {
     return [
-      Fb.create('a_string', T.StringType.create())
+      Fb.create('mixin_string', T.StringType.create())
+        .overridable(true)
         .build(),
-      Fb.create('a_int', T.IntType.create())
+      Fb.create('mixin_int', T.IntType.create())
+        .required()
+        .build(),
+      Fb.create('mixin_date', T.DateType.create())
         .build(),
     ];
   }

@@ -3,7 +3,7 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-/** @type SignedSmallIntType */
+/** @type {SignedSmallIntType} */
 let instance = null;
 
 export default class SignedSmallIntType extends AbstractIntType {

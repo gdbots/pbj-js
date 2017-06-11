@@ -13,7 +13,7 @@ import Format from '../Enum/Format';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type StringType */
+/** @type {StringType} */
 let instance = null;
 
 export default class StringType extends AbstractStringType {

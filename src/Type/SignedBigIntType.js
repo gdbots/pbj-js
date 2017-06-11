@@ -5,7 +5,7 @@ import TypeName from '../Enum/TypeName';
 import BigNumber from '../WellKnown/BigNumber';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type SignedBigIntType */
+/** @type {SignedBigIntType} */
 let instance = null;
 
 export default class SignedBigIntType extends Type {

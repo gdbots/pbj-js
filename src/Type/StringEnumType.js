@@ -7,7 +7,7 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type StringEnumType */
+/** @type {StringEnumType} */
 let instance = null;
 
 export default class StringEnumType extends Type {

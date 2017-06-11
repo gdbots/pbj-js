@@ -3,7 +3,7 @@
 import AbstractIntType from './AbstractIntType';
 import TypeName from '../Enum/TypeName';
 
-/** @type MediumIntType */
+/** @type {MediumIntType} */
 let instance = null;
 
 export default class MediumIntType extends AbstractIntType {

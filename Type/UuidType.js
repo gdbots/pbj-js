@@ -6,7 +6,7 @@ import UuidIdentifier from '../WellKnown/UuidIdentifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type UuidType */
+/** @type {UuidType} */
 let instance = null;
 
 export default class UuidType extends Type {

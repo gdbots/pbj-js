@@ -6,7 +6,7 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type FloatType */
+/** @type {FloatType} */
 let instance = null;
 
 // fixme: handle precision and scale

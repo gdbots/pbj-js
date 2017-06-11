@@ -6,7 +6,7 @@ import GeoPoint from '../WellKnown/GeoPoint';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type GeoPointType */
+/** @type {GeoPointType} */
 let instance = null;
 
 export default class GeoPointType extends Type {

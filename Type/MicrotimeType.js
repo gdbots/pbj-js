@@ -6,7 +6,7 @@ import Microtime from '../WellKnown/Microtime';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type MicrotimeType */
+/** @type {MicrotimeType} */
 let instance = null;
 
 export default class MicrotimeType extends Type {
