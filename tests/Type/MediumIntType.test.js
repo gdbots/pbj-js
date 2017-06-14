@@ -10,6 +10,7 @@ test('MediumIntType property tests', (t) => {
   t.true(mediumIntType instanceof Type);
   t.true(mediumIntType instanceof MediumIntType);
   t.same(mediumIntType, MediumIntType.create());
+  t.true(mediumIntType === MediumIntType.create());
   t.same(mediumIntType.getTypeName(), TypeName.MEDIUM_INT);
   t.same(mediumIntType.getTypeValue(), TypeName.MEDIUM_INT.valueOf());
   t.same(mediumIntType.isScalar(), true);

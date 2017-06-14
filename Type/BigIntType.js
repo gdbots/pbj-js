@@ -5,23 +5,9 @@ import TypeName from '../Enum/TypeName';
 import BigNumber from '../WellKnown/BigNumber';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type {BigIntType} */
-let instance = null;
-
 export default class BigIntType extends Type {
   constructor() {
     super(TypeName.BIG_INT);
-  }
-
-  /**
-   * @returns {BigIntType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new BigIntType();
-    }
-
-    return instance;
   }
 
   /**

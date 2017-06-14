@@ -10,6 +10,7 @@ test('BinaryType property tests', (t) => {
   t.true(binaryType instanceof Type);
   t.true(binaryType instanceof BinaryType);
   t.same(binaryType, BinaryType.create());
+  t.true(binaryType === BinaryType.create());
   t.same(binaryType.getTypeName(), TypeName.BINARY);
   t.same(binaryType.getTypeValue(), TypeName.BINARY.valueOf());
   t.same(binaryType.isScalar(), true);

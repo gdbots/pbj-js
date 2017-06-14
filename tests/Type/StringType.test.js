@@ -11,6 +11,7 @@ test('StringType property tests', (t) => {
   t.true(stringType instanceof Type);
   t.true(stringType instanceof StringType);
   t.same(stringType, StringType.create());
+  t.true(stringType === StringType.create());
   t.same(stringType.getTypeName(), TypeName.STRING);
   t.same(stringType.getTypeValue(), TypeName.STRING.valueOf());
   t.same(stringType.isScalar(), true);

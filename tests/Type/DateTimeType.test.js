@@ -10,6 +10,7 @@ test('DateTimeType property tests', (t) => {
   t.true(dateTimeType instanceof Type);
   t.true(dateTimeType instanceof DateTimeType);
   t.same(dateTimeType, DateTimeType.create());
+  t.true(dateTimeType === DateTimeType.create());
   t.same(dateTimeType.getTypeName(), TypeName.DATE_TIME);
   t.same(dateTimeType.getTypeValue(), TypeName.DATE_TIME.valueOf());
   t.same(dateTimeType.isScalar(), false);

@@ -6,23 +6,9 @@ import DynamicField from '../WellKnown/DynamicField';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {DynamicFieldType} */
-let instance = null;
-
 export default class DynamicFieldType extends Type {
   constructor() {
     super(TypeName.DYNAMIC_FIELD);
-  }
-
-  /**
-   * @returns {DynamicFieldType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new DynamicFieldType();
-    }
-
-    return instance;
   }
 
   /**

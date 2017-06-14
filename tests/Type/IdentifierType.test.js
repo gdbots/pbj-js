@@ -12,6 +12,7 @@ test('IdentifierType property tests', (t) => {
   t.true(identifierType instanceof Type);
   t.true(identifierType instanceof IdentifierType);
   t.same(identifierType, IdentifierType.create());
+  t.true(identifierType === IdentifierType.create());
   t.same(identifierType.getTypeName(), TypeName.IDENTIFIER);
   t.same(identifierType.getTypeValue(), TypeName.IDENTIFIER.valueOf());
   t.same(identifierType.isScalar(), false);

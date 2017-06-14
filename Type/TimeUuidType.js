@@ -6,23 +6,9 @@ import TimeUuidIdentifier from '../WellKnown/TimeUuidIdentifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {TimeUuidType} */
-let instance = null;
-
 export default class TimeUuidType extends Type {
   constructor() {
     super(TypeName.TIME_UUID);
-  }
-
-  /**
-   * @returns {TimeUuidType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new TimeUuidType();
-    }
-
-    return instance;
   }
 
   /**

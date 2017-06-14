@@ -12,6 +12,7 @@ test('StringEnumType property tests', (t) => {
   t.true(stringEnumType instanceof Type);
   t.true(stringEnumType instanceof StringEnumType);
   t.same(stringEnumType, StringEnumType.create());
+  t.true(stringEnumType === StringEnumType.create());
   t.same(stringEnumType.getTypeName(), TypeName.STRING_ENUM);
   t.same(stringEnumType.getTypeValue(), TypeName.STRING_ENUM.valueOf());
   t.same(stringEnumType.isScalar(), false);

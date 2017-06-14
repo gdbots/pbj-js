@@ -12,6 +12,7 @@ test('IntEnumType property tests', (t) => {
   t.true(intEnumType instanceof Type);
   t.true(intEnumType instanceof IntEnumType);
   t.same(intEnumType, IntEnumType.create());
+  t.true(intEnumType === IntEnumType.create());
   t.same(intEnumType.getTypeName(), TypeName.INT_ENUM);
   t.same(intEnumType.getTypeValue(), TypeName.INT_ENUM.valueOf());
   t.same(intEnumType.isScalar(), false);

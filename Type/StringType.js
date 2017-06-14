@@ -13,23 +13,9 @@ import Format from '../Enum/Format';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type {StringType} */
-let instance = null;
-
 export default class StringType extends AbstractStringType {
   constructor() {
     super(TypeName.STRING);
-  }
-
-  /**
-   * @returns {StringType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new StringType();
-    }
-
-    return instance;
   }
 
   /**

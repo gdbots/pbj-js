@@ -11,6 +11,7 @@ test('SignedBigIntType property tests', (t) => {
   t.true(signedBigIntType instanceof Type);
   t.true(signedBigIntType instanceof SignedBigIntType);
   t.same(signedBigIntType, SignedBigIntType.create());
+  t.true(signedBigIntType === SignedBigIntType.create());
   t.same(signedBigIntType.getTypeName(), TypeName.SIGNED_BIG_INT);
   t.same(signedBigIntType.getTypeValue(), TypeName.SIGNED_BIG_INT.valueOf());
   t.same(signedBigIntType.isScalar(), false);

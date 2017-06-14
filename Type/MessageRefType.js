@@ -6,23 +6,9 @@ import MessageRef from '../MessageRef';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {MessageRefType} */
-let instance = null;
-
 export default class MessageRefType extends Type {
   constructor() {
     super(TypeName.MESSAGE_REF);
-  }
-
-  /**
-   * @returns {MessageRefType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new MessageRefType();
-    }
-
-    return instance;
   }
 
   /**

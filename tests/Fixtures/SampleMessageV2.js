@@ -3,16 +3,16 @@ import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
 import Schema from '../../src/Schema';
 import * as T from '../../src/Type';
-import SampleMixinV1 from './SampleMixinV1';
+import SampleMixinV2 from './SampleMixinV2';
 
-export default class SampleMessageV1 extends Message {
+export default class SampleMessageV2 extends Message {
   /**
    * @private
    *
    * @returns {Schema}
    */
   static defineSchema() {
-    return new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
+    return new Schema('pbj:gdbots:pbj.tests::sample-message:2-0-0', SampleMessageV2,
       [
         Fb.create('string_single', T.StringType.create())
           .build(),
@@ -27,7 +27,7 @@ export default class SampleMessageV1 extends Message {
           .build(),
       ],
       [
-        SampleMixinV1.create(),
+        SampleMixinV2.create(),
       ],
     );
   }

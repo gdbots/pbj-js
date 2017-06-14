@@ -10,6 +10,7 @@ test('MediumTextType property tests', (t) => {
   t.true(mediumTextType instanceof Type);
   t.true(mediumTextType instanceof MediumTextType);
   t.same(mediumTextType, MediumTextType.create());
+  t.true(mediumTextType === MediumTextType.create());
   t.same(mediumTextType.getTypeName(), TypeName.MEDIUM_TEXT);
   t.same(mediumTextType.getTypeValue(), TypeName.MEDIUM_TEXT.valueOf());
   t.same(mediumTextType.isScalar(), true);

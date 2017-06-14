@@ -11,6 +11,7 @@ test('MessageRefType property tests', (t) => {
   t.true(messageRefType instanceof Type);
   t.true(messageRefType instanceof MessageRefType);
   t.same(messageRefType, MessageRefType.create());
+  t.true(messageRefType === MessageRefType.create());
   t.same(messageRefType.getTypeName(), TypeName.MESSAGE_REF);
   t.same(messageRefType.getTypeValue(), TypeName.MESSAGE_REF.valueOf());
   t.same(messageRefType.isScalar(), false);

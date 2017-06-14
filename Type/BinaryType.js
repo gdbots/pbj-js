@@ -3,23 +3,9 @@
 import AbstractBinaryType from './AbstractBinaryType';
 import TypeName from '../Enum/TypeName';
 
-/** @type {BinaryType} */
-let instance = null;
-
 export default class BinaryType extends AbstractBinaryType {
   constructor() {
     super(TypeName.BINARY);
-  }
-
-  /**
-   * @returns {BinaryType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new BinaryType();
-    }
-
-    return instance;
   }
 
   /**

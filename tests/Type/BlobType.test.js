@@ -10,6 +10,7 @@ test('BlobType property tests', (t) => {
   t.true(blobType instanceof Type);
   t.true(blobType instanceof BlobType);
   t.same(blobType, BlobType.create());
+  t.true(blobType === BlobType.create());
   t.same(blobType.getTypeName(), TypeName.BLOB);
   t.same(blobType.getTypeValue(), TypeName.BLOB.valueOf());
   t.same(blobType.isScalar(), true);

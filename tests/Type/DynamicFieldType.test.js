@@ -11,6 +11,7 @@ test('DynamicFieldType property tests', (t) => {
   t.true(dynamicFieldType instanceof Type);
   t.true(dynamicFieldType instanceof DynamicFieldType);
   t.same(dynamicFieldType, DynamicFieldType.create());
+  t.true(dynamicFieldType === DynamicFieldType.create());
   t.same(dynamicFieldType.getTypeName(), TypeName.DYNAMIC_FIELD);
   t.same(dynamicFieldType.getTypeValue(), TypeName.DYNAMIC_FIELD.valueOf());
   t.same(dynamicFieldType.isScalar(), false);

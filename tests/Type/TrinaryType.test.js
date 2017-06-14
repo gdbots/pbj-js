@@ -10,6 +10,7 @@ test('TrinaryType property tests', (t) => {
   t.true(trinaryType instanceof Type);
   t.true(trinaryType instanceof TrinaryType);
   t.same(trinaryType, TrinaryType.create());
+  t.true(trinaryType === TrinaryType.create());
   t.same(trinaryType.getTypeName(), TypeName.TRINARY);
   t.same(trinaryType.getTypeValue(), TypeName.TRINARY.valueOf());
   t.same(trinaryType.isScalar(), true);

@@ -6,23 +6,9 @@ import Identifier from '../WellKnown/Identifier';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {IdentifierType} */
-let instance = null;
-
 export default class IdentifierType extends Type {
   constructor() {
     super(TypeName.IDENTIFIER);
-  }
-
-  /**
-   * @returns {IdentifierType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new IdentifierType();
-    }
-
-    return instance;
   }
 
   /**

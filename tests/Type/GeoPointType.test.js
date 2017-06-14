@@ -11,6 +11,7 @@ test('GeoPointType property tests', (t) => {
   t.true(geoPointType instanceof Type);
   t.true(geoPointType instanceof GeoPointType);
   t.same(geoPointType, GeoPointType.create());
+  t.true(geoPointType === GeoPointType.create());
   t.same(geoPointType.getTypeName(), TypeName.GEO_POINT);
   t.same(geoPointType.getTypeValue(), TypeName.GEO_POINT.valueOf());
   t.same(geoPointType.isScalar(), false);

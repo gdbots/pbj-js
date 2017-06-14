@@ -10,6 +10,7 @@ test('DateType property tests', (t) => {
   t.true(dateType instanceof Type);
   t.true(dateType instanceof DateType);
   t.same(dateType, DateType.create());
+  t.true(dateType === DateType.create());
   t.same(dateType.getTypeName(), TypeName.DATE);
   t.same(dateType.getTypeValue(), TypeName.DATE.valueOf());
   t.same(dateType.isScalar(), false);

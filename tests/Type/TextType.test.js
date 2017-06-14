@@ -10,6 +10,7 @@ test('TextType property tests', (t) => {
   t.true(textType instanceof Type);
   t.true(textType instanceof TextType);
   t.same(textType, TextType.create());
+  t.true(textType === TextType.create());
   t.same(textType.getTypeName(), TypeName.TEXT);
   t.same(textType.getTypeValue(), TypeName.TEXT.valueOf());
   t.same(textType.isScalar(), true);

@@ -10,6 +10,7 @@ test('SignedTinyIntType property tests', (t) => {
   t.true(signedTinyIntType instanceof Type);
   t.true(signedTinyIntType instanceof SignedTinyIntType);
   t.same(signedTinyIntType, SignedTinyIntType.create());
+  t.true(signedTinyIntType === SignedTinyIntType.create());
   t.same(signedTinyIntType.getTypeName(), TypeName.SIGNED_TINY_INT);
   t.same(signedTinyIntType.getTypeValue(), TypeName.SIGNED_TINY_INT.valueOf());
   t.same(signedTinyIntType.isScalar(), true);

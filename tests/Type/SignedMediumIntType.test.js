@@ -10,6 +10,7 @@ test('SignedMediumIntType property tests', (t) => {
   t.true(signedMediumIntType instanceof Type);
   t.true(signedMediumIntType instanceof SignedMediumIntType);
   t.same(signedMediumIntType, SignedMediumIntType.create());
+  t.true(signedMediumIntType === SignedMediumIntType.create());
   t.same(signedMediumIntType.getTypeName(), TypeName.SIGNED_MEDIUM_INT);
   t.same(signedMediumIntType.getTypeValue(), TypeName.SIGNED_MEDIUM_INT.valueOf());
   t.same(signedMediumIntType.isScalar(), true);

@@ -12,6 +12,7 @@ test('TimeUuidType property tests', (t) => {
   t.true(timeUuidType instanceof Type);
   t.true(timeUuidType instanceof TimeUuidType);
   t.same(timeUuidType, TimeUuidType.create());
+  t.true(timeUuidType === TimeUuidType.create());
   t.same(timeUuidType.getTypeName(), TypeName.TIME_UUID);
   t.same(timeUuidType.getTypeValue(), TypeName.TIME_UUID.valueOf());
   t.same(timeUuidType.isScalar(), false);

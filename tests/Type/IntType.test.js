@@ -10,6 +10,7 @@ test('IntType property tests', (t) => {
   t.true(intType instanceof Type);
   t.true(intType instanceof IntType);
   t.same(intType, IntType.create());
+  t.true(intType === IntType.create());
   t.same(intType.getTypeName(), TypeName.INT);
   t.same(intType.getTypeValue(), TypeName.INT.valueOf());
   t.same(intType.isScalar(), true);

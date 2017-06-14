@@ -10,6 +10,7 @@ test('FloatType property tests', (t) => {
   t.true(floatType instanceof Type);
   t.true(floatType instanceof FloatType);
   t.same(floatType, FloatType.create());
+  t.true(floatType === FloatType.create());
   t.same(floatType.getTypeName(), TypeName.FLOAT);
   t.same(floatType.getTypeValue(), TypeName.FLOAT.valueOf());
   t.same(floatType.isScalar(), true);

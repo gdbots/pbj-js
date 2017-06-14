@@ -90,6 +90,13 @@ export default class Schema {
   }
 
   /**
+   * @returns {Message}
+   */
+  getClassProto() {
+    return this.classProto;
+  }
+
+  /**
    * @returns {string}
    */
   getClassName() {

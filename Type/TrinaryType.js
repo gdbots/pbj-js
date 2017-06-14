@@ -6,9 +6,6 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type {TrinaryType} */
-let instance = null;
-
 /**
  * @link https://en.wikipedia.org/wiki/Three-valued_logic
  * 0 = unknown
@@ -18,17 +15,6 @@ let instance = null;
 export default class TrinaryType extends Type {
   constructor() {
     super(TypeName.TRINARY);
-  }
-
-  /**
-   * @returns {TrinaryType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new TrinaryType();
-    }
-
-    return instance;
   }
 
   /**

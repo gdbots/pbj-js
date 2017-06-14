@@ -7,23 +7,9 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type {BooleanType} */
-let instance = null;
-
 export default class BooleanType extends Type {
   constructor() {
     super(TypeName.BOOLEAN);
-  }
-
-  /**
-   * @returns {BooleanType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new BooleanType();
-    }
-
-    return instance;
   }
 
   /**

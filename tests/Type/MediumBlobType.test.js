@@ -10,6 +10,7 @@ test('MediumBlobType property tests', (t) => {
   t.true(mediumBlobType instanceof Type);
   t.true(mediumBlobType instanceof MediumBlobType);
   t.same(mediumBlobType, MediumBlobType.create());
+  t.true(mediumBlobType === MediumBlobType.create());
   t.same(mediumBlobType.getTypeName(), TypeName.MEDIUM_BLOB);
   t.same(mediumBlobType.getTypeValue(), TypeName.MEDIUM_BLOB.valueOf());
   t.same(mediumBlobType.isScalar(), true);

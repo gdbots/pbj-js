@@ -12,6 +12,7 @@ test('UuidType property tests', (t) => {
   t.true(uuidType instanceof Type);
   t.true(uuidType instanceof UuidType);
   t.same(uuidType, UuidType.create());
+  t.true(uuidType === UuidType.create());
   t.same(uuidType.getTypeName(), TypeName.UUID);
   t.same(uuidType.getTypeValue(), TypeName.UUID.valueOf());
   t.same(uuidType.isScalar(), false);

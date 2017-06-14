@@ -10,6 +10,7 @@ test('TimestampType property tests', (t) => {
   t.true(timestampType instanceof Type);
   t.true(timestampType instanceof TimestampType);
   t.same(timestampType, TimestampType.create());
+  t.true(timestampType === TimestampType.create());
   t.same(timestampType.getTypeName(), TypeName.TIMESTAMP);
   t.same(timestampType.getTypeValue(), TypeName.TIMESTAMP.valueOf());
   t.same(timestampType.isScalar(), true);

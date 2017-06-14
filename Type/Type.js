@@ -1,5 +1,14 @@
 /* eslint-disable class-methods-use-this */
 
+/**
+ * We store all Type instances to accomplish a loose flyweight strategy.
+ * Loose because we're not strictly enforcing it, but internally in this
+ * library we only use the factory create method to create types.
+ *
+ * @type {Map}
+ */
+const instances = new Map();
+
 export default class Type {
   /**
    * @param {TypeName} typeName
@@ -7,6 +16,17 @@ export default class Type {
   constructor(typeName) {
     this.typeName = typeName;
     Object.freeze(this);
+  }
+
+  /**
+   * @returns {Type}
+   */
+  static create() {
+    if (!instances.has(this)) {
+      instances.set(this, new this());
+    }
+
+    return instances.get(this);
   }
 
   /**

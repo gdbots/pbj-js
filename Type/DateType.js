@@ -5,23 +5,9 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {DateType} */
-let instance = null;
-
 export default class DateType extends Type {
   constructor() {
     super(TypeName.DATE);
-  }
-
-  /**
-   * @returns {DateType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new DateType();
-    }
-
-    return instance;
   }
 
   /**

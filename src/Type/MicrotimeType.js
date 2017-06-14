@@ -6,23 +6,9 @@ import Microtime from '../WellKnown/Microtime';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {MicrotimeType} */
-let instance = null;
-
 export default class MicrotimeType extends Type {
   constructor() {
     super(TypeName.MICROTIME);
-  }
-
-  /**
-   * @returns {MicrotimeType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new MicrotimeType();
-    }
-
-    return instance;
   }
 
   /**

@@ -6,23 +6,9 @@ import GeoPoint from '../WellKnown/GeoPoint';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {GeoPointType} */
-let instance = null;
-
 export default class GeoPointType extends Type {
   constructor() {
     super(TypeName.GEO_POINT);
-  }
-
-  /**
-   * @returns {GeoPointType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new GeoPointType();
-    }
-
-    return instance;
   }
 
   /**

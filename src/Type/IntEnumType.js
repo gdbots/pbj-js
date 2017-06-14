@@ -8,23 +8,9 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {IntEnumType} */
-let instance = null;
-
 export default class IntEnumType extends Type {
   constructor() {
     super(TypeName.INT_ENUM);
-  }
-
-  /**
-   * @returns {IntEnumType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new IntEnumType();
-    }
-
-    return instance;
   }
 
   /**

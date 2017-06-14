@@ -7,23 +7,9 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {DateTimeType} */
-let instance = null;
-
 export default class DateTimeType extends Type {
   constructor() {
     super(TypeName.DATE_TIME);
-  }
-
-  /**
-   * @returns {DateTimeType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new DateTimeType();
-    }
-
-    return instance;
   }
 
   /**

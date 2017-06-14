@@ -10,6 +10,7 @@ test('DecimalType property tests', (t) => {
   t.true(decimalType instanceof Type);
   t.true(decimalType instanceof DecimalType);
   t.same(decimalType, DecimalType.create());
+  t.true(decimalType === DecimalType.create());
   t.same(decimalType.getTypeName(), TypeName.DECIMAL);
   t.same(decimalType.getTypeValue(), TypeName.DECIMAL.valueOf());
   t.same(decimalType.isScalar(), true);

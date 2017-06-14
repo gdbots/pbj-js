@@ -7,23 +7,9 @@ import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 import DecodeValueFailed from '../Exception/DecodeValueFailed';
 
-/** @type {StringEnumType} */
-let instance = null;
-
 export default class StringEnumType extends Type {
   constructor() {
     super(TypeName.STRING_ENUM);
-  }
-
-  /**
-   * @returns {StringEnumType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new StringEnumType();
-    }
-
-    return instance;
   }
 
   /**

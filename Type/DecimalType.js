@@ -6,24 +6,10 @@ import Type from './Type';
 import TypeName from '../Enum/TypeName';
 import AssertionFailed from '../Exception/AssertionFailed';
 
-/** @type {DecimalType} */
-let instance = null;
-
 // fixme: handle precision
 export default class DecimalType extends Type {
   constructor() {
     super(TypeName.DECIMAL);
-  }
-
-  /**
-   * @returns {DecimalType}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new DecimalType();
-    }
-
-    return instance;
   }
 
   /**

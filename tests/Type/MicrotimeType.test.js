@@ -11,6 +11,7 @@ test('MicrotimeType property tests', (t) => {
   t.true(microtimeType instanceof Type);
   t.true(microtimeType instanceof MicrotimeType);
   t.same(microtimeType, MicrotimeType.create());
+  t.true(microtimeType === MicrotimeType.create());
   t.same(microtimeType.getTypeName(), TypeName.MICROTIME);
   t.same(microtimeType.getTypeValue(), TypeName.MICROTIME.valueOf());
   t.same(microtimeType.isScalar(), false);

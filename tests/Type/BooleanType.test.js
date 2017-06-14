@@ -10,6 +10,7 @@ test('BooleanType property tests', (t) => {
   t.true(booleanType instanceof Type);
   t.true(booleanType instanceof BooleanType);
   t.same(booleanType, BooleanType.create());
+  t.true(booleanType === BooleanType.create());
   t.same(booleanType.getTypeName(), TypeName.BOOLEAN);
   t.same(booleanType.getTypeValue(), TypeName.BOOLEAN.valueOf());
   t.same(booleanType.isScalar(), true);
