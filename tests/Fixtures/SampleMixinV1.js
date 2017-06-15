@@ -2,7 +2,7 @@
 import Fb from '../../src/FieldBuilder';
 import Mixin from '../../src/Mixin';
 import SchemaId from '../../src/SchemaId';
-import * as T from '../../src/Type';
+import T from '../../src/Type';
 
 /** @type {SampleMixinV1} */
 let instance = null;

@@ -2,7 +2,7 @@ import test from 'tape';
 import Field from '../src/Field';
 import FieldRule from '../src/Enum/FieldRule';
 import Format from '../src/Enum/Format';
-import * as T from '../src/Type';
+import T from '../src/Type';
 import SampleStringEnum from './Fixtures/Enum/SampleStringEnum';
 
 test('Field tests', (t) => {

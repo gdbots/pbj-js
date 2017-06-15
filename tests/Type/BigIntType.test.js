@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import BigIntType from '../../src/Type/BigIntType';
 import BigNumber from '../../src/WellKnown/BigNumber';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('BigIntType property tests', (t) => {
   const bigIntType = BigIntType.create();

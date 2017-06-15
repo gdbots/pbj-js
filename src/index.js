@@ -8,10 +8,10 @@ import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
 import SchemaVersion from './SchemaVersion';
-import * as Type from './Type';
-import * as WellKnown from './WellKnown';
+import Type from './Type';
+import WellKnown from './WellKnown';
 
-export {
+const Pbj = {
   Field,
   FieldBuilder,
   Message,
@@ -25,3 +25,5 @@ export {
   Type,
   WellKnown,
 };
+
+export default Pbj;

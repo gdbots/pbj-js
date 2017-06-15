@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import FloatType from '../../src/Type/FloatType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('FloatType property tests', (t) => {
   const floatType = FloatType.create();

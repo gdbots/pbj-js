@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import TimestampType from '../../src/Type/TimestampType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('TimestampType property tests', (t) => {
   const timestampType = TimestampType.create();

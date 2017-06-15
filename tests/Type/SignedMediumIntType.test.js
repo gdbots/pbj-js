@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import SignedMediumIntType from '../../src/Type/SignedMediumIntType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('SignedMediumIntType property tests', (t) => {
   const signedMediumIntType = SignedMediumIntType.create();

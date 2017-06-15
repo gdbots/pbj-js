@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import BooleanType from '../../src/Type/BooleanType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('BooleanType property tests', (t) => {
   const booleanType = BooleanType.create();

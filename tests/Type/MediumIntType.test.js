@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import MediumIntType from '../../src/Type/MediumIntType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('MediumIntType property tests', (t) => {
   const mediumIntType = MediumIntType.create();

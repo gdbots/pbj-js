@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import SmallIntType from '../../src/Type/SmallIntType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('SmallIntType property tests', (t) => {
   const smallIntType = SmallIntType.create();

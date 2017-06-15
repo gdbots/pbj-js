@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import IdentifierType from '../../src/Type/IdentifierType';
 import UuidIdentifier from '../../src/WellKnown/UuidIdentifier';
 import SampleUuidIdentifier from '../Fixtures/WellKnown/SampleUuidIdentifier';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('IdentifierType property tests', (t) => {
   const identifierType = IdentifierType.create();

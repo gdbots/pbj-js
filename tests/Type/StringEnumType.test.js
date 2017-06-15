@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import StringEnumType from '../../src/Type/StringEnumType';
 import SampleIntEnum from '../Fixtures/Enum/SampleIntEnum';
 import SampleStringEnum from '../Fixtures/Enum/SampleStringEnum';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('StringEnumType property tests', (t) => {
   const stringEnumType = StringEnumType.create();

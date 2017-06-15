@@ -105,10 +105,12 @@ function decodeInvalidSamples(field, samples, test, codec = null) {
   });
 }
 
-export {
+const helpers = {
   guardValidSamples,
   guardInvalidSamples,
   encodeSamples,
   decodeSamples,
   decodeInvalidSamples,
 };
+
+export default helpers;

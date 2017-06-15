@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import SignedBigIntType from '../../src/Type/SignedBigIntType';
 import BigNumber from '../../src/WellKnown/BigNumber';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('SignedBigIntType property tests', (t) => {
   const signedBigIntType = SignedBigIntType.create();

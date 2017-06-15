@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import IntType from '../../src/Type/IntType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('IntType property tests', (t) => {
   const intType = IntType.create();

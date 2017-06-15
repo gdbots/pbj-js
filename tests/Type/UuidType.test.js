@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import UuidType from '../../src/Type/UuidType';
 import UuidIdentifier from '../../src/WellKnown/UuidIdentifier';
 import SampleUuidIdentifier from '../Fixtures/WellKnown/SampleUuidIdentifier';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('UuidType property tests', (t) => {
   const uuidType = UuidType.create();

@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import TimeUuidType from '../../src/Type/TimeUuidType';
 import TimeUuidIdentifier from '../../src/WellKnown/TimeUuidIdentifier';
 import SampleTimeUuidIdentifier from '../Fixtures/WellKnown/SampleTimeUuidIdentifier';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('TimeUuidType property tests', (t) => {
   const timeUuidType = TimeUuidType.create();

@@ -2,7 +2,7 @@ import test from 'tape';
 import Fb from '../src/FieldBuilder';
 import Field from '../src/Field';
 import Format from '../src/Enum/Format';
-import * as T from '../src/Type';
+import T from '../src/Type';
 
 test('FieldBuilder tests', (t) => {
   let field = Fb.create('test', T.StringType.create())

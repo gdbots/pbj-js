@@ -1,33 +1,71 @@
-export { default as Type } from './Type';
-export { default as BigIntType } from './BigIntType';
-export { default as BinaryType } from './BinaryType';
-export { default as BlobType } from './BlobType';
-export { default as BooleanType } from './BooleanType';
-export { default as DateType } from './DateType';
-export { default as DateTimeType } from './DateTimeType';
-export { default as DecimalType } from './DecimalType';
-export { default as DynamicFieldType } from './DynamicFieldType';
-export { default as FloatType } from './FloatType';
-export { default as GeoPointType } from './GeoPointType';
-export { default as IdentifierType } from './IdentifierType';
-export { default as IntEnumType } from './IntEnumType';
-export { default as IntType } from './IntType';
-export { default as MediumBlobType } from './MediumBlobType';
-export { default as MediumIntType } from './MediumIntType';
-export { default as MediumTextType } from './MediumTextType';
-export { default as MessageRefType } from './MessageRefType';
-export { default as MicrotimeType } from './MicrotimeType';
-export { default as SignedBigIntType } from './SignedBigIntType';
-export { default as SignedIntType } from './SignedIntType';
-export { default as SignedMediumIntType } from './SignedMediumIntType';
-export { default as SignedSmallIntType } from './SignedSmallIntType';
-export { default as SignedTinyIntType } from './SignedTinyIntType';
-export { default as SmallIntType } from './SmallIntType';
-export { default as StringEnumType } from './StringEnumType';
-export { default as StringType } from './StringType';
-export { default as TextType } from './TextType';
-export { default as TimestampType } from './TimestampType';
-export { default as TimeUuidType } from './TimeUuidType';
-export { default as TinyIntType } from './TinyIntType';
-export { default as TrinaryType } from './TrinaryType';
-export { default as UuidType } from './UuidType';
+import BigIntType from './BigIntType';
+import BinaryType from './BinaryType';
+import BlobType from './BlobType';
+import BooleanType from './BooleanType';
+import DateType from './DateType';
+import DateTimeType from './DateTimeType';
+import DecimalType from './DecimalType';
+import DynamicFieldType from './DynamicFieldType';
+import FloatType from './FloatType';
+import GeoPointType from './GeoPointType';
+import IdentifierType from './IdentifierType';
+import IntEnumType from './IntEnumType';
+import IntType from './IntType';
+import MediumBlobType from './MediumBlobType';
+import MediumIntType from './MediumIntType';
+import MediumTextType from './MediumTextType';
+import MessageRefType from './MessageRefType';
+import MicrotimeType from './MicrotimeType';
+import SignedBigIntType from './SignedBigIntType';
+import SignedIntType from './SignedIntType';
+import SignedMediumIntType from './SignedMediumIntType';
+import SignedSmallIntType from './SignedSmallIntType';
+import SignedTinyIntType from './SignedTinyIntType';
+import SmallIntType from './SmallIntType';
+import StringEnumType from './StringEnumType';
+import StringType from './StringType';
+import TextType from './TextType';
+import TimestampType from './TimestampType';
+import TimeUuidType from './TimeUuidType';
+import TinyIntType from './TinyIntType';
+import TrinaryType from './TrinaryType';
+import Type from './Type';
+import UuidType from './UuidType';
+
+const T = {
+  BigIntType,
+  BinaryType,
+  BlobType,
+  BooleanType,
+  DateTimeType,
+  DateType,
+  DecimalType,
+  DynamicFieldType,
+  FloatType,
+  GeoPointType,
+  IdentifierType,
+  IntEnumType,
+  IntType,
+  MediumBlobType,
+  MediumIntType,
+  MediumTextType,
+  MessageRefType,
+  MicrotimeType,
+  SignedBigIntType,
+  SignedIntType,
+  SignedMediumIntType,
+  SignedSmallIntType,
+  SignedTinyIntType,
+  SmallIntType,
+  StringEnumType,
+  StringType,
+  TextType,
+  TimestampType,
+  TimeUuidType,
+  TinyIntType,
+  TrinaryType,
+  Type,
+  UuidType
+};
+
+export default T;

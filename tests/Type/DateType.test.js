@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import DateType from '../../src/Type/DateType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('DateType property tests', (t) => {
   const dateType = DateType.create();

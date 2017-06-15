@@ -5,7 +5,7 @@ import Field from '../../src/Field';
 import IntEnumType from '../../src/Type/IntEnumType';
 import SampleIntEnum from '../Fixtures/Enum/SampleIntEnum';
 import SampleStringEnum from '../Fixtures/Enum/SampleStringEnum';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('IntEnumType property tests', (t) => {
   const intEnumType = IntEnumType.create();

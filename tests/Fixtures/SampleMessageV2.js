@@ -3,7 +3,7 @@ import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
 import MessageRef from '../../src/MessageRef';
 import Schema from '../../src/Schema';
-import * as T from '../../src/Type';
+import T from '../../src/Type';
 import SampleMixinV2 from './SampleMixinV2';
 
 export default class SampleMessageV2 extends Message {

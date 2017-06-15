@@ -8,7 +8,22 @@ import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
 import SchemaVersion from './SchemaVersion';
-import * as Type from './Type';
-import * as WellKnown from './WellKnown';
+import Type from './Type';
+import WellKnown from './WellKnown';
 
-export { Field, FieldBuilder, Message, MessageRef, Mixin, Schema, SchemaCurie, SchemaId, SchemaQName, SchemaVersion, Type, WellKnown };
+const Pbj = {
+  Field,
+  FieldBuilder,
+  Message,
+  MessageRef,
+  Mixin,
+  Schema,
+  SchemaCurie,
+  SchemaId,
+  SchemaQName,
+  SchemaVersion,
+  Type,
+  WellKnown
+};
+
+export default Pbj;

@@ -7,7 +7,7 @@ import MixinNotDefined from '../src/Exception/MixinNotDefined';
 import Fb from '../src/FieldBuilder';
 import Schema from '../src/Schema';
 import SchemaId from '../src/SchemaId';
-import * as T from '../src/Type';
+import T from '../src/Type';
 // import TypeName from '../src/Enum/TypeName';
 import SampleMessageV1 from './Fixtures/SampleMessageV1';
 import SampleMixinV1 from './Fixtures/SampleMixinV1';

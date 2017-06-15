@@ -1,9 +1,23 @@
-export { default as BigNumber } from './BigNumber';
-export { default as DatedSlugIdentifier } from './DatedSlugIdentifier';
-export { default as DynamicField } from './DynamicField';
-export { default as GeoPoint } from './GeoPoint';
-export { default as Identifier } from './Identifier';
-export { default as Microtime } from './Microtime';
-export { default as SlugIdentifier } from './SlugIdentifier';
-export { default as TimeUuidIdentifier } from './TimeUuidIdentifier';
-export { default as UuidIdentifier } from './UuidIdentifier';
+import BigNumber from './BigNumber';
+import DatedSlugIdentifier from './DatedSlugIdentifier';
+import DynamicField from './DynamicField';
+import GeoPoint from './GeoPoint';
+import Identifier from './Identifier';
+import Microtime from './Microtime';
+import SlugIdentifier from './SlugIdentifier';
+import TimeUuidIdentifier from './TimeUuidIdentifier';
+import UuidIdentifier from './UuidIdentifier';
+
+const WellKnown = {
+  BigNumber,
+  DatedSlugIdentifier,
+  DynamicField,
+  GeoPoint,
+  Identifier,
+  Microtime,
+  SlugIdentifier,
+  TimeUuidIdentifier,
+  UuidIdentifier
+};
+
+export default WellKnown;

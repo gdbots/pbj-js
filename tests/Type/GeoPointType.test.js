@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import GeoPointType from '../../src/Type/GeoPointType';
 import GeoPoint from '../../src/WellKnown/GeoPoint';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('GeoPointType property tests', (t) => {
   const geoPointType = GeoPointType.create();

@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import MessageRefType from '../../src/Type/MessageRefType';
 import MessageRef from '../../src/MessageRef';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('MessageRefType property tests', (t) => {
   const messageRefType = MessageRefType.create();

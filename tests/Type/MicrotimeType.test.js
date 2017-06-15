@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import MicrotimeType from '../../src/Type/MicrotimeType';
 import Microtime from '../../src/WellKnown/Microtime';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('MicrotimeType property tests', (t) => {
   const microtimeType = MicrotimeType.create();

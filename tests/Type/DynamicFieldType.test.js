@@ -4,7 +4,7 @@ import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import DynamicFieldType from '../../src/Type/DynamicFieldType';
 import DynamicField from '../../src/WellKnown/DynamicField';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('DynamicFieldType property tests', (t) => {
   const dynamicFieldType = DynamicFieldType.create();

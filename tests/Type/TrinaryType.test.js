@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import TrinaryType from '../../src/Type/TrinaryType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('TrinaryType property tests', (t) => {
   const trinaryType = TrinaryType.create();

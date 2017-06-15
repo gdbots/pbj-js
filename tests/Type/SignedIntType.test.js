@@ -3,7 +3,7 @@ import TypeName from '../../src/Enum/TypeName';
 import Type from '../../src/Type/Type';
 import Field from '../../src/Field';
 import SignedIntType from '../../src/Type/SignedIntType';
-import * as helpers from './helpers';
+import helpers from './helpers';
 
 test('SignedIntType property tests', (t) => {
   const signedIntType = SignedIntType.create();
