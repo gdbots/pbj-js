@@ -238,7 +238,7 @@ export default class Message {
         return;
       }
 
-      /** @var {Message} value */
+      /** @var {Message|Message[]} value */
       const value = this.get(field.getName());
       if (isEmpty(value)) {
         return;
@@ -250,7 +250,7 @@ export default class Message {
       }
 
       // fixme: deal with array/map/set?
-      value.forEach(v => v.freeze());
+      value.forEach(m => m.freeze());
     });
 
     return this;
