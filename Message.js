@@ -1,6 +1,7 @@
 /* eslint-disable */
 import isBoolean from 'lodash-es/isBoolean';
 import isEmpty from 'lodash-es/isEmpty';
+import toSafeInteger from 'lodash-es/toSafeInteger';
 import trim from 'lodash-es/trim';
 import AssertionFailed from './Exception/AssertionFailed';
 import FrozenMessageIsImmutable from './Exception/FrozenMessageIsImmutable';
@@ -26,6 +27,61 @@ const msgs = new WeakMap();
  * @type {Map}
  */
 const schemas = new Map();
+
+/**
+ * Ensures a frozen message can't be modified.
+ *
+ * @param {Message} message
+ *
+ * @throws {FrozenMessageIsImmutable}
+ */
+function guardFrozenMessage(message) {
+  if (message.isFrozen()) {
+    throw new FrozenMessageIsImmutable(message);
+  }
+}
+
+/**
+ * Populates the default on a single field if it's not already set
+ * and the default generated is not a null value or empty array.
+ *
+ * @param {Message} message
+ * @param {Field} field
+ *
+ * @returns {boolean} Returns true if a non null/empty default was applied or already present.
+ */
+function populateDefault(message, field) {
+  // if (message->has(field.getName())) {
+  //     return true;
+  // }
+  //
+  // $default = $field->getDefault($this);
+  // if (null === $default) {
+  //     return false;
+  // }
+  //
+  // if ($field->isASingleValue()) {
+  //     $this->data[$field->getName()] = $default;
+  //     unset($this->clearedFields[$field->getName()]);
+  //     return true;
+  // }
+  //
+  // if (empty($default)) {
+  //     return false;
+  // }
+  //
+  // /*
+  //  * sets have a special handling to deal with unique values
+  //  */
+  // if ($field->isASet()) {
+  //     $this->addToSet($field->getName(), $default);
+  //     return true;
+  // }
+  //
+  // $this->data[$field->getName()] = $default;
+  // unset($this->clearedFields[$field->getName()]);
+  // return true;
+}
 
 export default class Message {
   /**
@@ -109,8 +165,8 @@ export default class Message {
    * @returns {Message}
    */
   static create() {
-    const msg = new this();
-    return msg.populateDefaults();
+    const message = new this();
+    return message.populateDefaults();
   }
 
   /**
@@ -234,7 +290,7 @@ export default class Message {
         return;
       }
 
-      /** @var {Message} value */
+      /** @var {Message|Message[]} value */
       const value = this.get(field.getName());
       if (isEmpty(value)) {
         return;
@@ -246,7 +302,7 @@ export default class Message {
       }
 
       // fixme: deal with array/map/set?
-      value.forEach(v => v.freeze());
+      value.forEach(m => m.freeze());
     });
 
     return this;
@@ -295,19 +351,6 @@ export default class Message {
    */
   isFrozen() {
     return msgs.get(this).isFrozen;
-  }
-
-  /**
-   * Ensures a frozen message can't be modified.
-   *
-   * @private
-   *
-   * @throws {FrozenMessageIsImmutable}
-   */
-  guardFrozenMessage() {
-    if (this.isFrozen()) {
-      throw new FrozenMessageIsImmutable(this);
-    }
   }
 
   /**
@@ -365,60 +408,16 @@ export default class Message {
    * @returns {Message}
    */
   populateDefaults(fieldName = null) {
-    this.guardFrozenMessage();
+    guardFrozenMessage(this);
 
     if (!isEmpty(fieldName)) {
-      this.populateDefault(this.schema().getField(fieldName));
+      populateDefault(this, this.schema().getField(fieldName));
       return this;
     }
 
-    this.schema().getFields().forEach(field => this.populateDefault(field));
+    this.schema().getFields().forEach(field => populateDefault(this, field));
     return this;
   }
-
-  /**
-   * Populates the default on a single field if it's not already set
-   * and the default generated is not a null value or empty array.
-   *
-   * @private
-   *
-   * @param {Field} field
-   *
-   * @returns {boolean} Returns true if a non null/empty default was applied or already present.
-   */
-  populateDefault(field) {}
-
-  // if ($this->has($field->getName())) {
-  //     return true;
-  // }
-  //
-  // $default = $field->getDefault($this);
-  // if (null === $default) {
-  //     return false;
-  // }
-  //
-  // if ($field->isASingleValue()) {
-  //     $this->data[$field->getName()] = $default;
-  //     unset($this->clearedFields[$field->getName()]);
-  //     return true;
-  // }
-  //
-  // if (empty($default)) {
-  //     return false;
-  // }
-  //
-  // /*
-  //  * sets have a special handling to deal with unique values
-  //  */
-  // if ($field->isASet()) {
-  //     $this->addToSet($field->getName(), $default);
-  //     return true;
-  // }
-  //
-  // $this->data[$field->getName()] = $default;
-  // unset($this->clearedFields[$field->getName()]);
-  // return true;
-
 
   /**
    * Returns true if the field has been populated.
@@ -454,8 +453,12 @@ export default class Message {
     const field = this.schema().getField(fieldName);
     const msg = msgs.get(this);
 
-    if (field.isASingleValue() || field.isAList()) {
+    if (field.isASingleValue()) {
       return msg.data.get(fieldName);
+    }
+
+    if (field.isAList()) {
+      return [...msg.data.get(fieldName)];
     }
 
     // a set is stored as a Map internally but really
@@ -478,12 +481,12 @@ export default class Message {
    * @returns {Message}
    */
   clear(fieldName) {
-    this.guardFrozenMessage();
+    guardFrozenMessage(this);
     const field = this.schema().getField(fieldName);
     const msg = msgs.get(this);
     msg.data.delete(fieldName);
     msg.clearedFields.add(fieldName);
-    this.populateDefault(field);
+    populateDefault(this, field);
     return this;
   }
 
@@ -518,7 +521,7 @@ export default class Message {
    * @throws {GdbotsPbjException}
    */
   set(fieldName, value) {
-    this.guardFrozenMessage();
+    guardFrozenMessage(this);
     const field = this.schema().getField(fieldName);
     if (!field.isASingleValue()) {
       throw new AssertionFailed(`Field [${fieldName}] must be a single value.`);
@@ -551,11 +554,6 @@ export default class Message {
       return false;
     }
 
-    const field = this.schema().getField(fieldName);
-    if (!field.isASet()) {
-      throw new AssertionFailed(`Field [${fieldName}] must be a set.`);
-    }
-
     /** @var {string} key */
     const key = trim(value);
     if (!key.length) {
@@ -576,7 +574,7 @@ export default class Message {
    * @throws {GdbotsPbjException}
    */
   addToSet(fieldName, values) {
-    this.guardFrozenMessage();
+    guardFrozenMessage(this);
     const field = this.schema().getField(fieldName);
     if (!field.isASet()) {
       throw new AssertionFailed(`Field [${fieldName}] must be a set.`);
@@ -617,7 +615,7 @@ export default class Message {
    * @throws {GdbotsPbjException}
    */
   removeFromSet(fieldName, values) {
-    this.guardFrozenMessage();
+    guardFrozenMessage(this);
     const field = this.schema().getField(fieldName);
     if (!field.isASet()) {
       throw new AssertionFailed(`Field [${fieldName}] must be a set.`);
@@ -641,6 +639,112 @@ export default class Message {
     });
 
     if (!store.size) {
+      msg.data.delete(fieldName);
+      msg.clearedFields.add(fieldName);
+    }
+
+    return this;
+  }
+
+  /**
+   * Returns true if the provided value is in the list of values.
+   * Uses SameValueZero for comparison.
+   *
+   * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes?v=control
+   *
+   * @param {string} fieldName
+   * @param {*} value
+   *
+   * @returns {boolean}
+   */
+  isInList(fieldName, value) {
+    if (!this.has(fieldName)) {
+      return false;
+    }
+
+    return msgs.get(this).data.get(fieldName).includes(value);
+  }
+
+  /**
+   * Returns an item in a list or null if it doesn't exist.
+   *
+   * @param {string} fieldName
+   * @param {number} index
+   * @param {*} defaultValue
+   *
+   * @returns {*}
+   */
+  getFromListAt(fieldName, index, defaultValue = null) {
+    if (!this.has(fieldName)) {
+      return defaultValue;
+    }
+
+    const value = msgs.get(this).data.get(fieldName)[toSafeInteger(index)];
+    return value === undefined ? defaultValue : value;
+  }
+
+  /**
+   * Adds an array of values to an unsorted list/array (not unique).
+   *
+   * @param {string} fieldName
+   * @param {Array} values
+   *
+   * @returns {Message}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  addToList(fieldName, values) {
+    guardFrozenMessage(this);
+    const field = this.schema().getField(fieldName);
+    if (!field.isAList()) {
+      throw new AssertionFailed(`Field [${fieldName}] must be a list.`);
+    }
+
+    const msg = msgs.get(this);
+    if (!msg.data.has(fieldName)) {
+      msg.data.set(fieldName, []);
+    }
+
+    const store = msg.data.get(fieldName);
+    values.forEach(value => {
+      field.guardValue(value);
+      store.push(value);
+    });
+
+    if (store.length) {
+      msg.clearedFields.delete(fieldName);
+    }
+
+    return this;
+  }
+
+  /**
+   * Removes the element from the array at the index.
+   *
+   * @param {string} fieldName
+   * @param {number} index
+   *
+   * @returns {Message}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  removeFromListAt(fieldName, index) {
+    guardFrozenMessage(this);
+    const field = this.schema().getField(fieldName);
+    if (!field.isAList()) {
+      throw new AssertionFailed(`Field [${fieldName}] must be a list.`);
+    }
+
+    const msg = msgs.get(this);
+    if (!msg.data.has(fieldName)) {
+      msg.clearedFields.add(fieldName);
+      return this;
+    }
+
+    const store = msg.data.get(fieldName);
+    store.splice(toSafeInteger(index), 1);
+
+    if (!store.length) {
       msg.data.delete(fieldName);
       msg.clearedFields.add(fieldName);
     }
