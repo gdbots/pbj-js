@@ -62,7 +62,7 @@ export default class GeoPoint {
    *
    * @returns {GeoPoint}
    */
-  static fromObject(obj) {
+  static fromObject(obj = {}) {
     if (obj.coordinates && isArray(obj.coordinates) && obj.coordinates.length === 2) {
       return new GeoPoint(obj.coordinates[1], obj.coordinates[0]);
     }

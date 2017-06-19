@@ -185,7 +185,7 @@ export default class Message {
    *
    * @throws {AssertionFailed}
    */
-  static fromObject(obj) {
+  static fromObject(obj = {}) {
     // if (obj.curie && obj.id) {
     //   return new MessageRef(SchemaCurie.fromString(obj.curie), obj.id, obj.tag || null);
     // }

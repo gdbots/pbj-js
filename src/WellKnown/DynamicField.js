@@ -149,7 +149,7 @@ export default class DynamicField {
    *
    * @throws {AssertionFailed}
    */
-  static fromObject(obj) {
+  static fromObject(obj = {}) {
     if (!obj.name) {
       throw new AssertionFailed('DynamicField "name" property must be set.');
     }
