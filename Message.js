@@ -1,6 +1,8 @@
-/* eslint-disable */
+/* eslint-disable class-methods-use-this, no-unused-vars */
+import isArray from 'lodash-es/isArray';
 import isBoolean from 'lodash-es/isBoolean';
 import isEmpty from 'lodash-es/isEmpty';
+import isMap from 'lodash-es/isMap';
 import toSafeInteger from 'lodash-es/toSafeInteger';
 import trim from 'lodash-es/trim';
 import AssertionFailed from './Exception/AssertionFailed';
@@ -51,36 +53,36 @@ function guardFrozenMessage(message) {
  * @returns {boolean} Returns true if a non null/empty default was applied or already present.
  */
 function populateDefault(message, field) {
-  // if (message->has(field.getName())) {
-  //     return true;
-  // }
-  //
-  // $default = $field->getDefault($this);
-  // if (null === $default) {
-  //     return false;
-  // }
-  //
-  // if ($field->isASingleValue()) {
-  //     $this->data[$field->getName()] = $default;
-  //     unset($this->clearedFields[$field->getName()]);
-  //     return true;
-  // }
-  //
-  // if (empty($default)) {
-  //     return false;
-  // }
-  //
-  // /*
-  //  * sets have a special handling to deal with unique values
-  //  */
-  // if ($field->isASet()) {
-  //     $this->addToSet($field->getName(), $default);
-  //     return true;
-  // }
-  //
-  // $this->data[$field->getName()] = $default;
-  // unset($this->clearedFields[$field->getName()]);
-  // return true;
+  const fieldName = field.getName();
+  if (message.has(fieldName)) {
+    return true;
+  }
+
+  const defaultValue = field.getDefault(message);
+  if (defaultValue === null) {
+    return false;
+  }
+
+  const msg = msgs.get(message);
+
+  if (field.isASingleValue()) {
+    msg.data.set(fieldName, defaultValue);
+    msg.clearedFields.delete(fieldName);
+    return true;
+  }
+
+  if (isEmpty(defaultValue)) {
+    return false;
+  }
+
+  if (field.isASet()) {
+    message.addToSet(fieldName, Array.from(defaultValue));
+    return true;
+  }
+
+  msg.data.set(fieldName, defaultValue);
+  msg.clearedFields.delete(fieldName);
+  return true;
 }
 
 export default class Message {
@@ -111,9 +113,9 @@ export default class Message {
       /**
        * @see Message.isReplay
        *
-       * @var {boolean}
+       * @var {?boolean}
        */
-      isReplay: false
+      isReplay: null
     });
   }
 
@@ -243,7 +245,7 @@ export default class Message {
    * @link https://tools.ietf.org/html/rfc6570
    * @link https://medialize.github.io/URI.js/uri-template.html
    *
-   * @return {Object}
+   * @returns {Object}
    */
   getUriTemplateVars() {
     return {};
@@ -292,16 +294,20 @@ export default class Message {
 
       /** @var {Message|Message[]} value */
       const value = this.get(field.getName());
-      if (isEmpty(value)) {
-        return;
-      }
-
       if (value instanceof Message) {
         value.freeze();
         return;
       }
 
-      // fixme: deal with array/map/set?
+      if (isEmpty(value)) {
+        return;
+      }
+
+      if (field.isAMap()) {
+        Object.keys(value).forEach(k => value[k].freeze());
+        return;
+      }
+
       value.forEach(m => m.freeze());
     });
 
@@ -316,32 +322,32 @@ export default class Message {
    *
    * @private
    */
-  unFreeze() {
-    const msg = msgs.get(this);
-    msg.isFrozen = false;
-    msg.isReplay = null;
+  unFreeze() {}
+  // const msg = msgs.get(this);
+  // msg.isFrozen = false;
+  // msg.isReplay = null;
 
-    //
-    // foreach (static::schema()->getFields() as $field) {
-    //     if ($field->getType()->isMessage()) {
-    //         /** @var self $value */
-    //         $value = $this->get($field->getName());
-    //         if (empty($value)) {
-    //             continue;
-    //         }
-    //
-    //         if ($value instanceof Message) {
-    //             $value->unFreeze();
-    //             continue;
-    //         }
-    //
-    //         /** @var self $v */
-    //         foreach ($value as $v) {
-    //             $v->unFreeze();
-    //         }
-    //     }
-    // }
-  }
+  //
+  // foreach (static::schema()->getFields() as $field) {
+  //     if ($field->getType()->isMessage()) {
+  //         /** @var self $value */
+  //         $value = $this->get($field->getName());
+  //         if (empty($value)) {
+  //             continue;
+  //         }
+  //
+  //         if ($value instanceof Message) {
+  //             $value->unFreeze();
+  //             continue;
+  //         }
+  //
+  //         /** @var self $v */
+  //         foreach ($value as $v) {
+  //             $v->unFreeze();
+  //         }
+  //     }
+  // }
+
 
   /**
    * Returns true if the message has been frozen.  A frozen message is
@@ -428,12 +434,16 @@ export default class Message {
    */
   has(fieldName) {
     const msg = msgs.get(this);
-
     if (!msg.data.has(fieldName)) {
       return false;
     }
 
-    return !isEmpty(msg.data.get(fieldName));
+    const value = msg.data.get(fieldName);
+    if (isArray(value) || isMap(value)) {
+      return !isEmpty(value);
+    }
+
+    return value !== null && value !== undefined;
   }
 
   /**
@@ -469,7 +479,7 @@ export default class Message {
 
     // maps must return as a plain object.
     const obj = {};
-    msg.data.get(fieldName).forEach((v, k) => obj[k] = v);
+    msg.data.get(fieldName).forEach((v, k) => obj[k] = v); // eslint-disable-line no-return-assign
     return obj;
   }
 
@@ -745,6 +755,112 @@ export default class Message {
     store.splice(toSafeInteger(index), 1);
 
     if (!store.length) {
+      msg.data.delete(fieldName);
+      msg.clearedFields.add(fieldName);
+    }
+
+    return this;
+  }
+
+  /**
+   * Returns true if the map contains the provided key.
+   *
+   * @param {string} fieldName
+   * @param {string} key
+   *
+   * @returns {boolean}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  isInMap(fieldName, key) {
+    if (!this.has(fieldName)) {
+      return false;
+    }
+
+    return msgs.get(this).data.get(fieldName).has(key);
+  }
+
+  /**
+   * Returns the value of a key in a map or null if it doesn't exist.
+   *
+   * @param {string} fieldName
+   * @param {string} key
+   * @param {*} defaultValue
+   *
+   * @returns {*}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  getFromMap(fieldName, key, defaultValue = null) {
+    if (!this.isInMap(fieldName, key)) {
+      return defaultValue;
+    }
+
+    return msgs.get(this).data.get(fieldName).get(key);
+  }
+
+  /**
+   * Adds a key/value pair to a map.
+   *
+   * @param {string} fieldName
+   * @param {string} key
+   * @param {*} value
+   *
+   * @returns {Message}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  addToMap(fieldName, key, value) {
+    guardFrozenMessage(this);
+    const field = this.schema().getField(fieldName);
+    if (!field.isAMap()) {
+      throw new AssertionFailed(`Field [${fieldName}] must be a map.`);
+    }
+
+    if (value === null) {
+      return this.removeFromMap(fieldName, key);
+    }
+
+    const msg = msgs.get(this);
+    if (!msg.data.has(fieldName)) {
+      msg.data.set(fieldName, new Map());
+    }
+
+    const store = msg.data.get(fieldName);
+    field.guardValue(value);
+    store.set(key, value);
+    msg.clearedFields.delete(fieldName);
+
+    return this;
+  }
+
+  /**
+   * Removes a key/value pair from a map.
+   *
+   * @param {string} fieldName
+   * @param {string} key
+   *
+   * @returns {Message}
+   *
+   * @throws {GdbotsPbjException}
+   */
+  removeFromMap(fieldName, key) {
+    guardFrozenMessage(this);
+    const field = this.schema().getField(fieldName);
+    if (!field.isAMap()) {
+      throw new AssertionFailed(`Field [${fieldName}] must be a map.`);
+    }
+
+    const msg = msgs.get(this);
+    if (!msg.data.has(fieldName)) {
+      msg.clearedFields.add(fieldName);
+      return this;
+    }
+
+    const store = msg.data.get(fieldName);
+    store.delete(key);
+
+    if (!store.size) {
       msg.data.delete(fieldName);
       msg.clearedFields.add(fieldName);
     }
