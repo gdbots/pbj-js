@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
-import MessageRef from '../../src/MessageRef';
 import Schema from '../../src/Schema';
 import T from '../../src/Type';
 import SampleMixinV2 from './SampleMixinV2';
+import SampleTraitV2 from './SampleTraitV2';
 
 export default class SampleMessageV2 extends Message {
   /**
@@ -32,22 +32,6 @@ export default class SampleMessageV2 extends Message {
       ],
     );
   }
-
-  /**
-   * @param {?string} tag
-   *
-   * @returns {MessageRef}
-   */
-  generateMessageRef(tag = null) {
-    return new MessageRef(this.schema().getCurie(), this.get('string_single'), tag);
-  }
-
-  /**
-   * @returns {Object}
-   */
-  getUriTemplateVars() {
-    return {
-      string_single: this.get('string_single'),
-    };
-  }
 }
+
+SampleTraitV2(SampleMessageV2);

@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import SchemaId from './SchemaId';
+import LogicException from './Exception/LogicException';
 
 /**
  * We store all Mixin instances to accomplish a loose flyweight strategy.
@@ -30,7 +30,7 @@ export default class Mixin {
    * @returns {SchemaId}
    */
   getId() {
-    return SchemaId.fromString('gdbots:pbj:mixin:undefined:1-0-0');
+    throw new LogicException('You must implement "getId" in your Mixin.');
   }
 
   /**

@@ -12,6 +12,8 @@ import RequiredFieldNotSet from './Exception/RequiredFieldNotSet';
 import SchemaNotDefined from './Exception/SchemaNotDefined';
 import MessageRef from './MessageRef';
 import Schema, { PBJ_FIELD_NAME } from './Schema';
+import JsonSerializer from './Serializer/JsonSerializer';
+import ObjectSerializer from './Serializer/ObjectSerializer';
 
 /**
  * Stores all message instances so data is kept
@@ -176,32 +178,22 @@ export default class Message {
   }
 
   /**
-   * Returns a new message from the provided object using the JsonSerializer.
-   * @see \Gdbots\Pbj\Serializer\PhpArraySerializer::deserialize
+   * Returns a new message from the provided object using the ObjectSerializer.
+   * @see ObjectSerializer.deserialize
    *
    * @param {Object} obj
    *
-   * @returns {MessageRef}
+   * @returns {Message}
    *
    * @throws {AssertionFailed}
    */
   static fromObject(obj = {}) {
-    // if (obj.curie && obj.id) {
-    //   return new MessageRef(SchemaCurie.fromString(obj.curie), obj.id, obj.tag || null);
-    // }
-    //
-    // throw new AssertionFailed('MessageRef is invalid.');
-    //
-    // if (null === self::$serializer) {
-    //     self::$serializer = new PhpArraySerializer();
-    // }
-    //
-    // if (!isset($data[Schema::PBJ_FIELD_NAME])) {
-    //     $data[Schema::PBJ_FIELD_NAME] = static::schema()->getId()->toString();
-    // }
-    //
-    // $message = self::$serializer->deserialize($data);
-    // return $message;
+    if (!obj[PBJ_FIELD_NAME]) {
+      // eslint-disable-next-line no-param-reassign
+      obj[PBJ_FIELD_NAME] = this.schema().getId().toString();
+    }
+
+    return ObjectSerializer.deserialize(obj);
   }
 
   /**
@@ -316,41 +308,6 @@ export default class Message {
     });
 
     return this;
-  }
-
-  /**
-   * Recursively unfreezes this object and any of its children.
-   * Used internally during the clone process.
-   *
-   * fixme: may not be needed in js (copied from php)
-   *
-   * @private
-   */
-  unFreeze() {
-    // const msg = msgs.get(this);
-    // msg.isFrozen = false;
-    // msg.isReplay = null;
-
-    //
-    // foreach (static::schema()->getFields() as $field) {
-    //     if ($field->getType()->isMessage()) {
-    //         /** @var self $value */
-    //         $value = $this->get($field->getName());
-    //         if (empty($value)) {
-    //             continue;
-    //         }
-    //
-    //         if ($value instanceof Message) {
-    //             $value->unFreeze();
-    //             continue;
-    //         }
-    //
-    //         /** @var self $v */
-    //         foreach ($value as $v) {
-    //             $v->unFreeze();
-    //         }
-    //     }
-    // }
   }
 
   /**
@@ -870,18 +827,14 @@ export default class Message {
    * @returns {string}
    */
   toString() {
-    return JSON.stringify(this);
+    return JsonSerializer.serialize(this);
   }
 
   /**
    * @returns {Object}
    */
   toObject() {
-    // if (null === self::$serializer) {
-    //     self::$serializer = new PhpArraySerializer();
-    // }
-    // return self::$serializer->serialize($this);
-    return { _schema: this.schema().getId().toString() };
+    return ObjectSerializer.serialize(this);
   }
 
   /**
@@ -902,8 +855,6 @@ export default class Message {
    * @returns {Message}
    */
   clone() {
-    // $this->data = unserialize(serialize($this->data));
-    // $this->unFreeze();
-    return {};
+    return ObjectSerializer.deserialize(ObjectSerializer.serialize(this));
   }
 }
