@@ -4,21 +4,7 @@ import Mixin from '../../src/Mixin';
 import SchemaId from '../../src/SchemaId';
 import T from '../../src/Type';
 
-/** @type {SampleMixinV2} */
-let instance = null;
-
 export default class SampleMixinV2 extends Mixin {
-  /**
-   * @returns {SampleMixinV2}
-   */
-  static create() {
-    if (instance === null) {
-      instance = new SampleMixinV2();
-    }
-
-    return instance;
-  }
-
   /**
    * @returns {SchemaId}
    */

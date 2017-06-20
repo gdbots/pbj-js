@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable class-methods-use-this, no-param-reassign */
 import MessageRef from '../../src/MessageRef';
 
 export default function SampleTraitV1(m) {

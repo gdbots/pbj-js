@@ -1,8 +1,14 @@
 /* eslint-disable class-methods-use-this */
 import SchemaId from './SchemaId';
 
-/** @type {Mixin} */
-let instance = null;
+/**
+ * We store all Mixin instances to accomplish a loose flyweight strategy.
+ * Loose because we're not strictly enforcing it, but internally in this
+ * library we only use the factory create method to create mixins.
+ *
+ * @type {Map}
+ */
+const instances = new Map();
 
 export default class Mixin {
   constructor() {
@@ -13,11 +19,11 @@ export default class Mixin {
    * @returns {Mixin}
    */
   static create() {
-    if (instance === null) {
-      instance = new Mixin();
+    if (!instances.has(this)) {
+      instances.set(this, new this());
     }
 
-    return instance;
+    return instances.get(this);
   }
 
   /**
