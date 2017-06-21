@@ -329,7 +329,7 @@ export default class Message {
    */
   equals(other) {
     // This could probably use some work.  :)  low level serialization string match.
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 
   /**

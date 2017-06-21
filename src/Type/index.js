@@ -15,6 +15,7 @@ import MediumBlobType from './MediumBlobType';
 import MediumIntType from './MediumIntType';
 import MediumTextType from './MediumTextType';
 import MessageRefType from './MessageRefType';
+import MessageType from './MessageType';
 import MicrotimeType from './MicrotimeType';
 import SignedBigIntType from './SignedBigIntType';
 import SignedIntType from './SignedIntType';
@@ -50,6 +51,7 @@ const T = {
   MediumIntType,
   MediumTextType,
   MessageRefType,
+  MessageType,
   MicrotimeType,
   SignedBigIntType,
   SignedIntType,

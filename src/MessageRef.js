@@ -170,6 +170,6 @@ export default class MessageRef {
    * @returns {boolean}
    */
   equals(other) {
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 }

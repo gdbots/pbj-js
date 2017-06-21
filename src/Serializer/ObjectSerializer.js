@@ -1,7 +1,14 @@
 /* eslint-disable no-unused-vars */
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
+import AssertionFailed from '../Exception/AssertionFailed';
+import InvalidResolvedSchema from '../Exception/InvalidResolvedSchema';
 import DynamicField from '../WellKnown/DynamicField';
 import GeoPoint from '../WellKnown/GeoPoint';
 import MessageRef from '../MessageRef';
+import { PBJ_FIELD_NAME } from '../Schema';
+import SchemaId from '../SchemaId';
+import SchemaResolver from '../SchemaResolver';
 
 let opt = {};
 
@@ -24,7 +31,6 @@ export default class ObjectSerializer {
 
     schema.getFields().forEach((field) => {
       const fieldName = field.getName();
-
       if (!message.has(fieldName)) {
         if (includeAllFields || message.hasClearedField(fieldName)) {
           payload[fieldName] = null;
@@ -64,6 +70,65 @@ export default class ObjectSerializer {
    * @throws {GdbotsPbjException}
    */
   static deserialize(obj, options = {}) {
+    opt = options;
+    if (!obj[PBJ_FIELD_NAME]) {
+      throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
+    }
+
+    const schemaId = SchemaId.fromString(obj[PBJ_FIELD_NAME]);
+    const schema = SchemaResolver.resolveId(schemaId);
+    const message = new (schema.getClassProto())();
+
+    if (schema.getCurieMajor() !== schemaId.getCurieMajor()) {
+      throw new InvalidResolvedSchema(schema, schemaId);
+    }
+
+    Object.keys(obj).forEach((fieldName) => {
+      if (!schema.hasField(fieldName)) {
+        return;
+      }
+
+      const value = obj[fieldName];
+      if (value === null) {
+        message.clear(fieldName);
+        return;
+      }
+
+      const field = schema.getField(fieldName);
+      const type = field.getType();
+
+      if (field.isASingleValue()) {
+        message.set(fieldName, type.decode(value, field, this));
+        return;
+      }
+
+      if (field.isASet() || field.isAList()) {
+        if (!isArray(value)) {
+          throw new AssertionFailed(`Field [${fieldName}] must be an array.`);
+        }
+
+        const values = [];
+        value.forEach(v => values.push(type.decode(v, field, this)));
+
+        if (field.isASet()) {
+          message.addToSet(fieldName, values);
+        } else {
+          message.addToList(fieldName, values);
+        }
+
+        return;
+      }
+
+      if (!isPlainObject(value)) {
+        throw new AssertionFailed(`Field [${fieldName}] must be an object.`);
+      }
+
+      Object.keys(value).forEach((k) => {
+        message.addToMap(fieldName, k, type.decode(value[k], field, this));
+      });
+    });
+
+    return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
   }
 
   /**

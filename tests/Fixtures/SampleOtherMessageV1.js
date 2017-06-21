@@ -7,25 +7,16 @@ import T from '../../src/Type';
 import SampleMixinV1 from './SampleMixinV1';
 import SampleTraitV1 from './SampleTraitV1';
 
-export default class SampleMessageV1 extends Message {
+export default class SampleOtherMessageV1 extends Message {
   /**
    * @private
    *
    * @returns {Schema}
    */
   static defineSchema() {
-    const schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
+    const schema = new Schema('pbj:gdbots:pbj.tests::sample-other-message:1-0-0', SampleOtherMessageV1,
       [
-        Fb.create('string_single', T.StringType.create())
-          .build(),
-        Fb.create('string_set', T.StringType.create())
-          .asASet()
-          .build(),
-        Fb.create('string_list', T.StringType.create())
-          .asAList()
-          .build(),
-        Fb.create('string_map', T.StringType.create())
-          .asAMap()
+        Fb.create('test', T.StringType.create())
           .build(),
       ],
       [
@@ -38,4 +29,4 @@ export default class SampleMessageV1 extends Message {
   }
 }
 
-SampleTraitV1(SampleMessageV1);
+SampleTraitV1(SampleOtherMessageV1);

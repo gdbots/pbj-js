@@ -150,6 +150,6 @@ export default class SchemaCurie {
    * @returns {boolean}
    */
   equals(other) {
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 }

@@ -118,6 +118,6 @@ export default class GeoPoint {
    * @returns {boolean}
    */
   equals(other) {
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 }

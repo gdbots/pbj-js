@@ -7,6 +7,7 @@ export default class RequiredFieldNotSet extends SchemaException {
    */
   constructor(pbj, field) {
     super(`Required field [${field.getName()}] must be set on [${pbj.schema().getCurieMajor()}].`);
+    this.schema = pbj.schema();
     this.pbj = pbj;
     this.field = field;
   }

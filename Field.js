@@ -14,7 +14,6 @@ import AssertionFailed from './Exception/AssertionFailed';
 import FieldRule from './Enum/FieldRule';
 import Format from './Enum/Format';
 import Identifier from './WellKnown/Identifier';
-import SchemaCurie from './SchemaCurie';
 import TypeName from './Enum/TypeName';
 
 /**
@@ -52,7 +51,7 @@ export default class Field {
     this.required = isBoolean(required) ? required : false;
     this.useTypeDefault = isBoolean(useTypeDefault) ? useTypeDefault : true;
     this.classProto = classProto;
-    this.anyOfCuries = isArray(anyOfCuries) ? anyOfCuries.map(c => SchemaCurie.fromString(c)) : [];
+    this.anyOfCuries = isArray(anyOfCuries) ? anyOfCuries : [];
     this.assertion = isFunction(assertion) ? assertion : null;
     this.overridable = isBoolean(overridable) ? overridable : false;
 
@@ -379,7 +378,7 @@ export default class Field {
    * @returns {string[]}
    */
   getAnyOfCuries() {
-    return this.anyOfCuries || [];
+    return this.anyOfCuries;
   }
 
   /**

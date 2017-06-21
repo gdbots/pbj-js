@@ -77,6 +77,6 @@ export default class Mixin {
    * @returns {boolean}
    */
   equals(other) {
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 }

@@ -207,6 +207,6 @@ export default class SchemaId {
    * @returns {boolean}
    */
   equals(other) {
-    return this.toString() === other.toString();
+    return `${this}` === `${other}`;
   }
 }
