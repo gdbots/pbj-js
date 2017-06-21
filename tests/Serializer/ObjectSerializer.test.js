@@ -6,6 +6,7 @@ import MessageRef from '../../src/MessageRef';
 import T from '../../src/Type';
 import ObjectSerializer from '../../src/Serializer/ObjectSerializer';
 import SampleMessageV1 from '../Fixtures/SampleMessageV1';
+import SampleOtherMessageV1 from '../Fixtures/SampleOtherMessageV1';
 
 test('ObjectSerializer serialize tests', (t) => {
   const message = SampleMessageV1.create()
@@ -13,7 +14,10 @@ test('ObjectSerializer serialize tests', (t) => {
     .addToSet('string_set', ['set1', 'set2'])
     .addToList('string_list', ['list1', 'list2'])
     .addToMap('string_map', 'key1', 'val1')
-    .addToMap('string_map', 'key2', 'val2');
+    .addToMap('string_map', 'key2', 'val2')
+    .set('message_single', SampleOtherMessageV1.create().set('test', 'single'))
+    .addToList('message_list', [SampleOtherMessageV1.create().set('test', 'list')])
+    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'));
 
   const obj = {
     _schema: 'pbj:gdbots:pbj.tests::sample-message:1-0-0',
@@ -22,6 +26,25 @@ test('ObjectSerializer serialize tests', (t) => {
     string_set: ['set1', 'set2'],
     string_list: ['list1', 'list2'],
     string_map: { key1: 'val1', key2: 'val2' },
+    message_single: {
+      _schema: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0',
+      mixin_int: 0,
+      test: 'single',
+    },
+    message_list: [
+      {
+        _schema: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0',
+        mixin_int: 0,
+        test: 'list',
+      },
+    ],
+    message_map: {
+      test: {
+        _schema: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0',
+        mixin_int: 0,
+        test: 'map',
+      },
+    },
   };
 
   t.same(ObjectSerializer.serialize(message), obj);
@@ -36,7 +59,10 @@ test('ObjectSerializer deserialize tests', (t) => {
     .set('string_single', 'test')
     .addToSet('string_set', ['set1', 'set2'])
     .addToMap('string_map', 'key1', 'val1')
-    .addToMap('string_map', 'key2', 'val2');
+    .addToMap('string_map', 'key2', 'val2')
+    .set('message_single', SampleOtherMessageV1.create().set('test', 'single'))
+    .addToList('message_list', [SampleOtherMessageV1.create().set('test', 'list')])
+    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'));
 
   t.true(message.equals(ObjectSerializer.deserialize(ObjectSerializer.serialize(message))));
 
