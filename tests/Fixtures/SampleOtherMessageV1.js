@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
-import SchemaResolver from '../../src/SchemaResolver';
+import MessageResolver from '../../src/MessageResolver';
 import Schema from '../../src/Schema';
 import T from '../../src/Type';
 import SampleMixinV1 from './SampleMixinV1';
@@ -24,7 +24,7 @@ export default class SampleOtherMessageV1 extends Message {
       ],
     );
 
-    SchemaResolver.registerSchema(schema);
+    MessageResolver.registerSchema(schema);
     return schema;
   }
 }

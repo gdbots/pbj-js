@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
-import SchemaResolver from '../../src/SchemaResolver';
+import MessageResolver from '../../src/MessageResolver';
 import Schema from '../../src/Schema';
 import T from '../../src/Type';
 import SampleMixinV1 from './SampleMixinV1';
@@ -27,13 +27,25 @@ export default class SampleMessageV1 extends Message {
         Fb.create('string_map', T.StringType.create())
           .asAMap()
           .build(),
+
+        Fb.create('message_single', T.MessageType.create())
+          .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
+          .build(),
+        Fb.create('message_list', T.MessageType.create())
+          .asAList()
+        .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
+          .build(),
+        Fb.create('message_map', T.MessageType.create())
+          .asAMap()
+        .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
+          .build(),
       ],
       [
         SampleMixinV1.create(),
       ],
     );
 
-    SchemaResolver.registerSchema(schema);
+    MessageResolver.registerSchema(schema);
     return schema;
   }
 }

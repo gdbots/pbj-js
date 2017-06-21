@@ -5,6 +5,7 @@ import MessageRef from '../src/MessageRef';
 import SchemaId from '../src/SchemaId';
 import SampleMessageV1 from './Fixtures/SampleMessageV1';
 import SampleMessageV2 from './Fixtures/SampleMessageV2';
+import SampleOtherMessageV1 from './Fixtures/SampleOtherMessageV1';
 
 test('Message tests', (t) => {
   const msg1 = SampleMessageV1.create();
@@ -32,8 +33,7 @@ test('Message tests', (t) => {
 
 
 test('Message freeze tests', (t) => {
-  const msg = SampleMessageV1.create();
-
+  let msg = SampleMessageV1.create();
   msg.set('string_single', '123');
   msg.freeze();
 
@@ -42,6 +42,21 @@ test('Message freeze tests', (t) => {
   try {
     msg.set('string_single', 'test');
     t.fail('frozen message is mutable');
+  } catch (e) {
+    t.true(e instanceof FrozenMessageIsImmutable, 'Exception MUST be an instanceOf FrozenMessageIsImmutable');
+    t.pass(e.message);
+  }
+
+  msg = SampleMessageV1.create();
+  msg.set('message_single', SampleOtherMessageV1.create().set('test', 'freeze'));
+  msg.freeze();
+
+  t.true(msg.isFrozen());
+  t.true(msg.get('message_single').isFrozen());
+
+  try {
+    msg.get('message_single').set('test', 'test');
+    t.fail('nested frozen message is mutable');
   } catch (e) {
     t.true(e instanceof FrozenMessageIsImmutable, 'Exception MUST be an instanceOf FrozenMessageIsImmutable');
     t.pass(e.message);
@@ -86,6 +101,29 @@ test('Message isReplay tests', (t) => {
   } catch (e) {
     t.pass(e.message);
   }
+
+  t.end();
+});
+
+
+test('Message clone tests', (t) => {
+  const msg = SampleMessageV1.create();
+  msg.set('string_single', '123');
+  msg.set('message_single', SampleOtherMessageV1.create().set('test', 'clone'));
+  msg.freeze();
+
+  t.true(msg.isFrozen());
+  t.true(msg.get('message_single').isFrozen());
+
+  const msgClone = msg.clone();
+  t.false(msg === msgClone);
+  t.false(msgClone.isFrozen());
+  t.false(msgClone.get('message_single').isFrozen());
+  t.true(msg.equals(msgClone));
+
+  msgClone.set('string_single', '456');
+  msgClone.get('message_single').set('test', 'clone2');
+  t.false(msg.equals(msgClone));
 
   t.end();
 });

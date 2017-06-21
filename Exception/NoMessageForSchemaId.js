@@ -1,11 +1,11 @@
 import LogicException from './LogicException';
 
-export default class NoSchemaForSchemaId extends LogicException {
+export default class NoMessageForSchemaId extends LogicException {
   /**
    * @param {SchemaId} schemaId
    */
   constructor(schemaId) {
-    super(`SchemaResolver is unable to resolve schema id [${schemaId}] to a class.`);
+    super(`MessageResolver is unable to resolve schema id [${schemaId}] to a class.`);
     this.schemaId = schemaId;
   }
 

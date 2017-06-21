@@ -6,9 +6,9 @@ import InvalidResolvedSchema from '../Exception/InvalidResolvedSchema';
 import DynamicField from '../WellKnown/DynamicField';
 import GeoPoint from '../WellKnown/GeoPoint';
 import MessageRef from '../MessageRef';
+import MessageResolver from '../MessageResolver';
 import { PBJ_FIELD_NAME } from '../Schema';
 import SchemaId from '../SchemaId';
-import SchemaResolver from '../SchemaResolver';
 
 let opt = {};
 
@@ -76,8 +76,8 @@ export default class ObjectSerializer {
     }
 
     const schemaId = SchemaId.fromString(obj[PBJ_FIELD_NAME]);
-    const schema = SchemaResolver.resolveId(schemaId);
-    const message = new (schema.getClassProto())();
+    const message = new (MessageResolver.resolveId(schemaId))();
+    const schema = message.schema();
 
     if (schema.getCurieMajor() !== schemaId.getCurieMajor()) {
       throw new InvalidResolvedSchema(schema, schemaId);
