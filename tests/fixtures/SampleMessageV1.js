@@ -49,3 +49,5 @@ export default class SampleMessageV1 extends Message {
 
 SampleTraitV1(SampleMessageV1);
 MessageResolver.register('gdbots:pbj.tests::sample-message:v1', SampleMessageV1);
+Object.freeze(SampleMessageV1);
+Object.freeze(SampleMessageV1.prototype);

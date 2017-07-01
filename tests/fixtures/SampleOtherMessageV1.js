@@ -28,3 +28,5 @@ export default class SampleOtherMessageV1 extends Message {
 
 SampleTraitV1(SampleOtherMessageV1);
 MessageResolver.register('gdbots:pbj.tests::sample-other-message', SampleOtherMessageV1);
+Object.freeze(SampleOtherMessageV1);
+Object.freeze(SampleOtherMessageV1.prototype);
