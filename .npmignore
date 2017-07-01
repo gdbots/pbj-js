@@ -1,6 +1,6 @@
+/.idea/
 /build/
-/old-src/
-/old-tests/
+/dist/
 /src/
 /tests/
 .babelrc

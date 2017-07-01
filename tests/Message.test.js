@@ -32,6 +32,31 @@ test('Message tests', (t) => {
 });
 
 
+test('Message generateEtag tests', (t) => {
+  const msg = SampleMessageV1.create();
+
+  msg.set('string_single', '123');
+  t.same(msg.generateEtag(), '691d8ff26b59e53823ab9190624e34ed');
+  t.same(msg.generateEtag(['string_single']), '573915f0765194ff95833311ca5c15c1');
+
+  msg.set('string_single', ' ice 🍦 poop 💩 doh 😳 ');
+  t.same(msg.generateEtag(), '2114f330e1ce728c47aad9013f84b07c');
+
+  msg.set('string_single', '✓ à la mode');
+  t.same(msg.generateEtag(), 'ee38a55ab894dbaa551f8870dd9cc4c4');
+
+  msg.set('string_single', 'foo © bar 𝌆 baz');
+  t.same(msg.generateEtag(), 'd6c22aca50a8c30f57e8e40e4d7c400d');
+
+  msg.clear('string_single');
+  t.same(msg.generateEtag(), '3362e2cd5e114f9c9bac62666fc05587');
+  t.same(msg.generateEtag(['string_single']), '573915f0765194ff95833311ca5c15c1');
+  t.same(msg.generateEtag(['string_single', 'message_map']), '796d3e61906902c815e1bf67685a45d8');
+
+  t.end();
+});
+
+
 test('Message freeze tests', (t) => {
   let msg = SampleMessageV1.create();
   msg.set('string_single', '123');

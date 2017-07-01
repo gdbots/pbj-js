@@ -2,11 +2,12 @@
 ############
 /node_modules/
 /dist/
-#/*.js # uncomment once we're publishing to npm
-#/Enum
-#/Exception
-#/Type
-#/WellKnown
+/*.js
+/enums
+/exceptions
+/serializers
+/types
+/well-known
 
 # Deployment/IDE Tools #
 ############

@@ -1,5 +1,6 @@
 import test from 'tape';
 import SchemaCurie from '../src/SchemaCurie';
+import SchemaId from '../src/SchemaId';
 import SchemaQName from '../src/SchemaQName';
 import InvalidSchemaQName from '../src/exceptions/InvalidSchemaQName';
 
@@ -94,7 +95,7 @@ test('SchemaQName fromCurie tests', (t) => {
 
 
 test('SchemaQName fromId tests', (t) => {
-  // fixme: write SchemaQName fromId tests
-  t.skip('todo: write these tests');
+  const qname = SchemaQName.fromId(SchemaId.fromString('pbj:acme:blog:node:article:1-2-3'));
+  t.same(qname.toString(), 'acme:article');
   t.end();
 });

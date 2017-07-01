@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import isMap from 'lodash/isMap';
 import toSafeInteger from 'lodash/toSafeInteger';
 import trim from 'lodash/trim';
+import md5 from 'md5';
 import AssertionFailed from './exceptions/AssertionFailed';
 import FrozenMessageIsImmutable from './exceptions/FrozenMessageIsImmutable';
 import LogicException from './exceptions/LogicException';
@@ -204,22 +205,13 @@ export default class Message {
    * @returns {string}
    */
   generateEtag(ignoredFields = []) {
-    // if (null === self::$serializer) {
-    //     self::$serializer = new PhpArraySerializer();
-    // }
-    // $array = self::$serializer->serialize($this, ['includeAllFields' => true]);
-    //
-    // if (empty($ignoredFields)) {
-    //     return md5(json_encode($array));
-    // }
-    //
-    // foreach ($ignoredFields as $field) {
-    //     unset($array[$field]);
-    // }
-    //
-    // return md5(json_encode($array));
+    const obj = ObjectSerializer.serialize(this, { includeAllFields: true });
+    if (!ignoredFields.length) {
+      return md5(JSON.stringify(obj));
+    }
 
-    return 'notanetag';
+    ignoredFields.forEach(f => delete obj[f]);
+    return md5(JSON.stringify(obj));
   }
 
   /**
