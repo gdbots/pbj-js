@@ -1,5 +1,5 @@
 import toInteger from 'lodash/toInteger';
-import FieldRule from './Enum/FieldRule';
+import FieldRule from './enums/FieldRule';
 import Field from './Field';
 
 export default class FieldBuilder {

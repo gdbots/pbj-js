@@ -1,7 +1,7 @@
 import test from 'tape';
 import Mixin from '../src/Mixin';
 import SchemaId from '../src/SchemaId';
-import SampleMixinV1 from './Fixtures/SampleMixinV1';
+import SampleMixinV1 from './fixtures/SampleMixinV1';
 
 test('Mixin tests', (t) => {
   const mixin = SampleMixinV1.create();

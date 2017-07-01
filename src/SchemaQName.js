@@ -1,4 +1,4 @@
-import InvalidSchemaQName from './Exception/InvalidSchemaQName';
+import InvalidSchemaQName from './exceptions/InvalidSchemaQName';
 
 /**
  * We store all SchemaQName instances to accomplish a loose flyweight strategy.

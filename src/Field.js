@@ -10,11 +10,11 @@ import isPlainObject from 'lodash/isPlainObject';
 import isSet from 'lodash/isSet';
 import toInteger from 'lodash/toInteger';
 import trim from 'lodash/trim';
-import AssertionFailed from './Exception/AssertionFailed';
-import FieldRule from './Enum/FieldRule';
-import Format from './Enum/Format';
-import Identifier from './WellKnown/Identifier';
-import TypeName from './Enum/TypeName';
+import AssertionFailed from './exceptions/AssertionFailed';
+import FieldRule from './enums/FieldRule';
+import Format from './enums/Format';
+import Identifier from './well-known/Identifier';
+import TypeName from './enums/TypeName';
 
 /**
  * Regular expression pattern for matching a valid field name.

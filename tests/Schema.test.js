@@ -1,17 +1,17 @@
 import test from 'tape';
-import FieldAlreadyDefined from '../src/Exception/FieldAlreadyDefined';
-import FieldNotDefined from '../src/Exception/FieldNotDefined';
-import FieldOverrideNotCompatible from '../src/Exception/FieldOverrideNotCompatible';
-import MixinAlreadyAdded from '../src/Exception/MixinAlreadyAdded';
-import MixinNotDefined from '../src/Exception/MixinNotDefined';
+import FieldAlreadyDefined from '../src/exceptions/FieldAlreadyDefined';
+import FieldNotDefined from '../src/exceptions/FieldNotDefined';
+import FieldOverrideNotCompatible from '../src/exceptions/FieldOverrideNotCompatible';
+import MixinAlreadyAdded from '../src/exceptions/MixinAlreadyAdded';
+import MixinNotDefined from '../src/exceptions/MixinNotDefined';
 import Fb from '../src/FieldBuilder';
 import Schema from '../src/Schema';
 import SchemaId from '../src/SchemaId';
-import T from '../src/Type';
-// import TypeName from '../src/Enum/TypeName';
-import SampleMessageV1 from './Fixtures/SampleMessageV1';
-import SampleMixinV1 from './Fixtures/SampleMixinV1';
-import SampleMixinV2 from './Fixtures/SampleMixinV2';
+import T from '../src/types';
+// import TypeName from '../src/enums/TypeName';
+import SampleMessageV1 from './fixtures/SampleMessageV1';
+import SampleMixinV1 from './fixtures/SampleMixinV1';
+import SampleMixinV2 from './fixtures/SampleMixinV2';
 
 test('Schema tests', (t) => {
   const schema = SampleMessageV1.schema();

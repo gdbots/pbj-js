@@ -1,11 +1,11 @@
 import test from 'tape';
-import FrozenMessageIsImmutable from '../src/Exception/FrozenMessageIsImmutable';
+import FrozenMessageIsImmutable from '../src/exceptions/FrozenMessageIsImmutable';
 import Message from '../src/Message';
 import MessageRef from '../src/MessageRef';
 import SchemaId from '../src/SchemaId';
-import SampleMessageV1 from './Fixtures/SampleMessageV1';
-import SampleMessageV2 from './Fixtures/SampleMessageV2';
-import SampleOtherMessageV1 from './Fixtures/SampleOtherMessageV1';
+import SampleMessageV1 from './fixtures/SampleMessageV1';
+import SampleMessageV2 from './fixtures/SampleMessageV2';
+import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
 
 test('Message tests', (t) => {
   const msg1 = SampleMessageV1.create();

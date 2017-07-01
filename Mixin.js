@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import LogicException from './Exception/LogicException';
+import LogicException from './exceptions/LogicException';
 
 /**
  * We store all Mixin instances to accomplish a loose flyweight strategy.

@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 
-import InvalidSchemaId from './Exception/InvalidSchemaId';
+import InvalidSchemaId from './exceptions/InvalidSchemaId';
 import SchemaCurie from './SchemaCurie';
 import SchemaVersion from './SchemaVersion';
 
@@ -61,7 +61,7 @@ export const VALID_PATTERN = /^pbj:([a-z0-9-]+):([a-z0-9\.-]+):([a-z0-9-]+)?:([a
  * The fully qualified schema identifier corresponds to a json schema implementing the
  * Gdbots PBJ Json Schema.
  *
- * The schema id must be resolveable to a php class that should be able to read and write
+ * The schema id must be resolveable to a class that should be able to read and write
  * messages with payloads that validate using the json schema.  The target class is ideally
  * major revision specific.  As in GetVideoV1, GetVideoV2, etc.  Only "major" revisions
  * should require a unique class since all other schema changes should not break anything.

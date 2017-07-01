@@ -5,15 +5,15 @@ import isEmpty from 'lodash/isEmpty';
 import isMap from 'lodash/isMap';
 import toSafeInteger from 'lodash/toSafeInteger';
 import trim from 'lodash/trim';
-import AssertionFailed from './Exception/AssertionFailed';
-import FrozenMessageIsImmutable from './Exception/FrozenMessageIsImmutable';
-import LogicException from './Exception/LogicException';
-import RequiredFieldNotSet from './Exception/RequiredFieldNotSet';
-import SchemaNotDefined from './Exception/SchemaNotDefined';
+import AssertionFailed from './exceptions/AssertionFailed';
+import FrozenMessageIsImmutable from './exceptions/FrozenMessageIsImmutable';
+import LogicException from './exceptions/LogicException';
+import RequiredFieldNotSet from './exceptions/RequiredFieldNotSet';
+import SchemaNotDefined from './exceptions/SchemaNotDefined';
 import MessageRef from './MessageRef';
 import Schema, { PBJ_FIELD_NAME } from './Schema';
-import JsonSerializer from './Serializer/JsonSerializer';
-import ObjectSerializer from './Serializer/ObjectSerializer';
+import JsonSerializer from './serializers/JsonSerializer';
+import ObjectSerializer from './serializers/ObjectSerializer';
 
 /**
  * Stores all message instances so data is kept

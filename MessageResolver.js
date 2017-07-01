@@ -1,4 +1,5 @@
-import NoMessageForSchemaId from './Exception/NoMessageForSchemaId';
+import NoMessageForSchemaId from './exceptions/NoMessageForSchemaId';
+import SchemaId from './SchemaId';
 
 /**
  * A map of all the available messages keyed by the schema resolver key
@@ -60,12 +61,15 @@ export default class MessageResolver {
   }
 
   /**
-   * Adds a single schema to the resolver.  This is used in tests or dynamic
-   * message schema creation (not a typical use case).
+   * Adds a single schema and class proto to the resolver.
    *
-   * @param {Schema} schema
+   * @see SchemaId.getCurieMajor
+   *
+   * @param {SchemaId|string} id
+   * @param {Message} classProto
    */
-  static registerSchema(schema) {
-    messages.set(schema.getId().getCurieMajor(), schema.getClassProto());
+  static register(id, classProto) {
+    const key = id instanceof SchemaId ? id.getCurieMajor() : `${id}`;
+    messages.set(key, classProto);
   }
 }

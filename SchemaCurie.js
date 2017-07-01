@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 
-import InvalidSchemaCurie from './Exception/InvalidSchemaCurie';
+import InvalidSchemaCurie from './exceptions/InvalidSchemaCurie';
 import SchemaQName from './SchemaQName';
 
 /**

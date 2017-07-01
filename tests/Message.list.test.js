@@ -1,6 +1,6 @@
 import test from 'tape';
-import SampleMessageV1 from './Fixtures/SampleMessageV1';
-import SampleOtherMessageV1 from './Fixtures/SampleOtherMessageV1';
+import SampleMessageV1 from './fixtures/SampleMessageV1';
+import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
 
 test('Message string_list tests', (t) => {
   const msg = SampleMessageV1.create();

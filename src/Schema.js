@@ -1,14 +1,14 @@
 import camelCase from 'lodash/camelCase';
 import isEmpty from 'lodash/isEmpty';
 import upperFirst from 'lodash/upperFirst';
-import FieldAlreadyDefined from './Exception/FieldAlreadyDefined';
-import FieldNotDefined from './Exception/FieldNotDefined';
-import FieldOverrideNotCompatible from './Exception/FieldOverrideNotCompatible';
-import MixinAlreadyAdded from './Exception/MixinAlreadyAdded';
-import MixinNotDefined from './Exception/MixinNotDefined';
+import FieldAlreadyDefined from './exceptions/FieldAlreadyDefined';
+import FieldNotDefined from './exceptions/FieldNotDefined';
+import FieldOverrideNotCompatible from './exceptions/FieldOverrideNotCompatible';
+import MixinAlreadyAdded from './exceptions/MixinAlreadyAdded';
+import MixinNotDefined from './exceptions/MixinNotDefined';
 import Fb from './FieldBuilder';
 import SchemaId, { VALID_PATTERN } from './SchemaId';
-import StringType from './Type/StringType';
+import StringType from './types/StringType';
 
 export const PBJ_FIELD_NAME = '_schema';
 
