@@ -1,6 +1,6 @@
 {
   "name": "@gdbots/pbj",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pbj library for es6.",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "BABEL_ENV=es6 babel src --out-dir ./dist/ && cp -R ./dist/* .",
     "clean": "rimraf dist",
-    "lint": "eslint src tests",
+    "lint": "BABEL_ENV=cjs eslint src tests",
     "prepublish": "npm run clean && npm run lint && npm run test && npm run build",
     "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js './tests/**/*.test.js' | faucet"
   },
@@ -25,7 +25,7 @@
     "md5": "^2.2.1",
     "moment": "^2.18.1",
     "utf8": "^2.1.2",
-    "uuid": "^3.0.1"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "aws-sdk-mock": "^1.7.0",
