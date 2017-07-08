@@ -2,12 +2,6 @@
 ############
 /node_modules/
 /dist/
-/*.js
-/enums
-/exceptions
-/serializers
-/types
-/well-known
 
 # Deployment/IDE Tools #
 ############
