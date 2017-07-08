@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
+import intersection from 'lodash/intersection';
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import Message from '../Message';
@@ -28,7 +29,9 @@ export default class MessageType extends Type {
     }
 
     const schema = value.schema();
-    if (anyOfCuries.includes(schema.getCurie().toString())) {
+    const curies = [schema.getCurie().toString(), ...schema.getMixinCuries()];
+
+    if (intersection(anyOfCuries, curies).length) {
       return;
     }
 
