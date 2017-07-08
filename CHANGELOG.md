@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.1.2
+* issue #4: BUG :: MessageType guard doesn't check mixin curies.
+
+
 ## v0.1.1
 * Publishing to 0.1.1 as 0.1.0 was published in error when package was originally created.
 
