@@ -41,16 +41,22 @@ export default class ItemMarshaler {
       }
 
       if (field.isAList()) {
-        payload[fieldName] = {};
+        let list = {};
+
         // eslint-disable-next-line no-return-assign
-        Object.keys(value).forEach(k => payload[fieldName][k] = type.encode(value[k], field, this));
+        Object.keys(value).forEach(k => list[k] = type.encode(value[k], field, this));
+        payload[fieldName]['L'] = list;
+
         return;
       }
 
       if (field.isAMap()) {
-        payload[fieldName] = {};
+        let map = {};
+
         // eslint-disable-next-line no-return-assign
-        Object.keys(value).forEach(k => payload[fieldName][k] = type.encode(value[k], field, this));
+        Object.keys(value).forEach(k => map[k] = type.encode(value[k], field, this));
+        payload[fieldName]['M'] = map;
+
         return;
       }
 
