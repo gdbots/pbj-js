@@ -1,4 +1,4 @@
-import ObjectSerializer from './ObjectSerializer';
+let opt = {};
 
 export default class ItemMarshaler {
   /**
@@ -41,21 +41,21 @@ export default class ItemMarshaler {
       }
 
       if (field.isAList()) {
-        let list = {};
+        const list = {};
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => list[k] = type.encode(value[k], field, this));
-        payload[fieldName]['L'] = list;
+        payload[fieldName] = list;
 
         return;
       }
 
       if (field.isAMap()) {
-        let map = {};
+        const map = {};
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => map[k] = type.encode(value[k], field, this));
-        payload[fieldName]['M'] = map;
+        payload[fieldName] = map;
 
         return;
       }
@@ -68,14 +68,12 @@ export default class ItemMarshaler {
   }
 
   /**
-   * @param {Object} obj
-   * @param {Object} options
    *
    * @returns {Message}
    *
    * @throws {GdbotsPbjException}
    */
-  static unmarshal(obj, options = {}) {
-    return ObjectSerializer.deserialize(obj, options);
+  static unmarshal() {
+    return null;
   }
 }
