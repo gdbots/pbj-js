@@ -50,7 +50,7 @@ export default class ItemMarshaler {
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => list[k] = this.encodeValue(value[k], field));
-        payload[fieldName] = { 'L' : list };
+        payload[fieldName] = { 'L': list };
 
         return;
       }
@@ -60,7 +60,7 @@ export default class ItemMarshaler {
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => map[k] = this.encodeValue(value[k], field));
-        payload[fieldName] = { 'M' : map };
+        payload[fieldName] = { 'M': map };
 
         return;
       }
@@ -80,129 +80,121 @@ export default class ItemMarshaler {
    * @throws {GdbotsPbjException}
    */
   static unmarshal(obj) {
-    return this.doUnmarshal({ 'M' : obj });
+    return this.doUnmarshal({ 'M': obj });
   }
 
   /**
    * @param {Message} message
-   * @param {Field} field
    *
    * @returns {Object}
    */
-  static encodeMessage(message, field) {
-    return {'M' : this.marshal(message)};
+  static encodeMessage(message) {
+    return { 'M': this.marshal(message) };
   }
 
   /**
    * @param {Object} value
-   * @param {Field} field
    *
    * @returns {Message}
    */
-  static decodeMessage(value, field) {
+  static decodeMessage(value) {
     return this.unmarshal(value);
   }
 
   /**
    * @param {MessageRef} messageRef
-   * @param {Field} field
    *
    * @returns {Object}
    */
-  static encodeMessageRef(messageRef, field) {
+  static encodeMessageRef(messageRef) {
     return {
       'M': {
-        'curie': {
-          'S': messageRef.getCurie().toString()
+        curie: {
+          'S': messageRef.getCurie().toString(),
         },
-        'id': {
-          'S': messageRef.getId()
+        id: {
+          'S': messageRef.getId(),
         },
-        'tag': messageRef.hasTag() ? { 'S': messageRef.getTag() } : { 'NULL' : true }
-      }
-    }
+        tag: messageRef.hasTag() ? { 'S': messageRef.getTag() } : { 'NULL': true },
+      },
+    };
   }
 
   /**
    * @param {Object} value
-   * @param {Field} field
    *
    * @returns {MessageRef}
    */
-  static decodeMessageRef(value, field) {
+  static decodeMessageRef(value) {
     const refObject = {
       curie: value['curie']['S'],
       id: value['id']['S'],
-      tag: value['tag']['NULL'] ? null : value['tag']['S']
+      tag: value['tag']['NULL'] ? null : value['tag']['S'],
     };
     return MessageRef.fromObject(refObject);
   }
 
   /**
    * @param {GeoPoint} geoPoint
-   * @param {Field} field
    *
    * @returns {Object}
    */
-  static encodeGeoPoint(geoPoint, field) {
+  static encodeGeoPoint(geoPoint) {
     return {
       'M': {
-        'type' : { 'S' : 'Point' },
-        'coordinates' : {
-          'L' : [
-            { 'N' : geoPoint.getLongitude() },
-            { 'N' : geoPoint.getLatitude() },
-          ]
-        }
-      }
-    }
+        'type': { 'S': 'Point' },
+        'coordinates': {
+          'L': [
+            { 'N': geoPoint.getLongitude() },
+            { 'N': geoPoint.getLatitude() },
+          ],
+        },
+      },
+    };
   }
 
   /**
    * @param {Object} value
-   * @param {Field} field
    *
    * @returns {GeoPoint}
    */
-  static decodeGeoPoint(value, field) {
+  static decodeGeoPoint(value) {
     const obj = {
       type: 'Point',
       coordinates: [
         value['coordinates']['L'][1]['N'],
-        value['coordinates']['L'][0]['N']
-      ]
+        value['coordinates']['L'][0]['N'],
+      ],
     };
     return GeoPoint.fromObject(obj);
   }
 
   /**
    * @param {DynamicField} dynamicField
-   * @param {Field} field
    *
    * @returns {Object}
    */
-  static encodeDynamicField(dynamicField, field) {
+  static encodeDynamicField(dynamicField) {
     return {
-      'M' : {
-        'name' : { 'S' : dynamicField.getName() },
-        [dynamicField.getKind()] : this.encodeValue(dynamicField.getValue(), dynamicField.getField()),
-      }
-    }
+      'M': {
+        'name': { 'S': dynamicField.getName() },
+        [dynamicField.getKind()]: this.encodeValue(dynamicField.getValue(), dynamicField.getField()),
+      },
+    };
   }
 
   /**
    * @param {Object} value
-   * @param {Field} field
    *
    * @returns {DynamicField}
    */
-  static decodeDynamicField(value, field) {
-    let data = {
-      'name' : value['name']['S']
+  static decodeDynamicField(value) {
+    const data = {
+      'name': value['name']['S']
     };
     delete data['name'];
 
-    let kind = value;
+    const kind = value;
     data[kind] = value[kind];
 
     return DynamicField.fromObject(data);
@@ -255,23 +247,21 @@ export default class ItemMarshaler {
 
     if (type.encodesToScalar()) {
       if (type.isString()) {
-        const value = type.encode(value, field, this);
-        if (!value) {
-          return { 'NULL' : true };
-        } else {
-          return { 'S' : value };
+        const strValue = type.encode(value, field, this);
+        if (!strValue) {
+          return { 'NULL': true };
         }
+        return { 'S': strValue };
       } else if (type.isNumeric()) {
-        return { 'N' : type.encode(value, field, this).toString() };
+        return { 'N': type.encode(value, field, this).toString() };
       } else if (type.isBoolean()) {
-        return { 'BOOL' : type.encode(value, field, this) };
+        return { 'BOOL': type.encode(value, field, this) };
       } else if (type.isBinary()) {
-        value = type.encode(value, field, this);
-        if (!value) {
-          return { 'NULL' : true };
-        } else {
-          return { 'B': value };
+        const binValue = type.encode(value, field, this);
+        if (!binValue) {
+          return { 'NULL': true };
         }
+        return { 'B': binValue };
       }
 
       throw new EncodeValueFailed(value, field, 'Unable to encode value');
@@ -295,13 +285,13 @@ export default class ItemMarshaler {
      * a list of maps.
      */
     if (type.getTypeName() === TypeName.MESSAGE_REF) {
-      let list = [];
+      const list = [];
 
-      value.forEach((value, field) => {
-        list.push(type.encode(value, field, this));
+      value.forEach((v, f) => {
+        list.push(type.encode(v, f, this));
       });
 
-      return { 'L' : list };
+      return { 'L': list };
     }
 
     let dynamoType;
@@ -316,15 +306,15 @@ export default class ItemMarshaler {
     }
 
     let result = [];
-    value.forEach((value, field) => {
+    value.forEach((v, f) => {
       if (type.encodesToScalar()) {
-        result.push(type.encode(value, field, this));
+        result.push(type.encode(v, f, this));
       } else {
-        result.push(value);
+        result.push(v);
       }
     });
 
-    let returnObject = {};
+    const returnObject = {};
     returnObject[dynamoType] = result;
 
     return returnObject;
