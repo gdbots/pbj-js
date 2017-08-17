@@ -20,7 +20,7 @@ export default class AbstractStringType extends Type {
 
     // fixme: deal with browsers not having "Buffer" available
     // we must get BYTES, not characters ಠ_ಠ
-    const strLength = 100;
+    const strLength = Buffer.from(value).byteLength;
     const minLength = field.getMinLength();
     const maxLength = clamp(field.getMaxLength(), minLength, this.getMaxBytes());
 

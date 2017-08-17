@@ -1,3 +1,5 @@
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 import AssertionFailed from '../../exceptions/AssertionFailed';
 import EncodeValueFailed from '../../exceptions/EncodeValueFailed';
 import InvalidResolvedSchema from '../../exceptions/InvalidResolvedSchema';
@@ -46,7 +48,7 @@ export default class ItemMarshaler {
       }
 
       if (field.isAList()) {
-        const list = {};
+        const list = [];
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => list[k] = this.encodeValue(value[k], field));
@@ -220,17 +222,54 @@ export default class ItemMarshaler {
       throw new InvalidResolvedSchema(schema, schemaId);
     }
 
-    Object.keys(obj).forEach((fieldName) => {
+    Object.keys(obj.M).forEach((fieldName) => {
       if (!schema.hasField(fieldName)) {
         return;
       }
 
-      const value = obj[fieldName];
-      if ('NULL' === value) {
+      const dynamoType = fieldName[0];
+      const value = fieldName[1];
+      if ('NULL' === dynamoType) {
         message.clear(fieldName);
         return;
       }
 
+      const field = schema.getField(fieldName);
+      const type = field.getType();
+
+      if (field.isASingleValue()) {
+        message.set(fieldName, type.decode(value, field, this));
+        return;
+      }
+
+      if (field.isASet() || field.isAList()) {
+        if (!isArray(value)) {
+          throw new AssertionFailed(`Field [${fieldName}] must be an array.`);
+        }
+
+        const values = [];
+        if ('L' === dynamoType) {
+          //
+        } else {
+          value.forEach(v => values.push(type.decode(v, field, this)));
+        }
+
+        if (field.isASet()) {
+          message.addToSet(fieldName, values);
+        } else {
+          message.addToList(fieldName, values);
+        }
+
+        return;
+      }
+
+      if (!isPlainObject(value)) {
+        throw new AssertionFailed(`Field [${fieldName}] must be an object.`);
+      }
+
+      Object.keys(value).forEach((k) => {
+        message.addToMap(fieldName, k, type.decode(value[k], field, this));
+      });
     });
 
     return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
