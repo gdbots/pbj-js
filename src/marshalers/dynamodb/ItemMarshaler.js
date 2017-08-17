@@ -110,14 +110,14 @@ export default class ItemMarshaler {
    */
   static encodeMessageRef(messageRef) {
     return {
-      'M': {
+      M: {
         curie: {
-          'S': messageRef.getCurie().toString(),
+          S: messageRef.getCurie().toString(),
         },
         id: {
-          'S': messageRef.getId(),
+          S: messageRef.getId(),
         },
-        tag: messageRef.hasTag() ? { 'S': messageRef.getTag() } : { 'NULL': true },
+        tag: messageRef.hasTag() ? { S: messageRef.getTag() } : { 'NULL': true },
       },
     };
   }
@@ -129,9 +129,9 @@ export default class ItemMarshaler {
    */
   static decodeMessageRef(value) {
     const refObject = {
-      curie: value['curie']['S'],
-      id: value['id']['S'],
-      tag: value['tag']['NULL'] ? null : value['tag']['S'],
+      curie: value.M.curie.S,
+      id: value.M.id.S,
+      tag: value.M.tag['NULL'] ? null : value.M.tag.S,
     };
     return MessageRef.fromObject(refObject);
   }
@@ -164,8 +164,8 @@ export default class ItemMarshaler {
     const obj = {
       type: 'Point',
       coordinates: [
-        value['coordinates']['L'][1]['N'],
-        value['coordinates']['L'][0]['N'],
+        value.M.coordinates.L[0].N,
+        value.M.coordinates.L[1].N,
       ],
     };
     return GeoPoint.fromObject(obj);
@@ -192,13 +192,9 @@ export default class ItemMarshaler {
    */
   static decodeDynamicField(value) {
     const data = {
-      'name': value['name']['S']
+      'name': Object.values(value.M)[0].S,
+      [Object.keys(value.M)[1]]: Object.values(Object.values(value.M)[1])[0]
     };
-    delete data['name'];
-
-    const kind = value;
-    data[kind] = value[kind];
-
     return DynamicField.fromObject(data);
   }
 
@@ -210,7 +206,7 @@ export default class ItemMarshaler {
    * @throws {GdbotsPbjException}
    */
   static doUnmarshal(obj) {
-    if (!obj['M']) {
+    if (!obj.M) {
       throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
     }
 
@@ -227,8 +223,9 @@ export default class ItemMarshaler {
         return;
       }
 
-      const dynamoType = fieldName[0];
-      const value = fieldName[1];
+      const dynamoType = Object.keys(obj.M[fieldName])[0];
+      const value = Object.values(obj.M[fieldName])[0];
+
       if ('NULL' === dynamoType) {
         message.clear(fieldName);
         return;
@@ -249,7 +246,7 @@ export default class ItemMarshaler {
 
         const values = [];
         if ('L' === dynamoType) {
-          //
+          value.forEach(v => values.push(type.decode(v.M ? v.M : v, field, this)));
         } else {
           value.forEach(v => values.push(type.decode(v, field, this)));
         }
@@ -263,13 +260,15 @@ export default class ItemMarshaler {
         return;
       }
 
+      if (field.isAMap()) {
+        Object.keys(value).forEach((k) => {
+          message.addToMap(fieldName, k, type.decode(value[k].M, field, this));
+        });
+      }
+
       if (!isPlainObject(value)) {
         throw new AssertionFailed(`Field [${fieldName}] must be an object.`);
       }
-
-      Object.keys(value).forEach((k) => {
-        message.addToMap(fieldName, k, type.decode(value[k], field, this));
-      });
     });
 
     return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
