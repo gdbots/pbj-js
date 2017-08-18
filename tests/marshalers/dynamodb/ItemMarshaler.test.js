@@ -29,13 +29,14 @@ test('ItemMarshaler marshal tests', (t) => {
       mixin_int: { N: '0' },
       test: { S: 'single' },
     } },
-    message_list: { L: [{
+    message_list: {
+      L: [{
         M: {
-        _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
-        mixin_int: { N: '0' },
-        test: { S: 'list' },
-        }
-      }]
+          _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
+          mixin_int: { N: '0' },
+          test: { S: 'list' },
+        },
+      }],
     },
     message_map: { M: {
       test: {
@@ -43,9 +44,9 @@ test('ItemMarshaler marshal tests', (t) => {
           _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
           mixin_int: { N: '0' },
           test: { S: 'map' },
-        }
-      }
-    }},
+        },
+      },
+    } },
   };
 
   t.same(ItemMarshaler.marshal(message), obj);
@@ -75,7 +76,7 @@ test('ItemMarshaler encode/decode Message tests', (t) => {
       _schema: { S: 'pbj:gdbots:pbj.tests::sample-message:1-0-0' },
       mixin_int: { N: '0' },
       string_single: { S: 'test' },
-    }
+    },
   };
 
   t.same(ItemMarshaler.encodeMessage(message), obj);
@@ -86,7 +87,7 @@ test('ItemMarshaler encode/decode Message tests', (t) => {
 
 test('ItemMarshaler encode/decode MessageRef tests', (t) => {
   const obj = { curie: 'acme:blog:node:article', id: '123', tag: 'tag' };
-  const dynamoObj = { M: { curie: { S: "acme:blog:node:article" }, id: { S: "123" }, tag: { S: "tag" } } };
+  const dynamoObj = { M: { curie: { S: 'acme:blog:node:article' }, id: { S: '123' }, tag: { S: 'tag' } } };
   const ref = MessageRef.fromObject(obj);
 
   t.same(ref, ItemMarshaler.decodeMessageRef(dynamoObj));
@@ -100,9 +101,10 @@ test('ItemMarshaler encode/decode GeoPoint tests', (t) => {
   const obj = { type: 'Point', coordinates: [102, 0.5] };
   const dynamoObj = {
     M: { type: { S: 'Point' },
-    coordinates: {
-      L: [ { N: 102 }, { N: 0.5 }, ],
-    }, }
+      coordinates: {
+        L: [{ N: 102 }, { N: 0.5 }],
+      },
+    },
   };
   const geoPoint = GeoPoint.fromObject(obj);
 
@@ -116,8 +118,8 @@ test('ItemMarshaler encode/decode DynamicField tests', (t) => {
   const obj = { name: 'test', bool_val: true };
   const dynamoObj = {
     M: {
-      name: { S: "test" }, bool_val: { "BOOL": true }
-    }
+      name: { S: 'test' }, bool_val: { BOOL: true },
+    },
   };
   const df = DynamicField.fromObject(obj);
 

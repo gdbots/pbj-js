@@ -52,7 +52,7 @@ export default class ItemMarshaler {
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => list[k] = this.encodeValue(value[k], field));
-        payload[fieldName] = { 'L': list };
+        payload[fieldName] = { L: list };
 
         return;
       }
@@ -62,7 +62,7 @@ export default class ItemMarshaler {
 
         // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => map[k] = this.encodeValue(value[k], field));
-        payload[fieldName] = { 'M': map };
+        payload[fieldName] = { M: map };
 
         return;
       }
@@ -82,7 +82,7 @@ export default class ItemMarshaler {
    * @throws {GdbotsPbjException}
    */
   static unmarshal(obj) {
-    return this.doUnmarshal({ 'M': obj });
+    return this.doUnmarshal({ M: obj });
   }
 
   /**
@@ -91,7 +91,7 @@ export default class ItemMarshaler {
    * @returns {Object}
    */
   static encodeMessage(message) {
-    return { 'M': this.marshal(message) };
+    return { M: this.marshal(message) };
   }
 
   /**
@@ -117,7 +117,7 @@ export default class ItemMarshaler {
         id: {
           S: messageRef.getId(),
         },
-        tag: messageRef.hasTag() ? { S: messageRef.getTag() } : { 'NULL': true },
+        tag: messageRef.hasTag() ? { S: messageRef.getTag() } : { NULL: true },
       },
     };
   }
@@ -131,7 +131,7 @@ export default class ItemMarshaler {
     const refObject = {
       curie: value.M.curie.S,
       id: value.M.id.S,
-      tag: value.M.tag['NULL'] ? null : value.M.tag.S,
+      tag: value.M.tag.NULL ? null : value.M.tag.S,
     };
     return MessageRef.fromObject(refObject);
   }
@@ -143,12 +143,12 @@ export default class ItemMarshaler {
    */
   static encodeGeoPoint(geoPoint) {
     return {
-      'M': {
-        'type': { 'S': 'Point' },
-        'coordinates': {
-          'L': [
-            { 'N': geoPoint.getLongitude() },
-            { 'N': geoPoint.getLatitude() },
+      M: {
+        type: { S: 'Point' },
+        coordinates: {
+          L: [
+            { N: geoPoint.getLongitude() },
+            { N: geoPoint.getLatitude() },
           ],
         },
       },
@@ -178,9 +178,10 @@ export default class ItemMarshaler {
    */
   static encodeDynamicField(dynamicField) {
     return {
-      'M': {
-        'name': { 'S': dynamicField.getName() },
-        [dynamicField.getKind()]: this.encodeValue(dynamicField.getValue(), dynamicField.getField()),
+      M: {
+        name: { S: dynamicField.getName() },
+        [dynamicField.getKind()]: this.encodeValue(
+          dynamicField.getValue(), dynamicField.getField()),
       },
     };
   }
@@ -192,8 +193,8 @@ export default class ItemMarshaler {
    */
   static decodeDynamicField(value) {
     const data = {
-      'name': Object.values(value.M)[0].S,
-      [Object.keys(value.M)[1]]: Object.values(Object.values(value.M)[1])[0]
+      name: Object.values(value.M)[0].S,
+      [Object.keys(value.M)[1]]: Object.values(Object.values(value.M)[1])[0],
     };
     return DynamicField.fromObject(data);
   }
@@ -210,7 +211,7 @@ export default class ItemMarshaler {
       throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
     }
 
-    const schemaId = SchemaId.fromString(obj['M'][PBJ_FIELD_NAME]['S']);
+    const schemaId = SchemaId.fromString(obj.M[PBJ_FIELD_NAME].S);
     const message = new (MessageResolver.resolveId(schemaId))();
     const schema = message.schema();
 
@@ -226,7 +227,7 @@ export default class ItemMarshaler {
       const dynamoType = Object.keys(obj.M[fieldName])[0];
       const value = Object.values(obj.M[fieldName])[0];
 
-      if ('NULL' === dynamoType) {
+      if (dynamoType === 'NULL') {
         message.clear(fieldName);
         return;
       }
@@ -245,7 +246,7 @@ export default class ItemMarshaler {
         }
 
         const values = [];
-        if ('L' === dynamoType) {
+        if (dynamoType === 'L') {
           value.forEach(v => values.push(type.decode(v.M ? v.M : v, field, this)));
         } else {
           value.forEach(v => values.push(type.decode(v, field, this)));
@@ -287,19 +288,19 @@ export default class ItemMarshaler {
       if (type.isString()) {
         const strValue = type.encode(value, field, this);
         if (!strValue) {
-          return { 'NULL': true };
+          return { NULL: true };
         }
-        return { 'S': strValue };
+        return { S: strValue };
       } else if (type.isNumeric()) {
-        return { 'N': type.encode(value, field, this).toString() };
+        return { N: type.encode(value, field, this).toString() };
       } else if (type.isBoolean()) {
-        return { 'BOOL': type.encode(value, field, this) };
+        return { BOOL: type.encode(value, field, this) };
       } else if (type.isBinary()) {
         const binValue = type.encode(value, field, this);
         if (!binValue) {
-          return { 'NULL': true };
+          return { NULL: true };
         }
-        return { 'B': binValue };
+        return { B: binValue };
       }
 
       throw new EncodeValueFailed(value, field, 'Unable to encode value');
@@ -329,7 +330,7 @@ export default class ItemMarshaler {
         list.push(type.encode(v, f, this));
       });
 
-      return { 'L': list };
+      return { L: list };
     }
 
     let dynamoType;
@@ -343,7 +344,7 @@ export default class ItemMarshaler {
       throw new EncodeValueFailed(value, field, 'Unable to encode value');
     }
 
-    let result = [];
+    const result = [];
     value.forEach((v, f) => {
       if (type.encodesToScalar()) {
         result.push(type.encode(v, f, this));
