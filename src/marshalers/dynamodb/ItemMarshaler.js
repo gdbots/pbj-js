@@ -129,9 +129,9 @@ export default class ItemMarshaler {
    */
   static decodeMessageRef(value) {
     const refObject = {
-      curie: value.M.curie.S,
-      id: value.M.id.S,
-      tag: value.M.tag.NULL ? null : value.M.tag.S,
+      curie: value.curie.S,
+      id: value.id.S,
+      tag: value.tag.NULL ? null : value.tag.S,
     };
     return MessageRef.fromObject(refObject);
   }
@@ -164,8 +164,8 @@ export default class ItemMarshaler {
     const obj = {
       type: 'Point',
       coordinates: [
-        value.M.coordinates.L[0].N,
-        value.M.coordinates.L[1].N,
+        value.coordinates.L[0].N,
+        value.coordinates.L[1].N,
       ],
     };
     return GeoPoint.fromObject(obj);
@@ -193,8 +193,8 @@ export default class ItemMarshaler {
    */
   static decodeDynamicField(value) {
     const data = {
-      name: Object.values(value.M)[0].S,
-      [Object.keys(value.M)[1]]: Object.values(Object.values(value.M)[1])[0],
+      name: Object.values(value)[0].S,
+      [Object.keys(value)[1]]: Object.values(Object.values(value)[1])[0],
     };
     return DynamicField.fromObject(data);
   }

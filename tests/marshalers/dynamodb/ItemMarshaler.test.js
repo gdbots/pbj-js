@@ -24,11 +24,13 @@ test('ItemMarshaler marshal tests', (t) => {
     string_set: { SS: ['set1', 'set2'] },
     string_list: { L: [{ S: 'list1' }, { S: 'list2' }] },
     string_map: { M: { key1: { S: 'val1' }, key2: { S: 'val2' } } },
-    message_single: { M: {
-      _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
-      mixin_int: { N: '0' },
-      test: { S: 'single' },
-    } },
+    message_single: {
+      M: {
+        _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
+        mixin_int: { N: '0' },
+        test: { S: 'single' },
+      },
+    },
     message_list: {
       L: [{
         M: {
@@ -38,15 +40,17 @@ test('ItemMarshaler marshal tests', (t) => {
         },
       }],
     },
-    message_map: { M: {
-      test: {
-        M: {
-          _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
-          mixin_int: { N: '0' },
-          test: { S: 'map' },
+    message_map: {
+      M: {
+        test: {
+          M: {
+            _schema: { S: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0' },
+            mixin_int: { N: '0' },
+            test: { S: 'map' },
+          },
         },
       },
-    } },
+    },
   };
 
   t.same(ItemMarshaler.marshal(message), obj);
@@ -87,12 +91,12 @@ test('ItemMarshaler encode/decode Message tests', (t) => {
 
 test('ItemMarshaler encode/decode MessageRef tests', (t) => {
   const obj = { curie: 'acme:blog:node:article', id: '123', tag: 'tag' };
-  const dynamoObj = { M: { curie: { S: 'acme:blog:node:article' }, id: { S: '123' }, tag: { S: 'tag' } } };
+  const dynamoObj = { curie: { S: 'acme:blog:node:article' }, id: { S: '123' }, tag: { S: 'tag' } };
   const ref = MessageRef.fromObject(obj);
 
   t.same(ref, ItemMarshaler.decodeMessageRef(dynamoObj));
-  t.same(dynamoObj, ItemMarshaler.encodeMessageRef(ref));
-  t.true(ref.equals(ItemMarshaler.decodeMessageRef(ItemMarshaler.encodeMessageRef(ref))));
+  t.same(dynamoObj, ItemMarshaler.encodeMessageRef(ref).M);
+  t.true(ref.equals(ItemMarshaler.decodeMessageRef(ItemMarshaler.encodeMessageRef(ref).M)));
 
   t.end();
 });
@@ -100,15 +104,14 @@ test('ItemMarshaler encode/decode MessageRef tests', (t) => {
 test('ItemMarshaler encode/decode GeoPoint tests', (t) => {
   const obj = { type: 'Point', coordinates: [102, 0.5] };
   const dynamoObj = {
-    M: { type: { S: 'Point' },
-      coordinates: {
-        L: [{ N: 102 }, { N: 0.5 }],
-      },
+    type: { S: 'Point' },
+    coordinates: {
+      L: [{ N: 102 }, { N: 0.5 }],
     },
   };
   const geoPoint = GeoPoint.fromObject(obj);
 
-  t.same(ItemMarshaler.encodeGeoPoint(geoPoint), dynamoObj);
+  t.same(ItemMarshaler.encodeGeoPoint(geoPoint).M, dynamoObj);
   t.true(geoPoint.equals(ItemMarshaler.decodeGeoPoint(dynamoObj)));
 
   t.end();
@@ -116,14 +119,10 @@ test('ItemMarshaler encode/decode GeoPoint tests', (t) => {
 
 test('ItemMarshaler encode/decode DynamicField tests', (t) => {
   const obj = { name: 'test', bool_val: true };
-  const dynamoObj = {
-    M: {
-      name: { S: 'test' }, bool_val: { BOOL: true },
-    },
-  };
+  const dynamoObj = { name: { S: 'test' }, bool_val: { BOOL: true } };
   const df = DynamicField.fromObject(obj);
 
-  t.same(ItemMarshaler.encodeDynamicField(df), dynamoObj);
+  t.same(ItemMarshaler.encodeDynamicField(df).M, dynamoObj);
   t.true(df.equals(ItemMarshaler.decodeDynamicField(dynamoObj)));
 
   t.end();
