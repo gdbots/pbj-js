@@ -147,7 +147,7 @@ export default class ItemMarshaler {
     return {
       M: {
         type: {
-          S: 'Point'
+          S: 'Point',
         },
         coordinates: {
           L: [
@@ -191,7 +191,9 @@ export default class ItemMarshaler {
         name: {
           S: dynamicField.getName(),
         },
-        [dynamicField.getKind()]: this.encodeValue(dynamicField.getValue(), dynamicField.getField()),
+        [dynamicField.getKind()]: this.encodeValue(
+          dynamicField.getValue(), dynamicField.getField(),
+        ),
       },
     };
   }
@@ -354,6 +356,7 @@ export default class ItemMarshaler {
       throw new EncodeValueFailed(value, field, 'ItemMarshaler.encodeASetValue has no handling for this value.');
     }
 
+    // eslint-disable-next-line no-confusing-arrow
     const result = value.map(v => type.encodesToScalar() ? `${type.encode(v, field, this)}` : `${v}`);
     return { [dynamoType]: result };
   }
