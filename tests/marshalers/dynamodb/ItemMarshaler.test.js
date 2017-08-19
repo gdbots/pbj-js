@@ -106,7 +106,7 @@ test('ItemMarshaler encode/decode GeoPoint tests', (t) => {
   const dynamoObj = {
     type: { S: 'Point' },
     coordinates: {
-      L: [{ N: 102 }, { N: 0.5 }],
+      L: [{ N: '102' }, { N: '0.5' }],
     },
   };
   const geoPoint = GeoPoint.fromObject(obj);
