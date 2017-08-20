@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.0
+* issue #3: Create DynamoDb item marshaler for converting pbj to and from DynamoDb json format.
+
+
 ## v0.1.2
 * issue #4: BUG :: MessageType guard doesn't check mixin curies.
 
