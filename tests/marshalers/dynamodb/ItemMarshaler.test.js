@@ -488,28 +488,51 @@ test('ItemMarshaler encode/decode MessageRef tests', (t) => {
 
 
 test('ItemMarshaler encode/decode GeoPoint tests', (t) => {
+  const field = message.schema().getField('geo_point_single');
   const obj = { type: 'Point', coordinates: [102, 0.5] };
-  const dynamoObj = {
-    type: { S: 'Point' },
-    coordinates: {
-      L: [{ N: '102' }, { N: '0.5' }],
+  const geoPoint = GeoPoint.fromObject(obj);
+  const ddb = {
+    M: {
+      type: {
+        S: 'Point',
+      },
+      coordinates: {
+        L: [
+          {
+            N: '102',
+          },
+          {
+            N: '0.5',
+          },
+        ],
+      },
     },
   };
-  const geoPoint = GeoPoint.fromObject(obj);
 
-  t.same(ItemMarshaler.encodeGeoPoint(geoPoint).M, dynamoObj);
-  t.true(geoPoint.equals(ItemMarshaler.decodeGeoPoint(dynamoObj)));
+  t.same(ItemMarshaler.encodeGeoPoint(geoPoint, field), ddb);
+  t.true(geoPoint.equals(ItemMarshaler.decodeGeoPoint(ddb.M, field)));
 
   t.end();
 });
 
-test('ItemMarshaler encode/decode DynamicField tests', (t) => {
-  const obj = { name: 'test', bool_val: true };
-  const dynamoObj = { name: { S: 'test' }, bool_val: { BOOL: true } };
-  const df = DynamicField.fromObject(obj);
 
-  t.same(ItemMarshaler.encodeDynamicField(df).M, dynamoObj);
-  t.true(df.equals(ItemMarshaler.decodeDynamicField(dynamoObj)));
+test('ItemMarshaler encode/decode DynamicField tests', (t) => {
+  const field = message.schema().getField('dynamic_field_single');
+  const obj = { name: 'test', bool_val: true };
+  const df = DynamicField.fromObject(obj);
+  const ddb = {
+    M: {
+      name: {
+        S: 'test',
+      },
+      bool_val: {
+        BOOL: true,
+      },
+    },
+  };
+
+  t.same(ItemMarshaler.encodeDynamicField(df, field), ddb);
+  t.true(df.equals(ItemMarshaler.decodeDynamicField(ddb.M, field)));
 
   t.end();
 });
