@@ -8,7 +8,7 @@ export default class EncodeValueFailed extends InvalidArgumentException {
    * @param {string} message
    */
   constructor(value, field, message) {
-    super(`Failed to encode [${truncate(value)}] for field [${field.getName()}] to a [${field.getType().getTypeName()}].  ${message}`);
+    super(`Failed to encode [${truncate(value)}] for field [${field.getName()}].  ${message}`);
     this.value = value;
     this.field = field;
   }

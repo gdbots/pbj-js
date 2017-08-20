@@ -322,7 +322,7 @@ export default class ItemMarshaler {
       return { B: binValue };
     }
 
-    throw new EncodeValueFailed(value, field, 'Unable to encode value');
+    throw new EncodeValueFailed(value, field, 'ItemMarshaler.encodeValue has no handling for this type.');
   }
 
   /**
