@@ -54,8 +54,7 @@ export default class ObjectSerializer {
         return;
       }
 
-      payload[fieldName] = [];
-      value.forEach(v => payload[fieldName].push(type.encode(v, field, this)));
+      payload[fieldName] = value.map(v => type.encode(v, field, this));
     });
 
     return payload;
@@ -107,8 +106,7 @@ export default class ObjectSerializer {
           throw new AssertionFailed(`Field [${fieldName}] must be an array.`);
         }
 
-        const values = [];
-        value.forEach(v => values.push(type.decode(v, field, this)));
+        const values = value.map(v => type.decode(v, field, this));
 
         if (field.isASet()) {
           message.addToSet(fieldName, values);

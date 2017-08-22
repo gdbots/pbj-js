@@ -39,6 +39,36 @@ export default class SampleMessageV1 extends Message {
           .asAMap()
         .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
           .build(),
+
+        Fb.create('message_ref_single', T.MessageRefType.create())
+          .build(),
+        Fb.create('message_ref_set', T.MessageRefType.create())
+          .asASet()
+          .build(),
+        Fb.create('message_ref_list', T.MessageRefType.create())
+          .asAList()
+          .build(),
+        Fb.create('message_ref_map', T.MessageRefType.create())
+          .asAMap()
+          .build(),
+
+        Fb.create('geo_point_single', T.GeoPointType.create())
+          .build(),
+        Fb.create('geo_point_list', T.GeoPointType.create())
+          .asAList()
+          .build(),
+        Fb.create('geo_point_map', T.GeoPointType.create())
+          .asAMap()
+          .build(),
+
+        Fb.create('dynamic_field_single', T.DynamicFieldType.create())
+          .build(),
+        Fb.create('dynamic_field_list', T.DynamicFieldType.create())
+          .asAList()
+          .build(),
+        Fb.create('dynamic_field_map', T.DynamicFieldType.create())
+          .asAMap()
+          .build(),
       ],
       [
         SampleMixinV1.create(),

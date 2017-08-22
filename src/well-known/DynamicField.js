@@ -154,7 +154,7 @@ export default class DynamicField {
       throw new AssertionFailed('DynamicField "name" property must be set.');
     }
 
-    const kind = Object.keys(obj).filter(key => key !== 'name').pop();
+    const kind = Object.keys(obj).filter(key => key !== 'name')[0];
 
     try {
       return new DynamicField(obj.name, DynamicFieldKind.create(kind), obj[kind]);

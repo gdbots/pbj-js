@@ -36,22 +36,22 @@ test('Message generateEtag tests', (t) => {
   const msg = SampleMessageV1.create();
 
   msg.set('string_single', '123');
-  t.same(msg.generateEtag(), '691d8ff26b59e53823ab9190624e34ed');
-  t.same(msg.generateEtag(['string_single']), '573915f0765194ff95833311ca5c15c1');
+  t.same(msg.generateEtag(), '9d0600816748afb510bd68627e5df484');
+  t.same(msg.generateEtag(['string_single']), '9183094857c2251db3670c59d26212a6');
 
   msg.set('string_single', ' ice 🍦 poop 💩 doh 😳 ');
-  t.same(msg.generateEtag(), '2114f330e1ce728c47aad9013f84b07c');
+  t.same(msg.generateEtag(), '6d4e4e61b1bdac95e3b87a78b254d4b4');
 
   msg.set('string_single', '✓ à la mode');
-  t.same(msg.generateEtag(), 'ee38a55ab894dbaa551f8870dd9cc4c4');
+  t.same(msg.generateEtag(), '53dc38aaad2b75b87a3745156dd36a27');
 
   msg.set('string_single', 'foo © bar 𝌆 baz');
-  t.same(msg.generateEtag(), 'd6c22aca50a8c30f57e8e40e4d7c400d');
+  t.same(msg.generateEtag(), 'b4bcddc7a06c3554e53e5c8c90603187');
 
   msg.clear('string_single');
-  t.same(msg.generateEtag(), '3362e2cd5e114f9c9bac62666fc05587');
-  t.same(msg.generateEtag(['string_single']), '573915f0765194ff95833311ca5c15c1');
-  t.same(msg.generateEtag(['string_single', 'message_map']), '796d3e61906902c815e1bf67685a45d8');
+  t.same(msg.generateEtag(), '4ea565cf93ee25c06c9f494a6ff64213');
+  t.same(msg.generateEtag(['string_single']), '9183094857c2251db3670c59d26212a6');
+  t.same(msg.generateEtag(['string_single', 'message_map']), '931bb46be6e0cda3e54aeb797da49e15');
 
   t.end();
 });
