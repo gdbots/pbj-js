@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.1
+* issue #7: Create shortcut in Mixin for findOne and findAll.
+
+
 ## v0.2.0
 * issue #3: Create DynamoDb item marshaler for converting pbj to and from DynamoDb json format.
 
