@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import LogicException from './exceptions/LogicException';
+import MessageResolver from './MessageResolver';
 
 /**
  * We store all Mixin instances to accomplish a loose flyweight strategy.
@@ -24,6 +25,54 @@ export default class Mixin {
     }
 
     return instances.get(this);
+  }
+
+  /**
+   * Shortcut to resolving a mixin to one concrete schema.
+   *
+   * @param {?string} inPackage
+   * @param {?string} inCategory
+   *
+   * @returns {Schema}
+   */
+  static findOne(inPackage = null, inCategory = null) {
+    return MessageResolver.findOneUsingMixin(this.create(), inPackage, inCategory);
+  }
+
+  /**
+   * Shortcut to resolving a mixin to one concrete schema.
+   *
+   * @param {?string} inPackage
+   * @param {?string} inCategory
+   *
+   * @returns {Schema}
+   */
+  findOne(inPackage = null, inCategory = null) {
+    return MessageResolver.findOneUsingMixin(this, inPackage, inCategory);
+  }
+
+  /**
+   * Shortcut to resolving a mixin to all concrete schemas.
+   *
+   * @param {?string} inPackage
+   * @param {?string} inCategory
+   *
+   * @returns {Schema[]}
+   */
+  static findAll(inPackage = null, inCategory = null) {
+    return MessageResolver.findAllUsingMixin(this.create(), inPackage, inCategory);
+  }
+
+  /**
+   * Shortcut to resolving a mixin to all concrete schemas.
+   *
+   * @param {?string} inPackage
+   * @param {?string} inCategory
+   *
+   * @returns {Schema[]}
+   */
+  findAll(inPackage = null, inCategory = null) {
+    return MessageResolver.findAllUsingMixin(this, inPackage, inCategory);
   }
 
   /**
