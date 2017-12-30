@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.2
+* Update `peerDependencies` to allow utf8 package versions `^2.1.2 || ^3.0.0`.
+
+
 ## v0.2.1
 * issue #7: Create shortcut in Mixin for findOne and findAll.
 

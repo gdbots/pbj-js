@@ -1,6 +1,6 @@
 {
   "name": "@gdbots/pbj",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pbj library for es6.",
   "repository": {
     "type": "git",
@@ -14,21 +14,23 @@
     "clean": "rimraf ./dist",
     "lint": "BABEL_ENV=cjs eslint src tests",
     "pub": "npm run build && cd dist && npm publish --access public",
-    "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js './tests/**/*.test.js' | faucet"
+    "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js './tests/**/*.test.js' | faucet",
+    "upgrade-all": "jq -r '.dependencies | keys | .[]' package.json | xargs npm install -f",
+    "upgrade-all-dev": "jq -r '.devDependencies | keys | .[]' package.json | xargs npm install -D -f"
   },
   "module": "./index.js",
   "jsnext:main": "./index.js",
   "dependencies": {
     "base-64": "^0.1.0",
-    "bignumber.js": "^4.0.4"
+    "bignumber.js": "^4.1.0"
   },
   "peerDependencies": {
-    "@gdbots/common": "^0.1.0",
+    "@gdbots/common": "~0.1",
     "lodash": "^4.17.4",
     "lodash-es": "^4.17.4",
     "md5": "^2.2.1",
     "moment": "^2.18.1",
-    "utf8": "^2.1.2",
+    "utf8": "^2.1.2 || ^3.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
@@ -36,24 +38,24 @@
     "aws-sdk-mock": "^1.7.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-plugin-lodash": "^3.2.11",
-    "babel-preset-env": "^1.4.0",
+    "babel-plugin-lodash": "^3.3.2",
+    "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
-    "elasticsearch": "^13.0.1",
+    "elasticsearch": "^13.3.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-config-airbnb-base": "^11.3.2",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-react": "^6.10.3",
     "faucet": "^0.0.1",
     "lodash": "^4.17.4",
     "lodash-es": "^4.17.4",
     "md5": "^2.2.1",
-    "moment": "^2.18.1",
+    "moment": "^2.20.1",
     "rimraf": "^2.6.2",
-    "tape": "^4.6.3",
-    "utf8": "^2.1.2",
+    "tape": "^4.8.0",
+    "utf8": "^3.0.0",
     "uuid": "^3.1.0"
   }
 }
