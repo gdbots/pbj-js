@@ -33,11 +33,11 @@ export default class SampleMessageV1 extends Message {
           .build(),
         Fb.create('message_list', T.MessageType.create())
           .asAList()
-        .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
+          .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
           .build(),
         Fb.create('message_map', T.MessageType.create())
           .asAMap()
-        .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
+          .anyOfCuries(['gdbots:pbj.tests::sample-other-message'])
           .build(),
 
         Fb.create('message_ref_single', T.MessageRefType.create())

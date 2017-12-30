@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import Enum from '@gdbots/common/Enum';
 import clamp from 'lodash/clamp';
 import intersection from 'lodash/intersection';

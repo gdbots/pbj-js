@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.3
+* Another round of npm upgrades to REALLY get the major bumps this time.
+
+
 ## v0.2.2
 * Update `peerDependencies` to allow utf8 package versions `^2.1.2 || ^3.0.0`.
 

@@ -15,7 +15,9 @@
     }
   },
   "rules": {
+    "function-paren-newline": "off",
     "jsx-a11y/img-has-alt": "off",
+    "object-curly-newline": "off",
     "react/jsx-space-before-closing": "off"
   }
 }

@@ -51,8 +51,7 @@ const message = SampleMessageV1.create()
     DynamicField.createTextVal('test_text', 'text'),
   ])
   .addToMap('dynamic_field_map', 'test1', DynamicField.createStringVal('test_string', 'string'))
-  .addToMap('dynamic_field_map', 'test2', DynamicField.createIntVal('test_int', 9000))
-;
+  .addToMap('dynamic_field_map', 'test2', DynamicField.createIntVal('test_int', 9000));
 
 
 test('ItemMarshaler marshal/unmarshal tests', (t) => {

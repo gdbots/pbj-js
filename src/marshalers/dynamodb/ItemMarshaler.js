@@ -207,7 +207,7 @@ export default class ItemMarshaler {
   static decodeDynamicField(value, field) {
     const obj = { name: value.name.S };
     const kind = Object.keys(value).filter(key => key !== 'name')[0];
-    obj[kind] = Object.values(value[kind])[0];
+    obj[kind] = Object.values(value[kind])[0]; // eslint-disable-line
     return DynamicField.fromObject(obj);
   }
 
