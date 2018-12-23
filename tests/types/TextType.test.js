@@ -4,6 +4,7 @@ import Type from '../../src/types/Type';
 import Field from '../../src/Field';
 import TextType from '../../src/types/TextType';
 import helpers from './helpers';
+import Format from '../../src/enums/Format';
 
 test('TextType property tests', (t) => {
   const textType = TextType.create();
@@ -40,6 +41,49 @@ test('TextType guard tests', (t) => {
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const valid = ['test', largeText, '(╯°□°)╯︵ ┻━┻', ' ice 🍦 poop 💩 doh 😳 ', 'ಠ_ಠ'];
   const invalid = [-1, 1, `${largeText}b`, true, false, null, [], {}, NaN, undefined];
+  helpers.guardValidSamples(field, valid, t);
+  helpers.guardInvalidSamples(field, invalid, t);
+  t.end();
+});
+
+
+test('TextType guard (format=url) tests', (t) => {
+  const field = new Field({ name: 'test', type: TextType.create(), format: Format.URL });
+  const valid = [
+    'http://www.foo.bar./',
+    'http://userid:password@example.com:8080',
+    'http://userid:password@example.com:8080/',
+    'http://userid@example.com',
+    'http://userid@example.com/',
+    'http://userid@example.com:8080',
+    'http://userid@example.com:80',
+    'http://userid:password@example.com',
+    'http://userid:password@example.com/',
+    'http://142.42.1.1/',
+    'http://127.0.0.1:8080/',
+    'http://foo.com/blah_(wikipedia)#cite-1',
+    'http://foo.com/blah_(wikipedia)_blah#cite-1',
+    'http://foo.com/(something)?after=parens',
+    'http://code.google.com/events/sub/#&product=browser',
+    'http://j.mp',
+  ];
+  const invalid = [
+    'Not A Url',
+    'nope!',
+    '1234',
+    'http://⌘.ws',
+    'http://foo.com/unicode_(✪)_in_parens',
+    'http://☺.damowmow.com/',
+    'htt://shouldfailed.com',
+    'scheme://shouldfailed.com',
+    'emailto:info@example.com',
+    'http://##',
+    'http://##/',
+    'http://foo.bar?q=Spaces should be encoded',
+    '//',
+    '//a',
+    '///a',
+  ];
   helpers.guardValidSamples(field, valid, t);
   helpers.guardInvalidSamples(field, invalid, t);
   t.end();

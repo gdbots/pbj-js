@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, no-else-return */
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import AssertionFailed from '../../exceptions/AssertionFailed';
