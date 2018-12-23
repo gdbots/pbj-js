@@ -25,7 +25,7 @@ export default class BigIntType extends Type {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" cannot be negative.`);
     }
 
-    if (!value.lessThanOrEqualTo('18446744073709551615')) {
+    if (!value.isLessThanOrEqualTo('18446744073709551615')) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" cannot be greater than [18446744073709551615].`);
     }
   }

@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.4
+* Apply same guard rules for all string types so format and pattern are enforced. This is needed because it is very common to need a text field type for a URL due to sizes often being greater than 255 bytes.
+
+
 ## v0.2.3
 * Another round of npm upgrades to REALLY get the major bumps this time.
 

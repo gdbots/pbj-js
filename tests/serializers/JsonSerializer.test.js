@@ -1,6 +1,6 @@
 import test from 'tape';
 import JsonSerializer from '../../src/serializers/JsonSerializer';
-import SampleMessageV1 from './../fixtures/SampleMessageV1';
+import SampleMessageV1 from '../fixtures/SampleMessageV1';
 
 test('JsonSerializer tests', (t) => {
   const message = SampleMessageV1.create()

@@ -21,11 +21,11 @@ export default class SignedBigIntType extends Type {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a BigNumber.`);
     }
 
-    if (!value.greaterThanOrEqualTo('-9223372036854775808')) {
+    if (!value.isGreaterThanOrEqualTo('-9223372036854775808')) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" cannot be less than [-9223372036854775808].`);
     }
 
-    if (!value.lessThanOrEqualTo('9223372036854775807')) {
+    if (!value.isLessThanOrEqualTo('9223372036854775807')) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" cannot be greater than [9223372036854775807].`);
     }
   }
