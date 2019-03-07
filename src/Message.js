@@ -490,7 +490,7 @@ export default class Message {
       throw new AssertionFailed(`Field [${fieldName}] must be a single value.`);
     }
 
-    if (value === null) {
+    if (value === null || value === undefined) {
       return this.clear(fieldName);
     }
 
@@ -764,7 +764,7 @@ export default class Message {
       throw new AssertionFailed(`Field [${fieldName}] must be a map.`);
     }
 
-    if (value === null) {
+    if (value === null || value === undefined) {
       return this.removeFromMap(fieldName, key);
     }
 
