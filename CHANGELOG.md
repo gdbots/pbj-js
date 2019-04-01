@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v0.2.6
+* Allow `IdentifierType` to be 255 bytes, same as `StringType`.
+
+
 ## v0.2.5
 * When setting a field to null or undefined, clear it.
 

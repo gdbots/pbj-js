@@ -85,6 +85,6 @@ export default class IdentifierType extends Type {
    * @returns {number}
    */
   getMaxBytes() {
-    return 100;
+    return 255;
   }
 }
