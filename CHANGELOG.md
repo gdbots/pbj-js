@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v1.0.0
+* Tag first stable version.
+
+
 ## v0.2.6
 * Allow `IdentifierType` to be 255 bytes, same as `StringType`.
 

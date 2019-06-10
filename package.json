@@ -1,6 +1,6 @@
 {
   "name": "@gdbots/pbj",
-  "version": "0.2.6",
+  "version": "1.0.0",
   "description": "Pbj library for es6.",
   "repository": {
     "type": "git",
@@ -20,10 +20,10 @@
   "jsnext:main": "./index.js",
   "dependencies": {
     "base-64": "^0.1.0",
-    "bignumber.js": "^8.1.1"
+    "bignumber.js": "^9.0.0"
   },
   "peerDependencies": {
-    "@gdbots/common": "~0.1",
+    "@gdbots/common": "^1.0",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
     "md5": "^2.2.1",
@@ -32,7 +32,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@gdbots/common": "^0.1.1",
+    "@gdbots/common": "^1.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-lodash": "^3.3.4",
@@ -40,16 +40,16 @@
     "babel-register": "^6.26.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react": "^7.13.0",
     "faucet": "^0.0.1",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
     "md5": "^2.2.1",
     "moment": "^2.24.0",
     "rimraf": "^2.6.3",
-    "tape": "^4.10.1",
+    "tape": "^4.10.2",
     "utf8": "^3.0.0",
     "uuid": "^3.3.2"
   }
