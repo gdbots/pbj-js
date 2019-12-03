@@ -22,7 +22,7 @@ export default class IdentifierType extends Type {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be an Identifier.`);
     }
 
-    if (!(value instanceof field.getClassProto())) {
+    if (value.constructor.name !== field.getClassProto().name) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" was expected to be a "${field.getClassProto().name}".`);
     }
 
@@ -56,7 +56,7 @@ export default class IdentifierType extends Type {
    */
   decode(value, field, codec = null) {
     const expectedProto = field.getClassProto();
-    if (value === null || value instanceof expectedProto) {
+    if (value === null || value.constructor.name === expectedProto) {
       return value;
     }
 

@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v1.0.1
+* Guard against value's constructor name instead of instanceof in `IdentifierType`.
+* Guard against value's `getEnumId` value instead of instanceof in `IntEnumType` and `StringEnumType`.
+
+
 ## v1.0.0
 * Tag first stable version.
 

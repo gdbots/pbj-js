@@ -24,7 +24,7 @@ export default class IntEnumType extends Type {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be an Enum.`);
     }
 
-    if (!(value instanceof field.getClassProto())) {
+    if (value.getEnumId() !== field.getClassProto().getEnumId()) {
       throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value.getEnumId()}" was expected to be "${field.getClassProto().getEnumId()}".`);
     }
 
