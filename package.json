@@ -1,6 +1,6 @@
 {
   "name": "@gdbots/pbj",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Pbj library for es6.",
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
     "bignumber.js": "^9.0.0"
   },
   "peerDependencies": {
-    "@gdbots/common": "^1.0",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
     "md5": "^2.2.1",
@@ -32,7 +31,6 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@gdbots/common": "^1.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-lodash": "^3.3.4",
