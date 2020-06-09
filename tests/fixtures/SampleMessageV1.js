@@ -42,9 +42,6 @@ export default class SampleMessageV1 extends Message {
 
         Fb.create('message_ref_single', T.MessageRefType.create())
           .build(),
-        Fb.create('message_ref_set', T.MessageRefType.create())
-          .asASet()
-          .build(),
         Fb.create('message_ref_list', T.MessageRefType.create())
           .asAList()
           .build(),

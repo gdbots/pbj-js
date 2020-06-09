@@ -5,7 +5,7 @@ import AssertionFailed from '../exceptions/AssertionFailed';
 import InvalidResolvedSchema from '../exceptions/InvalidResolvedSchema';
 import DynamicField from '../well-known/DynamicField';
 import GeoPoint from '../well-known/GeoPoint';
-import MessageRef from '../MessageRef';
+import MessageRef from '../well-known/MessageRef';
 import MessageResolver from '../MessageResolver';
 import { PBJ_FIELD_NAME } from '../Schema';
 import SchemaId from '../SchemaId';
@@ -25,17 +25,11 @@ export default class ObjectSerializer {
     opt = options;
     const schema = message.schema();
     message.validate();
-
     const payload = {};
-    const includeAllFields = opt.includeAllFields || false;
 
     schema.getFields().forEach((field) => {
       const fieldName = field.getName();
       if (!message.has(fieldName)) {
-        if (includeAllFields || message.hasClearedField(fieldName)) {
-          payload[fieldName] = null;
-        }
-
         return;
       }
 
@@ -49,7 +43,6 @@ export default class ObjectSerializer {
 
       if (field.isAMap()) {
         payload[fieldName] = {};
-        // eslint-disable-next-line no-return-assign
         Object.keys(value).forEach(k => payload[fieldName][k] = type.encode(value[k], field, this));
         return;
       }
@@ -70,10 +63,6 @@ export default class ObjectSerializer {
    */
   static deserialize(obj, options = {}) {
     opt = options;
-    if (!obj[PBJ_FIELD_NAME]) {
-      throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
-    }
-
     const schemaId = SchemaId.fromString(obj[PBJ_FIELD_NAME]);
     const message = new (MessageResolver.resolveId(schemaId))();
     const schema = message.schema();

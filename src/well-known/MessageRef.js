@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-escape */
 
 import trim from 'lodash/trim';
-import AssertionFailed from './exceptions/AssertionFailed';
-import SchemaCurie from './SchemaCurie';
+import AssertionFailed from '../exceptions/AssertionFailed';
+import SchemaCurie from '../SchemaCurie';
 
 /**
  * Regular expression pattern for matching a valid id string.

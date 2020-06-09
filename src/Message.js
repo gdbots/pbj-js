@@ -11,7 +11,7 @@ import FrozenMessageIsImmutable from './exceptions/FrozenMessageIsImmutable';
 import LogicException from './exceptions/LogicException';
 import RequiredFieldNotSet from './exceptions/RequiredFieldNotSet';
 import SchemaNotDefined from './exceptions/SchemaNotDefined';
-import MessageRef from './MessageRef';
+import MessageRef from './well-known/MessageRef';
 import Schema, { PBJ_FIELD_NAME } from './Schema';
 import JsonSerializer from './serializers/JsonSerializer';
 import ObjectSerializer from './serializers/ObjectSerializer';
@@ -205,7 +205,7 @@ export default class Message {
    * @returns {string}
    */
   generateEtag(ignoredFields = []) {
-    const obj = ObjectSerializer.serialize(this, { includeAllFields: true });
+    const obj = ObjectSerializer.serialize(this);
     if (!ignoredFields.length) {
       return md5(JSON.stringify(obj));
     }

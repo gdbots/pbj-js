@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this, no-param-reassign */
-import MessageRef from '../../src/MessageRef';
+import MessageRef from '../../src/well-known/MessageRef';
 
 export default function SampleTraitV1(m) {
   return Object.assign(m.prototype, {

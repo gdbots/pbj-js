@@ -2,7 +2,7 @@
 
 import Type from './Type';
 import TypeName from '../enums/TypeName';
-import MessageRef from '../MessageRef';
+import MessageRef from '../well-known/MessageRef';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import DecodeValueFailed from '../exceptions/DecodeValueFailed';
 

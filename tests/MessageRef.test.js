@@ -1,5 +1,5 @@
 import test from 'tape';
-import MessageRef from '../src/MessageRef';
+import MessageRef from '../src/well-known/MessageRef';
 import SchemaCurie from '../src/SchemaCurie';
 
 test('MessageRef tests', (t) => {

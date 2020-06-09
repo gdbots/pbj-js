@@ -2,7 +2,7 @@ import test from 'tape';
 import Fb from '../../src/FieldBuilder';
 import DynamicField from '../../src/well-known/DynamicField';
 import GeoPoint from '../../src/well-known/GeoPoint';
-import MessageRef from '../../src/MessageRef';
+import MessageRef from '../../src/well-known/MessageRef';
 import T from '../../src/types';
 import ObjectSerializer from '../../src/serializers/ObjectSerializer';
 import SampleMessageV1 from '../fixtures/SampleMessageV1';

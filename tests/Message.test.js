@@ -1,7 +1,7 @@
 import test from 'tape';
 import FrozenMessageIsImmutable from '../src/exceptions/FrozenMessageIsImmutable';
 import Message from '../src/Message';
-import MessageRef from '../src/MessageRef';
+import MessageRef from '../src/well-known/MessageRef';
 import SchemaId from '../src/SchemaId';
 import SampleMessageV1 from './fixtures/SampleMessageV1';
 import SampleMessageV2 from './fixtures/SampleMessageV2';
@@ -36,22 +36,22 @@ test('Message generateEtag tests', (t) => {
   const msg = SampleMessageV1.create();
 
   msg.set('string_single', '123');
-  t.same(msg.generateEtag(), '9d0600816748afb510bd68627e5df484');
-  t.same(msg.generateEtag(['string_single']), '9183094857c2251db3670c59d26212a6');
+  t.same(msg.generateEtag(), '66b1c306cef44f5f1160d5f676b26bf7');
+  t.same(msg.generateEtag(['string_single']), '70fc98834fc95677666e5af2caf26dcf');
 
   msg.set('string_single', ' ice 🍦 poop 💩 doh 😳 ');
-  t.same(msg.generateEtag(), '6d4e4e61b1bdac95e3b87a78b254d4b4');
+  t.same(msg.generateEtag(), '2028ec90f537badedbc19b77b091511c');
 
   msg.set('string_single', '✓ à la mode');
-  t.same(msg.generateEtag(), '53dc38aaad2b75b87a3745156dd36a27');
+  t.same(msg.generateEtag(), '8b1ad0f532c594ee05142fa0517f9eab');
 
   msg.set('string_single', 'foo © bar 𝌆 baz');
-  t.same(msg.generateEtag(), 'b4bcddc7a06c3554e53e5c8c90603187');
+  t.same(msg.generateEtag(), 'd07baf4c9f17307d66b599d8c6059b9b');
 
   msg.clear('string_single');
-  t.same(msg.generateEtag(), '4ea565cf93ee25c06c9f494a6ff64213');
-  t.same(msg.generateEtag(['string_single']), '9183094857c2251db3670c59d26212a6');
-  t.same(msg.generateEtag(['string_single', 'message_map']), '931bb46be6e0cda3e54aeb797da49e15');
+  t.same(msg.generateEtag(), '70fc98834fc95677666e5af2caf26dcf');
+  t.same(msg.generateEtag(['string_single']), '70fc98834fc95677666e5af2caf26dcf');
+  t.same(msg.generateEtag(['string_single', 'message_map']), '70fc98834fc95677666e5af2caf26dcf');
 
   t.end();
 });

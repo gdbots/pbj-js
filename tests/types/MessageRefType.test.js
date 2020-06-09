@@ -3,7 +3,7 @@ import TypeName from '../../src/enums/TypeName';
 import Type from '../../src/types/Type';
 import Field from '../../src/Field';
 import MessageRefType from '../../src/types/MessageRefType';
-import MessageRef from '../../src/MessageRef';
+import MessageRef from '../../src/well-known/MessageRef';
 import helpers from './helpers';
 
 test('MessageRefType property tests', (t) => {
@@ -22,7 +22,7 @@ test('MessageRefType property tests', (t) => {
   t.same(messageRefType.isNumeric(), false);
   t.same(messageRefType.isString(), false);
   t.same(messageRefType.isMessage(), false);
-  t.same(messageRefType.allowedInSet(), true);
+  t.same(messageRefType.allowedInSet(), false);
 
   try {
     messageRefType.test = 1;

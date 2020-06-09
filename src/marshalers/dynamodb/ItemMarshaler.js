@@ -6,7 +6,7 @@ import EncodeValueFailed from '../../exceptions/EncodeValueFailed';
 import InvalidResolvedSchema from '../../exceptions/InvalidResolvedSchema';
 import DynamicField from '../../well-known/DynamicField';
 import GeoPoint from '../../well-known/GeoPoint';
-import MessageRef from '../../MessageRef';
+import MessageRef from '../../well-known/MessageRef';
 import MessageResolver from '../../MessageResolver';
 import { PBJ_FIELD_NAME } from '../../Schema';
 import SchemaId from '../../SchemaId';

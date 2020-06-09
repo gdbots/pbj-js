@@ -1,7 +1,7 @@
 import test from 'tape';
 import DynamicField from '../../../src/well-known/DynamicField';
 import GeoPoint from '../../../src/well-known/GeoPoint';
-import MessageRef from '../../../src/MessageRef';
+import MessageRef from '../../../src/well-known/MessageRef';
 import ItemMarshaler from '../../../src/marshalers/dynamodb/ItemMarshaler';
 import SampleMessageV1 from '../../fixtures/SampleMessageV1';
 import SampleOtherMessageV1 from '../../fixtures/SampleOtherMessageV1';
@@ -23,10 +23,6 @@ const message = SampleMessageV1.create()
   .addToMap('message_map', 'test2', SampleOtherMessageV1.create().set('test', 'map_item2'))
 
   .set('message_ref_single', MessageRef.fromString('acme:blog:node:article:id1#tag'))
-  .addToSet('message_ref_set', [
-    MessageRef.fromString('acme:blog:node:article:set_id1'),
-    MessageRef.fromString('acme:blog:node:article:set_id2'),
-  ])
   .addToList('message_ref_list', [
     MessageRef.fromString('acme:blog:node:article:list_id1'),
     MessageRef.fromString('acme:blog:node:article:list_id2'),
@@ -176,36 +172,6 @@ test('ItemMarshaler marshal/unmarshal tests', (t) => {
           S: 'tag',
         },
       },
-    },
-    message_ref_set: {
-      L: [
-        {
-          M: {
-            curie: {
-              S: 'acme:blog:node:article',
-            },
-            id: {
-              S: 'set_id1',
-            },
-            tag: {
-              NULL: true,
-            },
-          },
-        },
-        {
-          M: {
-            curie: {
-              S: 'acme:blog:node:article',
-            },
-            id: {
-              S: 'set_id2',
-            },
-            tag: {
-              NULL: true,
-            },
-          },
-        },
-      ],
     },
     message_ref_list: {
       L: [
