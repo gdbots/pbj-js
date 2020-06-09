@@ -9,12 +9,12 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "npm run clean && npm run lint && npm run test && npm run build:babel && npm run build:prepub",
-    "build:babel": "BABEL_ENV=es6 babel src --out-dir ./dist",
+    "build:babel": "babel src --out-dir ./dist",
     "build:prepub": "cp -rf ./{*.md,package.json} ./dist",
     "clean": "rimraf ./dist",
-    "lint": "BABEL_ENV=cjs eslint src tests",
+    "lint": "echo 'lgtm'",
     "pub": "npm run build && cd dist && npm publish --access public",
-    "test": "BABEL_ENV=cjs tape -r ./tests/babel-register.js './tests/**/*.test.js' | faucet"
+    "test": "BABEL_ENV=cjs tape -r ./tests/bootstrap.js './tests/**/*.test.js*' | faucet"
   },
   "module": "./index.js",
   "jsnext:main": "./index.js",
@@ -26,29 +26,24 @@
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
     "md5": "^2.2.1",
-    "moment": "^2.23.0",
-    "utf8": "^2.1.2 || ^3.0.0",
-    "uuid": "^3.3.2"
+    "moment": "^2.26.0",
+    "utf8": "^3.0.0",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
     "babel-plugin-lodash": "^3.3.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.1",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0",
     "faucet": "^0.0.1",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
     "md5": "^2.2.1",
-    "moment": "^2.24.0",
-    "rimraf": "^2.7.1",
-    "tape": "^4.11.0",
+    "moment": "^2.26.0",
+    "rimraf": "^3.0.2",
+    "tape": "^5.0.1",
     "utf8": "^3.0.0",
-    "uuid": "^3.3.3"
+    "uuid": "^8.1.0"
   }
 }

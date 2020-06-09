@@ -1,19 +1,19 @@
 /* eslint-disable max-len, no-unused-vars, no-useless-escape */
 
-import isValidEmail from '@gdbots/common/isValidEmail';
-import isValidHashtag from '@gdbots/common/isValidHashtag';
-import isValidHostname from '@gdbots/common/isValidHostname';
-import isValidIpv4 from '@gdbots/common/isValidIpv4';
-import isValidIpv6 from '@gdbots/common/isValidIpv6';
-import isValidISO8601Date from '@gdbots/common/isValidISO8601Date';
-import isValidUri from '@gdbots/common/isValidUri';
-import isValidUrl from '@gdbots/common/isValidUrl';
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';
 import trim from 'lodash/trim';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import Format from '../enums/Format';
 import Type from './Type';
+import isValidEmail from '../utils/isValidEmail';
+import isValidHashtag from '../utils/isValidHashtag';
+import isValidHostname from '../utils/isValidHostname';
+import isValidIpv4 from '../utils/isValidIpv4';
+import isValidIpv6 from '../utils/isValidIpv6';
+import isValidISO8601Date from '../utils/isValidISO8601Date';
+import isValidUri from '../utils/isValidUri';
+import isValidUrl from '../utils/isValidUrl';
 
 export default class AbstractStringType extends Type {
   /**
@@ -68,7 +68,7 @@ export default class AbstractStringType extends Type {
         break;
 
       case Format.SLUG:
-        // note that this format is less restrictive than "isValidSlug" function from @gdbots/common.
+        // note that this format is less restrictive than "isValidSlug" function from ../utils/.
         // This is intentional as not everyone is as strict with slug formats.  for example, youtube
         // "slugs" contain both upper and lower case characters and underscores and hyphens.
         if (!/^([\w\/-]|[\w-][\w\/-]*[\w-])$/.test(value)) {

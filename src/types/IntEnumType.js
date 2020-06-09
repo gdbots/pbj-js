@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this, no-unused-vars */
 
-import Enum from '@gdbots/common/Enum';
+import Enum from '../Enum';
 import isSafeInteger from 'lodash/isSafeInteger';
 import toSafeInteger from 'lodash/toSafeInteger';
 import Type from './Type';

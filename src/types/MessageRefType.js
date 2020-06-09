@@ -70,4 +70,11 @@ export default class MessageRefType extends Type {
   encodesToScalar() {
     return false;
   }
+
+  /**
+   * @returns {boolean}
+   */
+  allowedInSet() {
+    return false;
+  }
 }

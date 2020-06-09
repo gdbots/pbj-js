@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import { v1 as uuidv1 } from 'uuid';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import UuidIdentifier from './UuidIdentifier';
 
@@ -20,6 +20,6 @@ export default class TimeUuidIdentifier extends UuidIdentifier {
    * @returns {TimeUuidIdentifier}
    */
   static generate() {
-    return new this(uuid.v1());
+    return new this(uuidv1());
   }
 }

@@ -1,5 +1,5 @@
-import createSlug from '@gdbots/common/createSlug';
-import isValidSlug from '@gdbots/common/isValidSlug';
+import createSlug from '../utils/createSlug';
+import isValidSlug from '../utils/isValidSlug';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import Identifier from './Identifier';
 

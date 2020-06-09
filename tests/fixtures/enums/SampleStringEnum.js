@@ -1,4 +1,4 @@
-import Enum from '@gdbots/common/Enum';
+import Enum from '../../../src/Enum';
 
 export default class SampleStringEnum extends Enum {
 }

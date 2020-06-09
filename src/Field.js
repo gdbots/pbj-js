@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import Enum from '@gdbots/common/Enum';
+import Enum from './Enum';
 import clamp from 'lodash/clamp';
 import intersection from 'lodash/intersection';
 import isArray from 'lodash/isArray';

@@ -2,7 +2,7 @@
 
 import isSafeInteger from 'lodash/isSafeInteger';
 import toSafeInteger from 'lodash/toSafeInteger';
-import isValidTimestamp from '@gdbots/common/isValidTimestamp';
+import isValidTimestamp from '../utils/isValidTimestamp';
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import AssertionFailed from '../exceptions/AssertionFailed';
