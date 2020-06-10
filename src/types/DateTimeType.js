@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import moment from 'moment';
 import isValidISO8601Date from '../utils/isValidISO8601Date';
 import Type from './Type';

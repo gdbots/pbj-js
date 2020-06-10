@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 /**
  * We store all Type instances to accomplish a loose flyweight strategy.
  * Loose because we're not strictly enforcing it, but internally in this

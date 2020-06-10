@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import isBoolean from 'lodash/isBoolean';
 import toLower from 'lodash/toLower';
 import trim from 'lodash/trim';

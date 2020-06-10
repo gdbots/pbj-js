@@ -22,6 +22,9 @@ test('MessageResolver all tests', async (t) => {
   t.true(all.includes(SampleMessageV1));
   t.true(all.includes(SampleMessageV2));
   t.true(all.includes(SampleOtherMessageV1));
+  t.same(MessageResolver.getDefaultVendor(), '');
+  MessageResolver.setDefaultVendor('acme');
+  t.same(MessageResolver.getDefaultVendor(), 'acme');
 
   t.end();
 });
@@ -65,19 +68,19 @@ test('MessageResolver resolveCurie tests', async (t) => {
 });
 
 
-test('MessageResolver resolveQName tests', (t) => {
-  let curie = MessageResolver.resolveQName('gdbots:sample-message');
-  t.true(curie === SchemaCurie.fromString('gdbots:pbj.tests::sample-message'));
+test('MessageResolver resolveQName tests', async (t) => {
+  let message = await MessageResolver.resolveQName('gdbots:sample-message');
+  t.true(message === SampleMessageV2);
   t.true(MessageResolver.hasQName('gdbots:sample-message'));
 
-  curie = MessageResolver.resolveQName('gdbots:sample-other-message');
-  t.true(curie === SchemaCurie.fromString('gdbots:pbj.tests::sample-other-message'));
+  message = await MessageResolver.resolveQName('gdbots:sample-other-message');
+  t.true(message === SampleOtherMessageV1);
   t.true(MessageResolver.hasQName('gdbots:sample-other-message'));
 
   t.false(MessageResolver.hasQName('gdbots:invalid-message'));
 
   try {
-    MessageResolver.resolveQName('gdbots:invalid-message');
+    await MessageResolver.resolveQName('gdbots:invalid-message');
     t.fail('resolved invalid SchemaQName');
   } catch (e) {
     t.true(e instanceof NoMessageForQName, 'Exception MUST be an instanceOf NoMessageForQName');
@@ -122,22 +125,26 @@ test('MessageResolver findOneUsingMixin tests', async (t) => {
 test('MessageResolver findAllUsingMixin tests', async (t) => {
   let mixin = 'gdbots:pbj.tests:mixin:many:v1';
   let curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.true(await MessageResolver.hasAnyUsingMixin(mixin));
   t.same(2, curies.length);
   t.same(curies[0], 'gdbots:pbj.tests::sample-message:v1');
   t.same(curies[1], 'gdbots:pbj.tests::sample-other-message:v1');
 
   curies = await MessageResolver.findAllUsingMixin(mixin, false);
+  t.true(await MessageResolver.hasAnyUsingMixin(mixin));
   t.same(2, curies.length);
   t.same(curies[0], 'gdbots:pbj.tests::sample-message');
   t.same(curies[1], 'gdbots:pbj.tests::sample-other-message');
 
   mixin = 'gdbots:pbj.tests:mixin:one:v1';
   curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.true(await MessageResolver.hasAnyUsingMixin(mixin));
   t.same(1, curies.length);
   t.same(curies[0], 'gdbots:pbj.tests::sample-message:v2');
 
   mixin = 'gdbots:pbj.tests:mixin:none:v1';
   curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.false(await MessageResolver.hasAnyUsingMixin(mixin));
   t.same(0, curies.length);
 
   t.end();

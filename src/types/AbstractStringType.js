@@ -1,5 +1,3 @@
-/* eslint-disable max-len, no-unused-vars, no-useless-escape */
-
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';
 import trim from 'lodash/trim';

@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 import AbstractStringType from './AbstractStringType';
 import TypeName from '../enums/TypeName';
 

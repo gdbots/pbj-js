@@ -12,7 +12,7 @@ let defaultVendor = '';
 let manifestResolver = () => false;
 
 /**
- * An object of all the available schemas keyed by a curie major.
+ * An object of all the available schemas keyed by a curie.
  * The values are dynamic imports.
  *
  * @type {Object}
@@ -20,7 +20,7 @@ let manifestResolver = () => false;
 const messages = {};
 
 /**
- * A object of resolved lookups by qname.
+ * A object of SchemaCurie instances resolved lookups by qname.
  *
  * @type {Object}
  */
@@ -142,7 +142,7 @@ export default class MessageResolver {
    */
   static hasQName(qname) {
     try {
-      this.resolveQName(qname);
+      this.findCurieByQName(qname);
     } catch (e) {
       return false;
     }
@@ -151,15 +151,26 @@ export default class MessageResolver {
   }
 
   /**
-   * Returns the SchemaCurie for the given SchemaQName.
+   * Returns the Message for the given SchemaQName.
    *
+   * @param {SchemaQName|string} qname
+   *
+   * @returns {Message}
+   *
+   * @throws {NoMessageForQName}
+   */
+  static async resolveQName(qname) {
+    return this.resolveCurie(this.findCurieByQName(qname));
+  }
+
+  /**
    * @param {SchemaQName|string} qname
    *
    * @returns {SchemaCurie}
    *
    * @throws {NoMessageForQName}
    */
-  static resolveQName(qname) {
+  static findCurieByQName(qname) {
     let realQname = qname;
     if (isString(qname)) {
       realQname = SchemaQName.fromString(qname.replace('*', defaultVendor));
@@ -183,6 +194,18 @@ export default class MessageResolver {
     }
 
     throw new NoMessageForQName(realQname);
+  }
+
+  /**
+   * Return true if any messages are using the provided mixin (a curie major).
+   *
+   * @param {string} mixin
+   *
+   * @returns {boolean}
+   */
+  static async hasAnyUsingMixin(mixin) {
+    const curies = await this.findAllUsingMixin(mixin);
+    return curies.length > 0;
   }
 
   /**

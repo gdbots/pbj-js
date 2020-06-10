@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
 import isArray from 'lodash/isArray';
 import isBoolean from 'lodash/isBoolean';
 import isEmpty from 'lodash/isEmpty';
@@ -12,6 +11,7 @@ import LogicException from './exceptions/LogicException';
 import RequiredFieldNotSet from './exceptions/RequiredFieldNotSet';
 import SchemaNotDefined from './exceptions/SchemaNotDefined';
 import MessageRef from './well-known/MessageRef';
+import NodeRef from './well-known/NodeRef';
 import Schema, { PBJ_FIELD_NAME } from './Schema';
 import JsonSerializer from './serializers/JsonSerializer';
 import ObjectSerializer from './serializers/ObjectSerializer';
@@ -70,7 +70,6 @@ function populateDefault(message, field) {
 
   if (field.isASingleValue()) {
     msg.data.set(fieldName, defaultValue);
-    msg.clearedFields.delete(fieldName);
     return true;
   }
 
@@ -84,7 +83,6 @@ function populateDefault(message, field) {
   }
 
   msg.data.set(fieldName, defaultValue);
-  msg.clearedFields.delete(fieldName);
   return true;
 }
 
@@ -96,15 +94,6 @@ export default class Message {
     msgs.set(this, {
       /** @var {Map} */
       data: new Map(),
-
-      /**
-       * A set of fields that have been cleared or set to null that
-       * must be included when serialized so it's clear that the
-       * value has been unset.
-       *
-       * @var {Set}
-       */
-      clearedFields: new Set(),
 
       /**
        * @see Message.freeze
@@ -190,7 +179,6 @@ export default class Message {
    */
   static async fromObject(obj = {}) {
     if (!obj[PBJ_FIELD_NAME]) {
-      // eslint-disable-next-line no-param-reassign
       obj[PBJ_FIELD_NAME] = this.schema().getId().toString();
     }
 
@@ -223,7 +211,16 @@ export default class Message {
    * @returns {MessageRef}
    */
   generateMessageRef(tag = null) {
-    throw new LogicException('You must implement "generateMessageRef" in your schema.');
+    return new MessageRef(this.schema().getCurie(), 'null', tag);
+  }
+
+  /**
+   * Generates a NodeRef of the current message.
+   *
+   * @returns {NodeRef}
+   */
+  generateNodeRef() {
+    return NodeRef.fromNode(this);
   }
 
   /**
@@ -240,38 +237,81 @@ export default class Message {
   }
 
   /**
-   * Verifies all required fields have been populated.
-   * todo: recursively validate nested messages?
+   * Verifies all required fields have been populated and when
+   * using strict mode will run the guard check on all fields.
+   *
+   * NOTE: This interface matches php lib but js at this time
+   * doesn't have the potential for data to not be valid so
+   * the guard check is not needed. Kept here because we may
+   * do a similar optimized serialization method for js too.
+   *
+   * @param {boolean} strict
+   * @param {boolean} recursive
    *
    * @returns {Message}
    *
    * @throws {RequiredFieldNotSet}
    */
-  validate() {
+  validate(strict = false, recursive = false) {
+    if (!strict && this.isFrozen()) {
+      return this;
+    }
+
     this.schema().getRequiredFields().forEach((field) => {
       if (!this.has(field.getName())) {
         throw new RequiredFieldNotSet(this, field);
       }
     });
 
+    if (!recursive) {
+      return this;
+    }
+
+    this.schema().getFields().forEach((field) => {
+      if (!field.getType().isMessage()) {
+        return;
+      }
+
+      /** @var {Message|Message[]} value */
+      const value = this.get(field.getName());
+      if (value instanceof Message) {
+        value.validate(strict, recursive);
+        return;
+      }
+
+      if (isEmpty(value)) {
+        return;
+      }
+
+      if (field.isAMap()) {
+        Object.keys(value).forEach(k => value[k].validate(strict, recursive));
+        return;
+      }
+
+      value.forEach(m => m.validate(strict, recursive));
+    });
+
     return this;
   }
 
   /**
-   * Freezes the message, making it immutable.  The message must be valid
+   * Freezes the message, making it immutable.  The message must be validated
    * before it can be frozen so this may throw an exception if some required
-   * fields have not been populated.
+   * fields have not been populated. Using strict validation will also ensure
+   * the value has been guarded by the field and type constraints.
+   *
+   * @param {boolean} withStrictValidation
    *
    * @returns {Message}
    *
    * @throws {RequiredFieldNotSet}
    */
-  freeze() {
+  freeze(withStrictValidation = true) {
     if (this.isFrozen()) {
       return this;
     }
 
-    this.validate();
+    this.validate(withStrictValidation);
     const msg = msgs.get(this);
     msg.isFrozen = true;
 
@@ -283,7 +323,7 @@ export default class Message {
       /** @var {Message|Message[]} value */
       const value = this.get(field.getName());
       if (value instanceof Message) {
-        value.freeze();
+        value.freeze(withStrictValidation);
         return;
       }
 
@@ -292,11 +332,11 @@ export default class Message {
       }
 
       if (field.isAMap()) {
-        Object.keys(value).forEach(k => value[k].freeze());
+        Object.keys(value).forEach(k => value[k].freeze(withStrictValidation));
         return;
       }
 
-      value.forEach(m => m.freeze());
+      value.forEach(m => m.freeze(withStrictValidation));
     });
 
     return this;
@@ -432,7 +472,7 @@ export default class Message {
 
     // maps must return as a plain object.
     const obj = {};
-    msg.data.get(fieldName).forEach((v, k) => obj[k] = v); // eslint-disable-line no-return-assign
+    msg.data.get(fieldName).forEach((v, k) => obj[k] = v);
     return obj;
   }
 
@@ -448,29 +488,8 @@ export default class Message {
     const field = this.schema().getField(fieldName);
     const msg = msgs.get(this);
     msg.data.delete(fieldName);
-    msg.clearedFields.add(fieldName);
     populateDefault(this, field);
     return this;
-  }
-
-  /**
-   * Returns true if the field has been cleared.
-   *
-   * @param {string} fieldName
-   *
-   * @returns {boolean}
-   */
-  hasClearedField(fieldName) {
-    return msgs.get(this).clearedFields.has(fieldName);
-  }
-
-  /**
-   * Returns an array of field names that have been cleared.
-   *
-   * @returns {string[]}
-   */
-  getClearedFields() {
-    return Array.from(msgs.get(this).clearedFields.values());
   }
 
   /**
@@ -497,7 +516,6 @@ export default class Message {
     field.guardValue(value);
     const msg = msgs.get(this);
     msg.data.set(fieldName, value);
-    msg.clearedFields.delete(fieldName);
 
     return this;
   }
@@ -558,10 +576,6 @@ export default class Message {
       store.set(key.toLowerCase(), value);
     });
 
-    if (store.size) {
-      msg.clearedFields.delete(fieldName);
-    }
-
     return this;
   }
 
@@ -584,7 +598,6 @@ export default class Message {
 
     const msg = msgs.get(this);
     if (!msg.data.has(fieldName)) {
-      msg.clearedFields.add(fieldName);
       return this;
     }
 
@@ -601,7 +614,6 @@ export default class Message {
 
     if (!store.size) {
       msg.data.delete(fieldName);
-      msg.clearedFields.add(fieldName);
     }
 
     return this;
@@ -672,10 +684,6 @@ export default class Message {
       store.push(value);
     });
 
-    if (store.length) {
-      msg.clearedFields.delete(fieldName);
-    }
-
     return this;
   }
 
@@ -698,7 +706,6 @@ export default class Message {
 
     const msg = msgs.get(this);
     if (!msg.data.has(fieldName)) {
-      msg.clearedFields.add(fieldName);
       return this;
     }
 
@@ -707,7 +714,6 @@ export default class Message {
 
     if (!store.length) {
       msg.data.delete(fieldName);
-      msg.clearedFields.add(fieldName);
     }
 
     return this;
@@ -776,7 +782,6 @@ export default class Message {
     const store = msg.data.get(fieldName);
     field.guardValue(value);
     store.set(key, value);
-    msg.clearedFields.delete(fieldName);
 
     return this;
   }
@@ -800,7 +805,6 @@ export default class Message {
 
     const msg = msgs.get(this);
     if (!msg.data.has(fieldName)) {
-      msg.clearedFields.add(fieldName);
       return this;
     }
 
@@ -809,7 +813,6 @@ export default class Message {
 
     if (!store.size) {
       msg.data.delete(fieldName);
-      msg.clearedFields.add(fieldName);
     }
 
     return this;

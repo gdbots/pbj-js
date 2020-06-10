@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import isFinite from 'lodash/isFinite';
 import toFinite from 'lodash/toFinite';
 import Type from './Type';

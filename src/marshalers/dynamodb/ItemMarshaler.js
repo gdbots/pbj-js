@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars, no-else-return */
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import AssertionFailed from '../../exceptions/AssertionFailed';
@@ -204,7 +203,7 @@ export default class ItemMarshaler {
   static decodeDynamicField(value, field) {
     const obj = { name: value.name.S };
     const kind = Object.keys(value).filter(key => key !== 'name')[0];
-    obj[kind] = Object.values(value[kind])[0]; // eslint-disable-line
+    obj[kind] = Object.values(value[kind])[0];
     return DynamicField.fromObject(obj);
   }
 

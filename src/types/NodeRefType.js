@@ -1,12 +1,12 @@
 import Type from './Type';
 import TypeName from '../enums/TypeName';
-import UuidIdentifier from '../well-known/UuidIdentifier';
+import NodeRef from '../well-known/NodeRef';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import DecodeValueFailed from '../exceptions/DecodeValueFailed';
 
-export default class UuidType extends Type {
+export default class NodeRefType extends Type {
   constructor() {
-    super(TypeName.UUID);
+    super(TypeName.NODE_REF);
   }
 
   /**
@@ -16,12 +16,8 @@ export default class UuidType extends Type {
    * @throws {AssertionFailed}
    */
   guard(value, field) {
-    if (!(value instanceof UuidIdentifier)) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a UuidIdentifier.`);
-    }
-
-    if (field.hasClassProto() && !(value instanceof field.getClassProto())) {
-      throw new AssertionFailed(`Field [${field.getName()}] :: Value "${value}" was expected to be a "${field.getClassProto().name}".`);
+    if (!(value instanceof NodeRef)) {
+      throw new AssertionFailed(`Field [${field.getName()}] :: Value [${JSON.stringify(value)}] was expected to be a NodeRef.`);
     }
   }
 
@@ -33,7 +29,7 @@ export default class UuidType extends Type {
    * @returns {?string}
    */
   encode(value, field, codec = null) {
-    if (value instanceof UuidIdentifier) {
+    if (value instanceof NodeRef) {
       return value.toString();
     }
 
@@ -45,16 +41,15 @@ export default class UuidType extends Type {
    * @param {Field} field
    * @param {Object} [codec]
    *
-   * @returns {?UuidIdentifier}
+   * @returns {?NodeRef}
    */
   decode(value, field, codec = null) {
-    const expectedProto = field.hasClassProto() ? field.getClassProto() : UuidIdentifier;
-    if (value === null || value instanceof expectedProto) {
+    if (value === null || value instanceof NodeRef) {
       return value;
     }
 
     try {
-      return expectedProto.fromString(`${value}`);
+      return NodeRef.fromString(`${value}`);
     } catch (e) {
       throw new DecodeValueFailed(value, field, e.message);
     }
@@ -65,13 +60,6 @@ export default class UuidType extends Type {
    */
   isScalar() {
     return false;
-  }
-
-  /**
-   * @returns {UuidIdentifier}
-   */
-  getDefault() {
-    return UuidIdentifier.generate();
   }
 
   /**

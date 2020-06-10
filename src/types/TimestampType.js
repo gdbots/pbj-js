@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import isSafeInteger from 'lodash/isSafeInteger';
 import toSafeInteger from 'lodash/toSafeInteger';
 import isValidTimestamp from '../utils/isValidTimestamp';

@@ -6,8 +6,6 @@ test('Message string_list tests', (t) => {
   const msg = SampleMessageV1.create();
 
   t.false(msg.has('string_list'));
-  t.false(msg.hasClearedField('string_list'));
-
   msg.addToList('string_list', ['test1', 'test2']);
   t.true(msg.has('string_list'));
   t.same(msg.get('string_list'), ['test1', 'test2']);
@@ -51,8 +49,6 @@ test('Message string_list tests', (t) => {
   msg.removeFromListAt('string_list', 0);
   t.same(msg.getFromListAt('string_list', 0), 'test1');
   msg.removeFromListAt('string_list', 0);
-  t.true(msg.hasClearedField('string_list'));
-  t.same(msg.getClearedFields(), ['string_list']);
   t.same(msg.get('string_list', ['what']), ['what']);
 
   msg.addToList('string_list', ['test1', 'test2']);
@@ -75,8 +71,6 @@ test('Message message_list tests', (t) => {
   const otherMsg3 = SampleOtherMessageV1.create().set('test', 'test3');
 
   t.false(msg.has('message_list'));
-  t.false(msg.hasClearedField('message_list'));
-
   msg.addToList('message_list', [otherMsg1, otherMsg2]);
   t.true(msg.has('message_list'));
   t.same(msg.get('message_list'), [otherMsg1, otherMsg2]);
@@ -120,8 +114,6 @@ test('Message message_list tests', (t) => {
   msg.removeFromListAt('message_list', 0);
   t.same(msg.getFromListAt('message_list', 0), otherMsg1);
   msg.removeFromListAt('message_list', 0);
-  t.true(msg.hasClearedField('message_list'));
-  t.same(msg.getClearedFields(), ['message_list']);
   t.same(msg.get('message_list', ['what']), ['what']);
 
   msg.addToList('message_list', [otherMsg1, otherMsg2]);

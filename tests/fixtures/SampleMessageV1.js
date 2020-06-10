@@ -48,6 +48,18 @@ export default class SampleMessageV1 extends Message {
           .asAMap()
           .build(),
 
+        Fb.create('node_ref_single', T.NodeRefType.create())
+          .build(),
+        Fb.create('node_ref_set', T.NodeRefType.create())
+          .asASet()
+          .build(),
+        Fb.create('node_ref_list', T.NodeRefType.create())
+          .asAList()
+          .build(),
+        Fb.create('node_ref_map', T.NodeRefType.create())
+          .asAMap()
+          .build(),
+
         Fb.create('geo_point_single', T.GeoPointType.create())
           .build(),
         Fb.create('geo_point_list', T.GeoPointType.create())

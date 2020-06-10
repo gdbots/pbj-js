@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Enum from '../Enum';
 import isString from 'lodash/isString';
 import Type from './Type';

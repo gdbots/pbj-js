@@ -19,7 +19,7 @@ test('Schema tests', (t) => {
   t.same(`${schema.getCurie()}`, 'gdbots:pbj.tests::sample-message');
   t.same(`${schema.getCurieMajor()}`, 'gdbots:pbj.tests::sample-message:v1');
   t.same(`${schema.getQName()}`, 'gdbots:sample-message');
-  t.same(schema.getFields().length, 19, 'schema should have 19 fields');
+  t.same(schema.getFields().length, 23, 'schema should have 23 fields');
   t.same(schema.getClassName(), 'SampleMessageV1');
   t.same(schema.getHandlerMethodName(), 'sampleMessageV1');
   t.same(schema.getHandlerMethodName(false), 'sampleMessage');

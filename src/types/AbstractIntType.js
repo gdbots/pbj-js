@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import clamp from 'lodash/clamp';
 import isSafeInteger from 'lodash/isSafeInteger';
 import toSafeInteger from 'lodash/toSafeInteger';

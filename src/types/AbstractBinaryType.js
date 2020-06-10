@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import base64 from 'base-64';
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';

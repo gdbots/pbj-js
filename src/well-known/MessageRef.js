@@ -1,5 +1,3 @@
-/* eslint-disable no-useless-escape */
-
 import trim from 'lodash/trim';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import SchemaCurie from '../SchemaCurie';
