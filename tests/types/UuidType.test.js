@@ -83,7 +83,7 @@ test('UuidType encode tests', (t) => {
 });
 
 
-test('UuidType decode tests', (t) => {
+test('UuidType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: UuidType.create(), classProto: SampleUuidIdentifier });
   const id = SampleUuidIdentifier.generate();
   const samples = [
@@ -96,14 +96,14 @@ test('UuidType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });
 
 
-test('UuidType decode(invalid) tests', (t) => {
+test('UuidType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: UuidType.create(), classProto: SampleUuidIdentifier });
   const samples = ['nope', '4b268351-2445-4d98-a777-b461330d5c7fX', false, [], {}, '', NaN, undefined];
-  helpers.decodeInvalidSamples(field, samples, t);
+  await helpers.decodeInvalidSamples(field, samples, t);
   t.end();
 });

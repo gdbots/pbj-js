@@ -27,7 +27,7 @@ export default class DecimalType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {string}
    */
@@ -38,7 +38,7 @@ export default class DecimalType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */

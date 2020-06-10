@@ -188,7 +188,7 @@ export default class Message {
    *
    * @throws {AssertionFailed}
    */
-  static fromObject(obj = {}) {
+  static async fromObject(obj = {}) {
     if (!obj[PBJ_FIELD_NAME]) {
       // eslint-disable-next-line no-param-reassign
       obj[PBJ_FIELD_NAME] = this.schema().getId().toString();
@@ -846,7 +846,7 @@ export default class Message {
   /**
    * @returns {Message}
    */
-  clone() {
+  async clone() {
     return ObjectSerializer.deserialize(ObjectSerializer.serialize(this));
   }
 }

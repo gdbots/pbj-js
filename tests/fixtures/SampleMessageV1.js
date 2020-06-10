@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
 import MessageResolver from '../../src/MessageResolver';
@@ -15,7 +14,7 @@ export default class SampleMessageV1 extends Message {
    */
   static defineSchema() {
     return new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [
+      SampleMixinV1.getFields().concat([
         Fb.create('string_single', T.StringType.create())
           .build(),
         Fb.create('string_set', T.StringType.create())
@@ -66,15 +65,16 @@ export default class SampleMessageV1 extends Message {
         Fb.create('dynamic_field_map', T.DynamicFieldType.create())
           .asAMap()
           .build(),
-      ],
+      ]),
       [
-        SampleMixinV1.create(),
+        'gdbots:pbj.tests:mixin:many:v1',
+        'gdbots:pbj.tests:mixin:many',
       ],
     );
   }
 }
 
 SampleTraitV1(SampleMessageV1);
-MessageResolver.register('gdbots:pbj.tests::sample-message:v1', SampleMessageV1);
+MessageResolver.registerMessage('gdbots:pbj.tests::sample-message:v1', SampleMessageV1);
 Object.freeze(SampleMessageV1);
 Object.freeze(SampleMessageV1.prototype);

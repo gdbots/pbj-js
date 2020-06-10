@@ -66,7 +66,7 @@ test('MediumTextType encode tests', (t) => {
 });
 
 
-test('MediumTextType decode tests', (t) => {
+test('MediumTextType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MediumTextType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [
@@ -89,6 +89,6 @@ test('MediumTextType decode tests', (t) => {
     { input: '3.14', output: '3.14' },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

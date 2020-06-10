@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import intersection from 'lodash/intersection';
 import Type from './Type';
 import TypeName from '../enums/TypeName';
@@ -25,11 +23,12 @@ export default class MessageType extends Type {
 
     const anyOfCuries = field.getAnyOfCuries();
     if (!anyOfCuries.length) {
+      // means it can be "any message"
       return;
     }
 
     const schema = value.schema();
-    const curies = [schema.getCurie().toString(), ...schema.getMixinCuries()];
+    const curies = [schema.getCurie().toString(), ...schema.getMixins()];
 
     if (intersection(anyOfCuries, curies).length) {
       return;
@@ -41,7 +40,7 @@ export default class MessageType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {*}
    */
@@ -56,11 +55,11 @@ export default class MessageType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?Message}
    */
-  decode(value, field, codec = null) {
+  async decode(value, field, codec = null) {
     if (value === null || value instanceof Message) {
       return value;
     }

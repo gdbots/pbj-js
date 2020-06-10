@@ -29,7 +29,7 @@ export default class BooleanType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {boolean}
    */
@@ -40,7 +40,7 @@ export default class BooleanType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {boolean}
    */

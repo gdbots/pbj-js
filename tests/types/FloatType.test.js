@@ -70,7 +70,7 @@ test('FloatType encode tests', (t) => {
 });
 
 
-test('FloatType decode tests', (t) => {
+test('FloatType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: FloatType.create() });
   const samples = [
     { input: 0.0, output: 0.0 },
@@ -85,6 +85,6 @@ test('FloatType decode tests', (t) => {
     { input: '-3.14159265358979', output: -3.14159265358979 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

@@ -67,7 +67,7 @@ test('TinyIntType encode tests', (t) => {
 });
 
 
-test('TinyIntType decode tests', (t) => {
+test('TinyIntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: TinyIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -83,6 +83,6 @@ test('TinyIntType decode tests', (t) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

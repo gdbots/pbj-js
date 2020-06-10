@@ -376,6 +376,13 @@ export default class Field {
   }
 
   /**
+   * @returns {boolean}
+   */
+  hasAnyOfCuries() {
+    return this.anyOfCuries.length > 0;
+  }
+
+  /**
    * @returns {string[]}
    */
   getAnyOfCuries() {

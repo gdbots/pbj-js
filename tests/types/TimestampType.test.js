@@ -64,7 +64,7 @@ test('TimestampType encode tests', (t) => {
 });
 
 
-test('TimestampType decode tests', (t) => {
+test('TimestampType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: TimestampType.create() });
   const samples = [
     { input: 1451001600, output: 1451001600 },
@@ -79,6 +79,6 @@ test('TimestampType decode tests', (t) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

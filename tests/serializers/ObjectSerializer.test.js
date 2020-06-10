@@ -8,6 +8,7 @@ import ObjectSerializer from '../../src/serializers/ObjectSerializer';
 import SampleMessageV1 from '../fixtures/SampleMessageV1';
 import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1';
 
+
 test('ObjectSerializer serialize tests', (t) => {
   const message = SampleMessageV1.create()
     .set('string_single', 'test')
@@ -53,7 +54,7 @@ test('ObjectSerializer serialize tests', (t) => {
 });
 
 
-test('ObjectSerializer deserialize tests', (t) => {
+test('ObjectSerializer deserialize tests', async (t) => {
   const message = SampleMessageV1.create()
     .addToList('string_list', ['list1', 'list2'])
     .set('string_single', 'test')
@@ -64,13 +65,13 @@ test('ObjectSerializer deserialize tests', (t) => {
     .addToList('message_list', [SampleOtherMessageV1.create().set('test', 'list')])
     .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'));
 
-  t.true(message.equals(ObjectSerializer.deserialize(ObjectSerializer.serialize(message))));
+  t.true(message.equals(await ObjectSerializer.deserialize(ObjectSerializer.serialize(message))));
 
   t.end();
 });
 
 
-test('ObjectSerializer encode/decode Message tests', (t) => {
+test('ObjectSerializer encode/decode Message tests', async (t) => {
   const message = SampleMessageV1.create();
   const field = message.schema().getField('string_single');
   const obj = {
@@ -79,7 +80,7 @@ test('ObjectSerializer encode/decode Message tests', (t) => {
   };
 
   t.same(ObjectSerializer.encodeMessage(message, field), obj);
-  t.true(message.equals(ObjectSerializer.decodeMessage(obj, field)));
+  t.true(message.equals(await ObjectSerializer.decodeMessage(obj, field)));
 
   t.end();
 });

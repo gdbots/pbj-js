@@ -41,7 +41,7 @@ export default class IntEnumType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */
@@ -56,7 +56,7 @@ export default class IntEnumType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?Enum}
    *

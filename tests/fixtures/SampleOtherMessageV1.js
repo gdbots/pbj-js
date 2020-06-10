@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
 import MessageResolver from '../../src/MessageResolver';
@@ -15,18 +14,19 @@ export default class SampleOtherMessageV1 extends Message {
    */
   static defineSchema() {
     return new Schema('pbj:gdbots:pbj.tests::sample-other-message:1-0-0', SampleOtherMessageV1,
-      [
+      SampleMixinV1.getFields().concat([
         Fb.create('test', T.StringType.create())
           .build(),
-      ],
+      ]),
       [
-        SampleMixinV1.create(),
+        'gdbots:pbj.tests:mixin:many:v1',
+        'gdbots:pbj.tests:mixin:many',
       ],
     );
   }
 }
 
 SampleTraitV1(SampleOtherMessageV1);
-MessageResolver.register('gdbots:pbj.tests::sample-other-message', SampleOtherMessageV1);
+MessageResolver.registerMessage('gdbots:pbj.tests::sample-other-message:v1', SampleOtherMessageV1);
 Object.freeze(SampleOtherMessageV1);
 Object.freeze(SampleOtherMessageV1.prototype);

@@ -84,7 +84,7 @@ test('BinaryType encode tests', (t) => {
 });
 
 
-test('BinaryType decode tests', (t) => {
+test('BinaryType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: BinaryType.create() });
   const samples = [
     { input: 'dGVzdA==', output: 'test' },
@@ -96,6 +96,6 @@ test('BinaryType decode tests', (t) => {
     { input: 'Zm9vIMKpIGJhciDwnYyGIGJheg==', output: 'foo © bar 𝌆 baz' },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

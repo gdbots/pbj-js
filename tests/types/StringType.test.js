@@ -305,7 +305,7 @@ test('StringType encode tests', (t) => {
 });
 
 
-test('StringType decode tests', (t) => {
+test('StringType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: StringType.create() });
   const largeText = 'a'.repeat(field.getType().getMaxBytes());
   const samples = [
@@ -328,6 +328,6 @@ test('StringType decode tests', (t) => {
     { input: '3.14', output: '3.14' },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

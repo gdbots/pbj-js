@@ -79,7 +79,7 @@ test('MessageRefType encode tests', (t) => {
 });
 
 
-test('MessageRefType decode tests', (t) => {
+test('MessageRefType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MessageRefType.create() });
   const codec = { decodeMessageRef: value => MessageRef.fromObject(value) };
   const ref = MessageRef.fromString('acme:blog::article:2015/12/25/test:Still_The:id#2015.Q4');
@@ -92,12 +92,12 @@ test('MessageRefType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t, codec);
+  await helpers.decodeSamples(field, samples, t, codec);
   t.end();
 });
 
 
-test('MessageRefType decode(invalid) tests', (t) => {
+test('MessageRefType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: MessageRefType.create() });
   const codec = { decodeMessageRef: value => MessageRef.fromObject(value) };
   const samples = [
@@ -110,6 +110,6 @@ test('MessageRefType decode(invalid) tests', (t) => {
     NaN,
     undefined,
   ];
-  helpers.decodeInvalidSamples(field, samples, t, codec);
+  await helpers.decodeInvalidSamples(field, samples, t, codec);
   t.end();
 });

@@ -77,7 +77,7 @@ test('IntType encode tests', (t) => {
 });
 
 
-test('IntType decode tests', (t) => {
+test('IntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: IntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -93,6 +93,6 @@ test('IntType decode tests', (t) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

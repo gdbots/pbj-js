@@ -61,7 +61,7 @@ test('BooleanType encode tests', (t) => {
 });
 
 
-test('BooleanType decode tests', (t) => {
+test('BooleanType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: BooleanType.create() });
   const samples = [
     { input: false, output: false },
@@ -99,6 +99,6 @@ test('BooleanType decode tests', (t) => {
     { input: 1, output: true },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

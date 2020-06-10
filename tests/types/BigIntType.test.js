@@ -83,7 +83,7 @@ test('BigIntType encode tests', (t) => {
 });
 
 
-test('BigIntType decode tests', (t) => {
+test('BigIntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: BigIntType.create() });
   const samples = [
     { input: '18446744073709551615', output: new BigNumber('18446744073709551615') },
@@ -94,6 +94,6 @@ test('BigIntType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

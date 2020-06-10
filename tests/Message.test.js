@@ -7,6 +7,7 @@ import SampleMessageV1 from './fixtures/SampleMessageV1';
 import SampleMessageV2 from './fixtures/SampleMessageV2';
 import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
 
+
 test('Message tests', (t) => {
   const msg1 = SampleMessageV1.create();
   const msg2 = SampleMessageV2.create();
@@ -131,7 +132,7 @@ test('Message isReplay tests', (t) => {
 });
 
 
-test('Message clone tests', (t) => {
+test('Message clone tests', async (t) => {
   const msg = SampleMessageV1.create();
   msg.set('string_single', '123');
   msg.set('message_single', SampleOtherMessageV1.create().set('test', 'clone'));
@@ -140,7 +141,7 @@ test('Message clone tests', (t) => {
   t.true(msg.isFrozen());
   t.true(msg.get('message_single').isFrozen());
 
-  const msgClone = msg.clone();
+  const msgClone = await msg.clone();
   t.false(msg === msgClone);
   t.false(msgClone.isFrozen());
   t.false(msgClone.get('message_single').isFrozen());

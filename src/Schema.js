@@ -4,8 +4,6 @@ import upperFirst from 'lodash/upperFirst';
 import FieldAlreadyDefined from './exceptions/FieldAlreadyDefined';
 import FieldNotDefined from './exceptions/FieldNotDefined';
 import FieldOverrideNotCompatible from './exceptions/FieldOverrideNotCompatible';
-import MixinAlreadyAdded from './exceptions/MixinAlreadyAdded';
-import MixinNotDefined from './exceptions/MixinNotDefined';
 import Fb from './FieldBuilder';
 import SchemaId, { VALID_PATTERN } from './SchemaId';
 import StringType from './types/StringType';
@@ -17,15 +15,15 @@ export default class Schema {
    * @param {SchemaId|string} id
    * @param {Message} classProto
    * @param {Field[]} fields
-   * @param {Mixin[]} mixins
+   * @param {string[]} mixins
    */
   constructor(id, classProto, fields = [], mixins = []) {
     this.id = id instanceof SchemaId ? id : SchemaId.fromString(id);
     this.classProto = classProto;
     this.fields = new Map();
     this.requiredFields = new Map();
-    this.mixins = new Map();
-    this.mixinsByCurie = new Map();
+    this.mixins = mixins;
+    this.mixinsKeys = new Map();
     this.classNameMethod = camelCase(this.id.getCurie().getMessage());
     this.classNameMethodMajor = `${this.classNameMethod}V${this.id.getVersion().getMajor()}`;
     this.className = upperFirst(this.classNameMethodMajor);
@@ -38,11 +36,8 @@ export default class Schema {
         .build(),
     );
 
-    mixins.forEach(m => this.addMixin(m));
-    fields.forEach(f => this.addField(f));
-
-    this.mixinIds = Array.from(this.mixins.keys());
-    this.mixinCuries = Array.from(this.mixinsByCurie.keys());
+    fields.forEach(this.addField.bind(this));
+    mixins.forEach(m => this.mixinsKeys.set(m, true));
 
     Object.freeze(this);
   }
@@ -76,26 +71,6 @@ export default class Schema {
   }
 
   /**
-   * @private
-   *
-   * @param {Mixin} mixin
-   *
-   * @throws {MixinAlreadyAdded}
-   */
-  addMixin(mixin) {
-    const id = mixin.getId();
-    const curieStr = id.getCurie().toString();
-
-    if (this.mixinsByCurie.has(curieStr)) {
-      throw new MixinAlreadyAdded(this, this.mixinsByCurie.get(curieStr), mixin);
-    }
-
-    this.mixins.set(id.getCurieMajor(), mixin);
-    this.mixinsByCurie.set(curieStr, mixin);
-    mixin.getFields().forEach(f => this.addField(f));
-  }
-
-  /**
    * @returns {Message}
    */
   getClassProto() {
@@ -107,21 +82,6 @@ export default class Schema {
    */
   getClassName() {
     return this.className;
-  }
-
-  /**
-   * Convenience method to return the name of the method that should
-   * exist to handle this message.
-   *
-   * For example, an ImportUserV1 message would be handled by:
-   * SomeClass.importUserV1(command)
-   *
-   * @param {boolean} withMajor
-   *
-   * @returns {string}
-   */
-  getHandlerMethodName(withMajor = false) {
-    return withMajor ? this.classNameMethodMajor : this.classNameMethod;
   }
 
   /**
@@ -153,13 +113,35 @@ export default class Schema {
   }
 
   /**
+   * Convenience method to return the name of the method that should
+   * exist to handle this message.
+   *
+   * For example, an ImportUserV1 message would be handled by:
+   * SomeClass.importUserV1(command)
+   *
+   * @param {boolean} withMajor
+   * @param {?string} prefix
+   *
+   * @returns {string}
+   */
+  getHandlerMethodName(withMajor = true, prefix = null) {
+    if (prefix) {
+      return withMajor
+        ? `${prefix}${this.className}`
+        : `${prefix}${upperFirst(this.classNameMethod)}`;
+    }
+
+    return withMajor ? this.classNameMethodMajor : this.classNameMethod;
+  }
+
+  /**
    * Convenience method that creates a message instance with this schema.
    *
    * @param {Object} data
    *
    * @returns {Message}
    */
-  createMessage(data = {}) {
+  async createMessage(data = {}) {
     if (isEmpty(data)) {
       return this.classProto.create();
     }
@@ -210,57 +192,42 @@ export default class Schema {
    * qualified to major rev or just the curie.
    * @see SchemaId.getCurieMajor
    *
-   * @param {string} mixinId
+   * @param {string} mixin
    *
    * @returns {boolean}
    */
-  hasMixin(mixinId) {
-    return this.mixins.has(mixinId) || this.mixinsByCurie.has(mixinId);
+  hasMixin(mixin) {
+    return this.mixinsKeys.has(mixin);
   }
 
   /**
-   * @param {string} mixinId
-   *
-   * @returns {Mixin}
-   *
-   * @throws {MixinNotDefined}
-   */
-  getMixin(mixinId) {
-    if (this.mixins.has(mixinId)) {
-      return this.mixins.get(mixinId);
-    }
-
-    if (this.mixinsByCurie.has(mixinId)) {
-      return this.mixinsByCurie.get(mixinId);
-    }
-
-    throw new MixinNotDefined(this, mixinId);
-  }
-
-  /**
-   * @returns {Mixin[]}
+   * @returns {string[]}
    */
   getMixins() {
-    return Array.from(this.mixins.values());
+    return this.mixins;
   }
 
   /**
-   * Returns an array of curies with the major rev.
-   * @see SchemaId.getCurieMajor
+   * @param {SchemaCurie|string} curie
    *
-   * @returns {string[]}
+   * @returns {boolean}
    */
-  getMixinIds() {
-    return this.mixinIds;
-  }
+  usesCurie(curie) {
+    const key = `${curie}`;
 
-  /**
-   * Returns an array of curies (string version).
-   *
-   * @returns {string[]}
-   */
-  getMixinCuries() {
-    return this.mixinCuries;
+    if (this.hasMixin(key)) {
+      return true;
+    }
+
+    if (this.getCurie().toString() === key) {
+      return true;
+    }
+
+    if (this.getCurieMajor() === key) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -280,7 +247,7 @@ export default class Schema {
       curie_major: this.getCurieMajor(),
       qname: this.getQName().toString(),
       class_name: this.className,
-      mixins: this.getMixins().map(m => m.getId()),
+      mixins: this.mixins,
       fields: this.getFields(),
     };
   }

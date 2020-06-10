@@ -70,7 +70,7 @@ test('IntEnumType encode tests', (t) => {
 });
 
 
-test('IntEnumType decode tests', (t) => {
+test('IntEnumType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: SampleIntEnum });
   const samples = [
     { input: 0, output: SampleIntEnum.UNKNOWN },
@@ -79,14 +79,14 @@ test('IntEnumType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });
 
 
-test('IntEnumType decode(invalid) tests', (t) => {
+test('IntEnumType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: IntEnumType.create(), classProto: SampleIntEnum });
   const samples = [3, false, [], {}, '', NaN, undefined, SampleStringEnum.UNKNOWN];
-  helpers.decodeInvalidSamples(field, samples, t);
+  await helpers.decodeInvalidSamples(field, samples, t);
   t.end();
 });

@@ -83,7 +83,7 @@ test('TimeUuidType encode tests', (t) => {
 });
 
 
-test('TimeUuidType decode tests', (t) => {
+test('TimeUuidType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: TimeUuidType.create(), classProto: SampleTimeUuidIdentifier });
   const id = SampleTimeUuidIdentifier.generate();
   const samples = [
@@ -96,12 +96,12 @@ test('TimeUuidType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });
 
 
-test('TimeUuidType decode(invalid) tests', (t) => {
+test('TimeUuidType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: TimeUuidType.create(), classProto: SampleTimeUuidIdentifier });
   const samples = [
     'nope',
@@ -114,6 +114,6 @@ test('TimeUuidType decode(invalid) tests', (t) => {
     NaN,
     undefined,
   ];
-  helpers.decodeInvalidSamples(field, samples, t);
+  await helpers.decodeInvalidSamples(field, samples, t);
   t.end();
 });

@@ -83,7 +83,7 @@ test('DynamicFieldType encode tests', (t) => {
 });
 
 
-test('DynamicFieldType decode tests', (t) => {
+test('DynamicFieldType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: DynamicFieldType.create() });
   const codec = { decodeDynamicField: value => DynamicField.fromObject(value) };
   const df = DynamicField.createStringVal('test1', 'taco');
@@ -100,12 +100,12 @@ test('DynamicFieldType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t, codec);
+  await helpers.decodeSamples(field, samples, t, codec);
   t.end();
 });
 
 
-test('DynamicFieldType decode(invalid) tests', (t) => {
+test('DynamicFieldType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: DynamicFieldType.create() });
   const codec = { decodeDynamicField: value => DynamicField.fromObject(value) };
   const samples = [
@@ -119,6 +119,6 @@ test('DynamicFieldType decode(invalid) tests', (t) => {
     NaN,
     undefined,
   ];
-  helpers.decodeInvalidSamples(field, samples, t, codec);
+  await helpers.decodeInvalidSamples(field, samples, t, codec);
   t.end();
 });

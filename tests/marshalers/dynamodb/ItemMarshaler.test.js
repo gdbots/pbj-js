@@ -49,8 +49,9 @@ const message = SampleMessageV1.create()
   .addToMap('dynamic_field_map', 'test1', DynamicField.createStringVal('test_string', 'string'))
   .addToMap('dynamic_field_map', 'test2', DynamicField.createIntVal('test_int', 9000));
 
+console.log('gbt', message);
 
-test('ItemMarshaler marshal/unmarshal tests', (t) => {
+test('ItemMarshaler marshal/unmarshal tests', async (t) => {
   const obj = {
     _schema: {
       S: 'pbj:gdbots:pbj.tests::sample-message:1-0-0',
@@ -420,8 +421,8 @@ test('ItemMarshaler marshal/unmarshal tests', (t) => {
   t.same(ItemMarshaler.marshal(message), obj);
   // t.same(JSON.stringify(ItemMarshaler.marshal(message)), JSON.stringify(obj));
   t.same(ItemMarshaler.encodeMessage(message, field), { M: obj });
-  t.true(message.equals(ItemMarshaler.unmarshal(ItemMarshaler.marshal(message))));
-  t.true(message.equals(ItemMarshaler.decodeMessage(obj, field)));
+  t.true(message.equals(await ItemMarshaler.unmarshal(ItemMarshaler.marshal(message))));
+  t.true(message.equals(await ItemMarshaler.decodeMessage(obj, field)));
 
   t.end();
 });

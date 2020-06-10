@@ -81,7 +81,7 @@ test('MicrotimeType encode tests', (t) => {
 });
 
 
-test('MicrotimeType decode tests', (t) => {
+test('MicrotimeType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MicrotimeType.create() });
   const mtime = Microtime.create();
   const samples = [
@@ -94,14 +94,14 @@ test('MicrotimeType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });
 
 
-test('MicrotimeType decode(invalid) tests', (t) => {
+test('MicrotimeType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: MicrotimeType.create() });
   const samples = ['nope', '1495766080', false, [], {}, '', NaN, undefined];
-  helpers.decodeInvalidSamples(field, samples, t);
+  await helpers.decodeInvalidSamples(field, samples, t);
   t.end();
 });

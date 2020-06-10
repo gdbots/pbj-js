@@ -26,7 +26,7 @@ export default class GeoPointType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {*}
    */
@@ -41,7 +41,7 @@ export default class GeoPointType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?GeoPoint}
    */

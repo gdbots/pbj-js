@@ -67,7 +67,7 @@ test('MediumIntType encode tests', (t) => {
 });
 
 
-test('MediumIntType decode tests', (t) => {
+test('MediumIntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MediumIntType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -83,6 +83,6 @@ test('MediumIntType decode tests', (t) => {
     { input: '3.14', output: 3 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

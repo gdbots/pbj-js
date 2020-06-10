@@ -33,7 +33,7 @@ export default class SignedBigIntType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {string}
    */
@@ -48,7 +48,7 @@ export default class SignedBigIntType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?BigNumber}
    */

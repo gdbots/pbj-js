@@ -1,3 +1,4 @@
+import isString from 'lodash/isString';
 import MoreThanOneMessageForMixin from './exceptions/MoreThanOneMessageForMixin';
 import NoMessageForCurie from './exceptions/NoMessageForCurie';
 import NoMessageForMixin from './exceptions/NoMessageForMixin';
@@ -5,46 +6,58 @@ import NoMessageForQName from './exceptions/NoMessageForQName';
 import NoMessageForSchemaId from './exceptions/NoMessageForSchemaId';
 import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
+import SchemaQName from './SchemaQName';
+
+let defaultVendor = '';
+let manifestResolver = () => false;
 
 /**
- * A map of all the available messages keyed by the schema resolver key
- * and curies for resolution that is only major version specific.
+ * An object of all the available schemas keyed by a curie major.
+ * The values are dynamic imports.
  *
- * @type {Map}
+ * @type {Object}
  */
-const messages = new Map();
+const messages = {};
 
 /**
- * An map of resolved messages in this request/process.
+ * A object of resolved lookups by qname.
  *
- * @type {Map}
+ * @type {Object}
  */
-const resolved = new Map();
-
-/**
- * A map of resolved lookups by mixin, keyed by the mixin id with major rev
- * and optionally a package and category (for faster lookups)
- * @see SchemaId.getCurieMajor
- *
- * @type {Map}
- */
-const resolvedMixins = new Map();
-
-/**
- * A map of resolved lookups by qname.
- *
- * @type {Map}
- */
-const resolvedQnames = new Map();
+const resolvedQnames = {};
 
 export default class MessageResolver {
   /**
-   * Returns all of the registered messages.
+   * An object of dynamic imports keyed by a curie major.
+   * {
+   *   'acme:news:node:article:v1': import('@acme/schemas/acme/news/node/ArticleV1'),
+   * },
    *
-   * @returns {Message[]}
+   * @param {Object} imports
+   */
+  static register(imports) {
+    Object.assign(messages, imports);
+  }
+
+  /**
+   * Adds a single message to the resolver. This is used in tests or dynamic
+   * message schema creation (not a typical or recommended use case).
+   *
+   * @param {string} curie
+   * @param {Message} classProto
+   */
+  static registerMessage(curie, classProto) {
+    messages[curie] = Promise.resolve({ default: classProto });
+  }
+
+  /**
+   * Returns all of the registered messages. Key is the curie major
+   * and the value is a promise (a dynamic import).
+   *
+   * @returns {Object}
    */
   static all() {
-    return Array.from(messages.values());
+    return messages;
   }
 
   /**
@@ -56,164 +69,215 @@ export default class MessageResolver {
    *
    * @throws {NoMessageForSchemaId}
    */
-  static resolveId(id) {
+  static async resolveId(id) {
     const curieMajor = id.getCurieMajor();
-    if (resolved.has(curieMajor)) {
-      return resolved.get(curieMajor);
-    }
-
-    if (messages.has(curieMajor)) {
-      const message = messages.get(curieMajor);
-      resolved.set(curieMajor, message);
-      return message;
-    }
-
-    const curie = id.getCurie().toString();
-    if (messages.has(curie)) {
-      const message = messages.get(curie);
-      resolved.set(curieMajor, message);
-      resolved.set(curie, message);
-      return message;
+    if (messages[curieMajor]) {
+      try {
+        return (await messages[curieMajor]).default;
+      } catch (e) {
+      }
     }
 
     throw new NoMessageForSchemaId(id);
   }
 
   /**
+   * Returns true if the provided curie exists.
+   *
+   * @param {SchemaCurie|string} curie
+   *
+   * @returns {boolean}
+   */
+  static hasCurie(curie) {
+    const key = `${curie}`.replace('*', defaultVendor);
+    if (messages[key]) {
+      return true;
+    }
+
+    for (const curie of Object.keys(messages)) {
+      if (curie.startsWith(key)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
    * Returns the message to be used for the provided curie.
    *
-   * @param {SchemaCurie} curie
+   * @param {SchemaCurie|string} curie
    *
    * @returns {Message}
    *
    * @throws {NoMessageForCurie}
    */
-  static resolveCurie(curie) {
-    const key = curie.toString();
-    if (resolved.has(key)) {
-      return resolved.get(key);
+  static async resolveCurie(curie) {
+    const key = `${curie}`.replace('*', defaultVendor);
+    if (messages[key]) {
+      try {
+        return (await messages[key]).default;
+      } catch (e) {
+      }
     }
 
-    if (messages.has(key)) {
-      const message = messages.get(key);
-      resolved.set(key, message);
-      return message;
+    const latest = Object.keys(messages).filter(curie => curie.startsWith(key)).sort().pop();
+    if (messages[latest]) {
+      messages[key] = messages[latest];
+      try {
+        return (await messages[key]).default;
+      } catch (e) {
+      }
     }
 
-    throw new NoMessageForCurie(curie);
+    throw new NoMessageForCurie(SchemaCurie.fromString(curie));
+  }
+
+  /**
+   * Returns true if the provided qname exists.
+   *
+   * @param {SchemaQName|string} qname
+   *
+   * @returns {boolean}
+   */
+  static hasQName(qname) {
+    try {
+      this.resolveQName(qname);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
    * Returns the SchemaCurie for the given SchemaQName.
    *
-   * @param {SchemaQName} qname
+   * @param {SchemaQName|string} qname
    *
    * @returns {SchemaCurie}
    *
    * @throws {NoMessageForQName}
    */
   static resolveQName(qname) {
-    const key = qname.toString();
-    if (resolvedQnames.has(key)) {
-      return resolvedQnames.get(key);
+    let realQname = qname;
+    if (isString(qname)) {
+      realQname = SchemaQName.fromString(qname.replace('*', defaultVendor));
     }
 
-    const qvendor = qname.getVendor();
-    const qmessage = qname.getMessage();
+    const key = realQname.toString();
+    if (resolvedQnames[key]) {
+      return resolvedQnames[key];
+    }
 
-    const keys = Array.from(messages.keys());
-    const l = keys.length;
-    for (let i = 0; i < l; i += 1) {
-      const [vendor, pkg, category, message] = keys[i].split(':');
+    const qvendor = realQname.getVendor();
+    const qmessage = realQname.getMessage();
+
+    for (const curie of Object.keys(messages)) {
+      const [vendor, pkg, category, message] = curie.split(':');
       if (qvendor === vendor && qmessage === message) {
         const curie = SchemaCurie.fromString(`${vendor}:${pkg}:${category}:${message}`);
-        resolvedQnames.set(key, curie);
+        resolvedQnames[key] = curie;
         return curie;
       }
     }
 
-    throw new NoMessageForQName(qname);
+    throw new NoMessageForQName(realQname);
   }
 
   /**
-   * Adds a single schema and class proto to the resolver.
-   * @see SchemaId.getCurieMajor
+   * Return the one curie expected to be using the provided mixin (a curie major).
    *
-   * @param {SchemaId|string} id         - A SchemaId instance, curie string or curie major string.
-   * @param {Message}         classProto - The Message class itself, not an instance.
-   */
-  static register(id, classProto) {
-    const key = id instanceof SchemaId ? id.getCurieMajor() : `${id}`;
-    messages.set(key, classProto);
-  }
-
-  /**
-   * Return the one schema expected to be using the provided mixin.
+   * @param {string} mixin
+   * @param {boolean} returnWithMajor
    *
-   * @param {Mixin} mixin
-   * @param {?string} inPackage
-   * @param {?string} inCategory
-   *
-   * @returns {Schema}
+   * @returns {string}
    *
    * @throws {MoreThanOneMessageForMixin}
    * @throws {NoMessageForMixin}
    */
-  static findOneUsingMixin(mixin, inPackage = null, inCategory = null) {
-    const schemas = this.findAllUsingMixin(mixin, inPackage, inCategory);
-    if (schemas.length !== 1) {
-      throw new MoreThanOneMessageForMixin(mixin, schemas);
+  static async findOneUsingMixin(mixin, returnWithMajor = true) {
+    const curies = await this.findAllUsingMixin(mixin, returnWithMajor);
+    if (curies.length === 1) {
+      return curies[0];
+    } else if (curies.length === 0) {
+      throw new NoMessageForMixin(mixin);
+    } else {
+      throw new MoreThanOneMessageForMixin(mixin, curies);
     }
-
-    return schemas[0];
   }
 
   /**
-   * Returns an array of Schemas expected to be using the provided mixin.
+   * Returns an array of curies of messages using the provided mixin (a curie major).
    *
-   * @param {Mixin} mixin
-   * @param {?string} inPackage
-   * @param {?string} inCategory
+   * @param {string} mixin
+   * @param {boolean} returnWithMajor
    *
-   * @return {Schema[]}
+   * @return {string[]}
    *
    * @throws {NoMessageForMixin}
    */
-  static findAllUsingMixin(mixin, inPackage = null, inCategory = null) {
-    const mixinId = mixin.getId().getCurieMajor();
-    const key = `${mixinId}${inPackage}${inCategory}`;
-    let schemas;
-
-    if (!resolvedMixins.has(key)) {
-      const filtered = inPackage || inCategory;
-      schemas = [];
-      messages.forEach((message, id) => {
-        if (filtered) {
-          const [, pkg, category] = id.split(':');
-          if (inPackage && inPackage !== pkg) {
-            return;
-          }
-
-          if (inCategory && inCategory !== category) {
-            return;
-          }
-        }
-
-        const schema = message.schema();
-        if (schema.hasMixin(mixinId)) {
-          schemas.push(schema);
-        }
-      });
-
-      resolvedMixins.set(key, schemas);
-    } else {
-      schemas = resolvedMixins.get(key);
+  static async findAllUsingMixin(mixin, returnWithMajor = true) {
+    let curies;
+    try {
+      curies = (await manifestResolver(mixin.replace(/:/g, '/'))).default;
+    } catch (e) {
+      curies = [];
     }
 
-    if (!schemas.length) {
-      throw new NoMessageForMixin(mixin);
+    if (returnWithMajor) {
+      return curies;
     }
 
-    return schemas;
+    return curies.map(curie => curie.substr(0, curie.lastIndexOf(':')));
+  }
+
+  /**
+   * Resolving a curie or qname can be done without knowing the vendor ahead of time
+   * by using an '*' in a (qname) '*:article' or '*:news:node:article' (curie).
+   * The '*' will get replaced with the default vendor, e.g. 'acme:article'.
+   *
+   * @param {string} vendor
+   */
+  static setDefaultVendor(vendor) {
+    defaultVendor = vendor;
+  }
+
+  /**
+   * @returns {string}
+   */
+  static getDefaultVendor() {
+    return defaultVendor;
+  }
+
+  /**
+   * Finding messages using a mixin's curie major requires that
+   * it load a manifest file (generated by gdbots/pbjc) which
+   * contains an array of curies.
+   *
+   * e.g. @acme-schemas/manifests/gdbots/ncr/mixin/node/v1.js
+   * export default [
+   *     'acme:news:node:article:v1',
+   *     'acme:videos:node:video:v1',
+   * ];
+   *
+   * In order to do this a function must be supplied that has
+   * the directory baked in so bundlers can predict all the
+   * dynamic import paths optimally.
+   *
+   * e.g. in @acme-schemas/index.js it would call:
+   * MessageResolver.setManifestResolver(file => import(`./manifests/${file}`));
+   *
+   * @param {Function} resolver
+   */
+  static setManifestResolver(resolver) {
+    manifestResolver = resolver;
+  }
+
+  /**
+   * @returns {Function}
+   */
+  static getManifestResolver() {
+    return manifestResolver;
   }
 }

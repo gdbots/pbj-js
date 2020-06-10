@@ -7,18 +7,18 @@ import NoMessageForSchemaId from '../src/exceptions/NoMessageForSchemaId';
 import MessageResolver from '../src/MessageResolver';
 import SchemaCurie from '../src/SchemaCurie';
 import SchemaId from '../src/SchemaId';
-import SchemaQName from '../src/SchemaQName';
 import SampleMessageV1 from './fixtures/SampleMessageV1';
 import SampleMessageV2 from './fixtures/SampleMessageV2';
 import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
-import SampleMixinV1 from './fixtures/SampleMixinV1';
-import SampleMixinV2 from './fixtures/SampleMixinV2';
-import SampleUnusedMixinV1 from './fixtures/SampleUnusedMixinV1';
 
-test('MessageResolver all tests', (t) => {
-  const all = MessageResolver.all();
+
+test('MessageResolver all tests', async (t) => {
+  const all = (await Promise.all(Object.entries(MessageResolver.all()).map(async ([curie, promise]) => {
+    return [curie, (await promise).default];
+  }))).map(item => item[1]);
 
   t.same(all.length, 3);
+
   t.true(all.includes(SampleMessageV1));
   t.true(all.includes(SampleMessageV2));
   t.true(all.includes(SampleOtherMessageV1));
@@ -27,12 +27,12 @@ test('MessageResolver all tests', (t) => {
 });
 
 
-test('MessageResolver resolveId tests', (t) => {
-  const message = MessageResolver.resolveId(SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:1-0-0'));
+test('MessageResolver resolveId tests', async (t) => {
+  const message = await MessageResolver.resolveId(SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:1-0-0'));
   t.true(message === SampleMessageV1);
 
   try {
-    MessageResolver.resolveId(SchemaId.fromString('pbj:gdbots:pbj.tests::invalid-message:1-0-0'));
+    await MessageResolver.resolveId(SchemaId.fromString('pbj:gdbots:pbj.tests::invalid-message:1-0-0'));
     t.fail('resolved invalid SchemaId');
   } catch (e) {
     t.true(e instanceof NoMessageForSchemaId, 'Exception MUST be an instanceOf NoMessageForSchemaId');
@@ -43,15 +43,18 @@ test('MessageResolver resolveId tests', (t) => {
 });
 
 
-test('MessageResolver resolveCurie tests', (t) => {
-  let message = MessageResolver.resolveCurie(SchemaCurie.fromString('gdbots:pbj.tests::sample-message'));
+test('MessageResolver resolveCurie tests', async (t) => {
+  let message = await MessageResolver.resolveCurie('gdbots:pbj.tests::sample-message');
+  console.log(message);
   t.true(message === SampleMessageV2);
+  t.true(MessageResolver.hasCurie('gdbots:pbj.tests::sample-other-message'));
 
-  message = MessageResolver.resolveCurie(SchemaCurie.fromString('gdbots:pbj.tests::sample-other-message'));
+  message = await MessageResolver.resolveCurie('gdbots:pbj.tests::sample-other-message');
   t.true(message === SampleOtherMessageV1);
+  t.true(MessageResolver.hasCurie('gdbots:pbj.tests::sample-other-message'));
 
   try {
-    MessageResolver.resolveCurie(SchemaCurie.fromString('gdbots:pbj.tests::invalid-message'));
+    await MessageResolver.resolveCurie('gdbots:pbj.tests::invalid-message');
     t.fail('resolved invalid SchemaCurie');
   } catch (e) {
     t.true(e instanceof NoMessageForCurie, 'Exception MUST be an instanceOf NoMessageForCurie');
@@ -63,14 +66,18 @@ test('MessageResolver resolveCurie tests', (t) => {
 
 
 test('MessageResolver resolveQName tests', (t) => {
-  let curie = MessageResolver.resolveQName(SchemaQName.fromString('gdbots:sample-message'));
+  let curie = MessageResolver.resolveQName('gdbots:sample-message');
   t.true(curie === SchemaCurie.fromString('gdbots:pbj.tests::sample-message'));
+  t.true(MessageResolver.hasQName('gdbots:sample-message'));
 
-  curie = MessageResolver.resolveQName(SchemaQName.fromString('gdbots:sample-other-message'));
+  curie = MessageResolver.resolveQName('gdbots:sample-other-message');
   t.true(curie === SchemaCurie.fromString('gdbots:pbj.tests::sample-other-message'));
+  t.true(MessageResolver.hasQName('gdbots:sample-other-message'));
+
+  t.false(MessageResolver.hasQName('gdbots:invalid-message'));
 
   try {
-    MessageResolver.resolveQName(SchemaQName.fromString('gdbots:invalid-message'));
+    MessageResolver.resolveQName('gdbots:invalid-message');
     t.fail('resolved invalid SchemaQName');
   } catch (e) {
     t.true(e instanceof NoMessageForQName, 'Exception MUST be an instanceOf NoMessageForQName');
@@ -81,23 +88,27 @@ test('MessageResolver resolveQName tests', (t) => {
 });
 
 
-test('MessageResolver findOneUsingMixin tests', (t) => {
-  const mixin = SampleMixinV2.create();
-  const schema = MessageResolver.findOneUsingMixin(mixin);
+test('MessageResolver findOneUsingMixin tests', async (t) => {
+  const mixin = 'gdbots:pbj.tests:mixin:one:v1';
+  let curie = await MessageResolver.findOneUsingMixin(mixin);
+  t.same(curie, 'gdbots:pbj.tests::sample-message:v2');
 
-  t.same(schema.getId(), SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:2-0-0'));
-  t.true(schema.createMessage() instanceof SampleMessageV2);
+  const message = await MessageResolver.resolveCurie(curie);
+  t.same(message, SampleMessageV2);
+
+  curie = await MessageResolver.findOneUsingMixin(mixin, false);
+  t.same(curie, 'gdbots:pbj.tests::sample-message');
 
   try {
-    MessageResolver.findOneUsingMixin(SampleUnusedMixinV1.create());
-    t.fail('findOneUsingMixin found schema for invalid mixin');
+    await MessageResolver.findOneUsingMixin('gdbots:pbj.tests:mixin:none:v1');
+    t.fail('findOneUsingMixin found message for invalid mixin');
   } catch (e) {
     t.true(e instanceof NoMessageForMixin, 'Exception MUST be an instanceOf NoMessageForMixin');
     t.pass(e.message);
   }
 
   try {
-    MessageResolver.findOneUsingMixin(SampleMixinV1.create());
+    await MessageResolver.findOneUsingMixin('gdbots:pbj.tests:mixin:many:v1');
     t.fail('findOneUsingMixin found one schema for mixin used more than once');
   } catch (e) {
     t.true(e instanceof MoreThanOneMessageForMixin, 'Exception MUST be an instanceOf MoreThanOneMessageForMixin');
@@ -108,30 +119,26 @@ test('MessageResolver findOneUsingMixin tests', (t) => {
 });
 
 
-test('MessageResolver findAllUsingMixin tests', (t) => {
-  let mixin = SampleMixinV1.create();
-  let schemas = MessageResolver.findAllUsingMixin(mixin);
+test('MessageResolver findAllUsingMixin tests', async (t) => {
+  let mixin = 'gdbots:pbj.tests:mixin:many:v1';
+  let curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.same(2, curies.length);
+  t.same(curies[0], 'gdbots:pbj.tests::sample-message:v1');
+  t.same(curies[1], 'gdbots:pbj.tests::sample-other-message:v1');
 
-  t.same(2, schemas.length);
-  t.same(schemas[0].getId(), SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:1-0-0'));
-  t.same(schemas[1].getId(), SchemaId.fromString('pbj:gdbots:pbj.tests::sample-other-message:1-0-0'));
-  t.true(schemas[0].createMessage() instanceof SampleMessageV1);
-  t.true(schemas[1].createMessage() instanceof SampleOtherMessageV1);
+  curies = await MessageResolver.findAllUsingMixin(mixin, false);
+  t.same(2, curies.length);
+  t.same(curies[0], 'gdbots:pbj.tests::sample-message');
+  t.same(curies[1], 'gdbots:pbj.tests::sample-other-message');
 
-  mixin = SampleMixinV2.create();
-  schemas = MessageResolver.findAllUsingMixin(mixin);
+  mixin = 'gdbots:pbj.tests:mixin:one:v1';
+  curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.same(1, curies.length);
+  t.same(curies[0], 'gdbots:pbj.tests::sample-message:v2');
 
-  t.same(1, schemas.length);
-  t.same(schemas[0].getId(), SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:2-0-0'));
-  t.true(schemas[0].createMessage() instanceof SampleMessageV2);
-
-  try {
-    MessageResolver.findAllUsingMixin(SampleUnusedMixinV1.create());
-    t.fail('findOneUsingMixin found schema for invalid mixin');
-  } catch (e) {
-    t.true(e instanceof NoMessageForMixin, 'Exception MUST be an instanceOf NoMessageForMixin');
-    t.pass(e.message);
-  }
+  mixin = 'gdbots:pbj.tests:mixin:none:v1';
+  curies = await MessageResolver.findAllUsingMixin(mixin);
+  t.same(0, curies.length);
 
   t.end();
 });
