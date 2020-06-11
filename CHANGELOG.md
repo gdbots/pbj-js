@@ -6,7 +6,7 @@ __BREAKING CHANGES__
 
 * Moves `@gdbots/pbj/MessageRef` to `@gdbots/pbj/well-known/MessageRef`
 * Adds implementation for new `node-ref` type with `@gdbots/pbj/types/NodeRefType` and `@gdbots/pbj/well-known/NodeRef`
-* All message resolution and serializeration is now async so schemas can be lazy loaded.
+* All message resolution and deserialization/unmarshalling is now async so schemas can be lazy loaded.
 * Removes `Mixin` since the `gdbots/pbjc` no longer uses them.
 * Changes `MessageResolver.findOneUsingMixin` and `MessageResolver.findAllUsingMixin` to use a curie (string) for resolution and instead of returning the schema it just returns curies (strings) of the messages using the mixin and is also async.
 * Simplifies `Schema` so the mixins are just the curies in string form, not objects.
