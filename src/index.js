@@ -1,8 +1,7 @@
 import Field from './Field';
 import FieldBuilder from './FieldBuilder';
 import Message from './Message';
-import MessageRef from './MessageRef';
-import Mixin from './Mixin';
+import MessageResolver from './MessageResolver';
 import Schema from './Schema';
 import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
@@ -15,8 +14,7 @@ export default {
   Field,
   FieldBuilder,
   Message,
-  MessageRef,
-  Mixin,
+  MessageResolver,
   Schema,
   SchemaCurie,
   SchemaId,

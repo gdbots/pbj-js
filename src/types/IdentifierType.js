@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import Identifier from '../well-known/Identifier';
@@ -35,7 +33,7 @@ export default class IdentifierType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?string}
    */
@@ -50,7 +48,7 @@ export default class IdentifierType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?Identifier}
    */

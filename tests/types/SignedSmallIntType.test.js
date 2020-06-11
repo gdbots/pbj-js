@@ -70,7 +70,7 @@ test('SignedSmallIntType encode tests', (t) => {
 });
 
 
-test('SignedSmallIntType decode tests', (t) => {
+test('SignedSmallIntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: SignedSmallIntType.create() });
   const samples = [
     { input: -32768, output: -32768 },
@@ -89,6 +89,6 @@ test('SignedSmallIntType decode tests', (t) => {
     { input: '-3.14', output: -3 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

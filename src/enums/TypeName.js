@@ -1,4 +1,4 @@
-import Enum from '@gdbots/common/Enum';
+import Enum from '../Enum';
 
 export default class TypeName extends Enum {
 }
@@ -23,6 +23,7 @@ TypeName.configure({
   MESSAGE: 'message',
   MESSAGE_REF: 'message-ref',
   MICROTIME: 'microtime',
+  NODE_REF: 'node-ref',
   SIGNED_BIG_INT: 'signed-big-int',
   SIGNED_INT: 'signed-int',
   SIGNED_MEDIUM_INT: 'signed-medium-int',

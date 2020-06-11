@@ -88,7 +88,7 @@ test('SignedBigIntType encode tests', (t) => {
 });
 
 
-test('SignedBigIntType decode tests', (t) => {
+test('SignedBigIntType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: SignedBigIntType.create() });
   const samples = [
     { input: '-9223372036854775808', output: new BigNumber('-9223372036854775808') },
@@ -101,6 +101,6 @@ test('SignedBigIntType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

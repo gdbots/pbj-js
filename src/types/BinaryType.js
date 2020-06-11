@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 import AbstractBinaryType from './AbstractBinaryType';
 import TypeName from '../enums/TypeName';
 

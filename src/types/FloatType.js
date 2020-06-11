@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import isFinite from 'lodash/isFinite';
 import toFinite from 'lodash/toFinite';
 import Type from './Type';
@@ -27,7 +25,7 @@ export default class FloatType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */
@@ -38,7 +36,7 @@ export default class FloatType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */

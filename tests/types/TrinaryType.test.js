@@ -68,7 +68,7 @@ test('TrinaryType encode tests', (t) => {
 });
 
 
-test('TrinaryType decode tests', (t) => {
+test('TrinaryType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: TrinaryType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -85,6 +85,6 @@ test('TrinaryType decode tests', (t) => {
     { input: NaN, output: 0 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

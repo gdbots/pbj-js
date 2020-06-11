@@ -2,29 +2,44 @@ import test from 'tape';
 import Fb from '../../src/FieldBuilder';
 import DynamicField from '../../src/well-known/DynamicField';
 import GeoPoint from '../../src/well-known/GeoPoint';
-import MessageRef from '../../src/MessageRef';
+import MessageRef from '../../src/well-known/MessageRef';
 import T from '../../src/types';
 import ObjectSerializer from '../../src/serializers/ObjectSerializer';
 import SampleMessageV1 from '../fixtures/SampleMessageV1';
 import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1';
+import NodeRef from '../../src/well-known/NodeRef';
+
 
 test('ObjectSerializer serialize tests', (t) => {
   const message = SampleMessageV1.create()
     .set('string_single', 'test')
-    .addToSet('string_set', ['set1', 'set2'])
-    .addToList('string_list', ['list1', 'list2'])
+    .addToSet('string_set', ['set1', 'set2', 'set2'])
+    .addToList('string_list', ['list1', 'list2', 'list2'])
     .addToMap('string_map', 'key1', 'val1')
     .addToMap('string_map', 'key2', 'val2')
     .set('message_single', SampleOtherMessageV1.create().set('test', 'single'))
     .addToList('message_list', [SampleOtherMessageV1.create().set('test', 'list')])
-    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'));
+    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'))
+    .set('node_ref_single', NodeRef.fromString('acme:article:123'))
+    .addToSet('node_ref_set', [
+      NodeRef.fromString('acme:article:123'),
+      NodeRef.fromString('acme:article:456'),
+      NodeRef.fromString('acme:article:456'),
+    ])
+    .addToList('node_ref_list', [
+      NodeRef.fromString('acme:article:123'),
+      NodeRef.fromString('acme:article:456'),
+      NodeRef.fromString('acme:article:456'),
+    ])
+    .addToMap('node_ref_map', 'a', NodeRef.fromString('acme:article:123'))
+    .addToMap('node_ref_map', 'b', NodeRef.fromString('acme:article:456'));
 
   const obj = {
     _schema: 'pbj:gdbots:pbj.tests::sample-message:1-0-0',
     mixin_int: 0,
     string_single: 'test',
     string_set: ['set1', 'set2'],
-    string_list: ['list1', 'list2'],
+    string_list: ['list1', 'list2', 'list2'],
     string_map: { key1: 'val1', key2: 'val2' },
     message_single: {
       _schema: 'pbj:gdbots:pbj.tests::sample-other-message:1-0-0',
@@ -45,6 +60,20 @@ test('ObjectSerializer serialize tests', (t) => {
         test: 'map',
       },
     },
+    node_ref_single: 'acme:article:123',
+    node_ref_set: [
+      'acme:article:123',
+      'acme:article:456',
+    ],
+    node_ref_list: [
+      'acme:article:123',
+      'acme:article:456',
+      'acme:article:456',
+    ],
+    node_ref_map: {
+      a: 'acme:article:123',
+      b: 'acme:article:456',
+    },
   };
 
   t.same(ObjectSerializer.serialize(message), obj);
@@ -53,7 +82,7 @@ test('ObjectSerializer serialize tests', (t) => {
 });
 
 
-test('ObjectSerializer deserialize tests', (t) => {
+test('ObjectSerializer deserialize tests', async (t) => {
   const message = SampleMessageV1.create()
     .addToList('string_list', ['list1', 'list2'])
     .set('string_single', 'test')
@@ -62,15 +91,28 @@ test('ObjectSerializer deserialize tests', (t) => {
     .addToMap('string_map', 'key2', 'val2')
     .set('message_single', SampleOtherMessageV1.create().set('test', 'single'))
     .addToList('message_list', [SampleOtherMessageV1.create().set('test', 'list')])
-    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'));
+    .addToMap('message_map', 'test', SampleOtherMessageV1.create().set('test', 'map'))
+    .set('node_ref_single', NodeRef.fromString('acme:article:123'))
+    .addToSet('node_ref_set', [
+      NodeRef.fromString('acme:article:123'),
+      NodeRef.fromString('acme:article:456'),
+      NodeRef.fromString('acme:article:456'),
+    ])
+    .addToList('node_ref_list', [
+      NodeRef.fromString('acme:article:123'),
+      NodeRef.fromString('acme:article:456'),
+      NodeRef.fromString('acme:article:456'),
+    ])
+    .addToMap('node_ref_map', 'a', NodeRef.fromString('acme:article:123'))
+    .addToMap('node_ref_map', 'b', NodeRef.fromString('acme:article:456'));
 
-  t.true(message.equals(ObjectSerializer.deserialize(ObjectSerializer.serialize(message))));
+  t.true(message.equals(await ObjectSerializer.deserialize(ObjectSerializer.serialize(message))));
 
   t.end();
 });
 
 
-test('ObjectSerializer encode/decode Message tests', (t) => {
+test('ObjectSerializer encode/decode Message tests', async (t) => {
   const message = SampleMessageV1.create();
   const field = message.schema().getField('string_single');
   const obj = {
@@ -79,7 +121,7 @@ test('ObjectSerializer encode/decode Message tests', (t) => {
   };
 
   t.same(ObjectSerializer.encodeMessage(message, field), obj);
-  t.true(message.equals(ObjectSerializer.decodeMessage(obj, field)));
+  t.true(message.equals(await ObjectSerializer.decodeMessage(obj, field)));
 
   t.end();
 });

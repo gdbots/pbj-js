@@ -1,7 +1,7 @@
-import addDateToSlug from '@gdbots/common/addDateToSlug';
-import createSlug from '@gdbots/common/createSlug';
-import isValidSlug from '@gdbots/common/isValidSlug';
-import slugContainsDate from '@gdbots/common/slugContainsDate';
+import addDateToSlug from '../utils/addDateToSlug';
+import createSlug from '../utils/createSlug';
+import isValidSlug from '../utils/isValidSlug';
+import slugContainsDate from '../utils/slugContainsDate';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import Identifier from './Identifier';
 

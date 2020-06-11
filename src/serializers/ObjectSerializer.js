@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import InvalidResolvedSchema from '../exceptions/InvalidResolvedSchema';
 import DynamicField from '../well-known/DynamicField';
 import GeoPoint from '../well-known/GeoPoint';
-import MessageRef from '../MessageRef';
+import MessageRef from '../well-known/MessageRef';
 import MessageResolver from '../MessageResolver';
 import { PBJ_FIELD_NAME } from '../Schema';
 import SchemaId from '../SchemaId';
@@ -25,18 +24,12 @@ export default class ObjectSerializer {
     opt = options;
     const schema = message.schema();
     message.validate();
-
     const payload = {};
-    const includeAllFields = opt.includeAllFields || false;
 
-    schema.getFields().forEach((field) => {
+    for (const field of schema.getFields()) {
       const fieldName = field.getName();
       if (!message.has(fieldName)) {
-        if (includeAllFields || message.hasClearedField(fieldName)) {
-          payload[fieldName] = null;
-        }
-
-        return;
+        continue;
       }
 
       const value = message.get(fieldName);
@@ -44,18 +37,19 @@ export default class ObjectSerializer {
 
       if (field.isASingleValue()) {
         payload[fieldName] = type.encode(value, field, this);
-        return;
+        continue;
       }
 
       if (field.isAMap()) {
         payload[fieldName] = {};
-        // eslint-disable-next-line no-return-assign
-        Object.keys(value).forEach(k => payload[fieldName][k] = type.encode(value[k], field, this));
-        return;
+        for (const k of Object.keys(value)) {
+          payload[fieldName][k] = type.encode(value[k], field, this);
+        }
+        continue;
       }
 
       payload[fieldName] = value.map(v => type.encode(v, field, this));
-    });
+    }
 
     return payload;
   }
@@ -68,37 +62,33 @@ export default class ObjectSerializer {
    *
    * @throws {GdbotsPbjException}
    */
-  static deserialize(obj, options = {}) {
+  static async deserialize(obj, options = {}) {
     opt = options;
-    if (!obj[PBJ_FIELD_NAME]) {
-      throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
-    }
-
     const schemaId = SchemaId.fromString(obj[PBJ_FIELD_NAME]);
-    const message = new (MessageResolver.resolveId(schemaId))();
+    const message = new (await MessageResolver.resolveId(schemaId));
     const schema = message.schema();
 
     if (schema.getCurieMajor() !== schemaId.getCurieMajor()) {
       throw new InvalidResolvedSchema(schema, schemaId);
     }
 
-    Object.keys(obj).forEach((fieldName) => {
+    for (const fieldName of Object.keys(obj)) {
       if (!schema.hasField(fieldName)) {
-        return;
+        continue;
       }
 
       const value = obj[fieldName];
       if (value === null) {
         message.clear(fieldName);
-        return;
+        continue;
       }
 
       const field = schema.getField(fieldName);
       const type = field.getType();
 
       if (field.isASingleValue()) {
-        message.set(fieldName, type.decode(value, field, this));
-        return;
+        message.set(fieldName, await type.decode(value, field, this));
+        continue;
       }
 
       if (field.isASet() || field.isAList()) {
@@ -106,7 +96,10 @@ export default class ObjectSerializer {
           throw new AssertionFailed(`Field [${fieldName}] must be an array.`);
         }
 
-        const values = value.map(v => type.decode(v, field, this));
+        const values = [];
+        for (const v of value) {
+          values.push(await type.decode(v, field, this));
+        }
 
         if (field.isASet()) {
           message.addToSet(fieldName, values);
@@ -114,17 +107,17 @@ export default class ObjectSerializer {
           message.addToList(fieldName, values);
         }
 
-        return;
+        continue;
       }
 
       if (!isPlainObject(value)) {
         throw new AssertionFailed(`Field [${fieldName}] must be an object.`);
       }
 
-      Object.keys(value).forEach((k) => {
-        message.addToMap(fieldName, k, type.decode(value[k], field, this));
-      });
-    });
+      for (const k of Object.keys(value)) {
+        message.addToMap(fieldName, k, await type.decode(value[k], field, this));
+      }
+    }
 
     return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
   }
@@ -145,7 +138,7 @@ export default class ObjectSerializer {
    *
    * @returns {Message}
    */
-  static decodeMessage(value, field) {
+  static async decodeMessage(value, field) {
     return this.deserialize(value, opt);
   }
 

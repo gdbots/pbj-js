@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import BigNumber from '../well-known/BigNumber';
@@ -33,7 +31,7 @@ export default class BigIntType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {string}
    */
@@ -48,7 +46,7 @@ export default class BigIntType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?BigNumber}
    */

@@ -1,5 +1,4 @@
-/* eslint-disable indent */
-import Enum from '@gdbots/common/Enum';
+import Enum from './Enum';
 import clamp from 'lodash/clamp';
 import intersection from 'lodash/intersection';
 import isArray from 'lodash/isArray';
@@ -373,6 +372,13 @@ export default class Field {
    */
   getClassProto() {
     return this.classProto;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  hasAnyOfCuries() {
+    return this.anyOfCuries.length > 0;
   }
 
   /**

@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import Fb from '../../src/FieldBuilder';
 import Message from '../../src/Message';
 import MessageResolver from '../../src/MessageResolver';
@@ -15,7 +14,7 @@ export default class SampleMessageV1 extends Message {
    */
   static defineSchema() {
     return new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [
+      SampleMixinV1.getFields().concat([
         Fb.create('string_single', T.StringType.create())
           .build(),
         Fb.create('string_set', T.StringType.create())
@@ -42,13 +41,22 @@ export default class SampleMessageV1 extends Message {
 
         Fb.create('message_ref_single', T.MessageRefType.create())
           .build(),
-        Fb.create('message_ref_set', T.MessageRefType.create())
-          .asASet()
-          .build(),
         Fb.create('message_ref_list', T.MessageRefType.create())
           .asAList()
           .build(),
         Fb.create('message_ref_map', T.MessageRefType.create())
+          .asAMap()
+          .build(),
+
+        Fb.create('node_ref_single', T.NodeRefType.create())
+          .build(),
+        Fb.create('node_ref_set', T.NodeRefType.create())
+          .asASet()
+          .build(),
+        Fb.create('node_ref_list', T.NodeRefType.create())
+          .asAList()
+          .build(),
+        Fb.create('node_ref_map', T.NodeRefType.create())
           .asAMap()
           .build(),
 
@@ -69,15 +77,16 @@ export default class SampleMessageV1 extends Message {
         Fb.create('dynamic_field_map', T.DynamicFieldType.create())
           .asAMap()
           .build(),
-      ],
+      ]),
       [
-        SampleMixinV1.create(),
+        'gdbots:pbj.tests:mixin:many:v1',
+        'gdbots:pbj.tests:mixin:many',
       ],
     );
   }
 }
 
 SampleTraitV1(SampleMessageV1);
-MessageResolver.register('gdbots:pbj.tests::sample-message:v1', SampleMessageV1);
+MessageResolver.registerMessage('gdbots:pbj.tests::sample-message:v1', SampleMessageV1);
 Object.freeze(SampleMessageV1);
 Object.freeze(SampleMessageV1.prototype);

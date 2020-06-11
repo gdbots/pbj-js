@@ -79,7 +79,7 @@ test('GeoPointType encode tests', (t) => {
 });
 
 
-test('GeoPointType decode tests', (t) => {
+test('GeoPointType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: GeoPointType.create() });
   const codec = { decodeGeoPoint: value => GeoPoint.fromObject(value) };
   const gp = GeoPoint.fromString('34.1789335,-118.347594');
@@ -92,12 +92,12 @@ test('GeoPointType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t, codec);
+  await helpers.decodeSamples(field, samples, t, codec);
   t.end();
 });
 
 
-test('GeoPointType decode(invalid) tests', (t) => {
+test('GeoPointType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: GeoPointType.create() });
   const codec = { decodeGeoPoint: value => GeoPoint.fromObject(value) };
   const samples = [
@@ -110,6 +110,6 @@ test('GeoPointType decode(invalid) tests', (t) => {
     NaN,
     undefined,
   ];
-  helpers.decodeInvalidSamples(field, samples, t, codec);
+  await helpers.decodeInvalidSamples(field, samples, t, codec);
   t.end();
 });

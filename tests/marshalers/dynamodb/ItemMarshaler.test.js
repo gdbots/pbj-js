@@ -1,7 +1,7 @@
 import test from 'tape';
 import DynamicField from '../../../src/well-known/DynamicField';
 import GeoPoint from '../../../src/well-known/GeoPoint';
-import MessageRef from '../../../src/MessageRef';
+import MessageRef from '../../../src/well-known/MessageRef';
 import ItemMarshaler from '../../../src/marshalers/dynamodb/ItemMarshaler';
 import SampleMessageV1 from '../../fixtures/SampleMessageV1';
 import SampleOtherMessageV1 from '../../fixtures/SampleOtherMessageV1';
@@ -23,10 +23,6 @@ const message = SampleMessageV1.create()
   .addToMap('message_map', 'test2', SampleOtherMessageV1.create().set('test', 'map_item2'))
 
   .set('message_ref_single', MessageRef.fromString('acme:blog:node:article:id1#tag'))
-  .addToSet('message_ref_set', [
-    MessageRef.fromString('acme:blog:node:article:set_id1'),
-    MessageRef.fromString('acme:blog:node:article:set_id2'),
-  ])
   .addToList('message_ref_list', [
     MessageRef.fromString('acme:blog:node:article:list_id1'),
     MessageRef.fromString('acme:blog:node:article:list_id2'),
@@ -53,8 +49,9 @@ const message = SampleMessageV1.create()
   .addToMap('dynamic_field_map', 'test1', DynamicField.createStringVal('test_string', 'string'))
   .addToMap('dynamic_field_map', 'test2', DynamicField.createIntVal('test_int', 9000));
 
+console.log('gbt', message);
 
-test('ItemMarshaler marshal/unmarshal tests', (t) => {
+test('ItemMarshaler marshal/unmarshal tests', async (t) => {
   const obj = {
     _schema: {
       S: 'pbj:gdbots:pbj.tests::sample-message:1-0-0',
@@ -176,36 +173,6 @@ test('ItemMarshaler marshal/unmarshal tests', (t) => {
           S: 'tag',
         },
       },
-    },
-    message_ref_set: {
-      L: [
-        {
-          M: {
-            curie: {
-              S: 'acme:blog:node:article',
-            },
-            id: {
-              S: 'set_id1',
-            },
-            tag: {
-              NULL: true,
-            },
-          },
-        },
-        {
-          M: {
-            curie: {
-              S: 'acme:blog:node:article',
-            },
-            id: {
-              S: 'set_id2',
-            },
-            tag: {
-              NULL: true,
-            },
-          },
-        },
-      ],
     },
     message_ref_list: {
       L: [
@@ -454,8 +421,8 @@ test('ItemMarshaler marshal/unmarshal tests', (t) => {
   t.same(ItemMarshaler.marshal(message), obj);
   // t.same(JSON.stringify(ItemMarshaler.marshal(message)), JSON.stringify(obj));
   t.same(ItemMarshaler.encodeMessage(message, field), { M: obj });
-  t.true(message.equals(ItemMarshaler.unmarshal(ItemMarshaler.marshal(message))));
-  t.true(message.equals(ItemMarshaler.decodeMessage(obj, field)));
+  t.true(message.equals(await ItemMarshaler.unmarshal(ItemMarshaler.marshal(message))));
+  t.true(message.equals(await ItemMarshaler.decodeMessage(obj, field)));
 
   t.end();
 });

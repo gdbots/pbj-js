@@ -22,7 +22,7 @@ export default class JsonSerializer {
    *
    * @throws {GdbotsPbjException}
    */
-  static deserialize(json, options = {}) {
+  static async deserialize(json, options = {}) {
     let obj;
 
     try {

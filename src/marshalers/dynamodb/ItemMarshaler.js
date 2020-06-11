@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars, no-else-return */
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import AssertionFailed from '../../exceptions/AssertionFailed';
@@ -6,18 +5,17 @@ import EncodeValueFailed from '../../exceptions/EncodeValueFailed';
 import InvalidResolvedSchema from '../../exceptions/InvalidResolvedSchema';
 import DynamicField from '../../well-known/DynamicField';
 import GeoPoint from '../../well-known/GeoPoint';
-import MessageRef from '../../MessageRef';
+import MessageRef from '../../well-known/MessageRef';
 import MessageResolver from '../../MessageResolver';
 import { PBJ_FIELD_NAME } from '../../Schema';
 import SchemaId from '../../SchemaId';
-import TypeName from '../../enums/TypeName';
 
 /**
  * Creates an object in the DynamoDb expected attribute value format.
  *
- * @link http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html
- * @link http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html
- * @link http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModel.DataTypes
+ * @link https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html
+ * @link https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_AttributeValue.html
+ * @link https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModel.DataTypes
  */
 export default class ItemMarshaler {
   /**
@@ -33,45 +31,43 @@ export default class ItemMarshaler {
 
     const payload = {};
 
-    schema.getFields().forEach((field) => {
+    for (const field of schema.getFields()) {
       const fieldName = field.getName();
 
       if (!message.has(fieldName)) {
-        if (message.hasClearedField(fieldName)) {
-          payload[fieldName] = { NULL: true };
-        }
-        return;
+        continue;
       }
 
       const value = message.get(fieldName);
 
       if (field.isASingleValue()) {
         payload[fieldName] = this.encodeValue(value, field);
-        return;
+        continue;
       }
 
       if (field.isASet()) {
         payload[fieldName] = this.encodeASetValue(value, field);
-        return;
+        continue;
       }
 
       if (field.isAMap()) {
         const map = {};
-        // eslint-disable-next-line no-return-assign
-        Object.keys(value).forEach(k => map[k] = this.encodeValue(value[k], field));
+        for (const k of Object.keys(value)) {
+          map[k] = this.encodeValue(value[k], field);
+        }
         payload[fieldName] = { M: map };
-        return;
+        continue;
       }
 
       payload[fieldName] = { L: value.map(v => this.encodeValue(v, field)) };
-    });
+    }
 
     return payload;
   }
 
   /**
    * Pass the item of a getItem request, e.g. data.Item
-   * @link docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#getItem-property
+   * @link https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#getItem-property
    *
    * @param {Object} obj
    *
@@ -79,7 +75,7 @@ export default class ItemMarshaler {
    *
    * @throws {GdbotsPbjException}
    */
-  static unmarshal(obj) {
+  static async unmarshal(obj) {
     return this.doUnmarshal({ M: obj });
   }
 
@@ -99,7 +95,7 @@ export default class ItemMarshaler {
    *
    * @returns {Message}
    */
-  static decodeMessage(value, field) {
+  static async decodeMessage(value, field) {
     return this.unmarshal(value);
   }
 
@@ -207,7 +203,7 @@ export default class ItemMarshaler {
   static decodeDynamicField(value, field) {
     const obj = { name: value.name.S };
     const kind = Object.keys(value).filter(key => key !== 'name')[0];
-    obj[kind] = Object.values(value[kind])[0]; // eslint-disable-line
+    obj[kind] = Object.values(value[kind])[0];
     return DynamicField.fromObject(obj);
   }
 
@@ -220,22 +216,22 @@ export default class ItemMarshaler {
    *
    * @throws {GdbotsPbjException}
    */
-  static doUnmarshal(obj) {
+  static async doUnmarshal(obj) {
     if (!obj.M[PBJ_FIELD_NAME]) {
       throw new AssertionFailed(`Object provided must contain the [${PBJ_FIELD_NAME}] key.`);
     }
 
     const schemaId = SchemaId.fromString(obj.M[PBJ_FIELD_NAME].S);
-    const message = new (MessageResolver.resolveId(schemaId))();
+    const message = new (await MessageResolver.resolveId(schemaId));
     const schema = message.schema();
 
     if (schema.getCurieMajor() !== schemaId.getCurieMajor()) {
       throw new InvalidResolvedSchema(schema, schemaId);
     }
 
-    Object.keys(obj.M).forEach((fieldName) => {
+    for (const fieldName of Object.keys(obj.M)) {
       if (!schema.hasField(fieldName)) {
-        return;
+        continue;
       }
 
       const dynamoType = Object.keys(obj.M[fieldName])[0];
@@ -243,15 +239,15 @@ export default class ItemMarshaler {
 
       if (dynamoType === 'NULL') {
         message.clear(fieldName);
-        return;
+        continue;
       }
 
       const field = schema.getField(fieldName);
       const type = field.getType();
 
       if (field.isASingleValue()) {
-        message.set(fieldName, type.decode(value, field, this));
-        return;
+        message.set(fieldName, await type.decode(value, field, this));
+        continue;
       }
 
       if (field.isASet() || field.isAList()) {
@@ -259,11 +255,15 @@ export default class ItemMarshaler {
           throw new AssertionFailed(`Field [${fieldName}] must be an array.`);
         }
 
-        let values;
+        const values = [];
         if (dynamoType === 'L') {
-          values = value.map(v => type.decode(Object.values(v)[0], field, this));
+          for (const v of value) {
+            values.push(await type.decode(Object.values(v)[0], field, this));
+          }
         } else {
-          values = value.map(v => type.decode(v, field, this));
+          for (const v of value) {
+            values.push(await type.decode(v, field, this));
+          }
         }
 
         if (field.isASet()) {
@@ -272,17 +272,17 @@ export default class ItemMarshaler {
           message.addToList(fieldName, values);
         }
 
-        return;
+        continue;
       }
 
       if (!isPlainObject(value)) {
         throw new AssertionFailed(`Field [${fieldName}] must be an object.`);
       }
 
-      Object.keys(value).forEach((k) => {
-        message.addToMap(fieldName, k, type.decode(Object.values(value[k])[0], field, this));
-      });
-    });
+      for (const k of Object.keys(value)) {
+        message.addToMap(fieldName, k, await type.decode(Object.values(value[k])[0], field, this));
+      }
+    }
 
     return message.set(PBJ_FIELD_NAME, schema.getId().toString()).populateDefaults();
   }
@@ -336,15 +336,6 @@ export default class ItemMarshaler {
   static encodeASetValue(value, field) {
     const type = field.getType();
 
-    /*
-     * A MessageRefType is the only object/map value that can be
-     * used in a set.  In this case of DynamoDb, we can store it as
-     * a list of maps.
-     */
-    if (type.getTypeName() === TypeName.MESSAGE_REF) {
-      return { L: value.map(v => type.encode(v, field, this)) };
-    }
-
     let dynamoType;
     if (type.isString()) {
       dynamoType = 'SS';
@@ -356,7 +347,6 @@ export default class ItemMarshaler {
       throw new EncodeValueFailed(value, field, 'ItemMarshaler.encodeASetValue has no handling for this value.');
     }
 
-    // eslint-disable-next-line no-confusing-arrow
     const result = value.map(v => type.encodesToScalar() ? `${type.encode(v, field, this)}` : `${v}`);
     return { [dynamoType]: result };
   }

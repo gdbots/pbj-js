@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import isSafeInteger from 'lodash/isSafeInteger';
 import toSafeInteger from 'lodash/toSafeInteger';
 import Type from './Type';
@@ -36,7 +34,7 @@ export default class TrinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */
@@ -47,7 +45,7 @@ export default class TrinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {number}
    */

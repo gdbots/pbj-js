@@ -72,16 +72,16 @@ function encodeSamples(field, samples, test, codec = null) {
  * @param {Object} test    - The test provider (with pass/fail methods).
  * @param {Object} codec   - Codec to use when type requires it.
  */
-function decodeSamples(field, samples, test, codec = null) {
-  samples.forEach((obj) => {
+async function decodeSamples(field, samples, test, codec = null) {
+  for (const obj of samples) {
     try {
-      const actual = field.getType().decode(obj.input, field, codec);
+      const actual = await field.getType().decode(obj.input, field, codec);
       test.same(actual, obj.output);
       test.same(toString(actual), toString(obj.output));
     } catch (e) {
       test.fail(e.message);
     }
-  });
+  }
 }
 
 /**
@@ -93,16 +93,16 @@ function decodeSamples(field, samples, test, codec = null) {
  * @param {Object} test    - The test provider (with pass/fail methods).
  * @param {Object} codec   - Codec to use when type requires it.
  */
-function decodeInvalidSamples(field, samples, test, codec = null) {
+async function decodeInvalidSamples(field, samples, test, codec = null) {
   const type = field.getType();
-  samples.forEach((value) => {
+  for (const value of samples) {
     try {
-      const decoded = type.decode(value, field, codec);
+      const decoded = await type.decode(value, field, codec);
       test.fail(`${type.getTypeName().getName()}.decode accepted invalid value [${JSON.stringify(value)}] and returned [${JSON.stringify(decoded)}].`);
     } catch (e) {
       test.pass(e.message);
     }
-  });
+  }
 }
 
 export default {

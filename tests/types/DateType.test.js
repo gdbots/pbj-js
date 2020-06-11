@@ -74,7 +74,7 @@ test('DateType encode tests', (t) => {
 });
 
 
-test('DateType decode tests', (t) => {
+test('DateType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: DateType.create() });
   const date = new Date(Date.UTC(2015, 11, 25));
   const samples = [
@@ -103,9 +103,9 @@ test('DateType decode tests', (t) => {
 });
 
 
-test('DateType decode(invalid) tests', (t) => {
+test('DateType decode(invalid) tests', async (t) => {
   const field = new Field({ name: 'test', type: DateType.create() });
   const samples = ['nope', '12/25/2015', false, [], {}, '', NaN, undefined];
-  helpers.decodeInvalidSamples(field, samples, t);
+  await helpers.decodeInvalidSamples(field, samples, t);
   t.end();
 });

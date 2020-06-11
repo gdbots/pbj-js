@@ -1,8 +1,6 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Type from './Type';
 import TypeName from '../enums/TypeName';
-import MessageRef from '../MessageRef';
+import MessageRef from '../well-known/MessageRef';
 import AssertionFailed from '../exceptions/AssertionFailed';
 import DecodeValueFailed from '../exceptions/DecodeValueFailed';
 
@@ -26,7 +24,7 @@ export default class MessageRefType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {*}
    */
@@ -41,7 +39,7 @@ export default class MessageRefType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?MessageRef}
    */
@@ -68,6 +66,13 @@ export default class MessageRefType extends Type {
    * @returns {boolean}
    */
   encodesToScalar() {
+    return false;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  allowedInSet() {
     return false;
   }
 }

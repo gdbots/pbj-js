@@ -84,7 +84,7 @@ test('MediumBlobType encode tests', (t) => {
 });
 
 
-test('MediumBlobType decode tests', (t) => {
+test('MediumBlobType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MediumBlobType.create() });
   const samples = [
     { input: 'dGVzdA==', output: 'test' },
@@ -96,6 +96,6 @@ test('MediumBlobType decode tests', (t) => {
     { input: 'Zm9vIMKpIGJhciDwnYyGIGJheg==', output: 'foo © bar 𝌆 baz' },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
   t.end();
 });

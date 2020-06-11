@@ -17,6 +17,7 @@ import MediumTextType from './MediumTextType';
 import MessageRefType from './MessageRefType';
 import MessageType from './MessageType';
 import MicrotimeType from './MicrotimeType';
+import NodeRefType from './NodeRefType';
 import SignedBigIntType from './SignedBigIntType';
 import SignedIntType from './SignedIntType';
 import SignedMediumIntType from './SignedMediumIntType';
@@ -53,6 +54,7 @@ export default {
   MessageRefType,
   MessageType,
   MicrotimeType,
+  NodeRefType,
   SignedBigIntType,
   SignedIntType,
   SignedMediumIntType,

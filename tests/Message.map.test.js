@@ -6,8 +6,6 @@ test('Message string_map tests', (t) => {
   const msg = SampleMessageV1.create();
 
   t.false(msg.has('string_map'));
-  t.false(msg.hasClearedField('string_map'));
-
   msg.addToMap('string_map', 'test1', 'val1');
   msg.addToMap('string_map', 'test2', 'val2');
   t.true(msg.has('string_map'));
@@ -52,22 +50,16 @@ test('Message string_map tests', (t) => {
   msg.removeFromMap('string_map', 'test1');
   msg.removeFromMap('string_map', 'test2');
   msg.removeFromMap('string_map', 'test3');
-  t.true(msg.hasClearedField('string_map'));
-  t.same(msg.getClearedFields(), ['string_map']);
   t.false(msg.isInMap('string_map', 'test1'));
   t.false(msg.isInMap('string_map', 'test2'));
   t.false(msg.isInMap('string_map', 'test3'));
 
   msg.addToMap('string_map', 'test1', 'val1');
-  t.false(msg.hasClearedField('string_map'));
-  t.same(msg.getClearedFields(), []);
   t.true(msg.isInMap('string_map', 'test1'));
   t.false(msg.isInMap('string_map', 'test2'));
   t.false(msg.isInMap('string_map', 'test3'));
 
   msg.clear('string_map');
-  t.true(msg.hasClearedField('string_map'));
-  t.same(msg.getClearedFields(), ['string_map']);
   t.false(msg.has('string_map'));
   t.same(msg.get('string_map'), null);
   t.same(msg.get('string_map', { test: 'what' }), { test: 'what' });
@@ -87,8 +79,6 @@ test('Message message_map tests', (t) => {
   const otherMsg4 = SampleOtherMessageV1.create().set('test', 'test4');
 
   t.false(msg.has('message_map'));
-  t.false(msg.hasClearedField('message_map'));
-
   msg.addToMap('message_map', 'test1', otherMsg1);
   msg.addToMap('message_map', 'test2', otherMsg2);
   t.true(msg.has('message_map'));
@@ -133,22 +123,16 @@ test('Message message_map tests', (t) => {
   msg.removeFromMap('message_map', 'test1');
   msg.removeFromMap('message_map', 'test2');
   msg.removeFromMap('message_map', 'test3');
-  t.true(msg.hasClearedField('message_map'));
-  t.same(msg.getClearedFields(), ['message_map']);
   t.false(msg.isInMap('message_map', 'test1'));
   t.false(msg.isInMap('message_map', 'test2'));
   t.false(msg.isInMap('message_map', 'test3'));
 
   msg.addToMap('message_map', 'test1', otherMsg1);
-  t.false(msg.hasClearedField('message_map'));
-  t.same(msg.getClearedFields(), []);
   t.true(msg.isInMap('message_map', 'test1'));
   t.false(msg.isInMap('message_map', 'test2'));
   t.false(msg.isInMap('message_map', 'test3'));
 
   msg.clear('message_map');
-  t.true(msg.hasClearedField('message_map'));
-  t.same(msg.getClearedFields(), ['message_map']);
   t.false(msg.has('message_map'));
   t.same(msg.get('message_map'), null);
   t.same(msg.get('message_map', { test: 'what' }), { test: 'what' });

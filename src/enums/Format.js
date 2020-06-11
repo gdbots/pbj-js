@@ -1,4 +1,4 @@
-import Enum from '@gdbots/common/Enum';
+import Enum from '../Enum';
 
 /**
  * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#format

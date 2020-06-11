@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import TimeUuidIdentifier from '../well-known/TimeUuidIdentifier';
@@ -30,7 +28,7 @@ export default class TimeUuidType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?string}
    */
@@ -45,7 +43,7 @@ export default class TimeUuidType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?TimeUuidIdentifier}
    */

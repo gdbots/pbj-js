@@ -2,8 +2,6 @@ import test from 'tape';
 import FieldAlreadyDefined from '../src/exceptions/FieldAlreadyDefined';
 import FieldNotDefined from '../src/exceptions/FieldNotDefined';
 import FieldOverrideNotCompatible from '../src/exceptions/FieldOverrideNotCompatible';
-import MixinAlreadyAdded from '../src/exceptions/MixinAlreadyAdded';
-import MixinNotDefined from '../src/exceptions/MixinNotDefined';
 import Fb from '../src/FieldBuilder';
 import Schema from '../src/Schema';
 import SchemaId from '../src/SchemaId';
@@ -11,11 +9,9 @@ import T from '../src/types';
 // import TypeName from '../src/enums/TypeName';
 import SampleMessageV1 from './fixtures/SampleMessageV1';
 import SampleMixinV1 from './fixtures/SampleMixinV1';
-import SampleMixinV2 from './fixtures/SampleMixinV2';
 
 test('Schema tests', (t) => {
   const schema = SampleMessageV1.schema();
-  const mixinId = SampleMixinV1.create().getId();
 
   t.true(schema instanceof Schema, 'schema MUST be an instanceOf Schema');
   t.true(schema.getId() === SchemaId.fromString('pbj:gdbots:pbj.tests::sample-message:1-0-0'));
@@ -23,17 +19,15 @@ test('Schema tests', (t) => {
   t.same(`${schema.getCurie()}`, 'gdbots:pbj.tests::sample-message');
   t.same(`${schema.getCurieMajor()}`, 'gdbots:pbj.tests::sample-message:v1');
   t.same(`${schema.getQName()}`, 'gdbots:sample-message');
-  t.same(schema.getFields().length, 20, 'schema should have 20 fields');
+  t.same(schema.getFields().length, 23, 'schema should have 23 fields');
   t.same(schema.getClassName(), 'SampleMessageV1');
-  t.same(schema.getHandlerMethodName(), 'sampleMessage');
-  t.same(schema.getHandlerMethodName(true), 'sampleMessageV1');
-  t.true(schema.hasMixin(mixinId.getCurieMajor()));
-  t.true(schema.getMixin(mixinId.getCurieMajor()), SampleMixinV1.create());
-  t.true(schema.hasMixin(mixinId.getCurie().toString()));
-  t.true(schema.getMixin(mixinId.getCurie().toString()), SampleMixinV1.create());
-  t.same(schema.getMixins(), [SampleMixinV1.create()]);
-  t.same(schema.getMixinIds(), [mixinId.getCurieMajor()]);
-  t.same(schema.getMixinCuries(), [mixinId.getCurie().toString()]);
+  t.same(schema.getHandlerMethodName(), 'sampleMessageV1');
+  t.same(schema.getHandlerMethodName(false), 'sampleMessage');
+  t.same(schema.getHandlerMethodName(true, 'on'), 'onSampleMessageV1');
+  t.same(schema.getHandlerMethodName(false, 'on'), 'onSampleMessage');
+  t.true(schema.hasMixin('gdbots:pbj.tests:mixin:many:v1'));
+  t.true(schema.hasMixin('gdbots:pbj.tests:mixin:many'));
+  t.same(schema.getMixins(), ['gdbots:pbj.tests:mixin:many:v1', 'gdbots:pbj.tests:mixin:many']);
   t.same(schema.getRequiredFields()[0].getName(), '_schema');
 
   // TypeName.getKeys()
@@ -71,8 +65,7 @@ test('Schema tests', (t) => {
 
 test('Schema overridable tests', (t) => {
   let schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-    [Fb.create('mixin_string', T.StringType.create()).withDefault('homer').build()],
-    [SampleMixinV1.create()],
+    SampleMixinV1.getFields().concat([Fb.create('mixin_string', T.StringType.create()).withDefault('homer').build()]),
   );
 
   const fields = schema.getFields();
@@ -83,8 +76,7 @@ test('Schema overridable tests', (t) => {
 
   try {
     schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [Fb.create('mixin_string', T.IntType.create()).build()],
-      [SampleMixinV1.create()],
+      SampleMixinV1.getFields().concat([Fb.create('mixin_string', T.IntType.create()).build()]),
     );
     t.fail('schema allowed invalid override (type mismatch)');
   } catch (e) {
@@ -94,8 +86,7 @@ test('Schema overridable tests', (t) => {
 
   try {
     schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [Fb.create('mixin_string', T.StringType.create()).required().build()],
-      [SampleMixinV1.create()],
+      SampleMixinV1.getFields().concat([Fb.create('mixin_string', T.StringType.create()).required().build()]),
     );
     t.fail('schema allowed invalid override (original optional, override required)');
   } catch (e) {
@@ -105,8 +96,7 @@ test('Schema overridable tests', (t) => {
 
   try {
     schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [Fb.create('mixin_string', T.StringType.create()).asAMap().build()],
-      [SampleMixinV1.create()],
+      SampleMixinV1.getFields().concat([Fb.create('mixin_string', T.StringType.create()).asAMap().build()]),
     );
     t.fail('schema allowed invalid override (original single, override map)');
   } catch (e) {
@@ -116,8 +106,7 @@ test('Schema overridable tests', (t) => {
 
   try {
     schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1,
-      [Fb.create('mixin_int', T.IntType.create()).build()],
-      [SampleMixinV1.create()],
+      SampleMixinV1.getFields().concat([Fb.create('mixin_int', T.IntType.create()).build()]),
     );
     t.fail('schema allowed invalid override (not overridable)');
   } catch (e) {
@@ -130,43 +119,16 @@ test('Schema overridable tests', (t) => {
 
 
 test('Schema mixin tests', (t) => {
-  let schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1, [],
-    [SampleMixinV1.create()],
+  const schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1, [],
+    [
+      'gdbots:pbj.tests:mixin:one:v1',
+      'gdbots:pbj.tests:mixin:one'
+    ],
   );
 
-  try {
-    schema.getMixin('invalid_mixin');
-    t.fail('schema.getMixin("invalid_mixin") should have thrown MixinNotDefined');
-  } catch (e) {
-    t.true(e instanceof MixinNotDefined, 'Exception MUST be an instanceOf MixinNotDefined');
-    t.pass(e.message);
-  }
-
-  try {
-    schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1, [],
-      [
-        SampleMixinV1.create(),
-        SampleMixinV1.create(),
-      ],
-    );
-    t.fail('schema allowed same mixin twice');
-  } catch (e) {
-    t.true(e instanceof MixinAlreadyAdded, 'Exception MUST be an instanceOf MixinAlreadyAdded');
-    t.pass(e.message);
-  }
-
-  try {
-    schema = new Schema('pbj:gdbots:pbj.tests::sample-message:1-0-0', SampleMessageV1, [],
-      [
-        SampleMixinV1.create(),
-        SampleMixinV2.create(),
-      ],
-    );
-    t.fail('schema allowed same mixin (by curie) twice');
-  } catch (e) {
-    t.true(e instanceof MixinAlreadyAdded, 'Exception MUST be an instanceOf MixinAlreadyAdded');
-    t.pass(e.message);
-  }
+  t.true(schema.hasMixin('gdbots:pbj.tests:mixin:one:v1'));
+  t.true(schema.hasMixin('gdbots:pbj.tests:mixin:one'));
+  t.false(schema.hasMixin('invalid_mixin'));
 
   t.end();
 });

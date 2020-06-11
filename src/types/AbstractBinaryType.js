@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import base64 from 'base-64';
 import clamp from 'lodash/clamp';
 import isString from 'lodash/isString';
@@ -56,7 +54,7 @@ export default class AbstractBinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?string}
    */
@@ -72,7 +70,7 @@ export default class AbstractBinaryType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?string}
    *

@@ -1,5 +1,3 @@
-/* eslint-disable no-useless-escape */
-
 import InvalidSchemaId from './exceptions/InvalidSchemaId';
 import SchemaCurie from './SchemaCurie';
 import SchemaVersion from './SchemaVersion';

@@ -108,9 +108,9 @@ test('MessageType encode tests', (t) => {
 });
 
 
-test('MessageType decode tests', (t) => {
+test('MessageType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: MessageType.create(), classProto: SampleMessageV1 });
-  const codec = { decodeMessage: value => Message.fromObject(value) };
+  const codec = { decodeMessage: async (value) => Message.fromObject(value) };
   const message = SampleMessageV1.create().set('string_single', 'test');
   const samples = [
     {
@@ -132,19 +132,19 @@ test('MessageType decode tests', (t) => {
     { input: null, output: null },
   ];
 
-  helpers.decodeSamples(field, samples, t, codec);
+  await helpers.decodeSamples(field, samples, t, codec);
   t.end();
 });
 
 
-test('MessageType decode(invalid) tests', (t) => {
+test('MessageType decode(invalid) tests', async (t) => {
   const field = new Field({
     name: 'test',
     type: MessageType.create(),
     classProto: SampleMessageV1,
     anyOfCuries: ['gdbots:pbj.tests::sample-message'],
   });
-  const codec = { decodeMessage: value => Message.fromObject(value) };
+  const codec = { decodeMessage: async (value) => Message.fromObject(value) };
   const samples = [
     SampleMessageV1,
     'nope',
@@ -157,6 +157,6 @@ test('MessageType decode(invalid) tests', (t) => {
     NaN,
     undefined,
   ];
-  helpers.decodeInvalidSamples(field, samples, t, codec);
+  await helpers.decodeInvalidSamples(field, samples, t, codec);
   t.end();
 });

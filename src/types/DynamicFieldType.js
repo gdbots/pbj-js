@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import DynamicField from '../well-known/DynamicField';
@@ -26,7 +24,7 @@ export default class DynamicFieldType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {*}
    */
@@ -41,7 +39,7 @@ export default class DynamicFieldType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?DynamicField}
    */

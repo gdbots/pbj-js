@@ -1,7 +1,5 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
-
 import moment from 'moment';
-import isValidISO8601Date from '@gdbots/common/isValidISO8601Date';
+import isValidISO8601Date from '../utils/isValidISO8601Date';
 import Type from './Type';
 import TypeName from '../enums/TypeName';
 import AssertionFailed from '../exceptions/AssertionFailed';
@@ -27,7 +25,7 @@ export default class DateTimeType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?string}
    */
@@ -42,7 +40,7 @@ export default class DateTimeType extends Type {
   /**
    * @param {*} value
    * @param {Field} field
-   * @param {Codec} [codec]
+   * @param {Object} [codec]
    *
    * @returns {?Date}
    */

@@ -80,7 +80,7 @@ test('DecimalType encode tests', (t) => {
 });
 
 
-test('DecimalType decode tests', (t) => {
+test('DecimalType decode tests', async (t) => {
   const field = new Field({ name: 'test', type: DecimalType.create() });
   const samples = [
     { input: 0, output: 0 },
@@ -95,7 +95,7 @@ test('DecimalType decode tests', (t) => {
     { input: '-3.14159265358979', output: -3.14 },
   ];
 
-  helpers.decodeSamples(field, samples, t);
+  await helpers.decodeSamples(field, samples, t);
 
   const fieldWith6Scale = new Field({ name: 'test_6_scale', type: DecimalType.create(), precision: 10, scale: 6 });
   const samplesWith6Scale = [
@@ -112,7 +112,7 @@ test('DecimalType decode tests', (t) => {
     { input: '-3.14159265358979', output: -3.141593 },
   ];
 
-  helpers.decodeSamples(fieldWith6Scale, samplesWith6Scale, t);
+  await helpers.decodeSamples(fieldWith6Scale, samplesWith6Scale, t);
 
   t.end();
 });
