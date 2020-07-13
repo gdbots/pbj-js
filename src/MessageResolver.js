@@ -1,3 +1,4 @@
+import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import MoreThanOneMessageForMixin from './exceptions/MoreThanOneMessageForMixin';
 import NoMessageForCurie from './exceptions/NoMessageForCurie';
@@ -7,6 +8,11 @@ import NoMessageForSchemaId from './exceptions/NoMessageForSchemaId';
 import SchemaCurie from './SchemaCurie';
 import SchemaId from './SchemaId';
 import SchemaQName from './SchemaQName';
+
+async function resolveImport(resolver) {
+  const result = await (isFunction(resolver) ? resolver() : resolver);
+  return result.default || result;
+}
 
 let defaultVendor = '';
 let manifestResolver = () => false;
@@ -30,7 +36,7 @@ export default class MessageResolver {
   /**
    * An object of dynamic imports keyed by a curie major.
    * {
-   *   'acme:news:node:article:v1': import('@acme/schemas/acme/news/node/ArticleV1'),
+   *   'acme:news:node:article:v1': () => import('@acme/schemas/acme/news/node/ArticleV1'),
    * },
    *
    * @param {Object} imports
@@ -73,7 +79,7 @@ export default class MessageResolver {
     const curieMajor = id.getCurieMajor();
     if (messages[curieMajor]) {
       try {
-        return (await messages[curieMajor]).default;
+        return await resolveImport(messages[curieMajor]);
       } catch (e) {
       }
     }
@@ -116,7 +122,7 @@ export default class MessageResolver {
     const key = `${curie}`.replace('*', defaultVendor);
     if (messages[key]) {
       try {
-        return (await messages[key]).default;
+        return await resolveImport(messages[key]);
       } catch (e) {
       }
     }
@@ -125,7 +131,7 @@ export default class MessageResolver {
     if (messages[latest]) {
       messages[key] = messages[latest];
       try {
-        return (await messages[key]).default;
+        return await resolveImport(messages[key]);
       } catch (e) {
       }
     }
@@ -243,7 +249,7 @@ export default class MessageResolver {
   static async findAllUsingMixin(mixin, returnWithMajor = true) {
     let curies;
     try {
-      curies = (await manifestResolver(mixin.replace(/:/g, '/'))).default;
+      curies = await resolveImport(manifestResolver(mixin.replace(/:/g, '/')));
     } catch (e) {
       curies = [];
     }
@@ -280,8 +286,8 @@ export default class MessageResolver {
    *
    * e.g. @acme-schemas/manifests/gdbots/ncr/mixin/node/v1.js
    * export default [
-   *     'acme:news:node:article:v1',
-   *     'acme:videos:node:video:v1',
+   *   'acme:news:node:article:v1',
+   *   'acme:videos:node:video:v1',
    * ];
    *
    * In order to do this a function must be supplied that has

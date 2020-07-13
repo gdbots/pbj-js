@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.0.1
+* Handle async imports in MessageResolver correctly for truly lazy loaded schemas. `import(...)` vs `() => import(...)`.
+
+
 ## v2.0.0
 __BREAKING CHANGES__
 
