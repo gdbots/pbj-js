@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import TextType from '../../src/types/TextType';
-import helpers from './helpers';
-import Format from '../../src/enums/Format';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import TextType from '../../src/types/TextType.js';
+import helpers from './helpers.js';
+import Format from '../../src/enums/Format.js';
 
 test('TextType property tests', (t) => {
   const textType = TextType.create();

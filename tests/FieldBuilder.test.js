@@ -1,8 +1,8 @@
 import test from 'tape';
-import Fb from '../src/FieldBuilder';
-import Field from '../src/Field';
-import Format from '../src/enums/Format';
-import T from '../src/types';
+import Fb from '../src/FieldBuilder.js';
+import Field from '../src/Field.js';
+import Format from '../src/enums/Format.js';
+import T from '../src/types/index.js';
 
 test('FieldBuilder tests', (t) => {
   let field = Fb.create('test', T.StringType.create())

@@ -1,13 +1,13 @@
 import test from 'tape';
-import Fb from '../../src/FieldBuilder';
-import DynamicField from '../../src/well-known/DynamicField';
-import GeoPoint from '../../src/well-known/GeoPoint';
-import MessageRef from '../../src/well-known/MessageRef';
-import T from '../../src/types';
-import ObjectSerializer from '../../src/serializers/ObjectSerializer';
-import SampleMessageV1 from '../fixtures/SampleMessageV1';
-import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1';
-import NodeRef from '../../src/well-known/NodeRef';
+import Fb from '../../src/FieldBuilder.js';
+import DynamicField from '../../src/well-known/DynamicField.js';
+import GeoPoint from '../../src/well-known/GeoPoint.js';
+import MessageRef from '../../src/well-known/MessageRef.js';
+import T from '../../src/types/index.js';
+import ObjectSerializer from '../../src/serializers/ObjectSerializer.js';
+import SampleMessageV1 from '../fixtures/SampleMessageV1.js';
+import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1.js';
+import NodeRef from '../../src/well-known/NodeRef.js';
 
 
 test('ObjectSerializer serialize tests', (t) => {

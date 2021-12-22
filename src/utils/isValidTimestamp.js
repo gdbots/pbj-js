@@ -1,4 +1,4 @@
-import toSafeInteger from 'lodash/toSafeInteger';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
 
 /**
  * October 15, 1582 UTC

@@ -1,8 +1,8 @@
-import isSafeInteger from 'lodash/isSafeInteger';
-import toSafeInteger from 'lodash/toSafeInteger';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isSafeInteger from 'lodash-es/isSafeInteger.js';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 /**
  * @link https://en.wikipedia.org/wiki/Three-valued_logic

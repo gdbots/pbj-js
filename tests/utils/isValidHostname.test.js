@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidHostname from '../../src/utils/isValidHostname';
+import isValidHostname from '../../src/utils/isValidHostname.js';
 
 test('isValidHostname tests', (assert) => {
   const testcases = [

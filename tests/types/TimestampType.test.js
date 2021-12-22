@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import TimestampType from '../../src/types/TimestampType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import TimestampType from '../../src/types/TimestampType.js';
+import helpers from './helpers.js';
 
 test('TimestampType property tests', (t) => {
   const timestampType = TimestampType.create();

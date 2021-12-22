@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import TrinaryType from '../../src/types/TrinaryType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import TrinaryType from '../../src/types/TrinaryType.js';
+import helpers from './helpers.js';
 
 test('TrinaryType property tests', (t) => {
   const trinaryType = TrinaryType.create();

@@ -1,4 +1,4 @@
-import TimeUuidIdentifier from '../../../src/well-known/TimeUuidIdentifier';
+import TimeUuidIdentifier from '../../../src/well-known/TimeUuidIdentifier.js';
 
 export default class SampleTimeUuidIdentifier extends TimeUuidIdentifier {
 }

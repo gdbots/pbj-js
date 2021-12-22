@@ -1,14 +1,14 @@
 import test from 'tape';
-import FieldAlreadyDefined from '../src/exceptions/FieldAlreadyDefined';
-import FieldNotDefined from '../src/exceptions/FieldNotDefined';
-import FieldOverrideNotCompatible from '../src/exceptions/FieldOverrideNotCompatible';
-import Fb from '../src/FieldBuilder';
-import Schema from '../src/Schema';
-import SchemaId from '../src/SchemaId';
-import T from '../src/types';
+import FieldAlreadyDefined from '../src/exceptions/FieldAlreadyDefined.js';
+import FieldNotDefined from '../src/exceptions/FieldNotDefined.js';
+import FieldOverrideNotCompatible from '../src/exceptions/FieldOverrideNotCompatible.js';
+import Fb from '../src/FieldBuilder.js';
+import Schema from '../src/Schema.js';
+import SchemaId from '../src/SchemaId.js';
+import T from '../src/types/index.js';
 // import TypeName from '../src/enums/TypeName';
-import SampleMessageV1 from './fixtures/SampleMessageV1';
-import SampleMixinV1 from './fixtures/SampleMixinV1';
+import SampleMessageV1 from './fixtures/SampleMessageV1.js';
+import SampleMixinV1 from './fixtures/SampleMixinV1.js';
 
 test('Schema tests', (t) => {
   const schema = SampleMessageV1.schema();

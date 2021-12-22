@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import BinaryType from '../../src/types/BinaryType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import BinaryType from '../../src/types/BinaryType.js';
+import helpers from './helpers.js';
 
 test('BinaryType property tests', (t) => {
   const binaryType = BinaryType.create();

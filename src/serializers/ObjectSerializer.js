@@ -1,13 +1,13 @@
-import isArray from 'lodash/isArray';
-import isPlainObject from 'lodash/isPlainObject';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import InvalidResolvedSchema from '../exceptions/InvalidResolvedSchema';
-import DynamicField from '../well-known/DynamicField';
-import GeoPoint from '../well-known/GeoPoint';
-import MessageRef from '../well-known/MessageRef';
-import MessageResolver from '../MessageResolver';
-import { PBJ_FIELD_NAME } from '../Schema';
-import SchemaId from '../SchemaId';
+import isArray from 'lodash-es/isArray.js';
+import isPlainObject from 'lodash-es/isPlainObject.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import InvalidResolvedSchema from '../exceptions/InvalidResolvedSchema.js';
+import DynamicField from '../well-known/DynamicField.js';
+import GeoPoint from '../well-known/GeoPoint.js';
+import MessageRef from '../well-known/MessageRef.js';
+import MessageResolver from '../MessageResolver.js';
+import { PBJ_FIELD_NAME } from '../Schema.js';
+import SchemaId from '../SchemaId.js';
 
 let opt = {};
 

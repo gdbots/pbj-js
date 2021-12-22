@@ -1,6 +1,6 @@
-import trim from 'lodash/trim';
-import trimStart from 'lodash/trimStart';
-import isValidHashtag from './isValidHashtag';
+import trim from 'lodash-es/trim.js';
+import trimStart from 'lodash-es/trimStart.js';
+import isValidHashtag from './isValidHashtag.js';
 
 /**
  * Extracts all of the valid hashtags from a string.

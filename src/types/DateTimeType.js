@@ -1,9 +1,9 @@
 import moment from 'moment';
-import isValidISO8601Date from '../utils/isValidISO8601Date';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import isValidISO8601Date from '../utils/isValidISO8601Date.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class DateTimeType extends Type {
   constructor() {

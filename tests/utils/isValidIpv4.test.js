@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidIpv4 from '../../src/utils/isValidIpv4';
+import isValidIpv4 from '../../src/utils/isValidIpv4.js';
 
 test('isValidIpv4 tests', (assert) => {
   const valid = [

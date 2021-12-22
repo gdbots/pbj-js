@@ -1,13 +1,12 @@
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
-import MoreThanOneMessageForMixin from './exceptions/MoreThanOneMessageForMixin';
-import NoMessageForCurie from './exceptions/NoMessageForCurie';
-import NoMessageForMixin from './exceptions/NoMessageForMixin';
-import NoMessageForQName from './exceptions/NoMessageForQName';
-import NoMessageForSchemaId from './exceptions/NoMessageForSchemaId';
-import SchemaCurie from './SchemaCurie';
-import SchemaId from './SchemaId';
-import SchemaQName from './SchemaQName';
+import isFunction from 'lodash-es/isFunction.js';
+import isString from 'lodash-es/isString.js';
+import MoreThanOneMessageForMixin from './exceptions/MoreThanOneMessageForMixin.js';
+import NoMessageForCurie from './exceptions/NoMessageForCurie.js';
+import NoMessageForMixin from './exceptions/NoMessageForMixin.js';
+import NoMessageForQName from './exceptions/NoMessageForQName.js';
+import NoMessageForSchemaId from './exceptions/NoMessageForSchemaId.js';
+import SchemaCurie from './SchemaCurie.js';
+import SchemaQName from './SchemaQName.js';
 
 async function resolveImport(resolver) {
   const result = await (isFunction(resolver) ? resolver() : resolver);
@@ -295,7 +294,7 @@ export default class MessageResolver {
    * dynamic import paths optimally.
    *
    * e.g. in @acme-schemas/index.js it would call:
-   * MessageResolver.setManifestResolver(file => import(`./manifests/${file}`));
+   * MessageResolver.setManifestResolver(file => import(`./manifests/${file}.js`));
    *
    * @param {Function} resolver
    */

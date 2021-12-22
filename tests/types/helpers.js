@@ -1,5 +1,5 @@
-import toString from 'lodash/toString';
-import truncate from 'lodash/truncate';
+import toString from 'lodash-es/toString.js';
+import truncate from 'lodash-es/truncate.js';
 
 /**
  * Runs guard against an array of valid samples for the provided

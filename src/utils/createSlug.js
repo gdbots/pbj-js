@@ -1,6 +1,6 @@
-import deburr from 'lodash/deburr';
-import trim from 'lodash/trim';
-import isValidSlug from './isValidSlug';
+import deburr from 'lodash-es/deburr.js';
+import trim from 'lodash-es/trim.js';
+import isValidSlug from './isValidSlug.js';
 
 // some punctuation and other chars are convertable
 const convertables = [

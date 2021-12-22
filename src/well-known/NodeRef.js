@@ -1,8 +1,8 @@
 import md5 from 'md5';
-import trim from 'lodash/trim';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import Identifier from './Identifier';
-import SchemaQName from '../SchemaQName';
+import trim from 'lodash-es/trim.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import Identifier from './Identifier.js';
+import SchemaQName from '../SchemaQName.js';
 
 /**
  * A NodeRef is a qualified identifier to a node/vertex.  It is less verbose than a MessageRef

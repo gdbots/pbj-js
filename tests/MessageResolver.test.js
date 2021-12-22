@@ -1,15 +1,15 @@
 import test from 'tape';
-import MoreThanOneMessageForMixin from '../src/exceptions/MoreThanOneMessageForMixin';
-import NoMessageForCurie from '../src/exceptions/NoMessageForCurie';
-import NoMessageForMixin from '../src/exceptions/NoMessageForMixin';
-import NoMessageForQName from '../src/exceptions/NoMessageForQName';
-import NoMessageForSchemaId from '../src/exceptions/NoMessageForSchemaId';
-import MessageResolver from '../src/MessageResolver';
-import SchemaCurie from '../src/SchemaCurie';
-import SchemaId from '../src/SchemaId';
-import SampleMessageV1 from './fixtures/SampleMessageV1';
-import SampleMessageV2 from './fixtures/SampleMessageV2';
-import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
+import MoreThanOneMessageForMixin from '../src/exceptions/MoreThanOneMessageForMixin.js';
+import NoMessageForCurie from '../src/exceptions/NoMessageForCurie.js';
+import NoMessageForMixin from '../src/exceptions/NoMessageForMixin.js';
+import NoMessageForQName from '../src/exceptions/NoMessageForQName.js';
+import NoMessageForSchemaId from '../src/exceptions/NoMessageForSchemaId.js';
+import MessageResolver from '../src/MessageResolver.js';
+import SchemaCurie from '../src/SchemaCurie.js';
+import SchemaId from '../src/SchemaId.js';
+import SampleMessageV1 from './fixtures/SampleMessageV1.js';
+import SampleMessageV2 from './fixtures/SampleMessageV2.js';
+import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1.js';
 
 
 test('MessageResolver all tests', async (t) => {

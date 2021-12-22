@@ -1,6 +1,6 @@
 import test from 'tape';
-import DynamicField from '../../src/well-known/DynamicField';
-import Field from '../../src/Field';
+import DynamicField from '../../src/well-known/DynamicField.js';
+import Field from '../../src/Field.js';
 
 test('DynamicField property tests', (t) => {
   const df1 = DynamicField.createStringVal('test1', 'taco');

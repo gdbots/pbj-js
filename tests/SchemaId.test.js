@@ -1,7 +1,7 @@
 import test from 'tape';
-import SchemaId from '../src/SchemaId';
-import SchemaCurie from '../src/SchemaCurie';
-import SchemaQName from '../src/SchemaQName';
+import SchemaId from '../src/SchemaId.js';
+import SchemaCurie from '../src/SchemaCurie.js';
+import SchemaQName from '../src/SchemaQName.js';
 
 test('SchemaId tests', (t) => {
   const valid = [

@@ -1,8 +1,8 @@
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import MessageRef from '../well-known/MessageRef';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import MessageRef from '../well-known/MessageRef.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class MessageRefType extends Type {
   constructor() {

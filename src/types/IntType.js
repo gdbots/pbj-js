@@ -1,5 +1,5 @@
-import AbstractIntType from './AbstractIntType';
-import TypeName from '../enums/TypeName';
+import AbstractIntType from './AbstractIntType.js';
+import TypeName from '../enums/TypeName.js';
 
 export default class IntType extends AbstractIntType {
   constructor() {

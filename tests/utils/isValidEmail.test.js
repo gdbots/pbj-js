@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidEmail from '../../src/utils/isValidEmail';
+import isValidEmail from '../../src/utils/isValidEmail.js';
 
 test('isValidEmail tests', (assert) => {
   const valid = [

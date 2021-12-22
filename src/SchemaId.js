@@ -1,6 +1,6 @@
-import InvalidSchemaId from './exceptions/InvalidSchemaId';
-import SchemaCurie from './SchemaCurie';
-import SchemaVersion from './SchemaVersion';
+import InvalidSchemaId from './exceptions/InvalidSchemaId.js';
+import SchemaCurie from './SchemaCurie.js';
+import SchemaVersion from './SchemaVersion.js';
 
 /**
  * We store all SchemaId instances to accomplish a loose flyweight strategy.

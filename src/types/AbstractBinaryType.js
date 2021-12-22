@@ -1,11 +1,11 @@
 import base64 from 'base-64';
-import clamp from 'lodash/clamp';
-import isString from 'lodash/isString';
-import trim from 'lodash/trim';
+import clamp from 'lodash-es/clamp.js';
+import isString from 'lodash-es/isString.js';
+import trim from 'lodash-es/trim.js';
 import utf8 from 'utf8';
-import Type from './Type';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Type from './Type.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 let useDecodeFromBase64 = true;
 let useEncodeToBase64 = true;

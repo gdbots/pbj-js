@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import MediumBlobType from '../../src/types/MediumBlobType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import MediumBlobType from '../../src/types/MediumBlobType.js';
+import helpers from './helpers.js';
 
 test('MediumBlobType property tests', (t) => {
   const mediumBlobType = MediumBlobType.create();

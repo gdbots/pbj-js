@@ -1,7 +1,7 @@
-import isString from 'lodash/isString';
+import isString from 'lodash-es/isString.js';
 import moment from 'moment';
-import padEnd from 'lodash/padEnd';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import padEnd from 'lodash-es/padEnd.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 /**
  * Value object for microtime with methods to convert to and from integers.

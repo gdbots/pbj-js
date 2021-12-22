@@ -4,20 +4,6 @@ const presets = [];
 const plugins = [];
 
 switch (env) {
-  case 'cjs':
-    presets.push([
-      '@babel/preset-env',
-      {
-        targets: {
-          node: 'current',
-        },
-        modules: 'commonjs',
-        useBuiltIns: 'usage',
-        corejs: 3,
-      },
-    ]);
-    break;
-
   case 'build':
   default:
     presets.push([
@@ -31,13 +17,7 @@ switch (env) {
         corejs: 3,
       },
     ]);
-
-    plugins.push('lodash');
-    plugins.push('./use-lodash-es');
     break;
 }
 
-module.exports = {
-  presets,
-  plugins,
-};
+export default { presets, plugins }

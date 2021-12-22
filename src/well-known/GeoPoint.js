@@ -1,6 +1,6 @@
-import isArray from 'lodash/isArray';
-import toFinite from 'lodash/toFinite';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isArray from 'lodash-es/isArray.js';
+import toFinite from 'lodash-es/toFinite.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 /**
  * Represents a GeoJson Point value.

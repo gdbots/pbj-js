@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import SmallIntType from '../../src/types/SmallIntType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import SmallIntType from '../../src/types/SmallIntType.js';
+import helpers from './helpers.js';
 
 test('SmallIntType property tests', (t) => {
   const smallIntType = SmallIntType.create();

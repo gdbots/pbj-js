@@ -1,11 +1,10 @@
 import test from 'tape';
-import DynamicField from '../../../src/well-known/DynamicField';
-import GeoPoint from '../../../src/well-known/GeoPoint';
-import MessageRef from '../../../src/well-known/MessageRef';
-import ItemMarshaler from '../../../src/marshalers/dynamodb/ItemMarshaler';
-import SampleMessageV1 from '../../fixtures/SampleMessageV1';
-import SampleOtherMessageV1 from '../../fixtures/SampleOtherMessageV1';
-
+import DynamicField from '../../../src/well-known/DynamicField.js';
+import GeoPoint from '../../../src/well-known/GeoPoint.js';
+import MessageRef from '../../../src/well-known/MessageRef.js';
+import ItemMarshaler from '../../../src/marshalers/dynamodb/ItemMarshaler.js';
+import SampleMessageV1 from '../../fixtures/SampleMessageV1.js';
+import SampleOtherMessageV1 from '../../fixtures/SampleOtherMessageV1.js';
 
 const message = SampleMessageV1.create()
   .set('string_single', 'test')

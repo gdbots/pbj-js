@@ -1,5 +1,5 @@
 import test from 'tape';
-import createSlugFromCamel from '../../src/utils/createSlugFromCamel';
+import createSlugFromCamel from '../../src/utils/createSlugFromCamel.js';
 
 test('createSlugFromCamel tests', (assert) => {
   const samples = [

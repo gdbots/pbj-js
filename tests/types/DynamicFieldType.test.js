@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import DynamicFieldType from '../../src/types/DynamicFieldType';
-import DynamicField from '../../src/well-known/DynamicField';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import DynamicFieldType from '../../src/types/DynamicFieldType.js';
+import DynamicField from '../../src/well-known/DynamicField.js';
+import helpers from './helpers.js';
 
 test('DynamicFieldType property tests', (t) => {
   const dynamicFieldType = DynamicFieldType.create();

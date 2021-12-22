@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import MessageRefType from '../../src/types/MessageRefType';
-import MessageRef from '../../src/well-known/MessageRef';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import MessageRefType from '../../src/types/MessageRefType.js';
+import MessageRef from '../../src/well-known/MessageRef.js';
+import helpers from './helpers.js';
 
 test('MessageRefType property tests', (t) => {
   const messageRefType = MessageRefType.create();

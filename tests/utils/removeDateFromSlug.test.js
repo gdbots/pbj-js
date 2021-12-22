@@ -1,5 +1,5 @@
 import test from 'tape';
-import removeDateFromSlug from '../../src/utils/removeDateFromSlug';
+import removeDateFromSlug from '../../src/utils/removeDateFromSlug.js';
 
 test('removeDateFromSlug tests', (assert) => {
   const slugs = [

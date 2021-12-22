@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidSlug from '../../src/utils/isValidSlug';
+import isValidSlug from '../../src/utils/isValidSlug.js';
 
 test('isValidSlug tests', (assert) => {
   const valid = [

@@ -1,9 +1,9 @@
-import isBoolean from 'lodash/isBoolean';
-import toLower from 'lodash/toLower';
-import trim from 'lodash/trim';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isBoolean from 'lodash-es/isBoolean.js';
+import toLower from 'lodash-es/toLower.js';
+import trim from 'lodash-es/trim.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 export default class BooleanType extends Type {
   constructor() {

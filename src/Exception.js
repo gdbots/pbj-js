@@ -1,4 +1,4 @@
-import toInteger from 'lodash/toInteger';
+import toInteger from 'lodash-es/toInteger.js';
 
 export default class Exception extends Error {
   /**

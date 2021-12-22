@@ -1,20 +1,20 @@
-import isArray from 'lodash/isArray';
-import isBoolean from 'lodash/isBoolean';
-import isEmpty from 'lodash/isEmpty';
-import isMap from 'lodash/isMap';
-import toSafeInteger from 'lodash/toSafeInteger';
-import trim from 'lodash/trim';
+import isArray from 'lodash-es/isArray.js';
+import isBoolean from 'lodash-es/isBoolean.js';
+import isEmpty from 'lodash-es/isEmpty.js';
+import isMap from 'lodash-es/isMap.js';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
+import trim from 'lodash-es/trim.js';
 import md5 from 'md5';
-import AssertionFailed from './exceptions/AssertionFailed';
-import FrozenMessageIsImmutable from './exceptions/FrozenMessageIsImmutable';
-import LogicException from './exceptions/LogicException';
-import RequiredFieldNotSet from './exceptions/RequiredFieldNotSet';
-import SchemaNotDefined from './exceptions/SchemaNotDefined';
-import MessageRef from './well-known/MessageRef';
-import NodeRef from './well-known/NodeRef';
-import Schema, { PBJ_FIELD_NAME } from './Schema';
-import JsonSerializer from './serializers/JsonSerializer';
-import ObjectSerializer from './serializers/ObjectSerializer';
+import AssertionFailed from './exceptions/AssertionFailed.js';
+import FrozenMessageIsImmutable from './exceptions/FrozenMessageIsImmutable.js';
+import LogicException from './exceptions/LogicException.js';
+import RequiredFieldNotSet from './exceptions/RequiredFieldNotSet.js';
+import SchemaNotDefined from './exceptions/SchemaNotDefined.js';
+import MessageRef from './well-known/MessageRef.js';
+import NodeRef from './well-known/NodeRef.js';
+import Schema, { PBJ_FIELD_NAME } from './Schema.js';
+import JsonSerializer from './serializers/JsonSerializer.js';
+import ObjectSerializer from './serializers/ObjectSerializer.js';
 
 /**
  * Stores all message instances so data is kept

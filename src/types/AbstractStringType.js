@@ -1,17 +1,17 @@
-import clamp from 'lodash/clamp';
-import isString from 'lodash/isString';
-import trim from 'lodash/trim';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import Format from '../enums/Format';
-import Type from './Type';
-import isValidEmail from '../utils/isValidEmail';
-import isValidHashtag from '../utils/isValidHashtag';
-import isValidHostname from '../utils/isValidHostname';
-import isValidIpv4 from '../utils/isValidIpv4';
-import isValidIpv6 from '../utils/isValidIpv6';
-import isValidISO8601Date from '../utils/isValidISO8601Date';
-import isValidUri from '../utils/isValidUri';
-import isValidUrl from '../utils/isValidUrl';
+import clamp from 'lodash-es/clamp.js';
+import isString from 'lodash-es/isString.js';
+import trim from 'lodash-es/trim.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import Format from '../enums/Format.js';
+import Type from './Type.js';
+import isValidEmail from '../utils/isValidEmail.js';
+import isValidHashtag from '../utils/isValidHashtag.js';
+import isValidHostname from '../utils/isValidHostname.js';
+import isValidIpv4 from '../utils/isValidIpv4.js';
+import isValidIpv6 from '../utils/isValidIpv6.js';
+import isValidISO8601Date from '../utils/isValidISO8601Date.js';
+import isValidUri from '../utils/isValidUri.js';
+import isValidUrl from '../utils/isValidUrl.js';
 
 export default class AbstractStringType extends Type {
   /**

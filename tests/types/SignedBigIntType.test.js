@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import SignedBigIntType from '../../src/types/SignedBigIntType';
-import BigNumber from '../../src/well-known/BigNumber';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import SignedBigIntType from '../../src/types/SignedBigIntType.js';
+import BigNumber from '../../src/well-known/BigNumber.js';
+import helpers from './helpers.js';
 
 test('SignedBigIntType property tests', (t) => {
   const signedBigIntType = SignedBigIntType.create();

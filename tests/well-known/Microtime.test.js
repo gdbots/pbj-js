@@ -1,6 +1,6 @@
 import test from 'tape';
 import moment from 'moment';
-import Microtime from '../../src/well-known/Microtime';
+import Microtime from '../../src/well-known/Microtime.js';
 
 test('Microtime create tests', (t) => {
   const m = Microtime.create();

@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import BigIntType from '../../src/types/BigIntType';
-import BigNumber from '../../src/well-known/BigNumber';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import BigIntType from '../../src/types/BigIntType.js';
+import BigNumber from '../../src/well-known/BigNumber.js';
+import helpers from './helpers.js';
 
 test('BigIntType property tests', (t) => {
   const bigIntType = BigIntType.create();

@@ -1,9 +1,9 @@
 import test from 'tape';
-import Field from '../src/Field';
-import FieldRule from '../src/enums/FieldRule';
-import Format from '../src/enums/Format';
-import T from '../src/types';
-import SampleStringEnum from './fixtures/enums/SampleStringEnum';
+import Field from '../src/Field.js';
+import FieldRule from '../src/enums/FieldRule.js';
+import Format from '../src/enums/Format.js';
+import T from '../src/types/index.js';
+import SampleStringEnum from './fixtures/enums/SampleStringEnum.js';
 
 test('Field tests', (t) => {
   let field = new Field({

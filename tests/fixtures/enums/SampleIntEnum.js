@@ -1,4 +1,4 @@
-import Enum from '../../../src/Enum';
+import Enum from '../../../src/Enum.js';
 
 export default class SampleIntEnum extends Enum {
 }

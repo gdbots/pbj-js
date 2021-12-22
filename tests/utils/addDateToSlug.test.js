@@ -1,5 +1,5 @@
 import test from 'tape';
-import addDateToSlug from '../../src/utils/addDateToSlug';
+import addDateToSlug from '../../src/utils/addDateToSlug.js';
 
 test('addDateToSlug tests', (assert) => {
   const formatSlugDate = (date) => {

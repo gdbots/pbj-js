@@ -1,7 +1,7 @@
 import test from 'tape';
-import Identifier from '../../src/well-known/Identifier';
-import UuidIdentifier from '../../src/well-known/UuidIdentifier';
-import SampleUuidIdentifier from '../fixtures/well-known/SampleUuidIdentifier';
+import Identifier from '../../src/well-known/Identifier.js';
+import UuidIdentifier from '../../src/well-known/UuidIdentifier.js';
+import SampleUuidIdentifier from '../fixtures/well-known/SampleUuidIdentifier.js';
 
 test('UuidIdentifier generate tests', (t) => {
   const id = SampleUuidIdentifier.generate();

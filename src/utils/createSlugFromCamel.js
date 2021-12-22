@@ -1,5 +1,5 @@
-import trim from 'lodash/trim';
-import createSlug from './createSlug';
+import trim from 'lodash-es/trim.js';
+import createSlug from './createSlug.js';
 
 /**
  * Creates a slug from a CamelCase string

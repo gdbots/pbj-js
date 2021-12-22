@@ -1,10 +1,10 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import MicrotimeType from '../../src/types/MicrotimeType';
-import Microtime from '../../src/well-known/Microtime';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import MicrotimeType from '../../src/types/MicrotimeType.js';
+import Microtime from '../../src/well-known/Microtime.js';
+import helpers from './helpers.js';
 
 test('MicrotimeType property tests', (t) => {
   const microtimeType = MicrotimeType.create();

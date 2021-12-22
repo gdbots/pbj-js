@@ -1,6 +1,6 @@
 import { v1 as uuidv1 } from 'uuid';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import UuidIdentifier from './UuidIdentifier';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import UuidIdentifier from './UuidIdentifier.js';
 
 export default class TimeUuidIdentifier extends UuidIdentifier {
   /**

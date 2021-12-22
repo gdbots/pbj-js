@@ -1,6 +1,6 @@
-import endsWith from 'lodash/endsWith';
-import startsWith from 'lodash/startsWith';
-import trim from 'lodash/trim';
+import endsWith from 'lodash-es/endsWith.js';
+import startsWith from 'lodash-es/startsWith.js';
+import trim from 'lodash-es/trim.js';
 
 const VALID_SLUG_PATTERN = /^([a-z0-9]-?)*[a-z0-9]$/;
 const VALID_DATED_SLUG_PATTERN = /^([a-z0-9-]|[a-z0-9-][a-z0-9-/]*[a-z0-9-])$/;

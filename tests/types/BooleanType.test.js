@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import BooleanType from '../../src/types/BooleanType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import BooleanType from '../../src/types/BooleanType.js';
+import helpers from './helpers.js';
 
 test('BooleanType property tests', (t) => {
   const booleanType = BooleanType.create();

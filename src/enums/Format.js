@@ -1,4 +1,4 @@
-import Enum from '../Enum';
+import Enum from '../Enum.js';
 
 /**
  * @link http://spacetelescope.github.io/understanding-json-schema/reference/string.html#format

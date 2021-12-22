@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v3.0.0
+__BREAKING CHANGES__
+
+* Publish package as type module now.
+* Use lodash-es explicitly instead of using a babel plugin to replace it.
+* Use explicit imports (including .js) because tape/babel/node or whatever unholy combination of this isn't working without it.
+
+
 ## v2.0.1
 * Handle async imports in MessageResolver correctly for truly lazy loaded schemas. `import(...)` vs `() => import(...)`.
 

@@ -1,7 +1,7 @@
 import test from 'tape';
-import Identifier from '../../src/well-known/Identifier';
-import DatedSlugIdentifier from '../../src/well-known/DatedSlugIdentifier';
-import SampleDatedSlugIdentifier from '../fixtures/well-known/SampleDatedSlugIdentifier';
+import Identifier from '../../src/well-known/Identifier.js';
+import DatedSlugIdentifier from '../../src/well-known/DatedSlugIdentifier.js';
+import SampleDatedSlugIdentifier from '../fixtures/well-known/SampleDatedSlugIdentifier.js';
 
 test('DatedSlugIdentifier tests', (t) => {
   const id = new SampleDatedSlugIdentifier('2015/12/25/homer-simpson');

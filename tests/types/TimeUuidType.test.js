@@ -1,11 +1,11 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import TimeUuidType from '../../src/types/TimeUuidType';
-import TimeUuidIdentifier from '../../src/well-known/TimeUuidIdentifier';
-import SampleTimeUuidIdentifier from '../fixtures/well-known/SampleTimeUuidIdentifier';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import TimeUuidType from '../../src/types/TimeUuidType.js';
+import TimeUuidIdentifier from '../../src/well-known/TimeUuidIdentifier.js';
+import SampleTimeUuidIdentifier from '../fixtures/well-known/SampleTimeUuidIdentifier.js';
+import helpers from './helpers.js';
 
 test('TimeUuidType property tests', (t) => {
   const timeUuidType = TimeUuidType.create();

@@ -1,11 +1,11 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import UuidType from '../../src/types/UuidType';
-import UuidIdentifier from '../../src/well-known/UuidIdentifier';
-import SampleUuidIdentifier from '../fixtures/well-known/SampleUuidIdentifier';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import UuidType from '../../src/types/UuidType.js';
+import UuidIdentifier from '../../src/well-known/UuidIdentifier.js';
+import SampleUuidIdentifier from '../fixtures/well-known/SampleUuidIdentifier.js';
+import helpers from './helpers.js';
 
 test('UuidType property tests', (t) => {
   const uuidType = UuidType.create();

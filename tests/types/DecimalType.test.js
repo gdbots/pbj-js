@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import DecimalType from '../../src/types/DecimalType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import DecimalType from '../../src/types/DecimalType.js';
+import helpers from './helpers.js';
 
 test('DecimalType property tests', (t) => {
   const decimalType = DecimalType.create();

@@ -1,8 +1,8 @@
-import startsWith from 'lodash/startsWith';
-import trimStart from 'lodash/trimStart';
-import isValidEmail from './isValidEmail';
-import isValidIpv6 from './isValidIpv6';
-import isValidUrn from './isValidUrn';
+import startsWith from 'lodash-es/startsWith.js';
+import trimStart from 'lodash-es/trimStart.js';
+import isValidEmail from './isValidEmail.js';
+import isValidIpv6 from './isValidIpv6.js';
+import isValidUrn from './isValidUrn.js';
 
 const GENERIC_URI_PATTERN = /^(?:[a-z0-9][a-z0-9-]{1,31}:(?:[a-z0-9()+,-.:=@;$_!*']|%(?:2[1-9a-f]|[3-6][0-9a-f]|7[0-9a-e]))+)$/i;
 

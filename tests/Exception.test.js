@@ -1,6 +1,6 @@
 import test from 'tape';
-import Exception from '../src/Exception';
-import CustomException from './fixtures/CustomException';
+import Exception from '../src/Exception.js';
+import CustomException from './fixtures/CustomException.js';
 
 test('Exception tests', (assert) => {
   const customException = new CustomException('custom message', 500);

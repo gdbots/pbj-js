@@ -1,4 +1,4 @@
-import trimStart from 'lodash/trimStart';
+import trimStart from 'lodash-es/trimStart.js';
 
 const DATE_PATTERN = /^\d{4}\/\d{2}\/\d{2}\/?(\S+)?/;
 

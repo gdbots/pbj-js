@@ -1,6 +1,6 @@
 import test from 'tape';
-import SchemaVersion from '../src/SchemaVersion';
-import InvalidSchemaVersion from '../src/exceptions/InvalidSchemaVersion';
+import SchemaVersion from '../src/SchemaVersion.js';
+import InvalidSchemaVersion from '../src/exceptions/InvalidSchemaVersion.js';
 
 test('SchemaVersion tests', (t) => {
   const valid = ['1-0-0', '1-1-1', '2-20-0', '300-4000-5000'];

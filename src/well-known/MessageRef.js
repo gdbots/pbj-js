@@ -1,6 +1,6 @@
-import trim from 'lodash/trim';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import SchemaCurie from '../SchemaCurie';
+import trim from 'lodash-es/trim.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import SchemaCurie from '../SchemaCurie.js';
 
 /**
  * Regular expression pattern for matching a valid id string.
