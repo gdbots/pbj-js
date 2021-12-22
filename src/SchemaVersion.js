@@ -1,5 +1,5 @@
-import toInteger from 'lodash/toInteger';
-import InvalidSchemaVersion from './exceptions/InvalidSchemaVersion';
+import toInteger from 'lodash-es/toInteger.js';
+import InvalidSchemaVersion from './exceptions/InvalidSchemaVersion.js';
 
 /**
  * Regular expression pattern for matching a valid SchemaVersion string.

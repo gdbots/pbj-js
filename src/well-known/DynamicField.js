@@ -1,14 +1,14 @@
-import isString from 'lodash/isString';
-import DynamicFieldKind from '../enums/DynamicFieldKind';
-import FieldRule from '../enums/FieldRule';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import Field from '../Field';
-import BooleanType from '../types/BooleanType';
-import DateType from '../types/DateType';
-import FloatType from '../types/FloatType';
-import IntType from '../types/IntType';
-import StringType from '../types/StringType';
-import TextType from '../types/TextType';
+import isString from 'lodash-es/isString.js';
+import DynamicFieldKind from '../enums/DynamicFieldKind.js';
+import FieldRule from '../enums/FieldRule.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import Field from '../Field.js';
+import BooleanType from '../types/BooleanType.js';
+import DateType from '../types/DateType.js';
+import FloatType from '../types/FloatType.js';
+import IntType from '../types/IntType.js';
+import StringType from '../types/StringType.js';
+import TextType from '../types/TextType.js';
 
 /**
  * Dynamic fields need one field object per "kind".

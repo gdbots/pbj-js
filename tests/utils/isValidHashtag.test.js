@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidHashtag from '../../src/utils/isValidHashtag';
+import isValidHashtag from '../../src/utils/isValidHashtag.js';
 
 /*
  * - must be alpha numeric (Current version does NOT support international hashtags.)

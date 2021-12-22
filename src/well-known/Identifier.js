@@ -1,6 +1,6 @@
-import isString from 'lodash/isString';
-import trim from 'lodash/trim';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isString from 'lodash-es/isString.js';
+import trim from 'lodash-es/trim.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 export default class Identifier {
   /**

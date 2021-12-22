@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import BlobType from '../../src/types/BlobType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import BlobType from '../../src/types/BlobType.js';
+import helpers from './helpers.js';
 
 test('BlobType property tests', (t) => {
   const blobType = BlobType.create();

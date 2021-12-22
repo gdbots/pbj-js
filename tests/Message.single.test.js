@@ -1,5 +1,5 @@
 import test from 'tape';
-import SampleMessageV1 from './fixtures/SampleMessageV1';
+import SampleMessageV1 from './fixtures/SampleMessageV1.js';
 
 test('Message string_single tests', (t) => {
   const msg = SampleMessageV1.create();

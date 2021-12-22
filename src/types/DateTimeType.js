@@ -1,9 +1,8 @@
-import moment from 'moment';
-import isValidISO8601Date from '../utils/isValidISO8601Date';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import isValidISO8601Date from '../utils/isValidISO8601Date.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class DateTimeType extends Type {
   constructor() {
@@ -45,8 +44,8 @@ export default class DateTimeType extends Type {
    * @returns {?Date}
    */
   decode(value, field, codec = null) {
-    if (value === null) {
-      return null;
+    if (value === null || value instanceof Date) {
+      return value;
     }
 
     if (!(value instanceof Date) && !isValidISO8601Date(value)) {
@@ -55,9 +54,9 @@ export default class DateTimeType extends Type {
       );
     }
 
-    const m = moment(value);
-    if (m.isValid()) {
-      return m.utc().toDate();
+    const d = new Date(value);
+    if (d instanceof Date) {
+      return d;
     }
 
     throw new DecodeValueFailed(value, field, `Field [${field.getName()}] :: Value "${value}" is not a valid IS8601 date.`);

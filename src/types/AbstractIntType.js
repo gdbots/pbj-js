@@ -1,8 +1,8 @@
-import clamp from 'lodash/clamp';
-import isSafeInteger from 'lodash/isSafeInteger';
-import toSafeInteger from 'lodash/toSafeInteger';
-import Type from './Type';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import clamp from 'lodash-es/clamp.js';
+import isSafeInteger from 'lodash-es/isSafeInteger.js';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
+import Type from './Type.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 export default class AbstractIntType extends Type {
   /**

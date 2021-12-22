@@ -1,5 +1,5 @@
 import test from 'tape';
-import createSlug from '../../src/utils/createSlug';
+import createSlug from '../../src/utils/createSlug.js';
 
 test('createSlug tests', (assert) => {
   const samples = [

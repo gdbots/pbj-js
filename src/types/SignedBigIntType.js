@@ -1,7 +1,7 @@
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import BigNumber from '../well-known/BigNumber';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import BigNumber from '../well-known/BigNumber.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 export default class SignedBigIntType extends Type {
   constructor() {

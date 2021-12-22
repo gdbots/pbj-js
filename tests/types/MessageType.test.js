@@ -1,12 +1,12 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import MessageType from '../../src/types/MessageType';
-import Message from '../../src/Message';
-import helpers from './helpers';
-import SampleMessageV1 from '../fixtures/SampleMessageV1';
-import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import MessageType from '../../src/types/MessageType.js';
+import Message from '../../src/Message.js';
+import helpers from './helpers.js';
+import SampleMessageV1 from '../fixtures/SampleMessageV1.js';
+import SampleOtherMessageV1 from '../fixtures/SampleOtherMessageV1.js';
 
 test('MessageType property tests', (t) => {
   const messageType = MessageType.create();

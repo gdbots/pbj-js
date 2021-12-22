@@ -1,8 +1,8 @@
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import TimeUuidIdentifier from '../well-known/TimeUuidIdentifier';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import TimeUuidIdentifier from '../well-known/TimeUuidIdentifier.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class TimeUuidType extends Type {
   constructor() {

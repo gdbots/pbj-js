@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import MediumIntType from '../../src/types/MediumIntType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import MediumIntType from '../../src/types/MediumIntType.js';
+import helpers from './helpers.js';
 
 test('MediumIntType property tests', (t) => {
   const mediumIntType = MediumIntType.create();

@@ -1,5 +1,5 @@
 import test from 'tape';
-import createHashtag from '../../src/utils/createHashtag';
+import createHashtag from '../../src/utils/createHashtag.js';
 
 test('createHashtag tests', (assert) => {
   const samples = [

@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidIpv6 from '../../src/utils/isValidIpv6';
+import isValidIpv6 from '../../src/utils/isValidIpv6.js';
 
 test('isValidIpv6 tests', (assert) => {
   const testcases = [

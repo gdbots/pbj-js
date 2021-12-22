@@ -1,4 +1,4 @@
-import Enum from '../Enum';
+import Enum from '../Enum.js';
 
 export default class TypeName extends Enum {
 }

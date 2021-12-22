@@ -1,8 +1,8 @@
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import DynamicField from '../well-known/DynamicField';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import DynamicField from '../well-known/DynamicField.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class DynamicFieldType extends Type {
   constructor() {

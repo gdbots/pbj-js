@@ -1,8 +1,8 @@
-import capitalize from 'lodash/capitalize';
-import deburr from 'lodash/deburr';
-import trim from 'lodash/trim';
-import trimStart from 'lodash/trimStart';
-import isValidHashtag from './isValidHashtag';
+import capitalize from 'lodash-es/capitalize.js';
+import deburr from 'lodash-es/deburr.js';
+import trim from 'lodash-es/trim.js';
+import trimStart from 'lodash-es/trimStart.js';
+import isValidHashtag from './isValidHashtag.js';
 
 // some punctuation and other chars are convertable
 const convertables = [

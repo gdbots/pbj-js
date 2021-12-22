@@ -1,10 +1,10 @@
-import Enum from '../Enum';
-import isSafeInteger from 'lodash/isSafeInteger';
-import toSafeInteger from 'lodash/toSafeInteger';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Enum from '../Enum.js';
+import isSafeInteger from 'lodash-es/isSafeInteger.js';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class IntEnumType extends Type {
   constructor() {

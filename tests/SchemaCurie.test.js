@@ -1,6 +1,6 @@
 import test from 'tape';
-import SchemaCurie from '../src/SchemaCurie';
-import SchemaQName from '../src/SchemaQName';
+import SchemaCurie from '../src/SchemaCurie.js';
+import SchemaQName from '../src/SchemaQName.js';
 
 test('SchemaCurie tests', (t) => {
   const valid = [

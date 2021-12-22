@@ -1,5 +1,5 @@
-import AbstractBinaryType from './AbstractBinaryType';
-import TypeName from '../enums/TypeName';
+import AbstractBinaryType from './AbstractBinaryType.js';
+import TypeName from '../enums/TypeName.js';
 
 export default class MediumBlobType extends AbstractBinaryType {
   constructor() {

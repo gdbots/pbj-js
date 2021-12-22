@@ -1,10 +1,10 @@
 import test from 'tape';
-import Format from '../../src/enums/Format';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import StringType from '../../src/types/StringType';
-import helpers from './helpers';
+import Format from '../../src/enums/Format.js';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import StringType from '../../src/types/StringType.js';
+import helpers from './helpers.js';
 
 test('StringType property tests', (t) => {
   const stringType = StringType.create();

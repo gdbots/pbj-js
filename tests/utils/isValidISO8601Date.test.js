@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidISO8601Date from '../../src/utils/isValidISO8601Date';
+import isValidISO8601Date from '../../src/utils/isValidISO8601Date.js';
 
 test('isValidISO8601Date tests', (assert) => {
   const valid = [

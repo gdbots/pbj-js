@@ -1,6 +1,6 @@
-import toInteger from 'lodash/toInteger';
-import FieldRule from './enums/FieldRule';
-import Field from './Field';
+import toInteger from 'lodash-es/toInteger.js';
+import FieldRule from './enums/FieldRule.js';
+import Field from './Field.js';
 
 export default class FieldBuilder {
   /**

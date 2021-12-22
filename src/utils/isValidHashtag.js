@@ -1,4 +1,4 @@
-import trimStart from 'lodash/trimStart';
+import trimStart from 'lodash-es/trimStart.js';
 
 /**
  * Returns true if the provided value is a hashtag.

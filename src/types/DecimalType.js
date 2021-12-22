@@ -1,8 +1,8 @@
-import isFinite from 'lodash/isFinite';
-import toFinite from 'lodash/toFinite';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isFinite from 'lodash-es/isFinite.js';
+import toFinite from 'lodash-es/toFinite.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 // fixme: handle precision
 export default class DecimalType extends Type {

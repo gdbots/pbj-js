@@ -1,5 +1,5 @@
-import AssertionFailed from '../exceptions/AssertionFailed';
-import ObjectSerializer from './ObjectSerializer';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import ObjectSerializer from './ObjectSerializer.js';
 
 export default class JsonSerializer {
   /**

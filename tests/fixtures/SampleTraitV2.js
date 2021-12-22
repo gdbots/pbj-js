@@ -1,4 +1,4 @@
-import MessageRef from '../../src/well-known/MessageRef';
+import MessageRef from '../../src/well-known/MessageRef.js';
 
 export default function SampleTraitV2(m) {
   return Object.assign(m.prototype, {

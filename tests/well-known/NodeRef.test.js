@@ -1,9 +1,9 @@
 import test from 'tape';
-import AssertionFailed from '../../src/exceptions/AssertionFailed';
-import InvalidSchemaQName from '../../src/exceptions/InvalidSchemaQName';
-import MessageRef from '../../src/well-known/MessageRef';
-import SchemaQName from '../../src/SchemaQName';
-import NodeRef from '../../src/well-known/NodeRef';
+import AssertionFailed from '../../src/exceptions/AssertionFailed.js';
+import InvalidSchemaQName from '../../src/exceptions/InvalidSchemaQName.js';
+import MessageRef from '../../src/well-known/MessageRef.js';
+import SchemaQName from '../../src/SchemaQName.js';
+import NodeRef from '../../src/well-known/NodeRef.js';
 
 
 test('NodeRef tests', (t) => {

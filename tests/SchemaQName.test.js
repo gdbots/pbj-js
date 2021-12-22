@@ -1,8 +1,8 @@
 import test from 'tape';
-import SchemaCurie from '../src/SchemaCurie';
-import SchemaId from '../src/SchemaId';
-import SchemaQName from '../src/SchemaQName';
-import InvalidSchemaQName from '../src/exceptions/InvalidSchemaQName';
+import SchemaCurie from '../src/SchemaCurie.js';
+import SchemaId from '../src/SchemaId.js';
+import SchemaQName from '../src/SchemaQName.js';
+import InvalidSchemaQName from '../src/exceptions/InvalidSchemaQName.js';
 
 test('SchemaQName tests', (t) => {
   const valid = ['acme:article', 'youtube:video', 'acme-widgets:widget-thing'];

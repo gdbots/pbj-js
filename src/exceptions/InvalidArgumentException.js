@@ -1,4 +1,4 @@
-import GdbotsPbjException from './GdbotsPbjException';
+import GdbotsPbjException from './GdbotsPbjException.js';
 
 export default class InvalidArgumentException extends GdbotsPbjException {
   /**

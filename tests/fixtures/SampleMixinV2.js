@@ -1,6 +1,6 @@
-import Fb from '../../src/FieldBuilder';
-import SchemaId from '../../src/SchemaId';
-import T from '../../src/types';
+import Fb from '../../src/FieldBuilder.js';
+import SchemaId from '../../src/SchemaId.js';
+import T from '../../src/types/index.js';
 
 export default class SampleMixinV2 {
   /**

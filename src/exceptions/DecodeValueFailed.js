@@ -1,5 +1,5 @@
-import truncate from 'lodash/truncate';
-import InvalidArgumentException from './InvalidArgumentException';
+import truncate from 'lodash-es/truncate.js';
+import InvalidArgumentException from './InvalidArgumentException.js';
 
 export default class DecodeValueFailed extends InvalidArgumentException {
   /**

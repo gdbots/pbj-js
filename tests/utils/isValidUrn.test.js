@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidUrn from '../../src/utils/isValidUrn';
+import isValidUrn from '../../src/utils/isValidUrn.js';
 
 test('isValidUrn tests', (assert) => {
   const valid = [

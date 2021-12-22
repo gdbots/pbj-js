@@ -1,5 +1,5 @@
-import isDate from 'lodash/isDate';
-import removeDateFromSlug from './removeDateFromSlug';
+import isDate from 'lodash-es/isDate.js';
+import removeDateFromSlug from './removeDateFromSlug.js';
 
 /**
  * Return the required date format in slug (YYYY/MM/DD)

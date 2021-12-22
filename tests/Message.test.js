@@ -1,11 +1,11 @@
 import test from 'tape';
-import FrozenMessageIsImmutable from '../src/exceptions/FrozenMessageIsImmutable';
-import Message from '../src/Message';
-import MessageRef from '../src/well-known/MessageRef';
-import SchemaId from '../src/SchemaId';
-import SampleMessageV1 from './fixtures/SampleMessageV1';
-import SampleMessageV2 from './fixtures/SampleMessageV2';
-import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1';
+import FrozenMessageIsImmutable from '../src/exceptions/FrozenMessageIsImmutable.js';
+import Message from '../src/Message.js';
+import MessageRef from '../src/well-known/MessageRef.js';
+import SchemaId from '../src/SchemaId.js';
+import SampleMessageV1 from './fixtures/SampleMessageV1.js';
+import SampleMessageV2 from './fixtures/SampleMessageV2.js';
+import SampleOtherMessageV1 from './fixtures/SampleOtherMessageV1.js';
 
 
 test('Message tests', (t) => {

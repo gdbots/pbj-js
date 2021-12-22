@@ -1,7 +1,7 @@
-import startsWith from 'lodash/startsWith';
-import trimStart from 'lodash/trimStart';
-import isValidEmail from './isValidEmail';
-import isValidIpv6 from './isValidIpv6';
+import startsWith from 'lodash-es/startsWith.js';
+import trimStart from 'lodash-es/trimStart.js';
+import isValidEmail from './isValidEmail.js';
+import isValidIpv6 from './isValidIpv6.js';
 
 /**
  * inspired by gist @link https://gist.github.com/dperini/729294

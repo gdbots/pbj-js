@@ -1,12 +1,12 @@
-import camelCase from 'lodash/camelCase';
-import isEmpty from 'lodash/isEmpty';
-import upperFirst from 'lodash/upperFirst';
-import FieldAlreadyDefined from './exceptions/FieldAlreadyDefined';
-import FieldNotDefined from './exceptions/FieldNotDefined';
-import FieldOverrideNotCompatible from './exceptions/FieldOverrideNotCompatible';
-import Fb from './FieldBuilder';
-import SchemaId, { VALID_PATTERN } from './SchemaId';
-import StringType from './types/StringType';
+import camelCase from 'lodash-es/camelCase.js';
+import isEmpty from 'lodash-es/isEmpty.js';
+import upperFirst from 'lodash-es/upperFirst.js';
+import FieldAlreadyDefined from './exceptions/FieldAlreadyDefined.js';
+import FieldNotDefined from './exceptions/FieldNotDefined.js';
+import FieldOverrideNotCompatible from './exceptions/FieldOverrideNotCompatible.js';
+import Fb from './FieldBuilder.js';
+import SchemaId, { VALID_PATTERN } from './SchemaId.js';
+import StringType from './types/StringType.js';
 
 export const PBJ_FIELD_NAME = '_schema';
 

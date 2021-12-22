@@ -1,5 +1,5 @@
-import isValidIpv4 from './isValidIpv4';
-import isValidIpv6 from './isValidIpv6';
+import isValidIpv4 from './isValidIpv4.js';
+import isValidIpv6 from './isValidIpv6.js';
 
 const GENERIC_EMAIL_PATTERN = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})$/;
 

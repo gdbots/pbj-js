@@ -1,7 +1,7 @@
 import test from 'tape';
-import Enum from '../src/Enum';
-import IntEnum from './fixtures/enums/SampleIntEnum';
-import StringEnum from './fixtures/enums/SampleStringEnum';
+import Enum from '../src/Enum.js';
+import IntEnum from './fixtures/enums/SampleIntEnum.js';
+import StringEnum from './fixtures/enums/SampleStringEnum.js';
 
 test('Enum immutability tests', (assert) => {
   try {

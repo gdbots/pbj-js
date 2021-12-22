@@ -1,11 +1,11 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import IntEnumType from '../../src/types/IntEnumType';
-import SampleIntEnum from '../fixtures/enums/SampleIntEnum';
-import SampleStringEnum from '../fixtures/enums/SampleStringEnum';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import IntEnumType from '../../src/types/IntEnumType.js';
+import SampleIntEnum from '../fixtures/enums/SampleIntEnum.js';
+import SampleStringEnum from '../fixtures/enums/SampleStringEnum.js';
+import helpers from './helpers.js';
 
 test('IntEnumType property tests', (t) => {
   const intEnumType = IntEnumType.create();

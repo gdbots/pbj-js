@@ -1,4 +1,4 @@
-import LogicException from './LogicException';
+import LogicException from './LogicException.js';
 
 export default class MoreThanOneMessageForMixin extends LogicException {
   /**

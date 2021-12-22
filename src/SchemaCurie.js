@@ -1,5 +1,5 @@
-import InvalidSchemaCurie from './exceptions/InvalidSchemaCurie';
-import SchemaQName from './SchemaQName';
+import InvalidSchemaCurie from './exceptions/InvalidSchemaCurie.js';
+import SchemaQName from './SchemaQName.js';
 
 /**
  * We store all SchemaCurie instances to accomplish a loose flyweight strategy.

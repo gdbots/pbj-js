@@ -1,9 +1,9 @@
-import Enum from '../Enum';
-import isString from 'lodash/isString';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import Enum from '../Enum.js';
+import isString from 'lodash-es/isString.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class StringEnumType extends Type {
   constructor() {

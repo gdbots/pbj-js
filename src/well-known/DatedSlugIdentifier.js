@@ -1,9 +1,9 @@
-import addDateToSlug from '../utils/addDateToSlug';
-import createSlug from '../utils/createSlug';
-import isValidSlug from '../utils/isValidSlug';
-import slugContainsDate from '../utils/slugContainsDate';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import Identifier from './Identifier';
+import addDateToSlug from '../utils/addDateToSlug.js';
+import createSlug from '../utils/createSlug.js';
+import isValidSlug from '../utils/isValidSlug.js';
+import slugContainsDate from '../utils/slugContainsDate.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import Identifier from './Identifier.js';
 
 export default class DatedSlugIdentifier extends Identifier {
   /**

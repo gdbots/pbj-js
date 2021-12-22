@@ -1,5 +1,5 @@
 import test from 'tape';
-import extractHashtags from '../../src/utils/extractHashtags';
+import extractHashtags from '../../src/utils/extractHashtags.js';
 
 test('extractHashtags tests', (assert) => {
   const samples = [

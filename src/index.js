@@ -1,14 +1,14 @@
-import Field from './Field';
-import FieldBuilder from './FieldBuilder';
-import Message from './Message';
-import MessageResolver from './MessageResolver';
-import Schema from './Schema';
-import SchemaCurie from './SchemaCurie';
-import SchemaId from './SchemaId';
-import SchemaQName from './SchemaQName';
-import SchemaVersion from './SchemaVersion';
-import Types from './types';
-import WellKnown from './well-known';
+import Field from './Field.js';
+import FieldBuilder from './FieldBuilder.js';
+import Message from './Message.js';
+import MessageResolver from './MessageResolver.js';
+import Schema from './Schema.js';
+import SchemaCurie from './SchemaCurie.js';
+import SchemaId from './SchemaId.js';
+import SchemaQName from './SchemaQName.js';
+import SchemaVersion from './SchemaVersion.js';
+import Types from './types/index.js';
+import WellKnown from './well-known/index.js';
 
 export default {
   Field,

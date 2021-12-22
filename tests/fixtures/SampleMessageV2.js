@@ -1,10 +1,10 @@
-import Fb from '../../src/FieldBuilder';
-import Message from '../../src/Message';
-import MessageResolver from '../../src/MessageResolver';
-import Schema from '../../src/Schema';
-import T from '../../src/types';
-import SampleMixinV2 from './SampleMixinV2';
-import SampleTraitV2 from './SampleTraitV2';
+import Fb from '../../src/FieldBuilder.js';
+import Message from '../../src/Message.js';
+import MessageResolver from '../../src/MessageResolver.js';
+import Schema from '../../src/Schema.js';
+import T from '../../src/types/index.js';
+import SampleMixinV2 from './SampleMixinV2.js';
+import SampleTraitV2 from './SampleTraitV2.js';
 
 export default class SampleMessageV2 extends Message {
   /**

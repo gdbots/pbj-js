@@ -1,5 +1,5 @@
-import AbstractStringType from './AbstractStringType';
-import TypeName from '../enums/TypeName';
+import AbstractStringType from './AbstractStringType.js';
+import TypeName from '../enums/TypeName.js';
 
 export default class TextType extends AbstractStringType {
   constructor() {

@@ -1,4 +1,4 @@
-import SchemaException from './SchemaException';
+import SchemaException from './SchemaException.js';
 
 export default class InvalidResolvedSchema extends SchemaException {
   /**

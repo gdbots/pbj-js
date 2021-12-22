@@ -1,8 +1,8 @@
 import test from 'tape';
-import Identifier from '../../src/well-known/Identifier';
-import UuidIdentifier from '../../src/well-known/UuidIdentifier';
-import TimeUuidIdentifier from '../../src/well-known/TimeUuidIdentifier';
-import SampleTimeUuidIdentifier from '../fixtures/well-known/SampleTimeUuidIdentifier';
+import Identifier from '../../src/well-known/Identifier.js';
+import UuidIdentifier from '../../src/well-known/UuidIdentifier.js';
+import TimeUuidIdentifier from '../../src/well-known/TimeUuidIdentifier.js';
+import SampleTimeUuidIdentifier from '../fixtures/well-known/SampleTimeUuidIdentifier.js';
 
 test('TimeUuidIdentifier generate tests', (t) => {
   const id = SampleTimeUuidIdentifier.generate();

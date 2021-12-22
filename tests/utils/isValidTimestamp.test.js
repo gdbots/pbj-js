@@ -1,5 +1,5 @@
 import test from 'tape';
-import isValidTimestamp from '../../src/utils/isValidTimestamp';
+import isValidTimestamp from '../../src/utils/isValidTimestamp.js';
 
 test('isValidTimestamp (allowNegative=false) tests', (assert) => {
   const valid = [

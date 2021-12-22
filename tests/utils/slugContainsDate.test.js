@@ -1,5 +1,5 @@
 import test from 'tape';
-import slugContainsDate from '../../src/utils/slugContainsDate';
+import slugContainsDate from '../../src/utils/slugContainsDate.js';
 
 test('slugContainsDate tests', (assert) => {
   const slugHasDates = '2017/05/16/homer-simpson';

@@ -1,20 +1,20 @@
-import Enum from './Enum';
-import clamp from 'lodash/clamp';
-import intersection from 'lodash/intersection';
-import isArray from 'lodash/isArray';
-import isBoolean from 'lodash/isBoolean';
-import isFunction from 'lodash/isFunction';
-import isObject from 'lodash/isObject';
-import isMap from 'lodash/isMap';
-import isPlainObject from 'lodash/isPlainObject';
-import isSet from 'lodash/isSet';
-import toInteger from 'lodash/toInteger';
-import trim from 'lodash/trim';
-import AssertionFailed from './exceptions/AssertionFailed';
-import FieldRule from './enums/FieldRule';
-import Format from './enums/Format';
-import Identifier from './well-known/Identifier';
-import TypeName from './enums/TypeName';
+import Enum from './Enum.js';
+import clamp from 'lodash-es/clamp.js';
+import intersection from 'lodash-es/intersection.js';
+import isArray from 'lodash-es/isArray.js';
+import isBoolean from 'lodash-es/isBoolean.js';
+import isFunction from 'lodash-es/isFunction.js';
+import isObject from 'lodash-es/isObject.js';
+import isMap from 'lodash-es/isMap.js';
+import isPlainObject from 'lodash-es/isPlainObject.js';
+import isSet from 'lodash-es/isSet.js';
+import toInteger from 'lodash-es/toInteger.js';
+import trim from 'lodash-es/trim.js';
+import AssertionFailed from './exceptions/AssertionFailed.js';
+import FieldRule from './enums/FieldRule.js';
+import Format from './enums/Format.js';
+import Identifier from './well-known/Identifier.js';
+import TypeName from './enums/TypeName.js';
 
 /**
  * Regular expression pattern for matching a valid field name.

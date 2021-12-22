@@ -1,9 +1,9 @@
 import test from 'tape';
-import TypeName from '../../src/enums/TypeName';
-import Type from '../../src/types/Type';
-import Field from '../../src/Field';
-import DateTimeType from '../../src/types/DateTimeType';
-import helpers from './helpers';
+import TypeName from '../../src/enums/TypeName.js';
+import Type from '../../src/types/Type.js';
+import Field from '../../src/Field.js';
+import DateTimeType from '../../src/types/DateTimeType.js';
+import helpers from './helpers.js';
 
 test('DateTimeType property tests', (t) => {
   const dateTimeType = DateTimeType.create();
@@ -110,7 +110,7 @@ test('DateTimeType decode tests', async (t) => {
       const actual = field.getType().decode(obj.input, field);
       t.same(format(actual), format(obj.output));
     } catch (e) {
-      t.fail(e.message);
+      t.fail(e.message + obj.input);
     }
   });
 

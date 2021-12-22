@@ -1,7 +1,7 @@
-import createSlug from '../utils/createSlug';
-import isValidSlug from '../utils/isValidSlug';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import Identifier from './Identifier';
+import createSlug from '../utils/createSlug.js';
+import isValidSlug from '../utils/isValidSlug.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import Identifier from './Identifier.js';
 
 export default class SlugIdentifier extends Identifier {
   /**

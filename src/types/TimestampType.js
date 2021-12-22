@@ -1,9 +1,9 @@
-import isSafeInteger from 'lodash/isSafeInteger';
-import toSafeInteger from 'lodash/toSafeInteger';
-import isValidTimestamp from '../utils/isValidTimestamp';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import AssertionFailed from '../exceptions/AssertionFailed';
+import isSafeInteger from 'lodash-es/isSafeInteger.js';
+import toSafeInteger from 'lodash-es/toSafeInteger.js';
+import isValidTimestamp from '../utils/isValidTimestamp.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
 
 export default class TimestampType extends Type {
   constructor() {

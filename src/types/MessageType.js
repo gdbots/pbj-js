@@ -1,9 +1,9 @@
-import intersection from 'lodash/intersection';
-import Type from './Type';
-import TypeName from '../enums/TypeName';
-import Message from '../Message';
-import AssertionFailed from '../exceptions/AssertionFailed';
-import DecodeValueFailed from '../exceptions/DecodeValueFailed';
+import intersection from 'lodash-es/intersection.js';
+import Type from './Type.js';
+import TypeName from '../enums/TypeName.js';
+import Message from '../Message.js';
+import AssertionFailed from '../exceptions/AssertionFailed.js';
+import DecodeValueFailed from '../exceptions/DecodeValueFailed.js';
 
 export default class MessageType extends Type {
   constructor() {

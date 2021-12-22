@@ -1,5 +1,5 @@
 import test from 'tape';
-import GeoPoint from '../../src/well-known/GeoPoint';
+import GeoPoint from '../../src/well-known/GeoPoint.js';
 
 test('GeoPoint new tests', (t) => {
   const gp = new GeoPoint(0.5, 102.0);

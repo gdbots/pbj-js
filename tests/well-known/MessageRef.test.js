@@ -1,6 +1,6 @@
 import test from 'tape';
-import MessageRef from '../../src/well-known/MessageRef';
-import SchemaCurie from '../../src/SchemaCurie';
+import MessageRef from '../../src/well-known/MessageRef.js';
+import SchemaCurie from '../../src/SchemaCurie.js';
 
 test('MessageRef tests', (t) => {
   const curie = SchemaCurie.fromString('acme:blog:node:article');
