@@ -110,7 +110,7 @@ test('DateTimeType decode tests', async (t) => {
       const actual = field.getType().decode(obj.input, field);
       t.same(format(actual), format(obj.output));
     } catch (e) {
-      t.fail(e.message);
+      t.fail(e.message + obj.input);
     }
   });
 

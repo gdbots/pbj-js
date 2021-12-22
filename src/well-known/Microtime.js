@@ -1,5 +1,4 @@
 import isString from 'lodash-es/isString.js';
-import moment from 'moment';
 import padEnd from 'lodash-es/padEnd.js';
 import AssertionFailed from '../exceptions/AssertionFailed.js';
 
@@ -39,7 +38,7 @@ export default class Microtime {
    * @returns {Microtime}
    */
   static create() {
-    return Microtime.fromMoment(moment());
+    return Microtime.fromDate(new Date);
   }
 
   /**
@@ -48,7 +47,7 @@ export default class Microtime {
    * @returns {Microtime}
    */
   static fromDate(date) {
-    return Microtime.fromMoment(moment(date));
+    return new Microtime(`${padEnd(date.valueOf().toString(), 16, '0')}`);
   }
 
   /**
@@ -61,17 +60,6 @@ export default class Microtime {
   }
 
   /**
-   * @private
-   *
-   * @param {moment.Moment} m
-   *
-   * @returns {Microtime}
-   */
-  static fromMoment(m) {
-    return new Microtime(`${padEnd(m.valueOf(), 16, '0')}`);
-  }
-
-  /**
    * @returns {number}
    */
   toNumber() {
@@ -79,19 +67,10 @@ export default class Microtime {
   }
 
   /**
-   * @private
-   *
-   * @returns {moment.Moment}
-   */
-  toMoment() {
-    return moment.unix(this.toNumber());
-  }
-
-  /**
    * @returns {Date}
    */
   toDate() {
-    return this.toMoment().toDate();
+    return new Date(+`${this.value.substr(0, 13)}`);
   }
 
   /**
