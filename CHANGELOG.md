@@ -4,10 +4,10 @@
 ## v3.0.0
 __BREAKING CHANGES__
 
-* Publish package as type module now.
+* Configure package as type module now.
 * Use lodash-es explicitly instead of using a babel plugin to replace it.
 * Use explicit imports (including .js) because tape/babel/node or whatever unholy combination of this isn't working without it.
-* Removed all uses of moment.js.
+* Removes all uses of moment.js.
 
 
 ## v2.0.1

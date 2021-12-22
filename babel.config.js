@@ -13,8 +13,6 @@ switch (env) {
           node: 'current',
         },
         modules: false,
-        useBuiltIns: 'usage',
-        corejs: 3,
       },
     ]);
     break;
