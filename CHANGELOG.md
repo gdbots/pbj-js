@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v3.0.1
+* Allow uuid package 8.x or 9.x.
+
+
 ## v3.0.0
 __BREAKING CHANGES__
 
