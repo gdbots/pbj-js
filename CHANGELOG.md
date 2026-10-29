@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v4.0.0
+__BREAKING CHANGES__
+* Require uuid package 14.x
+* Require bignumber.js package 11.x
+
+
 ## v3.0.2
 * Allow uuid package 8.x or 9.x.  take 2.
 
